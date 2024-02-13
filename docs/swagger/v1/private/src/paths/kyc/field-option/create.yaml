@@ -1,0 +1,66 @@
+post:
+  tags:
+    - Поля (опции)
+  summary: Создание опции
+  description: Метод создания новой опции
+  requestBody:
+    content:
+      application/json:
+        schema:
+          required:
+            - field_uuid
+            - label
+            - value
+          type: object
+          properties:
+            field_uuid:
+              type: string(uuid)
+              example: "9a29aa2c-9d62-42de-ac4f-737ea98f8a4b"
+            label:
+              type: string
+              example: "Test"
+            value:
+              type: string
+              example: "test"
+  responses:
+    200:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  uuid:
+                    type: string
+                    example: "9a51da72-05ee-4496-95ca-9e5786fbc029"
+                  field_uuid:
+                    type: string
+                    example: "56faa051-6260-4777-ab59-d09d796ce828"
+                  label:
+                    type: string
+                    example: "Test"
+                  value:
+                    type: string
+                    example: "text"
+                  created_at:
+                    type: string
+                    example: "2022-09-27T23:18:03.000000Z"
+                  updated_at:
+                    type: string
+                    example: "2022-09-28T12:06:05.000000Z"
+    400:
+      description: 'Ошибка'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string

@@ -1,0 +1,143 @@
+openapi: 3.1.0
+info:
+  title: ETF Private API Service
+  version: 0.0.1
+  description: |
+    # Коды ошибок
+
+    В качествое кода ошибки выводится название сервисы с конкатенацией кода ошибки через двоеточие.
+
+    Пример: `ETF:000000`
+
+    **Спиоск кодов ошибок сервиса:**
+
+    - `000000` - i am a teapot
+    - `000001` - not found
+    - `000002` - validation error
+    - `010003` - jwt not found
+    - `010004` - jwt signature invalid
+    - `010005` - jwt expired
+    - `011001` - username is already in use
+    - `011002` - email is already in use
+    - `011003` - email not found
+    - `011004` - code cannot be resubmitted
+    - `011005` - incorrect code
+    - `011006` - incorrect login data
+    - `011007` - incorrect refresh token
+    - `030001` - form not found
+    - `030002` - screen not found
+    - `030003` - form already passed
+    - `030004` - screen already passed
+    - `040001` - replenishment not available
+    - `040002` - replenishment not found
+    - `050001` - code not found
+    - `050002` - already used code
+
+    # Про JWT
+
+    `Access JWT` живет `7 часов` с момента создания.
+
+    `Refresh JWT` живет `7 дней` с момента создания.
+
+    Обновление пары токенов происходит с помощю `Refresh JWT`.
+
+    ### Зарезервированные поля Payload
+
+    - `iss` - (issuer) издатель токена
+    - `sub` - (subject) “тема”, назначение токена
+    - `aud` - (audience) аудитория, получатели токена
+    - `exp` - (expire time) срок действия токена
+    - `nbf` - (not before) срок, до которого токен не действителен
+    - `iat` - (issued at) время создания токена
+    - `jti` - (JWT id) идентификатор токена
+
+paths: 'paths/_paths.yaml'
+
+components:
+  responses:
+    ValidationException:
+      description: 'Ошибка валидации'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: 'ETF:00002'
+                  message:
+                    type: string
+                    example: 'validation error'
+                  validation:
+                    type: object
+    JWTException:
+      description: 'Ошибка аутентификации'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string
+          examples:
+            'jwt expired':
+              value:
+                error:
+                  code: ETF:010005
+                  message: 'jwt expired'
+            'jwt signature invalid':
+              value:
+                error:
+                  code: ETF:010004
+                  message: 'jwt signature invalid'
+  securitySchemes:
+    AccessJWT:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+security:
+  - AccessJWT: [ ]
+
+x-tagGroups:
+  - name: Users
+    tags:
+      - Аккаунты
+      - Электронные почты
+  - name: Referrals
+    tags:
+      - Коды
+  - name: Kyc
+    tags:
+      - Формы
+      - Экраны
+      - Поля
+      - Поля (опции)
+      - Сессии
+      - Сессии (ответы)
+  - name: Billing
+    tags:
+      - Кошелёк
+  - name: News
+    tags:
+      - Разделы
+      - Тэги
+      - Статьи
+      - Новостные интеграции
+  - name: Pages
+    tags:
+      - Languages
+      - Pages
+      - Page section
+      - Section Template
+  - name: Storage
+    tags:
+      - File

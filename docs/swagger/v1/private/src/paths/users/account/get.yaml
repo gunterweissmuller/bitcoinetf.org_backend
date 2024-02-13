@@ -1,0 +1,66 @@
+get:
+  tags:
+    - Аккаунты
+  summary: Получение аккаунта
+  description: Метод получения аккаунта
+  parameters:
+    - in: path
+      name: uuid
+      required: true
+      description: "account uuid"
+      schema:
+        type: string
+  responses:
+    200:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  uuid:
+                    type: string
+                    example: "9a5019c4-9988-41e5-b9b2-c74b02e1ad12"
+                  number:
+                    type: integer
+                    example: 1
+                  username:
+                    type: string
+                    example: "josh12"
+                  type:
+                    type: string
+                    enum: [ "client", "admin" ]
+                    example: "client"
+                  status:
+                    type: string
+                    enum: [ "await_confirm", "enabled", "disabled" ]
+                    example: "enabled"
+                  payment_type:
+                    type: string
+                    enum: [ "daily_interest", "monthly_interest", "manual_withdrawal" ]
+                    example: "manual_withdrawal"
+                  personal_bonus:
+                    type: float
+                    example: null
+                  created_at:
+                    type: string
+                    example: "2022-09-27T23:18:03.000000Z"
+                  updated_at:
+                    type: string
+                    example: "2022-09-28T12:06:05.000000Z"
+    400:
+      description: 'Ошибка'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string

@@ -1,0 +1,29 @@
+delete:
+  tags:
+    - Статьи
+  summary: Delete
+  description: Метод удаления статьи
+  parameters:
+    - in: path
+      name: uuid
+      required: false
+      description: "article uuid"
+      schema:
+        type: string
+  responses:
+    200:
+      description: OK
+    400:
+      description: 'Ошибка'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string

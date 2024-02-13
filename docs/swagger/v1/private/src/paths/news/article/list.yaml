@@ -1,0 +1,102 @@
+get:
+  tags:
+    - Статьи
+  summary: List
+  description: Метод получения списка статей
+  parameters:
+    - in: query
+      name: per_page
+      required: false
+      description: "Count items on page"
+      schema:
+        type: integer
+    - in: query
+      name: page
+      required: false
+      description: 'Current page number'
+      schema:
+        type: integer
+    - in: query
+      name: order_column
+      required: false
+      schema:
+        type: string
+        enum: ['code', 'status', 'created_at', 'updated_at']
+        example: 'created_at'
+    - in: query
+      name: order_by
+      required: false
+      schema:
+        type: string
+        enum: ['asc', 'desc']
+        example: 'desc'
+    - in: query
+      name: section_uuid
+      required: false
+      schema:
+        type: string
+  responses:
+    200:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              current_page:
+                type: numeric
+                description: "Current page number"
+                example: 1
+              from:
+                type: numeric
+                description: "First page number"
+                example: 1
+              last_page:
+                type: numeric
+                description: "Last page number"
+                example: 1
+              per_page:
+                type: numeric
+                description: "Per page items"
+                example: 1
+              total:
+                type: numeric
+                description: "Total items"
+                example: 1
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    uuid:
+                      type: string
+                      example: "9a70bcdc-ca36-4153-9c86-992819ef70e5"
+                    section_uuid:
+                      type: string
+                      example: "9a706e07-5b45-4e08-bd4f-c85fb50572a9"
+                    title:
+                      type: string
+                      example: "Bitcoin"
+                    description:
+                      type: string
+                      example: null
+                    content:
+                      type: string
+                      example: "<h1>H1</h1>"
+                    reading_time:
+                      type: integer
+                      example: null
+                    meta_title:
+                      type: string
+                      example: null
+                    meta_description:
+                      type: string
+                      example: null
+                    meta_keywords:
+                      type: string
+                      example: null
+                    created_at:
+                      type: string
+                      example: "2022-09-27T23:18:03.000000Z"
+                    updated_at:
+                      type: string
+                      example: "2022-09-28T12:06:05.000000Z"

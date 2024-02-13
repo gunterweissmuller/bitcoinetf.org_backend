@@ -1,0 +1,59 @@
+post:
+  tags:
+    - Тэги
+  summary: Create
+  description: Метод создания нового тэга
+  requestBody:
+    content:
+      application/json:
+        schema:
+          required:
+            - section_uuid
+            - title
+          type: object
+          properties:
+            section_uuid:
+              type: string
+              example: "9a706e07-5b45-4e08-bd4f-c85fb50572a9"
+            title:
+              type: string
+              example: "Bitcoin"
+  responses:
+    200:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  uuid:
+                    type: string
+                    example: "9a707848-a08f-4a3b-b2aa-d0c03e2aa26b"
+                  section_uuid:
+                    type: string
+                    example: "9a706e07-5b45-4e08-bd4f-c85fb50572a9"
+                  title:
+                    type: string
+                    example: "Bitcoin"
+                  created_at:
+                    type: string
+                    example: "2022-09-27T23:18:03.000000Z"
+                  updated_at:
+                    type: string
+                    example: "2022-09-28T12:06:05.000000Z"
+    400:
+      description: 'Ошибка'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string

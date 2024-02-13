@@ -1,0 +1,57 @@
+# /v1/auth/register/init
+post:
+  security: [ ]
+  tags:
+    - Регистрация
+  summary: Init
+  description: |
+    Данный метод используется для запуска процесса регистрации.<br>
+    После выполнения данного метода, на указанную почту будет отправлен верификационный код. Код действителен в течении 10 минут, после потребуется запросить новый код.
+  requestBody:
+    content:
+      application/json:
+        schema:
+          required:
+            - username
+            - email
+          type: object
+          properties:
+            username:
+              type: string
+              example: 'erm4ic'
+            email:
+              type: string
+              example: 'erm4ic@bitcoinetf.org'
+            ref_code:
+              type: string
+              example: ABC123
+  responses:
+    200:
+      description: 'Успешно'
+    400:
+      description: 'Ошибка'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string
+          examples:
+            'Никнейм уже используется':
+              value:
+                error:
+                  code: ETF:011001
+                  message: 'username is already in use'
+            'Адрес электронной почты уже используется':
+              value:
+                error:
+                  code: ETF:011002
+                  message: 'email is already in use'
+    422:
+      $ref: "#/components/responses/ValidationException"

@@ -1,0 +1,45 @@
+# /v1/auth/recovery/init
+post:
+  security: [ ]
+  tags:
+    - Восстановление пароля
+  summary: Init
+  description: |
+    Данный метод используется для запуска процесса сброса пароля.<br>
+    После выполнения данного метода, на указанную почту будет отправлена ссылка с кодом. Код действителен в течении 10 минут, после потребуется запустить процесс сброса пароля заного.
+  requestBody:
+    content:
+      application/json:
+        schema:
+          required:
+            - email
+          type: object
+          properties:
+            email:
+              type: string
+              example: 'erm4ic@bitcoinetf.org'
+  responses:
+    200:
+      description: 'Успешно'
+    400:
+      description: 'Ошибка'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string
+          examples:
+            'Адрес почты не найден':
+              value:
+                error:
+                  code: ETF:011003
+                  message: 'email not found'
+    422:
+      $ref: "#/components/responses/ValidationException"

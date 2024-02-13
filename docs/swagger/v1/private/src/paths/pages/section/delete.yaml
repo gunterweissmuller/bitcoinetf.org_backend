@@ -1,0 +1,53 @@
+# /v1/private/pages/page
+delete:
+  tags:
+    - Page section
+  summary: Page section Delete
+  description: Method for delete page section
+  parameters:
+    - in: path
+      name: pageId
+      required: true
+      description: "Page id"
+      schema:
+        type: string
+    - in: path
+      name: sectionId
+      required: true
+      description: "Section id"
+      schema:
+        type: string
+  responses:
+    200:
+      description: OK
+    400:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  pipeline_exception:
+                    type: object
+                    properties:
+                      status:
+                        type: integer
+                      error_code:
+                        type: string
+                      message:
+                        type: string
+          examples:
+            var1:
+              summary: Stake not active.
+              value:
+                status: 400
+                error_code: "COIN:011"
+                message: "Stake not active."
+            var2:
+              summary: Stake not stopped.
+              value:
+                status: 400
+                error_code: "COIN:012"
+                message: "Stake not stopped."

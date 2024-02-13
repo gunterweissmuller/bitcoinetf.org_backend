@@ -1,0 +1,223 @@
+stages:
+- build
+- deploy
+- test
+
+variables:
+  CI_DEBUG_TRACE: "false"
+
+build:prod:
+  stage: build
+  tags:
+  - runner-prod
+  only:
+  - master
+  script:
+  - build_image
+
+deploy:prod:
+  stage: deploy
+  tags:
+  - runner-prod
+  only:
+  - master
+  environment:
+    name: ${CI_COMMIT_REF_SLUG}
+    url: '${PRODUCTION_DOMAIN}${PRODUCTION_PATH}'
+  script:
+  - deploy_image
+
+test:prod:
+  stage: test
+  tags:
+  - runner-prod
+  only:
+  - master
+  script:
+  - test_app
+
+build:stage:
+  stage: build
+  tags:
+  - runner-stage
+  only:
+  - staging
+  script:
+  - build_image
+
+deploy:stage:
+  stage: deploy
+  tags:
+  - runner-stage
+  only:
+  - staging
+  environment:
+    name: ${CI_COMMIT_REF_SLUG}
+    url: '${STAGE_DOMAIN}${PRODUCTION_PATH}'
+    on_stop: destroy:stage
+  script:
+  - deploy_image
+
+test:stage:
+  stage: test
+  tags:
+  - runner-stage
+  only:
+  - staging
+  script:
+  - test_app
+
+destroy:stage:
+  stage: test
+  tags:
+  - runner-stage
+  only:
+  - staging
+  environment:
+    name: ${CI_COMMIT_REF_SLUG}
+    action: stop
+  script:
+  - destroy_env
+  when: manual
+
+build:dev:
+  stage: build
+  tags:
+  - runner-dev
+  only:
+  - develop
+  script:
+  - build_image
+
+deploy:dev:
+  stage: deploy
+  tags:
+  - runner-dev
+  only:
+  - develop
+  environment:
+    name: ${CI_COMMIT_REF_SLUG}
+    url: '${DEV_DOMAIN}${PRODUCTION_PATH}'
+    on_stop: destroy:dev
+  script:
+  - deploy_image
+
+test:dev:
+  stage: test
+  tags:
+  - runner-dev
+  only:
+  - develop
+  script:
+  - test_app
+
+destroy:dev:
+  stage: test
+  tags:
+  - runner-dev
+  only:
+  - develop
+  environment:
+    name: ${CI_COMMIT_REF_SLUG}
+    action: stop
+  script:
+  - destroy_env
+  when: manual
+
+# ---------------------------------------------------------------------------
+.auto_devops: &auto_devops |
+  export WERF_RELEASES_HISTORY_MAX=2
+  export WERF_ENABLE_PROCESS_EXTERMINATOR=1
+  export WERF_SYNCHRONIZATION=:local
+  export WERF_TELEMETRY=0
+
+  if [ "${CI_COMMIT_REF_SLUG}" = "develop" ]; then
+    export ENV_NAME="dev"
+    export ENV_FULL_NAME="development"
+    export APP_NAMESPACE="dev-${CI_PROJECT_PATH_SLUG}"
+    export APP_URL="${DEV_DOMAIN}${PRODUCTION_PATH}"
+    export WERF_REPO="${REGISTRY_NAME_DEV}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}"
+    export REPOSITORY_NAME="${REPOSITORY_NAME_DEV}"
+    export SECRET_VALUES_FILE="secret-values-dev.yaml"
+  elif [ "${CI_COMMIT_REF_SLUG}" = "staging" ]; then
+    export ENV_NAME="stage"
+    export ENV_FULL_NAME="staging"
+    export APP_NAMESPACE="stage-${CI_PROJECT_PATH_SLUG}"
+    export APP_URL="${STAGE_DOMAIN}${PRODUCTION_PATH}"
+    export WERF_REPO="${REGISTRY_NAME_STAGE}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}"
+    export REPOSITORY_NAME="${REPOSITORY_NAME_STAGE}"
+    export SECRET_VALUES_FILE="secret-values-stage.yaml"
+  elif [ "${CI_COMMIT_REF_SLUG}" = "master" ]; then
+    if [ "${PRODUCTION_DOMAIN}" == "" ]; then
+      echo "PRODUCTION_DOMAIN not set!"
+      exit 1
+    fi
+    export ENV_NAME="prod"
+    export ENV_FULL_NAME="production"
+    export APP_NAMESPACE="${CI_PROJECT_PATH_SLUG}"
+    export APP_URL="${PRODUCTION_DOMAIN}${PRODUCTION_PATH}"
+    export WERF_REPO="${REGISTRY_NAME_PROD}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}"
+    export REPOSITORY_NAME="${REPOSITORY_NAME_PROD}"
+    export SECRET_VALUES_FILE="secret-values-prod.yaml"
+  else
+    echo "Unknown environment: ${CI_COMMIT_REF_SLUG}"
+    exit 1
+  fi
+
+  export APP_NAMESPACE=$( echo ${APP_NAMESPACE} | cut -c -52 | sed 's/\-$//' )
+
+  build_image() {
+    werf version; pwd; set -x
+
+    source $(werf ci-env gitlab --as-file)
+    werf build
+  }
+
+  destroy_env() {
+    werf version; pwd; set -x
+
+    source $(werf ci-env gitlab --as-file)
+    werf dismiss --namespace ${APP_NAMESPACE} --release ${APP_NAMESPACE} --with-namespace=true
+  }
+
+  cleanup() {
+    werf version; pwd; set -x
+
+    source $(werf ci-env gitlab --as-file)
+    werf cleanup
+  }
+
+  deploy_image() {
+    source $(werf ci-env gitlab --as-file)
+    werf version; pwd; set -x
+
+    kubectl get ns ${APP_NAMESPACE} || kubectl create namespace ${APP_NAMESPACE}
+
+    kubectl get secret docker-registry -o json -n default |
+      jq ".metadata.namespace = \"${APP_NAMESPACE}\"|
+      del(.metadata.annotations,.metadata.creationTimestamp,.metadata.resourceVersion,.metadata.selfLink,.metadata.uid)" |
+      kubectl apply -f -
+
+    werf converge \
+      --require-built-images=false \
+      --auto-rollback=true \
+      --namespace ${APP_NAMESPACE} \
+      --release ${APP_NAMESPACE} \
+      --set "global.env=${ENV_NAME}" \
+      --set "global.ci_url=$(echo ${APP_URL} | cut -d / -f 3)" \
+      --set "global.ci_path=${PRODUCTION_PATH}" \
+      --set "global.env_name=${ENV_NAME}" \
+      --set "global.env_full_name=${ENV_FULL_NAME}" \
+      --secret-values .helm/${SECRET_VALUES_FILE}
+
+    cleanup
+  }
+
+  test_app() {
+    echo "Test!"
+  }
+
+before_script:
+- *auto_devops
+- type trdl && . $(trdl use werf 1.2 stable)
+- type werf && source $(werf ci-env gitlab --as-file)

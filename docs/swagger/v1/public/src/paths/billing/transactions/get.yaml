@@ -1,0 +1,86 @@
+get:
+  tags:
+    - Транзакции
+  summary: Получение транзакции
+  description: Метод получения транзакции
+  parameters:
+    - in: path
+      name: uuid
+      required: true
+      description: "uuid transaction"
+      schema:
+        type: string
+        example: "9a58bfbc-e0a0-4ca0-83f0-836d9f70cb4a"
+  responses:
+    200:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  uuid:
+                    type: string
+                    example: '9a58bfbc-e0a0-4ca0-83f0-836d9f70cb4a'
+                  account_uuid:
+                    type: string
+                    example: '9a58bfbc-db05-4656-836f-49e24108cff8'
+                  referral_wallet_uuid:
+                    type: string
+                    example: null
+                  bonus_wallet_uuid:
+                    type: string
+                    example: '9a58bfbc-dffa-47cf-b9e8-d5228b0be0db'
+                  dividend_wallet_uuid:
+                    type: string
+                    example: null
+                  vault_wallet_uuid:
+                    type: string
+                    example: null
+                  referral_amount:
+                    type: string
+                    example: null
+                  bonus_amount:
+                    type: string
+                    example: 25
+                  dividend_amount:
+                    type: string
+                    example: null
+                  vault_amount:
+                    type: string
+                    example: null
+                  real_amount:
+                    type: string
+                    example: 25
+                  total_amount_btc:
+                    type: string
+                    example: 0.00093426510706678
+                  btc_price:
+                    type: string
+                    example: 26759
+                  type:
+                    type: string
+                    enum: [ 'debit_to_client', 'credit_from_client', 'withdrawal' ]
+                    example: 'debit_to_client'
+                  created_at:
+                    type: string
+                    example: '2023-10-11T21:27:26.000000Z'
+                  updated_at:
+                    type: string
+                    example: '2023-10-11T21:27:26.000000Z'
+    400:
+      description: 'Ошибка'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string

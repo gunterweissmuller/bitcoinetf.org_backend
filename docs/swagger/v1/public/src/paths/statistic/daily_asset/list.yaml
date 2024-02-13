@@ -1,0 +1,65 @@
+get:
+  security: []
+  tags:
+    - Список статистики активов по дням
+  summary: Список статистики активов по дням
+  description: "Метод получения списка записей статистики активов по дням"
+  parameters:
+    - in: query
+      name: filters
+      required: false
+      description: "Filters to query."
+      schema:
+        type: array
+        items:
+          type: object
+          properties:
+            asset_uuid:
+              type: string
+              example: "68a426a0-72bc-4e9b-b8e9-182b36128565"
+            period_from:
+              description: 'Начало периода'
+              type: string
+              example: '2023-09-11'
+            period_to:
+              description: 'Окончание периода'
+              type: string
+              example: '2023-09-12'
+  responses:
+    200:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              total_amount_usd:
+                type: float
+                example: 538077.90952834
+              total_amount_btc:
+                type: float
+                example: 17.9126136
+              difference:
+                type: float
+                example: 0
+              difference_usd:
+                type: float
+                example: 0
+              data:
+                type: array
+                items:
+                  title: Referrals Code
+                  type: object
+                  properties:
+                    uuid:
+                      type: string
+                      example: "68a426a0-72bc-4e9b-b8e9-182b36128565"
+                    asset_uuid:
+                      type: string
+                      example: "68a426a0-72bc-4e9b-b8e9-182b36128565"
+                    amount:
+                      type: numeric
+                      description: "Объем актива"
+                      example: 1000.00
+                    created_at:
+                      type: string
+                      example: "2023-09-11T16:48:42.000000Z"

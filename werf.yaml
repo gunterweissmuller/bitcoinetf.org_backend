@@ -1,0 +1,64 @@
+{{ $_ := env "CI_PROJECT_PATH_SLUG"  | trunc 49 | trimSuffix "-" | set . "ProjectName" }}
+---
+configVersion: 1
+project: {{ .ProjectName }}
+cleanup:
+  keepPolicies:
+    - references:
+        tag: /.*/
+        limit:
+          last: 2
+    - references:
+        branch: /.*/
+        limit:
+          last: 2
+          operator: And
+      imagesPerReference:
+        last: 2
+        operator: And
+    - references:
+        branch: /^(master)$/
+      imagesPerReference:
+        last: 2
+---
+image: nginx
+from: nginx:stable-alpine
+git:
+  - add: /public
+    to: /var/www/html/public
+docker:
+  WORKDIR: /var/www/html
+---
+image: php_fpm
+from: zerogit.org:5005/etf/php-fpm:v1.0
+git:
+  - add: /
+    to: /var/www/html
+    owner: www-data
+    stageDependencies:
+      install:
+        - composer.json
+        - composer.lock
+  - add: /.helm/cmd/php-fpm
+    to: /
+    stageDependencies:
+      beforeSetup:
+        - "**/*"
+docker:
+  WORKDIR: /var/www/html
+  ENTRYPOINT:
+    - /entrypoint.sh
+  CMD:
+    - php-fpm
+  USER: www-data
+shell:
+  beforeInstall:
+    - mkdir /php-conf
+    - ln -s /php-conf/php.ini /usr/local/etc/php/php.ini
+  install:
+    - cd /var/www/html
+    - echo "Run composer"
+    - composer install
+    - composer dump-autoload
+  beforeSetup:
+    - chmod +x /*.sh

@@ -1,0 +1,29 @@
+delete:
+  tags:
+    - Формы
+  summary: Удаление формы
+  description: Метод удаления формы
+  parameters:
+    - in: path
+      name: uuid
+      required: true
+      description: "form uuid"
+      schema:
+        type: string
+  responses:
+    200:
+      description: OK
+    400:
+      description: 'Ошибка'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string

@@ -1,0 +1,48 @@
+# /v1/auth/recovery/confirm
+post:
+  security: [ ]
+  tags:
+    - Восстановление пароля
+  summary: Confirm
+  description: |
+    Данный метод используется после метода на запуск процесса сброса пароля.
+  requestBody:
+    content:
+      application/json:
+        schema:
+          required:
+            - code
+            - password
+          type: object
+          properties:
+            code:
+              type: string
+              example: 'vKJTOq86Y9hHhSpJq8ItIFHuspXKmITU'
+            password:
+              type: string
+              example: 'Aa12345'
+  responses:
+    200:
+      description: 'Успешно'
+    400:
+      description: 'Ошибка'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string
+          examples:
+            'Некоррентный код':
+              value:
+                error:
+                  code: ETF:011005
+                  message: 'incorrect code'
+    422:
+      $ref: "#/components/responses/ValidationException"

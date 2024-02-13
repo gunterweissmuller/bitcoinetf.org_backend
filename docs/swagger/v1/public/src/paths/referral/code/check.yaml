@@ -1,0 +1,31 @@
+# /v1/public/referral/code/check
+post:
+  security: []
+  tags:
+    - Промокод
+  summary: Проверить промокод
+  description: Данный метод используется для проверки промокода
+  requestBody:
+    content:
+      application/json:
+        schema:
+          required:
+            - code
+          type: object
+          properties:
+            code:
+              type: string
+              example: 'EXCAB794'
+  responses:
+    200:
+      description: 'Успешно'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  exists:
+                    type: boolean

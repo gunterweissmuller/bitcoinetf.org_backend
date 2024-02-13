@@ -1,0 +1,73 @@
+# /v1/private/pages/page
+get:
+  tags:
+    - Pages
+  summary: Page Get
+  description: Method for get Page
+  parameters:
+    - in: path
+      name: id
+      required: false
+      description: "Page id"
+      schema:
+        type: string
+  responses:
+    200:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  id:
+                    type: numeric
+                    description: "Id"
+                    example: 1
+                  name:
+                    type: string
+                    example: "Test page name"
+                  slug:
+                    type: string
+                    example: "ckldsjkldc"
+                  status:
+                    type: string
+                    example: "active"
+                  created_at:
+                    type: string
+                    example: "2022-09-27T23:18:03.000000Z"
+                  updated_at:
+                    type: string
+                    example: "2022-09-28T12:06:05.000000Z"
+    400:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  pipeline_exception:
+                    type: object
+                    properties:
+                      status:
+                        type: integer
+                      error_code:
+                        type: string
+                      message:
+                        type: string
+          examples:
+            var1:
+              summary: Stake not active.
+              value:
+                status: 400
+                error_code: "COIN:011"
+                message: "Stake not active."
+            var2:
+              summary: Stake not stopped.
+              value:
+                status: 400
+                error_code: "COIN:012"
+                message: "Stake not stopped."

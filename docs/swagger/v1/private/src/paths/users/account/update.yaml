@@ -1,0 +1,59 @@
+patch:
+  tags:
+    - Аккаунты
+  summary: Обновление аккаунта
+  description: Метод обновления аккаунта
+  parameters:
+    - in: path
+      name: uuid
+      required: true
+      description: "account uuid"
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          required:
+            - username
+            - type
+            - status
+            - payment_type
+            - personal_bonus
+          type: object
+          properties:
+            username:
+              type: string
+              example: "josh12"
+            type:
+              type: string
+              enum: [ "client", "admin" ]
+              example: "client"
+            status:
+              type: string
+              enum: [ "await_confirm", "enabled", "disabled" ]
+              example: "enabled"
+            payment_type:
+              type: string
+              enum: [ "daily_interest", "monthly_interest", "manual_withdrawal" ]
+              example: "manual_withdrawal"
+            personal_bonus:
+              type: float
+              example: null
+  responses:
+    200:
+      description: OK
+    400:
+      description: 'Ошибка'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string

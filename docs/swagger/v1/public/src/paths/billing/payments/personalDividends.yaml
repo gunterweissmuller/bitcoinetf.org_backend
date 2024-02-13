@@ -1,0 +1,84 @@
+get:
+  tags:
+    - Payments
+  summary: Получить список персональных дивидендов
+  description: Метод получения списка персональных дивидендов
+  parameters:
+    - in: query
+      name: per_page
+      required: false
+      description: "Count items on page"
+      schema:
+        type: integer
+    - in: query
+      name: page
+      required: false
+      description: 'Current page number'
+      schema:
+        type: integer
+  responses:
+    200:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              uuid:
+                type: string
+                example: "68a426a0-72bc-4e9b-b8e9-182b36128565"
+              account_uuid:
+                type: string
+                example: "68a426a0-72bc-4e9b-b8e9-182b36128565"
+              referral_wallet_uuid:
+                type: string
+                example: "68a426a0-72bc-4e9b-b8e9-182b36128565"
+              bonus_wallet_uuid:
+                type: string
+                example: "68a426a0-72bc-4e9b-b8e9-182b36128565"
+              dividend_wallet_uuid:
+                type: string
+                example: "68a426a0-72bc-4e9b-b8e9-182b36128565"
+              vault_wallet_uuid:
+                type: string
+                example: "68a426a0-72bc-4e9b-b8e9-182b36128565"
+              referral_amount:
+                type: numeric
+                example: 1000.00
+              bonus_amount:
+                type: numeric
+                example: 1000.00
+              dividend_amount:
+                type: numeric
+                example: 1000.00
+              vault_amount:
+                type: numeric
+                example: 1000.00
+              real_amount:
+                type: numeric
+                example: 1000.00
+              total_amount_btc:
+                type: numeric
+                example: 1000.00
+              type:
+                type: string
+                example: "credit_from_client"
+                enum:
+                  - credit_from_client
+                  - debit_to_client
+                  - withdrawal
+              created_at:
+                type: string
+                example: "2023-09-11T16:48:42.000000Z"
+              updated_at:
+                type: string
+                example: "2023-09-11T16:48:42.000000Z"
+              projected_apy:
+                type: numeric
+                example: 13
+              date_string:
+                type: string
+                example: "03 Oct 2023"
+              time:
+                type: string
+                example: "22:40"
+

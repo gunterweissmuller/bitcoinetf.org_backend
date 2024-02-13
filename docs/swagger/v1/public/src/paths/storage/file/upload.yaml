@@ -1,0 +1,67 @@
+# /v1/public/storage/file/upload
+post:
+  tags:
+    - Файлы
+  summary: Загрузка файла
+  description: |
+    Данный метод используется для загрузки файла на сервер
+  requestBody:
+    content:
+      application/json:
+        schema:
+          required:
+            - type
+            - file
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - avatar
+                - drivers-license
+                - passport
+                - selfie
+                - dividends-report
+                - receipt
+              example: 'avatar'
+            file:
+              type: file
+  responses:
+    200:
+      description: 'Успешно'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  uuid:
+                    type: string
+                    example: '9a2dcfb4-4cb5-4f7d-856b-85b6b8fdbd3f'
+                  patch:
+                    type: string
+                    example: 'public/avatar/2023/09/29/12/21/S7ZO8ix9bBn5LEMhAw3wFkpZhUEkjKuwWlf3pBPp.png'
+                  real_path:
+                    type: string
+                    example: 'https://files.bitcoinetf.org/etf/public/avatar/2023/09/29/12/21/S7ZO8ix9bBn5LEMhAw3wFkpZhUEkjKuwWlf3pBPp.png'
+                  type:
+                    type: string
+                    example: 'avatar'
+                  extension:
+                    type: string
+                    example: 'png'
+                  status:
+                    type: string
+                    example: 'dispatching'
+                  created_at:
+                    type: string
+                    example: '2023-09-29T12:21:52.000000Z'
+                  updated_at:
+                    type: string
+                    example: '2023-09-29T12:21:52.000000Z'
+    401:
+      $ref: "#/components/responses/JWTException"
+    422:
+      $ref: "#/components/responses/ValidationException"

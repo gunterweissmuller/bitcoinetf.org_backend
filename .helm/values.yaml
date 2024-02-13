@@ -1,8 +1,51 @@
 global:
   app_name: fund-api
-  stage:
+  prod:
     app:
       debug: "false"
+    db:
+      host: "postgresql-ha-pgpool.postgresql.svc.cluster.local"
+      port: "5432"
+      database: "backend"
+      user: "backend-worker"
+    redis:
+      host: "redis.etf-api-service.svc.cluster.local"
+      port: "26379"
+      prefix: "fund"
+      kafka_channel: "messages_for_kafka"
+    mail:
+      host: "smtp.gmail.com"
+      port: "465"
+      username: "support@bitcoinetf.org"
+      encryption: "tls"
+      address: "support@bitcoinetf.org"
+      name: "BitcoinETF"
+    aws:
+      region: "eu-north-1"
+      bucket: "etf"
+      endpoint: "https://files.bitcoinetf.org"
+    jwt:
+      ttl:
+        access: "420"
+        refresh: "10080"
+    centrifugal:
+      host: "centrifugo.etf-api-service.svc.cluster.local:9000/api"
+    payment:
+      host: "http://payments.payments.svc.cluster.local:3000"
+    mailchimp:
+      server_prefix: "us10"
+      list_id: "3a78876f55"
+    merchant01:
+      host: "https://api.merchant001.io"
+    kafka:
+      brokers: "kafka.kafka.svc.cluster.local:9092"
+      consumer: "fund"
+      reset: "beginning"
+      username: "php-backend"
+
+  stage:
+    app:
+      debug: "true"
     db:
       host: "postgresql-ha-pgpool.postgresql.svc.cluster.local"
       port: "5432"

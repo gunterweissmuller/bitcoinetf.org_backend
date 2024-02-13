@@ -1,0 +1,20 @@
+get:
+  tags:
+    - Report
+  summary: Просмотр pdf файла отчета по платежам юзера (либо скачивание)
+  description: Просмотр pdf файла отчета по платежам юзера (либо скачивание)
+  parameters:
+    - in: path
+      name: uuid
+      required: false
+      description: "asset uuid"
+      schema:
+        type: string
+  responses:
+    200:
+      description: OK
+      content:
+        application/pdf:
+          schema:
+            type: string
+            format: binary

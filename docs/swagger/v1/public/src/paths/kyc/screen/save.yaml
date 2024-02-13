@@ -1,0 +1,87 @@
+# /v1/public/kyc/screen
+post:
+  tags:
+    - Экраны
+  summary: Сохранить экран
+  description: |
+    Данный метод используется для сохранения введенных данных экрана.<br><br>
+    `Dynamic field` - динамическое поле, которое изменяется взависимости от массива `fields` у экрана.
+  requestBody:
+    content:
+      application/json:
+        schema:
+          required:
+            - uuid
+          type: object
+          properties:
+            uuid:
+              type: string
+              description: 'UUID экрана'
+              example: '1537519b-b637-464c-8bb3-29d2e2fa54cd'
+            full-name:
+              type: string
+              description: 'Dynamic field'
+              example: 'Иванов Иван'
+            date-of-birth:
+              type: string
+              description: 'Dynamic field'
+              example: '2020-12-12'
+            tax-residence:
+              type: string
+              description: 'Dynamic field'
+              example: 'usa'
+            address:
+              type: string
+              description: 'Dynamic field'
+              example: 'address'
+            city:
+              type: string
+              description: 'Dynamic field'
+              example: 'city'
+            zip-postal:
+              type: string
+              description: 'Dynamic field'
+              example: 'zip-postal'
+            state:
+              type: string
+              description: 'Dynamic field'
+              example: 'cost'
+            county:
+              type: string
+              description: 'Dynamic field'
+              example: 'russia'
+  responses:
+    200:
+      description: 'Успешно'
+    400:
+      description: 'Ошибка'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string
+          examples:
+            'Экран не найден':
+              value:
+                error:
+                  code: ETF:030002
+                  message: 'screen not found'
+            'Форма уже пройдена':
+              value:
+                error:
+                  code: ETF:030003
+                  message: 'form already passed'
+            'Экран уже пройден':
+              value:
+                error:
+                  code: ETF:030002
+                  message: 'screen already passed'
+    401:
+      $ref: "#/components/responses/JWTException"

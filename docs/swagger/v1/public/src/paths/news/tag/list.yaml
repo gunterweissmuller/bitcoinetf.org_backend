@@ -1,0 +1,73 @@
+get:
+  tags:
+    - Тэги
+  summary: List
+  description: Метод получения списка тэгов
+  parameters:
+    - in: query
+      name: per_page
+      required: false
+      description: "Count items on page"
+      schema:
+        type: integer
+    - in: query
+      name: page
+      required: false
+      description: 'Current page number'
+      schema:
+        type: integer
+    - in: query
+      name: order_column
+      required: false
+      schema:
+        type: string
+        enum: ['code', 'status', 'created_at', 'updated_at']
+        example: 'created_at'
+    - in: query
+      name: order_by
+      required: false
+      schema:
+        type: string
+        enum: ['asc', 'desc']
+        example: 'desc'
+  responses:
+    200:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              current_page:
+                type: numeric
+                description: "Current page number"
+                example: 1
+              from:
+                type: numeric
+                description: "First page number"
+                example: 1
+              last_page:
+                type: numeric
+                description: "Last page number"
+                example: 1
+              per_page:
+                type: numeric
+                description: "Per page items"
+                example: 1
+              total:
+                type: numeric
+                description: "Total items"
+                example: 1
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    uuid:
+                      type: string
+                      example: "9a707848-a08f-4a3b-b2aa-d0c03e2aa26b"
+                    section_uuid:
+                      type: string
+                      example: "9a706e07-5b45-4e08-bd4f-c85fb50572a9"
+                    title:
+                      type: string
+                      example: "Bitcoin"

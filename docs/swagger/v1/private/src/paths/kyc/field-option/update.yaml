@@ -1,0 +1,48 @@
+patch:
+  tags:
+    - Поля (опции)
+  summary: Обновление опции
+  description: Метод обновления опции
+  parameters:
+    - in: path
+      name: uuid
+      required: true
+      description: "field option uuid"
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          required:
+            - field_uuid
+            - label
+            - value
+          type: object
+          properties:
+            field_uuid:
+              type: string(uuid)
+              example: "9a29aa2c-9d62-42de-ac4f-737ea98f8a4b"
+            label:
+              type: string
+              example: "Test"
+            value:
+              type: string
+              example: "test"
+  responses:
+    200:
+      description: OK
+    400:
+      description: 'Ошибка'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string

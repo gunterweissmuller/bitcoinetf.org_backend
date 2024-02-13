@@ -1,0 +1,47 @@
+# /v1/public/referral/invite/apply
+post:
+  tags:
+    - Промокод
+  summary: Применить промокод
+  description: Данный метод используется для применения промокода
+  requestBody:
+    content:
+      application/json:
+        schema:
+          required:
+            - code
+          type: object
+          properties:
+            code:
+              type: string
+              example: 'EXCAB794'
+  responses:
+    200:
+      description: 'Успешно'
+    400:
+      description: 'Ошибка'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string
+          examples:
+            'Вы уже применили промокод':
+              value:
+                error:
+                  code: ETF:050002
+                  message: 'already used code'
+            'Промокод не найден':
+              value:
+                error:
+                  code: ETF:050001
+                  message: 'code not found'
+    401:
+      $ref: "#/components/responses/JWTException"

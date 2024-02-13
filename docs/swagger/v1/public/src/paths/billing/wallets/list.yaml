@@ -1,0 +1,88 @@
+get:
+  tags:
+    - Кошельки
+  summary: Список кошельков
+  description: Метод получения списка кошельков пользователя
+  responses:
+    200:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  vault:
+                    type: object
+                    properties:
+                      uuid:
+                        type: string
+                        example: "9a520906-c3c8-4bd6-8d1e-24b0a6495a26"
+                      withdrawal_method:
+                        type: string
+                        enum: [ 'none', 'manual', 'automatic_daily' ]
+                        example: 'none'
+                      withdrawal_address:
+                        type: string
+                        example: null
+                      usd_amount:
+                        type: float
+                        example: 0
+                      btc_amount:
+                        type: float
+                        example: 0
+                  referral:
+                    type: object
+                    properties:
+                      uuid:
+                        type: string
+                        example: "9a520906-c3c8-4bd6-8d1e-24b0a6495a26"
+                      withdrawal_method:
+                        type: string
+                        enum: [ 'none', 'manual', 'automatic_daily' ]
+                        example: 'none'
+                      withdrawal_address:
+                        type: string
+                        example: null
+                      usd_amount:
+                        type: float
+                        example: 0
+                  bonus:
+                    type: object
+                    properties:
+                      uuid:
+                        type: string
+                        example: "9a520906-c3c8-4bd6-8d1e-24b0a6495a26"
+                      withdrawal_method:
+                        type: string
+                        enum: [ 'none', 'manual', 'automatic_daily' ]
+                        example: 'none'
+                      withdrawal_address:
+                        type: string
+                        example: null
+                      usd_amount:
+                        type: float
+                        example: 0
+                  dividends:
+                    type: object
+                    properties:
+                      uuid:
+                        type: string
+                        example: "9a520906-c3c8-4bd6-8d1e-24b0a6495a26"
+                      withdrawal_method:
+                        type: string
+                        enum: [ 'none', 'manual', 'automatic_daily' ]
+                        example: 'none'
+                      withdrawal_address:
+                        type: string
+                        example: null
+                      usd_amount:
+                        type: float
+                        example: 0
+                      btc_amount:
+                        type: float
+                        example: 0
+                      difference:
+                        type: float
+                        example: 0

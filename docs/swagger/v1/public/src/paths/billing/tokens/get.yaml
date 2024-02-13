@@ -1,0 +1,48 @@
+get:
+  tags:
+    - Валюты
+  summary: Получение валют
+  description: Метод получения валют
+  parameters:
+    - in: path
+      name: type
+      required: true
+      description: "token type"
+      schema:
+        type: string
+  responses:
+    200:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  uuid:
+                    type: string
+                    example: "9a5019c4-9988-41e5-b9b2-c74b02e1ad12"
+                  name:
+                    type: string
+                    example: 'BTC'
+                  symbol:
+                    type: string
+                    example: 'bitcoin'
+                  amount:
+                    type: float
+                    example: 29840
+    400:
+      description: 'Ошибка'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string

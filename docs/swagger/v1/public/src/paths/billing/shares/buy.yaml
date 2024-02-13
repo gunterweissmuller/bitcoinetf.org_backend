@@ -1,0 +1,70 @@
+post:
+  tags:
+    - Акции
+  summary: Покупка акций
+  description: Метод покупки акций
+  requestBody:
+    content:
+      application/json:
+        schema:
+          required:
+            - amount
+          type: object
+          properties:
+            amount:
+              type: float
+              example: 5000
+            dividends:
+              type: boolean
+              example: false
+            referral:
+              type: boolean
+              example: false
+            bonus:
+              type: boolean
+              example: true
+  responses:
+    200:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  uuid:
+                    type: string
+                    example: "9a69585f-deea-4b1c-9056-d0a2c0f1ed55"
+                  dividend_amount:
+                    type: float
+                    example: null
+                  referral_amount:
+                    type: float
+                    example: null
+                  bonus_amount:
+                    type: float
+                    example: 25
+                  real_amount:
+                    type: float
+                    example: 5000
+                  total_amount:
+                    type: float
+                    example: 5025
+                  wallet_address:
+                    type: string
+                    example: "TUumYM19BsNbV8Ck9mtQjwDdPeJ1MRDWnB"
+    400:
+      description: 'Ошибка'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string

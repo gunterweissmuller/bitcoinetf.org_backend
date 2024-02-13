@@ -1,0 +1,103 @@
+# /v1/public/users/account/me
+get:
+  tags:
+    - Аккаунт
+  summary: Me
+  description: |
+    Данный метод используется для получения инофрмации о текущем пользователе.
+  responses:
+    200:
+      description: 'Успешно'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  account:
+                    type: object
+                    properties:
+                      uuid:
+                        type: string
+                        example: '9a2dcfb4-4cb5-4f7d-856b-85b6b8fdbd3f'
+                      username:
+                        type: string
+                        example: 'nickname'
+                      type:
+                        type: string
+                        example: 'client'
+                      status:
+                        type: string
+                        example: 'enabled'
+                  profile:
+                    type: object
+                    properties:
+                      full_name:
+                        type: string
+                        example: null
+                      date_of_birth:
+                        type: string
+                        example: null
+                      tax_residence:
+                        type: string
+                        example: null
+                      address:
+                        type: string
+                        example: null
+                      city:
+                        type: string
+                        example: null
+                      zip_postal:
+                        type: string
+                        example: null
+                      state:
+                        type: string
+                        example: null
+                      country:
+                        type: string
+                        example: null
+                  referrals:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: 'NVZDP419'
+                      used_code:
+                        type: string
+                        example: null
+                  withdrawal_addresses:
+                    type: object
+                    properties:
+                      dividends:
+                        type: string
+                        example: null
+                      referral:
+                        type: string
+                        example: null
+    401:
+      description: 'Ошибка аутентификации'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string
+          examples:
+            'jwt expired':
+              value:
+                error:
+                  code: ETF:010005
+                  message: 'jwt expired'
+            'jwt signature invalid':
+              value:
+                error:
+                  code: ETF:010004
+                  message: 'jwt signature invalid'

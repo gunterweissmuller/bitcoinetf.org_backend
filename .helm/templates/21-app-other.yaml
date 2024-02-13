@@ -1,0 +1,60 @@
+{{- $globals := ternary .Values.global.stage (ternary .Values.global.prod .Values.global.dev (eq .Values.global.env_name "prod")) (eq .Values.global.env_name "stage") -}}
+{{- range $index, $service := .Values.otherServices }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ $.Values.global.app_name }}-{{ $service.name }}
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: {{ $.Values.global.app_name }}-{{ $service.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ $.Values.global.app_name }}-{{ $service.name }}
+        ksync: {{ $.Values.global.app_name }}-{{ $service.name }}
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/25-app-cm.yaml") $ | sha256sum }}
+    spec:
+      containers:
+      - name: app-{{ $service.name }}
+        image: {{ $.Values.werf.image.php_fpm }}
+        securityContext:                            
+          allowPrivilegeEscalation: false
+          capabilities:                  
+            drop:                                                                                                       
+            - ALL                                   
+          runAsNonRoot: true                        
+          runAsUser: 82             
+          seccompProfile:                     
+            type: RuntimeDefault
+        command:
+          - {{ $service.cmd }}
+        args:
+          {{- range $index2, $arg := $service.args }}
+          - {{ $arg }}
+          {{- end }}
+        env:
+{{ include "apps-env-var-values" $ | indent 8 }}
+        volumeMounts:
+        - name: php-fpm-config-volume-1
+          mountPath: /php-conf
+        - name: php-fpm-config-volume-2
+          mountPath: /usr/local/etc/php-fpm.d
+      volumes:
+        - name: php-fpm-config-volume-1
+          configMap:
+            name: php-fpm-config-1
+        - name: php-fpm-config-volume-2
+          configMap:
+            name: php-fpm-config-2
+      imagePullSecrets:
+        - name: docker-registry
+---
+{{- end }}

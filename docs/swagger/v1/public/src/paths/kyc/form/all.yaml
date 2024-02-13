@@ -1,0 +1,35 @@
+# /v1/public/kyc/forms
+get:
+  tags:
+    - Формы
+  summary: Список форм
+  description: |
+    Данный метод используется для получения списка доступных форм.
+  responses:
+    200:
+      description: 'Успешно'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  - type: object
+                    properties:
+                      uuid:
+                        type: string
+                        example: '9a2dcfb4-4cb5-4f7d-856b-85b6b8fdbd3f'
+                      title:
+                        type: string
+                        example: 'Account Form'
+                      status:
+                        type: string
+                        enum: ['new', 'in-process', 'passed']
+                        example: 'new'
+                      current_screen_uuid:
+                        type: string
+                        example: null
+    401:
+      $ref: "#/components/responses/JWTException"

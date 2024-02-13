@@ -1,0 +1,53 @@
+patch:
+  tags:
+    - Разделы
+  summary: Update
+  description: Метод обновления раздела
+  parameters:
+    - in: path
+      name: uuid
+      required: false
+      description: "section uuid"
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            title:
+              type: string
+              example: "title"
+            description:
+              type: string
+              example: "description"
+            slug:
+              type: string
+              example: "slug"
+            meta_title:
+              type: string
+              example: null
+            meta_description:
+              type: string
+              example: null
+            meta_keywords:
+              type: string
+              example: null
+  responses:
+    200:
+      description: OK
+    400:
+      description: 'Ошибка'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string

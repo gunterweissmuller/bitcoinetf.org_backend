@@ -1,0 +1,55 @@
+patch:
+  tags:
+    - Поля
+  summary: Обновление поля
+  description: Метод обновления поля
+  parameters:
+    - in: path
+      name: uuid
+      required: true
+      description: "field uuid"
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          required:
+            - screen_uuid
+            - name
+            - type
+            - sort
+          type: object
+          properties:
+            screen_uuid:
+              type: string(uuid)
+              example: "9a29aa2c-9d62-42de-ac4f-737ea98f8a4b"
+            name:
+              type: string
+              example: "test"
+            label:
+              type: string
+            type:
+              type: string
+              enum: ["text", "date", "select", "file", "radio-group"]
+              example: "enabled"
+            sort:
+              type: integer
+              example: 4
+  responses:
+    200:
+      description: OK
+    400:
+      description: 'Ошибка'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string

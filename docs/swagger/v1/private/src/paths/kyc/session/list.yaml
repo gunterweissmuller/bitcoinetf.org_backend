@@ -1,0 +1,46 @@
+get:
+  tags:
+    - Сессии
+  summary: Список сессий
+  description: Метод получения списка сессий
+  parameters:
+    - in: query
+      name: form_uuid
+      required: false
+      description: "form uuid"
+      schema:
+        type: string
+        example: "9a29aa2c-9d62-42de-ac4f-737ea98f8a4b"
+  responses:
+    200:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    uuid:
+                      type: string
+                      example: "9a4800d9-9df4-4fd2-a0c4-e4a4924b3e18"
+                    form_uuid:
+                      type: string
+                      example: "9a29aa2c-9d62-42de-ac4f-737ea98f8a3b"
+                    account_uuid:
+                      type: string
+                      example: "9a2dcfb4-4cb5-4f7d-856b-85b6b8fdbd3f"
+                    current_screen_uuid:
+                      type: string
+                      example: "c17ff9b3-df68-46d8-b8b6-165d17dd3891"
+                    status:
+                      type: string
+                      example: "in-process"
+                    created_at:
+                      type: string
+                      example: "2022-09-27T23:18:03.000000Z"
+                    updated_at:
+                      type: string
+                      example: "2022-09-28T12:06:05.000000Z"

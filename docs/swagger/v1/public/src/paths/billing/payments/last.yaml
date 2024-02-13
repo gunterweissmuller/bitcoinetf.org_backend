@@ -1,0 +1,79 @@
+get:
+  tags:
+    - Payments
+  summary: Получить последнюю выплату
+  description: Метод получения последней выплаты
+  responses:
+    200:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              uuid:
+                type: string
+                example: "68a426a0-72bc-4e9b-b8e9-182b36128565"
+              account_uuid:
+                type: string
+                example: "68a426a0-72bc-4e9b-b8e9-182b36128565"
+              referral_wallet_uuid:
+                type: string
+                example: "68a426a0-72bc-4e9b-b8e9-182b36128565"
+              bonus_wallet_uuid:
+                type: string
+                example: "68a426a0-72bc-4e9b-b8e9-182b36128565"
+              dividend_wallet_uuid:
+                type: string
+                example: "68a426a0-72bc-4e9b-b8e9-182b36128565"
+              vault_wallet_uuid:
+                type: string
+                example: "68a426a0-72bc-4e9b-b8e9-182b36128565"
+              referral_amount:
+                type: numeric
+                example: 1000.00
+              bonus_amount:
+                type: numeric
+                example: 1000.00
+              dividend_amount:
+                type: numeric
+                example: 1000.00
+              vault_amount:
+                type: numeric
+                example: 1000.00
+              real_amount:
+                type: numeric
+                example: 1000.00
+              total_amount_btc:
+                type: numeric
+                example: 1000.00
+              type:
+                type: string
+                example: "credit_from_client"
+                enum:
+                  - credit_from_client
+                  - debit_to_client
+                  - withdrawal
+              created_at:
+                type: string
+                example: "2023-09-11T16:48:42.000000Z"
+              updated_at:
+                type: string
+                example: "2023-09-11T16:48:42.000000Z"
+              projected_apy:
+                type: numeric
+                example: 13
+              total_balance_usd:
+                type: numeric
+                example: 1000.00
+              circulation:
+                type: numeric
+                example: 2
+              btc_price:
+                type: numeric
+                example: 27000
+              actual_apy:
+                type: numeric
+                example: 3
+
+
+

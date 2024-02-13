@@ -1,0 +1,85 @@
+# /v1/private/pages/page
+patch:
+  tags:
+    - Page section
+  summary: Page section Update
+  description: Method for update page section
+  parameters:
+    - in: path
+      name: pageId
+      required: true
+      description: "Page id"
+      schema:
+        type: string
+    - in: path
+      name: sectionId
+      required: true
+      description: "Section id"
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            language_id:
+              type: numeric
+              description: "Language Id"
+              example: 1
+            name:
+              type: string
+              description: "Section name"
+              example: "Test section name"
+            status:
+              type: string
+              description: "section published for public API"
+              example: "active"
+              enum:
+                - active
+                - disabled
+            number:
+              type: numeric
+              description: "Number of position"
+              example: 1
+            data:
+              type: object
+              description: "Data for sections"
+            files_uuids:
+              type: array
+              description: "File uuids"
+              example: [ "9a5a5a10-f439-4cf2-b1b7-89bb02ed10e5", "9a5a5a10-f439-4cf2-b1b7-89bb02ed10e4" ]
+  responses:
+    200:
+      description: OK
+    400:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  pipeline_exception:
+                    type: object
+                    properties:
+                      status:
+                        type: integer
+                      error_code:
+                        type: string
+                      message:
+                        type: string
+          examples:
+            var1:
+              summary: Stake not active.
+              value:
+                status: 400
+                error_code: "COIN:011"
+                message: "Stake not active."
+            var2:
+              summary: Stake not stopped.
+              value:
+                status: 400
+                error_code: "COIN:012"
+                message: "Stake not stopped."

@@ -1,0 +1,243 @@
+# /v1/public/kyc/screen
+get:
+  tags:
+    - Экраны
+  summary: Получение экрана
+  description: |
+    Данный метод используется для получения экрана конкретной формы.
+  parameters:
+    - in: query
+      name: uuid
+      schema:
+        type: string
+        example: '1537519b-b637-464c-8bb3-29d2e2fa54cd'
+      required: true
+      description: 'UUID экрана'
+  responses:
+    200:
+      description: 'Успешно'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  uuid:
+                    type: string
+                    example: '1537519b-b637-464c-8bb3-29d2e2fa54cd'
+                  title:
+                    type: string
+                    example: 'Personal details'
+                  subtitle:
+                    type: string
+                    example: 'Please fill in your personal details.'
+                  fields:
+                    type: array
+                    items:
+                      - type: object
+                        properties:
+                          name:
+                            type: string
+                            example: 'full-name'
+                          label:
+                            type: string
+                            example: 'Full name'
+                          type:
+                            type: string
+                            example: 'text'
+                          enums:
+                            type: array
+                          model:
+                            type: string
+                            example: ''
+                      - type: object
+                        properties:
+                          name:
+                            type: string
+                            example: 'date-of-birth'
+                          label:
+                            type: string
+                            example: 'Date of birth'
+                          type:
+                            type: string
+                            example: 'date'
+                          model:
+                            type: string
+                            example: ''
+                      - type: object
+                        properties:
+                          name:
+                            type: string
+                            example: 'tax-residence'
+                          label:
+                            type: string
+                            example: 'Tax residence'
+                          type:
+                            type: string
+                            example: 'select'
+                          model:
+                            type: string
+                            example: ''
+                          options:
+                            type: array
+                            items:
+                              - type: object
+                                properties:
+                                  label:
+                                    type: string
+                                    example: 'Germany'
+                                  value:
+                                    type: string
+                                    example: 'germany'
+                              - type: object
+                                properties:
+                                  label:
+                                    type: string
+                                    example: 'Russia'
+                                  value:
+                                    type: string
+                                    example: 'russia'
+                              - type: object
+                                properties:
+                                  label:
+                                    type: string
+                                    example: 'USA'
+                                  value:
+                                    type: string
+                                    example: 'usa'
+                              - type: object
+                                properties:
+                                  label:
+                                    type: string
+                                    example: 'China'
+                                  value:
+                                    type: string
+                                    example: 'china'
+                      - type: object
+                        properties:
+                          name:
+                            type: string
+                            example: 'address'
+                          label:
+                            type: string
+                            example: 'Address'
+                          type:
+                            type: string
+                            example: 'text'
+                          model:
+                            type: string
+                            example: ''
+                      - type: object
+                        properties:
+                          name:
+                            type: string
+                            example: 'city'
+                          label:
+                            type: string
+                            example: 'City'
+                          type:
+                            type: string
+                            example: 'text'
+                          model:
+                            type: string
+                            example: ''
+                      - type: object
+                        properties:
+                          name:
+                            type: string
+                            example: 'zip-postal'
+                          label:
+                            type: string
+                            example: 'ZIP / Postal'
+                          type:
+                            type: string
+                            example: 'text'
+                          model:
+                            type: string
+                            example: ''
+                      - type: object
+                        properties:
+                          name:
+                            type: string
+                            example: 'state'
+                          label:
+                            type: string
+                            example: 'State'
+                          type:
+                            type: string
+                            example: 'select'
+                          model:
+                            type: string
+                            example: ''
+                          options:
+                            type: array
+                            items:
+                              - type: object
+                                properties:
+                                  label:
+                                    type: string
+                                    example: 'West'
+                                  value:
+                                    type: string
+                                    example: 'west'
+                              - type: object
+                                properties:
+                                  label:
+                                    type: string
+                                    example: 'Cost'
+                                  value:
+                                    type: string
+                                    example: 'cost'
+                      - type: object
+                        properties:
+                          name:
+                            type: string
+                            example: 'county'
+                          label:
+                            type: string
+                            example: 'County'
+                          type:
+                            type: string
+                            example: 'select'
+                          model:
+                            type: string
+                            example: ''
+                          options:
+                            type: array
+                            items:
+                              - type: object
+                                properties:
+                                  label:
+                                    type: string
+                                    example: 'Germany'
+                                  value:
+                                    type: string
+                                    example: 'germany'
+                              - type: object
+                                properties:
+                                  label:
+                                    type: string
+                                    example: 'Russia'
+                                  value:
+                                    type: string
+                                    example: 'russia'
+                              - type: object
+                                properties:
+                                  label:
+                                    type: string
+                                    example: 'USA'
+                                  value:
+                                    type: string
+                                    example: 'usa'
+                              - type: object
+                                properties:
+                                  label:
+                                    type: string
+                                    example: 'China'
+                                  value:
+                                    type: string
+                                    example: 'china'
+    401:
+      $ref: "#/components/responses/JWTException"

@@ -1,0 +1,98 @@
+# Paths
+
+# Auth | Register
+/v1/auth/register/init: '/auth/register/init.yaml'
+/v1/auth/register/confirm: '/auth/register/confirm.yaml'
+
+# Auth | Code
+/v1/auth/code/check: '/auth/code/check.yaml'
+/v1/auth/code/resend: '/auth/code/resend.yaml'
+
+# Auth | Login
+/v1/auth/login: '/auth/login/login.yaml'
+
+# Auth | Token
+/v1/auth/token/refresh: '/auth/token/refresh.yaml'
+
+# Auth | Recovery
+/v1/auth/recovery/init: '/auth/recovery/init.yaml'
+/v1/auth/recovery/check: '/auth/recovery/check.yaml'
+/v1/auth/recovery/confirm: '/auth/recovery/confirm.yaml'
+
+# Users | Account
+/v1/public/users/account/me: '/users/account/me.yaml'
+
+# Referral | Code
+/v1/public/referral/code/check: '/referral/code/check.yaml'
+
+# Referral | Invite
+/v1/public/referral/invite/apply: '/referral/invite/apply.yaml'
+
+# Kyc | Form
+/v1/public/kyc/forms: '/kyc/form/all.yaml'
+
+# Kyc | Screen
+/v1/public/kyc/screens: '/kyc/screen/all.yaml'
+/v1/public/kyc/screen: '/kyc/screen/get.yaml'
+POST-/v1/public/kyc/screen: '/kyc/screen/save.yaml'
+
+# News | Integration
+/v1/public/news/integration: '/news/integration/list.yaml'
+
+# News | Section
+/v1/public/news/sections: '/news/section/list.yaml'
+/v1/public/news/sections/{uuid}: '/news/section/get.yaml'
+
+# News | Tags
+/v1/public/news/tags: '/news/tag/list.yaml'
+/v1/public/news/tags/{uuid}: '/news/tag/get.yaml'
+
+# News | Articles
+/v1/public/news/articles: '/news/article/list.yaml'
+/v1/public/news/articles/{uuid}: '/news/article/get.yaml'
+
+# Statistic | Daily Asset
+/v1/public/statistic/assets/daily: '/statistic/daily_asset/list.yaml'
+/v1/public/statistic/assets/monthly: '/statistic/daily_asset/monthly.yaml'
+/v1/public/statistic/assets/year: '/statistic/daily_asset/year.yaml'
+
+# Statistic | Shareholder
+/v1/public/statistic: '/statistic/main.yaml'
+/v1/public/statistic/shareholders/count: '/statistic/shareholder/count.yaml'
+/v1/public/statistic/shareholders/top: '/statistic/shareholder/top.yaml'
+/v1/public/statistic/report: '/statistic/report/list.yaml'
+/v1/public/statistic/report/{uuid}: '/statistic/report/get.yaml'
+
+# Storage | File
+/v1/public/storage/file/upload: '/storage/file/upload.yaml'
+
+# Billing | Tokens
+/v1/public/billing/tokens: '/billing/tokens/list.yaml'
+/v1/public/billing/tokens/{type}: '/billing/tokens/get.yaml'
+
+# Billing | Payments
+/v1/public/billing/payment/last: '/billing/payments/last.yaml'
+/v1/public/billing/payment/statistic: '/billing/payments/statistic.yaml'
+/v1/public/billing/payment/dividends/personal: '/billing/payments/personalDividends.yaml'
+
+# Billing | Wallets
+/v1/public/billing/wallets: '/billing/wallets/list.yaml'
+/v1/public/billing/wallets/{type}: '/billing/wallets/get.yaml'
+
+# Billing | Transactions
+/v1/public/billing/transactions: '/billing/transactions/list.yaml'
+/v1/public/billing/transactions/{uuid}: '/billing/transactions/get.yaml'
+
+# Billing | Shares
+/v1/public/billing/shares/buy: '/billing/shares/buy.yaml'
+/v1/public/billing/shares/callback: '/billing/shares/callback.yaml'
+
+# Billing | Credit Card Request
+/v1/public/billing/credit-card/request: '/billing/credit_card_request/create.yaml'
+/v1/public/billing/credit-card/request/info: '/billing/credit_card_request/info.yaml'
+
+# Pages page with sections
+/v1/public/pages/page/{slug}/{lang}: '/pages/page/get.yaml'
+
+# Pages language
+/v1/public/pages/language: '/pages/language/all.yaml'

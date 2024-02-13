@@ -1,0 +1,43 @@
+get:
+  tags:
+    - Поля (опции)
+  summary: Список опций
+  description: Метод получения списка опций
+  parameters:
+    - in: query
+      name: field_uuid
+      required: true
+      description: "field uuid"
+      schema:
+        type: string
+        example: "1537519b-b637-464c-8bb3-29d2e2fa54cd"
+  responses:
+    200:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    uuid:
+                      type: string
+                      example: "9a51da72-05ee-4496-95ca-9e5786fbc029"
+                    field_uuid:
+                      type: string
+                      example: "56faa051-6260-4777-ab59-d09d796ce828"
+                    label:
+                      type: string
+                      example: "Test"
+                    value:
+                      type: string
+                      example: "text"
+                    created_at:
+                      type: string
+                      example: "2022-09-27T23:18:03.000000Z"
+                    updated_at:
+                      type: string
+                      example: "2022-09-28T12:06:05.000000Z"

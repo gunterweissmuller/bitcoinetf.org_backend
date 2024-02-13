@@ -1,0 +1,95 @@
+get:
+  tags:
+    - Статьи
+  summary: Get
+  description: Метод получения статьи
+  parameters:
+    - in: path
+      name: uuid
+      required: true
+      description: "article uuid"
+      schema:
+        type: string
+  responses:
+    200:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              uuid:
+                type: string
+                example: "9a70bcdc-ca36-4153-9c86-992819ef70e5"
+              section_uuid:
+                type: string
+                example: "9a706e07-5b45-4e08-bd4f-c85fb50572a9"
+              title:
+                type: string
+                example: "Bitcoin"
+              description:
+                type: string
+                example: null
+              content:
+                type: string
+                example: "<h1>H1</h1>"
+              reading_time:
+                type: integer
+                example: null
+              meta_title:
+                type: string
+                example: null
+              meta_description:
+                type: string
+                example: null
+              meta_keywords:
+                type: string
+                example: null
+              created_at:
+                type: string
+                example: "2022-09-27T23:18:03.000000Z"
+              updated_at:
+                type: string
+                example: "2022-09-28T12:06:05.000000Z"
+              tags:
+                type: array
+                items:
+                  - type: object
+                    properties:
+                      uuid:
+                        type: string
+                        example: '9a707848-a08f-4a3b-b2aa-d0c03e2aa26b'
+                      title:
+                        type: string
+                        example: 'Bitcoin'
+              preview_file:
+                type: object
+                properties:
+                  uuid:
+                    type: string
+                    example: '9a70a017-97c7-4bf6-8cf9-d1886cea0a54'
+                  path:
+                    type: string
+                    example: 'link to image'
+              main_file:
+                type: object
+                properties:
+                  uuid:
+                    type: string
+                    example: '9a70a017-97c7-4bf6-8cf9-d1886cea0a54'
+                  path:
+                    type: string
+                    example: 'link to image'
+    400:
+      description: 'Ошибка'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string

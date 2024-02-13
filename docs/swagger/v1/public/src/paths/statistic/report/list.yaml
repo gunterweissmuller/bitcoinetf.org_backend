@@ -1,0 +1,31 @@
+get:
+  tags:
+    - Report
+  summary: Список отчетов по платежам юзера
+  description: Метод получения отчета платежей юзера
+  parameters:
+    - in: query
+      name: per_page
+      required: false
+      description: "Count items on page"
+      schema:
+        type: integer
+    - in: query
+      name: page
+      required: false
+      description: 'Current page number'
+      schema:
+        type: integer
+  responses:
+    200:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              uuid:
+                type: string
+                example: "9a5111c5-df3b-47c4-8bf0-eed69fa5501f"
+              date:
+                type: string
+                example: "October 2023"

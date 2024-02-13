@@ -1,0 +1,114 @@
+# Paths
+
+# Users | Accounts
+POST - /v1/private/users/accounts: '/users/account/create.yaml'
+/v1/private/users/accounts: '/users/account/list.yaml'
+/v1/private/users/accounts/{uuid}: '/users/account/get.yaml'
+PATCH - /v1/private/users/accounts/{uuid}: '/users/account/update.yaml'
+DELETE - /v1/private/users/accounts/{uuid}: '/users/account/delete.yaml'
+
+# Users | Emails
+/v1/private/users/emails: '/users/email/list.yaml'
+/v1/private/users/emails/{uuid}: '/users/email/get.yaml'
+PATCH - /v1/private/users/emails/{uuid}: '/users/email/update.yaml'
+
+# Referrals | Codes
+/v1/private/referrals/codes: '/referrals/codes/list.yaml'
+/v1/private/referrals/codes/{uuid}: '/referrals/codes/get.yaml'
+PATCH - /v1/private/referrals/codes/{uuid}: '/referrals/codes/update.yaml'
+
+# Kyc | Form
+POST - /v1/private/kyc/forms: '/kyc/form/create.yaml'
+/v1/private/kyc/forms: '/kyc/form/list.yaml'
+/v1/private/kyc/forms/{uuid}: '/kyc/form/get.yaml'
+PATCH - /v1/private/kyc/forms/{uuid}: '/kyc/form/update.yaml'
+DELETE - /v1/private/kyc/forms/{uuid}: '/kyc/form/delete.yaml'
+
+# Kyc | Screen
+POST - /v1/private/kyc/screens: '/kyc/screen/create.yaml'
+/v1/private/kyc/screens: '/kyc/screen/list.yaml'
+/v1/private/kyc/screens/{uuid}: '/kyc/screen/get.yaml'
+PATCH - /v1/private/kyc/screens/{uuid}: '/kyc/screen/update.yaml'
+DELETE - /v1/private/kyc/screens/{uuid}: '/kyc/screen/delete.yaml'
+
+# Kyc | Field
+POST - /v1/private/kyc/fields: '/kyc/field/create.yaml'
+/v1/private/kyc/fields: '/kyc/field/list.yaml'
+/v1/private/kyc/fields/{uuid}: '/kyc/field/get.yaml'
+PATCH - /v1/private/kyc/fields/{uuid}: '/kyc/field/update.yaml'
+DELETE - /v1/private/kyc/fields/{uuid}: '/kyc/field/delete.yaml'
+
+# Kyc | Field Option
+POST - /v1/private/kyc/fields/options: '/kyc/field-option/create.yaml'
+/v1/private/kyc/fields/options: '/kyc/field-option/list.yaml'
+/v1/private/kyc/fields/options/{uuid}: '/kyc/field-option/get.yaml'
+PATCH - /v1/private/kyc/fields/options/{uuid}: '/kyc/field-option/update.yaml'
+DELETE - /v1/private/kyc/fields/options/{uuid}: '/kyc/field-option/delete.yaml'
+
+# Kyc | Session
+/v1/private/kyc/sessions: '/kyc/session/list.yaml'
+/v1/private/kyc/sessions/{uuid}: '/kyc/session/get.yaml'
+DELETE - /v1/private/kyc/sessions/{uuid}: '/kyc/session/delete.yaml'
+
+# Kyc | Session Result
+/v1/private/kyc/sessions/results: '/kyc/session-result/list.yaml'
+/v1/private/kyc/sessions/results/{uuid}: '/kyc/session-result/get.yaml'
+DELETE - /v1/private/kyc/sessions/results/{uuid}: '/kyc/session-result/delete.yaml'
+
+# News | Integration
+POST - /v1/private/news/integration: '/news/integration/create.yaml'
+/v1/private/news/integration/: '/news/integration/list.yaml'
+/v1/private/news/integration/{uuid}: '/news/integration/get.yaml'
+PATCH - /v1/private/news/integration/{uuid}: '/news/integration/update.yaml'
+DELETE - /v1/private/news/integration/{uuid}: '/news/integration/delete.yaml'
+
+# News | Section
+POST - /v1/private/news/sections: '/news/section/create.yaml'
+/v1/private/news/sections: '/news/section/list.yaml'
+/v1/private/news/sections/{uuid}: '/news/section/get.yaml'
+PATCH - /v1/private/news/sections/{uuid}: '/news/section/update.yaml'
+DELETE - /v1/private/news/sections/{uuid}: '/news/section/delete.yaml'
+
+# News | Tags
+POST - /v1/private/news/tags: '/news/tag/create.yaml'
+/v1/private/news/tags: '/news/tag/list.yaml'
+/v1/private/news/tags/{uuid}: '/news/tag/get.yaml'
+PATCH - /v1/private/news/tags/{uuid}: '/news/tag/update.yaml'
+DELETE - /v1/private/news/tags/{uuid}: '/news/tag/delete.yaml'
+
+# News | Articles
+POST - /v1/private/articles/tags: '/news/article/create.yaml'
+/v1/private/articles/tags: '/news/article/list.yaml'
+/v1/private/articles/tags/{uuid}: '/news/article/get.yaml'
+PATCH - /v1/private/news/articles/{uuid}: '/news/article/update.yaml'
+DELETE - /v1/private/news/articles/{uuid}: '/news/article/delete.yaml'
+
+# Billing | Wallet
+#/v1/private/billing/wallet: '/billing/wallet/list.yaml'
+#/v1/private/billing/wallet/{uuid}: '/billing/wallet/get.yaml'
+
+POST - /v1/private/pages/page: '/pages/page/create.yaml'
+/v1/private/pages/page: '/pages/page/all.yaml'
+/v1/private/pages/page/{id}: '/pages/page/get.yaml'
+PATCH - /v1/private/pages/page/{id}: '/pages/page/update.yaml'
+DELETE - /v1/private/pages/page/{id}: '/pages/page/delete.yaml'
+
+POST - /v1/private/pages/page/{pageId}/section: '/pages/section/create.yaml'
+/v1/private/pages/page/{pageId}/section: '/pages/section/all.yaml'
+/v1/private/pages/page/{pageId}/section/{sectionId}: '/pages/section/get.yaml'
+PATCH - /v1/private/pages/page/{pageId}/section/{sectionId}: '/pages/section/update.yaml'
+DELETE - /v1/private/pages/page/{pageId}/section/{sectionId}: '/pages/section/delete.yaml'
+
+POST - /v1/private/pages/section/template: '/pages/sectionTemplate/create.yaml'
+/v1/private/pages/section/template: '/pages/sectionTemplate/all.yaml'
+/v1/private/pages/section/template/{id}: '/pages/sectionTemplate/get.yaml'
+PATCH - /v1/private/pages/section/template/{id}: '/pages/sectionTemplate/update.yaml'
+DELETE - /v1/private/pages/section/template/{id}: '/pages/sectionTemplate/delete.yaml'
+
+POST - /v1/private/pages/language: '/pages/language/create.yaml'
+/v1/private/pages/language: '/pages/language/all.yaml'
+/v1/private/pages/language/{id}: '/pages/language/get.yaml'
+PATCH - /v1/private/pages/language/{id}: '/pages/language/update.yaml'
+DELETE - /v1/private/pages/language/{id}: '/pages/language/delete.yaml'
+
+POST - /v1/private/storage/file: '/storage/file/upload.yaml'

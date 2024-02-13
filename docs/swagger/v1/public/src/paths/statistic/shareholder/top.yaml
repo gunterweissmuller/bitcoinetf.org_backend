@@ -1,0 +1,76 @@
+get:
+  tags:
+    - Акционеры
+  summary: Топ акционеров
+  description: Метод получения списка топ 100 акционеров
+  parameters:
+    - in: query
+      name: per_page
+      required: false
+      description: "Count items on page"
+      schema:
+        type: integer
+    - in: query
+      name: page
+      required: false
+      description: 'Current page number'
+      schema:
+        type: integer
+  responses:
+    200:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              current_page:
+                type: numeric
+                description: "Current page number"
+                example: 1
+              from:
+                type: numeric
+                description: "First page number"
+                example: 1
+              last_page:
+                type: numeric
+                description: "Last page number"
+                example: 1
+              per_page:
+                type: numeric
+                description: "Per page items"
+                example: 1
+              total:
+                type: numeric
+                description: "Total items"
+                example: 1
+              data:
+                type: array
+                items:
+                  title: Referrals Code
+                  type: object
+                  properties:
+                    uuid:
+                      type: string
+                      example: "68a426a0-72bc-4e9b-b8e9-182b36128565"
+                    total_payments:
+                      type: numeric
+                      description: "Суммарное количество пополнений"
+                      example: 1000.00
+                    created_at:
+                      type: string
+                      example: "2023-09-11T16:48:42.000000Z"
+                    circulation:
+                      type: numeric
+                      example: 0.02
+                    account:
+                      type: object
+                      properties:
+                        uuid:
+                          type: string
+                          example: "68a426a0-72bc-4e9b-b8e9-182b36128565"
+                        username:
+                          type: string
+                          example: "Gretchen32524"
+                        created_at:
+                          type: string
+                          example: "2023-09-11T16:48:42.000000Z"

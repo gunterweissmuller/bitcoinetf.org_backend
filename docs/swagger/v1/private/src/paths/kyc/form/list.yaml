@@ -1,0 +1,32 @@
+get:
+  tags:
+    - Формы
+  summary: Список форм
+  description: Метод получения списка форм
+  responses:
+    200:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    uuid:
+                      type: string
+                      example: "9a5014e0-addd-4f43-974d-48e1991f81ac"
+                    title:
+                      type: string
+                      example: "default"
+                    status:
+                      type: string
+                      example: "enabled"
+                    created_at:
+                      type: string
+                      example: "2022-09-27T23:18:03.000000Z"
+                    updated_at:
+                      type: string
+                      example: "2022-09-28T12:06:05.000000Z"

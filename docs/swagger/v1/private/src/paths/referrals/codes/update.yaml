@@ -1,0 +1,45 @@
+patch:
+  tags:
+    - Коды
+  summary: Обновление кода
+  description: Метод обновления кода
+  parameters:
+    - in: path
+      name: uuid
+      required: true
+      description: "code uuid"
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          required:
+            - code
+            - status
+          type: object
+          properties:
+            code:
+              type: string
+              example: 'IYVQX878'
+            status:
+              type: string
+              enum: ['enabled', 'disabled']
+              example: 'enabled'
+  responses:
+    200:
+      description: OK
+    400:
+      description: 'Ошибка'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string

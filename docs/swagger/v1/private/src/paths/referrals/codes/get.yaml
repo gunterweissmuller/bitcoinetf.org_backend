@@ -1,0 +1,55 @@
+get:
+  tags:
+    - Коды
+  summary: Получение кода
+  description: Метод получения кода
+  parameters:
+    - in: path
+      name: uuid
+      required: true
+      description: "code uuid"
+      schema:
+        type: string
+  responses:
+    200:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  uuid:
+                    type: string
+                    example: "9a5019c4-9988-41e5-b9b2-c74b02e1ad12"
+                  account_uuid:
+                    type: string
+                    example: "9a29aa2c-9d62-42de-ac4f-737ea98f8a4b"
+                  code:
+                    type: string
+                    example: "IYVQX878"
+                  status:
+                    type: string
+                    enum: ['enabled', 'disabled']
+                    example: "enabled"
+                  created_at:
+                    type: string
+                    example: "2022-09-27T23:18:03.000000Z"
+                  updated_at:
+                    type: string
+                    example: "2022-09-28T12:06:05.000000Z"
+    400:
+      description: 'Ошибка'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string

@@ -1,0 +1,45 @@
+patch:
+  tags:
+    - Электронные почты
+  summary: Обновление электронной почты
+  description: Метод обновления электронной почты
+  parameters:
+    - in: path
+      name: uuid
+      required: true
+      description: "email uuid"
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          required:
+            - email
+            - status
+          type: object
+          properties:
+            email:
+              type: string
+              example: 'test@test.ru'
+            status:
+              type: string
+              enum: ['enabled', 'disabled']
+              example: "enabled"
+  responses:
+    200:
+      description: OK
+    400:
+      description: 'Ошибка'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string

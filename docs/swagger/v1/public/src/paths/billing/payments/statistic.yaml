@@ -1,0 +1,62 @@
+get:
+  tags:
+    - Payments
+  summary: Получить персональную инфу по платежам
+  description: Метод получения персональной инфы по платежам
+  responses:
+    200:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              dividends:
+                type: object
+                properties:
+                  last_payment_with_three_years:
+                    type: string
+                    example: 20 Aug 2023
+                  actual_apy:
+                    type: numeric
+                    example: 2
+                  projected_apy:
+                    type: numeric
+                    example: 123
+                  minimum_apy:
+                    type: numeric
+                    example: 13
+                  actual_dividends:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        sum:
+                          type: numeric
+                          example: 13
+                        date:
+                          type: string
+                          example: "2023-10"
+              statistic:
+                type: object
+                properties:
+                  projected_total_dividends_usd:
+                    type: numeric
+                    example: 1000.00
+                  projected_total_dividends_btc:
+                    type: numeric
+                    example: 1000.00
+                  received_dividends_usd:
+                    type: numeric
+                    example: 1000.00
+                  received_dividends_btc:
+                    type: numeric
+                    example: 1000.00
+                  amount_last_dividend_usd:
+                    type: numeric
+                    example: 10.00
+                  amount_last_dividend_btc:
+                    type: numeric
+                    example: 0.003
+                  btc_price:
+                    type: numeric
+                    example: 27000

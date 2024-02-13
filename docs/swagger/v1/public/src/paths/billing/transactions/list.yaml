@@ -1,0 +1,74 @@
+get:
+  tags:
+    - Транзакции
+  summary: Список транзакций
+  description: Метод получения списка транзакций
+  parameters:
+    - in: query
+      name: type
+      required: true
+      description: 'Type transactions'
+      schema:
+        type: string
+        enum: ['referral', 'bonus', 'dividends', 'vault']
+        example: 'bonus'
+    - in: query
+      name: per_page
+      required: false
+      description: 'Count items on page'
+      schema:
+        type: integer
+    - in: query
+      name: page
+      required: false
+      description: 'Current page number'
+      schema:
+        type: integer
+  responses:
+    200:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              current_page:
+                type: numeric
+                description: "Current page number"
+                example: 1
+              from:
+                type: numeric
+                description: "First page number"
+                example: 1
+              last_page:
+                type: numeric
+                description: "Last page number"
+                example: 1
+              per_page:
+                type: numeric
+                description: "Per page items"
+                example: 1
+              total:
+                type: numeric
+                description: "Total items"
+                example: 1
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    uuid:
+                      type: string
+                      example: '9a58bfbc-e0a0-4ca0-83f0-836d9f70cb4a'
+                    type:
+                      type: string
+                      enum: ['debit_to_client', 'credit_from_client', 'withdrawal']
+                      example: 'debit_to_client'
+                    usd_amount:
+                      type: float
+                      example: 25
+                    btc_amount:
+                      type: float
+                      example: 0.0009342651070667812
+                    created_at:
+                      type: string
+                      example: "2023-10-11T21:27:26.000000Z"

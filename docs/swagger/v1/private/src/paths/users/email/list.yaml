@@ -1,0 +1,83 @@
+get:
+  tags:
+    - Электронные почты
+  summary: Список электронных почт
+  description: Метод получения списка электронных почт
+  parameters:
+    - in: query
+      name: per_page
+      required: false
+      description: "Count items on page"
+      schema:
+        type: integer
+    - in: query
+      name: page
+      required: false
+      description: 'Current page number'
+      schema:
+        type: integer
+    - in: query
+      name: order_column
+      required: false
+      schema:
+        type: string
+        enum: ['email', 'status', 'created_at', 'updated_at']
+        example: 'created_at'
+    - in: query
+      name: order_by
+      required: false
+      schema:
+        type: string
+        enum: ['asc', 'desc']
+        example: 'desc'
+  responses:
+    200:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              current_page:
+                type: numeric
+                description: "Current page number"
+                example: 1
+              from:
+                type: numeric
+                description: "First page number"
+                example: 1
+              last_page:
+                type: numeric
+                description: "Last page number"
+                example: 1
+              per_page:
+                type: numeric
+                description: "Per page items"
+                example: 1
+              total:
+                type: numeric
+                description: "Total items"
+                example: 1
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    uuid:
+                      type: string
+                      example: "9a5019c4-9988-41e5-b9b2-c74b02e1ad12"
+                    account_uuid:
+                      type: string
+                      example: "9a29aa2c-9d62-42de-ac4f-737ea98f8a4b"
+                    email:
+                      type: string
+                      example: "test@test.ru"
+                    status:
+                      type: string
+                      enum: [ 'enabled', 'disabled' ]
+                      example: "enabled"
+                    created_at:
+                      type: string
+                      example: "2022-09-27T23:18:03.000000Z"
+                    updated_at:
+                      type: string
+                      example: "2022-09-28T12:06:05.000000Z"

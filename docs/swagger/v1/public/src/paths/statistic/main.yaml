@@ -1,0 +1,34 @@
+get:
+  security: []
+  tags:
+    - Статистика
+  summary: Статистика
+  description: "Метод получения статистики"
+  responses:
+    200:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  average_size_usd:
+                    type: float
+                    example: 5100
+                  average_size_btc:
+                    type: float
+                    example: 0.170799
+                  shareholders_count:
+                    type: float
+                    example: 1
+                  shareholders_today_count:
+                    type: float
+                    example: 0
+                  dividends_earned_usd:
+                    type: float
+                    example: 279.45205478
+                  dividends_earned_btc:
+                    type: float
+                    example: 0.00935884

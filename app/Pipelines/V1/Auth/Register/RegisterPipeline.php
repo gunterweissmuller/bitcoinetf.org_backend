@@ -1,0 +1,56 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Pipelines\V1\Auth\Register;
+
+use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmPipelineDto;
+use App\Dto\Pipelines\Api\V1\Auth\Register\InitPipelineDto;
+use App\Pipelines\AbstractPipeline;
+use App\Pipelines\V1\Auth\Register\Pipes\Confirm\AccountPipe as ConfirmAccountPipe;
+use App\Pipelines\V1\Auth\Register\Pipes\Confirm\BonusPipe as ConfirmBonusPipe;
+use App\Pipelines\V1\Auth\Register\Pipes\Confirm\CodePipe as ConfirmCodePipe;
+use App\Pipelines\V1\Auth\Register\Pipes\Confirm\EmailPipe as ConfirmEmailPipe;
+use App\Pipelines\V1\Auth\Register\Pipes\Confirm\JwtPipe as ConfirmJwtPipe;
+use App\Pipelines\V1\Auth\Register\Pipes\Confirm\MailPipe as ConfirmMailPipe;
+use App\Pipelines\V1\Auth\Register\Pipes\Init\AccountPipe as InitAccountPipe;
+use App\Pipelines\V1\Auth\Register\Pipes\Init\BonusPipe as InitBonusPipe;
+use App\Pipelines\V1\Auth\Register\Pipes\Init\EmailPipe as InitEmailPipe;
+use App\Pipelines\V1\Auth\Register\Pipes\Init\EventsPipe as InitEventsPipe;
+use App\Pipelines\V1\Auth\Register\Pipes\Init\InvitePipe as InitInvitePipe;
+use App\Pipelines\V1\Auth\Register\Pipes\Init\NewCodePipe as InitNewCodePipe;
+use App\Pipelines\V1\Auth\Register\Pipes\Init\ProfilePipe as InitProfilePipe;
+use App\Pipelines\V1\Auth\Register\Pipes\Init\TronWalletPipe as InitTronWalletPipe;
+use App\Pipelines\V1\Auth\Register\Pipes\Init\ValidatePipe as InitValidatePipe;
+use App\Pipelines\V1\Auth\Register\Pipes\Init\WalletPipe as InitWalletPipe;
+
+final class RegisterPipeline extends AbstractPipeline
+{
+    public function init(InitPipelineDto $dto): array
+    {
+        return $this->pipeline([
+            InitValidatePipe::class,
+            InitAccountPipe::class,
+            InitProfilePipe::class,
+            InitEmailPipe::class,
+            InitWalletPipe::class,
+            InitInvitePipe::class,
+            InitTronWalletPipe::class,
+            InitNewCodePipe::class,
+            InitBonusPipe::class,
+            InitEventsPipe::class,
+        ], $dto);
+    }
+
+    public function confirm(ConfirmPipelineDto $dto): array
+    {
+        return $this->pipeline([
+            ConfirmEmailPipe::class,
+            ConfirmCodePipe::class,
+            ConfirmAccountPipe::class,
+            ConfirmBonusPipe::class,
+            ConfirmJwtPipe::class,
+            ConfirmMailPipe::class,
+        ], $dto);
+    }
+}

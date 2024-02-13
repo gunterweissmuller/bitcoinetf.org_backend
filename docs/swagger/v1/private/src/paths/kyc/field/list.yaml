@@ -1,0 +1,54 @@
+get:
+  tags:
+    - Поля
+  summary: Список полей
+  description: Метод получения списка полей
+  parameters:
+    - in: query
+      name: screen_uuid
+      required: true
+      description: "field uuid"
+      schema:
+        type: string
+        example: "1537519b-b637-464c-8bb3-29d2e2fa54cd"
+  responses:
+    200:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    uuid:
+                      type: string
+                      example: "9a5019c4-9988-41e5-b9b2-c74b02e1ad12"
+                    screen_uuid:
+                      type: string
+                      example: "9a29aa2c-9d62-42de-ac4f-737ea98f8a4b"
+                    name:
+                      type: string
+                      example: "test"
+                    label:
+                      type: string
+                      example: null
+                    type:
+                      type: string
+                      example: "text"
+                    required:
+                      type: boolean
+                      example: false
+                    enums:
+                      type: array
+                    sort:
+                      type: integer
+                      example: 4
+                    created_at:
+                      type: string
+                      example: "2022-09-27T23:18:03.000000Z"
+                    updated_at:
+                      type: string
+                      example: "2022-09-28T12:06:05.000000Z"

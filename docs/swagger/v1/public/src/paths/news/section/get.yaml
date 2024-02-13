@@ -1,0 +1,60 @@
+get:
+  tags:
+    - Разделы
+  summary: Get
+  description: Метод получения раздела
+  parameters:
+    - in: path
+      name: uuid
+      required: true
+      description: "section uuid"
+      schema:
+        type: string
+  responses:
+    200:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              uuid:
+                type: string
+                example: "68a426a0-72bc-4e9b-b8e9-182b36128565"
+              title:
+                type: string
+                example: "title"
+              description:
+                type: string
+                example: "description"
+              slug:
+                type: string
+                example: "slug"
+              meta_title:
+                type: string
+                example: null
+              meta_description:
+                type: string
+                example: null
+              meta_keywords:
+                type: string
+                example: null
+              created_at:
+                type: string
+                example: "2022-09-27T23:18:03.000000Z"
+              updated_at:
+                type: string
+                example: "2022-09-28T12:06:05.000000Z"
+    400:
+      description: 'Ошибка'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string

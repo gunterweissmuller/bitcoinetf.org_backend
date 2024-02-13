@@ -1,0 +1,57 @@
+get:
+  tags:
+    - Кошельки
+  summary: Получение кошелька
+  description: Метод получения кошелька пользователя
+  parameters:
+    - in: path
+      name: type
+      required: true
+      description: "wallet type"
+      schema:
+        type: string
+        enum: ["vault", "referral", "bonus", "dividends"]
+        example: "dividends"
+  responses:
+    200:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  uuid:
+                    type: string
+                    example: "9a5019c4-9988-41e5-b9b2-c74b02e1ad12"
+                  withdrawal_method:
+                    type: string
+                    enum: [ 'none', 'manual', 'automatic_daily' ]
+                    example: 'none'
+                  withdrawal_address:
+                    type: string
+                    example: null
+                  usd_amount:
+                    type: float
+                    example: 0
+                  btc_amount:
+                    type: float
+                    example: 0
+                  difference:
+                    type: float
+                    example: 0
+    400:
+      description: 'Ошибка'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string

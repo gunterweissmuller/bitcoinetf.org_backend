@@ -1,0 +1,36 @@
+get:
+  tags:
+    - Credit Card Request
+  summary: Получить информацию о своем запросе на получение кредитной карты
+  description: Метод получения информацию о своем запросе запроса на получение кредитной карты
+  responses:
+    200:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              number:
+                nullable: true
+                type: number
+                example: "4"
+              is_created:
+                type: boolean
+                example: false
+              status:
+                type: string
+                example: "pending"
+                enum:
+                  - pending
+                  - processing
+                  - success
+              count:
+                type: number
+                example: "4"
+              created_at:
+                nullable: true
+                type: string
+                example: "2023-09-11T16:48:42.000000Z"
+
+
+

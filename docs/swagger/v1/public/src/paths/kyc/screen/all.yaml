@@ -1,0 +1,89 @@
+# /v1/public/kyc/screens
+get:
+  tags:
+    - Экраны
+  summary: Список экранов
+  description: |
+    Данный метод используется для получения экранов конкретной формы.
+  parameters:
+    - in: query
+      name: form_uuid
+      schema:
+        type: string
+        example: '9a2dcfb4-4cb5-4f7d-856b-85b6b8fdbd0f'
+      required: true
+  responses:
+    200:
+      description: 'Успешно'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  total:
+                    type: integer
+                    example: 4
+                  screens:
+                    type: array
+                    items:
+                      - type: object
+                        properties:
+                          uuid:
+                            type: string
+                            example: '1537519b-b637-464c-8bb3-29d2e2fa54cd'
+                          title:
+                            type: string
+                            example: 'Personal details'
+                          last:
+                            type: boolean
+                            example: false
+                          order:
+                            type: integer
+                            example: 1
+                      - type: object
+                        properties:
+                          uuid:
+                            type: string
+                            example: '4e2d2bea-0e59-41ab-9516-e8f187251aa1'
+                          title:
+                            type: string
+                            example: 'ID verification'
+                          last:
+                            type: boolean
+                            example: false
+                          order:
+                            type: integer
+                            example: 2
+                      - type: object
+                        properties:
+                          uuid:
+                            type: string
+                            example: 'c17ff9b3-df68-46d8-b8b6-165d17dd3891'
+                          title:
+                            type: string
+                            example: 'Upload a selfie'
+                          last:
+                            type: boolean
+                            example: false
+                          order:
+                            type: integer
+                            example: 3
+                      - type: object
+                        properties:
+                          uuid:
+                            type: string
+                            example: '9fb2ad13-882d-4baa-9fca-d28a2286755c'
+                          title:
+                            type: string
+                            example: 'Amount'
+                          last:
+                            type: boolean
+                            example: false
+                          order:
+                            type: integer
+                            example: 4
+    401:
+      $ref: "#/components/responses/JWTException"

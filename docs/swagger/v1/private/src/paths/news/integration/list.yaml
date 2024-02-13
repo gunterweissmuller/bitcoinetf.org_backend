@@ -1,0 +1,33 @@
+get:
+  security: [ ]
+  tags:
+    - Новостные интеграции
+  summary: Новостные интеграции
+  description: Метод получения списка новостных интеграций
+  responses:
+    200:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    uuid:
+                      type: string
+                      example: "68a426a0-72bc-4e9b-b8e9-182b36128565"
+                    name:
+                      type: string
+                      example: "Test"
+                    public_key:
+                      type: string
+                      example: "test-token"
+                    private_key:
+                      type: string
+                      example: "test-token"
+                    link:
+                      type: string
+                      example: "http://test.com"

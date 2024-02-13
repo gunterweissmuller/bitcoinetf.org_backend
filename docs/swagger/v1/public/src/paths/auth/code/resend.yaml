@@ -1,0 +1,50 @@
+# /v1/auth/code/check
+post:
+  security: [ ]
+  tags:
+    - Код верификации
+  summary: Resend
+  description: |
+    Данный метод используется для отправки нового кода верификации. Следует выполнять после запуска инициализации регистрации.<br>
+    Код действует 10 минут. Новый код можно запросить после 5 минут жизни предыдущего кода. При запрашивании нового кода все старые коды становятся не актуальными.
+  requestBody:
+    content:
+      application/json:
+        schema:
+          required:
+            - email
+          type: object
+          properties:
+            email:
+              type: string
+              example: 'erm4ic@bitcoinetf.org'
+  responses:
+    200:
+      description: 'Успешно'
+    400:
+      description: 'Ошибка'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string
+          examples:
+            'Адрес электронной почты не найден':
+              value:
+                error:
+                  code: ETF:011003
+                  message: 'email not found'
+            'Невозможно отправить новый код':
+              value:
+                error:
+                  code: ETF:011004
+                  message: 'code cannot be resubmitted'
+    422:
+      $ref: "#/components/responses/ValidationException"

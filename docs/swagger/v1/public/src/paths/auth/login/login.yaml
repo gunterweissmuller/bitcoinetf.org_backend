@@ -1,0 +1,65 @@
+# /v1/auth/login
+post:
+  security: [ ]
+  tags:
+    - Аутентификация
+  summary: Login
+  description: |
+    Данный метод используется получения пары JWT.
+  requestBody:
+    content:
+      application/json:
+        schema:
+          required:
+            - email
+            - password
+          type: object
+          properties:
+            email:
+              type: string
+              example: 'erm4ic@bitcoinetf.org'
+            password:
+              type: string
+              example: Aa12345
+  responses:
+    200:
+      description: 'Успешно'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  access_token:
+                    type: string
+                    example: "eyJhbGciOiJFUzI1NiJ9.eyJkYXRhIjp7ImFjY291bnQiOnsidXVpZCI6IjlhMTgzMzJiLTUyZWEtNGI2MC1iNTdiLWY1NWZkNGRkNTY1OSIsInVzZXJuYW1lIjoiZXJtNGljIiwidHlwZSI6ImNsaWVudCIsInN0YXR1cyI6ImVuYWJsZWQifX0sImlzcyI6ImF1dGgubG9jYWwiLCJzdWIiOm51bGwsImF1ZCI6bnVsbCwiZXhwIjoxNjk0MzE2MjQ0LCJuYmYiOjE2OTQyOTEwNDQsImlhdCI6MTY5NDI5MTA0NCwianRpIjoiYjg2N2I0NGViOWM0Y2Q1Nzc1ZjI1ZTQ2NTYxN2YyYTkifQ.RqLT-i6zKQnQAdLeLO4gH26oc8yhe2vdwrAS2j0zvxgvtF7RLCpx3GgHTPqZe5X2eLf1hdQy1ZNJzmglyhNGjA"
+                  refresh_token:
+                    type: string
+                    example: "eyJhbGciOiJFUzI1NiJ9.eyJkYXRhIjp7ImFjY291bnRfdXVpZCI6IjlhMTgzMzJiLTUyZWEtNGI2MC1iNTdiLWY1NWZkNGRkNTY1OSJ9LCJpc3MiOiJhdXRoLmxvY2FsIiwic3ViIjpudWxsLCJhdWQiOm51bGwsImV4cCI6MTY5NDg5NTg0NCwibmJmIjoxNjk0MjkxMDQ0LCJpYXQiOjE2OTQyOTEwNDQsImp0aSI6IjAwNjBlOTEzZTczMGNlMzNiZTJmZjY2ZjlmOWM4OWEwIn0.4T3nCWo8fBs2RIf-H-_YK2QXIsfmLWVTjksxLgqFm-ZoAva92wU-T3OV5-h4qrIFJbDHp-4lhPqLR_dYIyH-KQ"
+                  websocket_token:
+                    type: string
+                    example: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI5YTU0Yzg4My1mODU4LTRjNDAtYWY4Mi02OWNjZDllZmMzNWEiLCJleHAiOjE3MDI4ODk3MjZ9.AQKe8lt6vfpFWBkORvt9AUzpd-Hm_BlMZOxpxNjD6So"
+    400:
+      description: 'Ошибка'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string
+          examples:
+            'Некорректные данные для аутентификации':
+              value:
+                error:
+                  code: ETF:011006
+                  message: 'incorrect login data'
+    422:
+      $ref: "#/components/responses/ValidationException"

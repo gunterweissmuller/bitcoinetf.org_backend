@@ -1,0 +1,16 @@
+get:
+  tags:
+    - Акционеры
+  summary: Количество акционеров
+  description: Метод получения количества акционеров
+  responses:
+    200:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              count:
+                type: numeric
+                description: "Количество"
+                example: 10

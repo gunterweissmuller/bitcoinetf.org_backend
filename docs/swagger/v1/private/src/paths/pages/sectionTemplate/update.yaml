@@ -1,0 +1,71 @@
+patch:
+  tags:
+    - Section Template
+  summary: Section Template Update
+  description: Method for update Section Template
+  parameters:
+    - in: path
+      name: id
+      required: true
+      description: "Section Template id"
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          required:
+            - name
+            - symbol
+            - data
+          type: object
+          properties:
+            name:
+              type: string
+              description: "Section Template name"
+              example: "Test Section Template name"
+            symbol:
+              type: string
+              description: "Section Template symbol"
+              example: "test_section"
+            data:
+              type: object
+              description: "Data for Section Template"
+            files_uuids:
+              type: array
+              description: "File ids"
+              example: [ "9a5a5a10-f439-4cf2-b1b7-89bb02ed10e5", "1a5a5a10-f439-4cf2-b1b7-89bb02ed10e3" ]
+  responses:
+    200:
+      description: OK
+    400:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  pipeline_exception:
+                    type: object
+                    properties:
+                      status:
+                        type: integer
+                      error_code:
+                        type: string
+                      message:
+                        type: string
+          examples:
+            var1:
+              summary: Stake not active.
+              value:
+                status: 400
+                error_code: "COIN:011"
+                message: "Stake not active."
+            var2:
+              summary: Stake not stopped.
+              value:
+                status: 400
+                error_code: "COIN:012"
+                message: "Stake not stopped."

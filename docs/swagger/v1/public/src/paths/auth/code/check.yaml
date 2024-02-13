@@ -1,0 +1,53 @@
+# /v1/auth/code/check
+post:
+  security: [ ]
+  tags:
+    - Код верификации
+  summary: Check
+  description: |
+    Данный метод используется для проверки корректности верификационного кода. Следует выполнять после запуска инициализации регистрации.<br>
+  requestBody:
+    content:
+      application/json:
+        schema:
+          required:
+            - email
+            - code
+          type: object
+          properties:
+            email:
+              type: string
+              example: 'erm4ic@bitcoinetf.org'
+            code:
+              type: string
+              example: '123754'
+  responses:
+    200:
+      description: 'Успешно'
+    400:
+      description: 'Ошибка'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string
+          examples:
+            'Адрес электронной почты не найден':
+              value:
+                error:
+                  code: ETF:011003
+                  message: 'email not found'
+            'Некорректный код верификации':
+              value:
+                error:
+                  code: ETF:011005
+                  message: 'incorrect code'
+    422:
+      $ref: "#/components/responses/ValidationException"

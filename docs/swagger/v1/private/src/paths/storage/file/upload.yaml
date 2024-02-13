@@ -1,0 +1,101 @@
+# /v1/private/storage/file
+post:
+  tags:
+    - File
+  summary: File Upload
+  description: Method for upload files / images
+  requestBody:
+    content:
+      application/form-data:
+        schema:
+          required:
+            - file
+            - type
+          type: object
+          properties:
+            file:
+              description: "Uploaded file"
+              type: file
+              example: "image.jpg"
+            type:
+              description: "File type"
+              type: string
+              example: "image"
+              enum:
+                - image
+                - document
+  responses:
+    200:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  uuid:
+                    type: string
+                    description: "uuid"
+                    example: "9a5a5a10-f439-4cf2-b1b7-89bb02ed10e5"
+                  path:
+                    type: string
+                    description: "File path on server"
+                    example: "public/image/2022/11/14/21/34/v32KTYZiFnQ8ynmCeYrjAFayBClAV6uCxORQANau.jpg"
+                  real_path:
+                    type: string
+                    description: "File path in web"
+                    example: "https://files.bitcoinetf.org/ethd-test/public/image/2022/11/14/21/34/v3e34nQ8ynmCeYrjAFayBClAV6uCxORQANau.jpg"
+                  type:
+                    type: string
+                    description: "File type"
+                    example: "image"
+                  extension:
+                    type: string
+                    description: "File extension"
+                    example: "jpg"
+                  status:
+                    type: string
+                    description: "File status"
+                    example: "active"
+                    enum:
+                      - active
+                      - deleting
+                      - deleted
+                  created_at:
+                    type: string
+                    example: "2022-09-27T23:18:03.000000Z"
+                  updated_at:
+                    type: string
+                    example: "2022-09-28T12:06:05.000000Z"
+    400:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  pipeline_exception:
+                    type: object
+                    properties:
+                      status:
+                        type: integer
+                      error_code:
+                        type: string
+                      message:
+                        type: string
+          examples:
+            var1:
+              summary: Stake not active.
+              value:
+                status: 400
+                error_code: "COIN:011"
+                message: "Stake not active."
+            var2:
+              summary: Stake not stopped.
+              value:
+                status: 400
+                error_code: "COIN:012"
+                message: "Stake not stopped."

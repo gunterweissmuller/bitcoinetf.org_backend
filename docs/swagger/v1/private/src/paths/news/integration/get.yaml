@@ -1,0 +1,60 @@
+get:
+  tags:
+    - Новостные интеграции
+  summary: Get
+  description: Метод получения интеграции
+  parameters:
+    - in: path
+      name: uuid
+      required: true
+      description: "integration uuid"
+      schema:
+        type: string
+  responses:
+    200:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              uuid:
+                type: string
+                example: "68a426a0-72bc-4e9b-b8e9-182b36128565"
+              name:
+                type: string
+                example: "Test"
+              public_key:
+                type: string
+                example: "test-token"
+              private_key:
+                type: string
+                example: "test-token"
+              link:
+                type: string
+                example: "http://test.com"
+              status:
+                type: string
+                example: "active"
+                enum:
+                  - active
+                  - disabled
+              created_at:
+                type: string
+                example: '2022-09-27T23:18:03.000000Z'
+              updated_at:
+                type: string
+                example: '2022-09-28T12:06:05.000000Z'
+    400:
+      description: 'Ошибка'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string

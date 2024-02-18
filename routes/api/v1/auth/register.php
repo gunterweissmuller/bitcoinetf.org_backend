@@ -9,4 +9,6 @@ Route::prefix('register')
         Route::post('/init', 'RegisterController@init');
         Route::post('/confirm', 'RegisterController@confirm');
         Route::get('/metamask', function () { return response()->json(['message' => 'Sign token zxcVbnm0123 using Metamask'], 200); });
+        Route::post('/init-google', 'RegisterController@initGoogle');
+        Route::post('/confirm-google', 'RegisterController@confirmGoogle');
     });

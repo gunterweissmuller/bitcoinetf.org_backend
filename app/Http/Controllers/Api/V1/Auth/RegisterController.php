@@ -10,7 +10,9 @@ use App\Http\Requests\Api\V1\Auth\Register\ConfirmRequest;
 use App\Http\Requests\Api\V1\Auth\Register\InitRequest;
 use App\Pipelines\V1\Auth\Register\RegisterPipeline;
 use Illuminate\Http\JsonResponse;
+//use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Controller;
+//use Laravel\Socialite\Facades\Socialite;
 
 final class RegisterController extends Controller
 {
@@ -49,4 +51,14 @@ final class RegisterController extends Controller
 
         return response()->__call('exception', [$e]);
     }
+/*
+    public function initGoogle(): RedirectResponse
+    {
+        return Socialite::driver('google')->redirect();
+    }
+
+    public function confirmGoogle(): void
+    {
+        $user = Socialite::driver('google')->user();
+    }*/
 }

@@ -8,5 +8,5 @@ Route::prefix('register')
     ->group(function () {
         Route::post('/init', 'RegisterController@init');
         Route::post('/confirm', 'RegisterController@confirm');
-        Route::get('/metamask', function () { return response()->json(['message' => 'Sign token zxcVbnm0123 using Metamask'], 200); });
+        Route::get('/metamask', function () { return response()->json(['message' => 'I sign that I will use metamask for login to bitcoinetf.org'], 200); });
     });

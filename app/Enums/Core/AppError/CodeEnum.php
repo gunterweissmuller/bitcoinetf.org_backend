@@ -34,6 +34,10 @@ enum CodeEnum: string
 
     case C011007 = '011007'; // incorrect refresh token
 
+    case C011008 = '011008'; // incorrect login provider
+
+    case C011009 = '011009'; // authorization token expired
+
     case C020002 = '020002'; // глобальная настройка по symbol не найдена
 
     case C030001 = '030001'; // form not found

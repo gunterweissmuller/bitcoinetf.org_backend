@@ -9,17 +9,19 @@ use App\Dto\DtoInterface;
 use App\Dto\Models\Users\AccountDto;
 use App\Dto\Models\Users\EmailDto;
 use App\Dto\Models\Users\ProfileDto;
+use App\Enums\Users\Account\ProviderTypeEnum;
 
 final class ConfirmGooglePipelineDto implements DtoInterface
 {
     public function __construct(
-        private ?EmailDto   $email,
-        private ?AccountDto $account,
-        private ?ProfileDto $profile,
-        private ?JwtDto     $jwtAccess,
-        private ?JwtDto     $jwtRefresh,
-        private ?string     $websocketToken = null,
-        private ?bool       $isFast
+        private ?EmailDto         $email,
+        private ?AccountDto       $account,
+        private ?ProfileDto       $profile,
+        private ?JwtDto           $jwtAccess,
+        private ?JwtDto           $jwtRefresh,
+        private ?string           $websocketToken = null,
+        private ?bool             $isFast,
+        private ?ProviderTypeEnum $providerType,
     )
     {
     }
@@ -34,6 +36,7 @@ final class ConfirmGooglePipelineDto implements DtoInterface
             $args['jwt_refresh'] ?? null,
             $args['websocket_token'] ?? null,
             $args['is_fast'] ?? false,
+            $args['provider_type'] ?? null,
         );
     }
 
@@ -47,6 +50,7 @@ final class ConfirmGooglePipelineDto implements DtoInterface
             'jwt_refresh' => $this->jwtRefresh,
             'websocket_token' => $this->websocketToken,
             'is_fast' => $this->isFast,
+            'provider_type' => $this->providerType,
         ];
     }
 
@@ -154,5 +158,15 @@ final class ConfirmGooglePipelineDto implements DtoInterface
     public function setIsFast(?bool $isFast): void
     {
         $this->isFast = $isFast;
+    }
+
+    public function getProviderType(): ?ProviderTypeEnum
+    {
+        return $this->providerType;
+    }
+
+    public function setProviderType(?ProviderTypeEnum $providerType): void
+    {
+        $this->providerType = $providerType;
     }
 }

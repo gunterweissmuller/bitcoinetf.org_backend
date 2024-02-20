@@ -20,6 +20,8 @@ return [
     CodeEnum::C011005->value => 'incorrect code',
     CodeEnum::C011006->value => 'incorrect login data',
     CodeEnum::C011007->value => 'incorrect refresh token',
+    CodeEnum::C011008->value => 'incorrect login provider',
+    CodeEnum::C011009->value => 'authorization token expired',
     CodeEnum::C020002->value => 'global symbol setup not found',
     CodeEnum::C030001->value => 'form not found',
     CodeEnum::C030002->value => 'screen not found',

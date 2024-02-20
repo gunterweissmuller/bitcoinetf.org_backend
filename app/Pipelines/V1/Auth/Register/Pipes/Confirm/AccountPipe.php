@@ -6,6 +6,7 @@ namespace App\Pipelines\V1\Auth\Register\Pipes\Confirm;
 
 use App\Dto\DtoInterface;
 use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmPipelineDto;
+use App\Enums\Users\Account\ProviderTypeEnum;
 use App\Enums\Users\Account\StatusEnum;
 use App\Jobs\V1\Auth\SendPasswordMailJob;
 use App\Pipelines\PipeInterface;
@@ -35,6 +36,7 @@ final class AccountPipe implements PipeInterface
                 $account->setFastReg(false);
                 $account->setPassword(Hash::make($dto->getAccount()->getPassword()));
             }
+            $account->setProviderType(ProviderTypeEnum::Email->value);
 
             $this->accountService->update([
                 'uuid' => $account->getUuid(),
@@ -42,6 +44,7 @@ final class AccountPipe implements PipeInterface
                 'status' => $account->getStatus(),
                 'password' => $account->getPassword(),
                 'fast_reg' => $account->getFastReg(),
+                'provider_type' => $account->getProviderType(),
             ]);
 
             $dto->setAccount($account);

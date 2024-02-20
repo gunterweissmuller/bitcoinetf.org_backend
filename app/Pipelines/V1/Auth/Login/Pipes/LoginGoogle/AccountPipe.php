@@ -18,7 +18,8 @@ final class AccountPipe implements PipeInterface
 {
     public function __construct(
         private readonly AccountService $accountService,
-    ) {
+    )
+    {
     }
 
     public function handle(LoginPipelineDto|DtoInterface $dto, Closure $next): DtoInterface
@@ -27,11 +28,7 @@ final class AccountPipe implements PipeInterface
             'uuid' => $dto->getEmail()->getAccountUuid(),
             'status' => StatusEnum::Enabled->value,
         ])) {
-            if ($account->getProviderType() === ProviderTypeEnum::Google->value) {
-                $dto->setAccount($account);
-            } else {
-                throw new IncorrectLoginProviderTypeException();
-            }
+            $dto->setAccount($account);
         } else {
             throw new IncorrectLoginDataException();
         }

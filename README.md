@@ -20,10 +20,10 @@ php artisan queue:work --tries=3 --queue=statistic.report.monthly_account_report
 php artisan kafka:consumer-process - Запуск процесса чтения топика Kafka
 ```
 
-## Ограничения!
+## Restrictions!
 
-- Нельзя переименовывать существующие enum значения в БД / коде
-- Нельзя удалять существующие enum в таблицах
-- Если вы осуществляете добавления новых полей в существующие таблицы - делайте их nullable 
-- очереди (и зафейленные очереди) находятся в таблицах: queue.jobs_fund и queue.failed_jobs_fund
+- You cannot rename existing enum values in the database/code
+- You cannot delete existing enums in tables
+- If you are adding new fields to existing tables, make them nullable
+- queues (and failed queues) are located in the tables: queue.jobs_fund and queue.failed_jobs_fund
 

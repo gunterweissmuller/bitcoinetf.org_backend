@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Pipelines\V1\Auth\Register;
 
+use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmGooglePipelineDto;
+use App\Dto\Pipelines\Api\V1\Auth\Register\InitGooglePipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\InitPipelineDto;
 use App\Pipelines\AbstractPipeline;
@@ -23,6 +25,7 @@ use App\Pipelines\V1\Auth\Register\Pipes\Init\ProfilePipe as InitProfilePipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\TronWalletPipe as InitTronWalletPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\ValidatePipe as InitValidatePipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\WalletPipe as InitWalletPipe;
+use App\Pipelines\V1\Auth\Register\Pipes\ConfirmGoogleAuth\AccountPipe as ConfirmGoogleAccountPipe;
 
 final class RegisterPipeline extends AbstractPipeline
 {
@@ -48,6 +51,32 @@ final class RegisterPipeline extends AbstractPipeline
             ConfirmEmailPipe::class,
             ConfirmCodePipe::class,
             ConfirmAccountPipe::class,
+            ConfirmBonusPipe::class,
+            ConfirmJwtPipe::class,
+            ConfirmMailPipe::class,
+        ], $dto);
+    }
+
+    public function initGoogleAuth(InitGooglePipelineDto $dto): array
+    {
+        return $this->pipeline([
+            InitValidatePipe::class,
+            InitAccountPipe::class,
+            InitProfilePipe::class,
+            InitEmailPipe::class,
+            InitWalletPipe::class,
+            InitInvitePipe::class,
+            InitTronWalletPipe::class,
+            InitBonusPipe::class,
+            InitEventsPipe::class,
+        ], $dto);
+    }
+
+    public function confirmGoogleAuth(ConfirmGooglePipelineDto $dto): array
+    {
+        return $this->pipeline([
+            ConfirmEmailPipe::class,
+            ConfirmGoogleAccountPipe::class,
             ConfirmBonusPipe::class,
             ConfirmJwtPipe::class,
             ConfirmMailPipe::class,

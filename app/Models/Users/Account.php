@@ -42,6 +42,7 @@ final class Account extends Model
         'tron_wallet',
         'fast_reg',
         'fast_payment',
+        'provider_type',
     ];
 
     public $casts = [

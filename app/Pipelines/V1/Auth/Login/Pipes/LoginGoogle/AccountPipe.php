@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Pipelines\V1\Auth\Login\Pipes\Login;
+namespace App\Pipelines\V1\Auth\Login\Pipes\LoginGoogle;
 
 use App\Dto\DtoInterface;
 use App\Dto\Pipelines\Api\V1\Auth\Login\LoginPipelineDto;
@@ -13,7 +13,6 @@ use App\Exceptions\Pipelines\V1\Auth\IncorrectLoginProviderTypeException;
 use App\Pipelines\PipeInterface;
 use App\Services\Api\V1\Users\AccountService;
 use Closure;
-use Illuminate\Support\Facades\Hash;
 
 final class AccountPipe implements PipeInterface
 {
@@ -28,13 +27,11 @@ final class AccountPipe implements PipeInterface
             'uuid' => $dto->getEmail()->getAccountUuid(),
             'status' => StatusEnum::Enabled->value,
         ])) {
-            if ($account->getProviderType() !== ProviderTypeEnum::Email->value) {
+            if ($account->getProviderType() === ProviderTypeEnum::Google->value) {
+                $dto->setAccount($account);
+            } else {
                 throw new IncorrectLoginProviderTypeException();
             }
-            if (!Hash::check($dto->getAccount()->getPassword(), $account->getPassword())) {
-                throw new IncorrectLoginDataException();
-            }
-            $dto->setAccount($account);
         } else {
             throw new IncorrectLoginDataException();
         }

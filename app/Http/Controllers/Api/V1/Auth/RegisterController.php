@@ -49,4 +49,10 @@ final class RegisterController extends Controller
 
         return response()->__call('exception', [$e]);
     }
+
+    public function metamaskMessage(): JsonResponse
+    {
+        return response()->json(['message' => 'I fully understand and agree to the Terms and Conditions (available at https://bitcoinetf.org/terms) and certify that I am not a US citizen, resident or taxpayer.'], 200);;
+    }
+
 }

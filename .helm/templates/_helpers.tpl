@@ -215,7 +215,10 @@ Create chart name and version as used by the chart label.
 - name: GOOGLE_CLIENT_ID
   value: "{{ $globals.google_auth.client_id }}"
 - name: GOOGLE_CLIENT_SECRET
-  value: "{{ $globals.google_auth.client_secret }}"
+  valueFrom:
+    secretKeyRef:
+      name: secrets-backend
+      key: googleSecret
 - name: GOOGLE_REDIRECT_URI
   value: "{{ $globals.google_auth.redirect_uri }}"
 

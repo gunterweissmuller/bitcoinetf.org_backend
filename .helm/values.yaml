@@ -87,8 +87,7 @@ global:
       username: "php-backend"
     google_auth:
       client_id: "745955834530-cp4m04pm6sv2emqkll922blijde5o1u2.apps.googleusercontent.com"
-      client_secret: "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"
-      redirect_uri: "https://front.stage.techetf.org/auth/google"
+      redirect_uri: "http://localhost:3000/auth/google"
 
 otherServices:
 - name: queue

@@ -61,11 +61,13 @@ final class AuthController extends Controller
         [$dto, $e] = $this->registerPipeline->initGoogleAuth($request->dto());
 
         if (!$e) {
+            $familyName = $socialiteUser->offsetExists('family_name') ? ucfirst(strtolower($socialiteUser->offsetGet('family_name'))) : '';
+
             return response()->json([
                 'data' => [
                     'email' => $dto->getEmail()->getEmail(),
                     'first_name' => ucfirst(strtolower($socialiteUser->offsetGet('given_name'))),
-                    'last_name' => ucfirst(strtolower($socialiteUser->offsetGet('family_name'))),
+                    'last_name' => $familyName,
                 ]
             ]);
         }

@@ -29,11 +29,12 @@ final class InitGoogleRequest extends AbstractRequest
     public function dto(): InitGooglePipelineDto
     {
         $socialiteUser = Socialite::driver('google')->stateless()->user();
+        $familyName = $socialiteUser->offsetExists('family_name') ? ucfirst(strtolower($socialiteUser->offsetGet('family_name'))) : '';
 
         return InitGooglePipelineDto::fromArray([
             'account' => AccountDto::fromArray([]),
             'profile' => ProfileDto::fromArray([
-                'full_name' => ucfirst(strtolower($socialiteUser->offsetGet('given_name'))) . ' ' . ucfirst(strtolower($socialiteUser->offsetGet('family_name'))),
+                'full_name' => ucfirst(strtolower($socialiteUser->offsetGet('given_name'))) . ' ' . $familyName,
             ]),
             'email' => EmailDto::fromArray([
                 'email' => strtolower($socialiteUser->getEmail()),

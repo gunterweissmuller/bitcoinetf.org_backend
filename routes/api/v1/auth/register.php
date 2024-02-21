@@ -9,4 +9,6 @@ Route::prefix('register')
         Route::post('/init', 'RegisterController@init');
         Route::post('/confirm', 'RegisterController@confirm');
         Route::get('/metamask/message', 'RegisterController@metamaskMessage');
+        Route::post('/metamask/init', 'RegisterController@metamaskInit');
+        Route::post('/metamask/confirm', 'RegisterController@metamaskConfirm');
     });

@@ -19,6 +19,7 @@ final class InitMetamaskPipelineDto implements DtoInterface
         private ?ProfileDto $profile,
         private ?EmailDto $email,
         private ?CodeDto $refCode,
+        private ?CodeDto $newCode,
         private ?InviteDto $invite,
         private ?WalletDto $wallet,
         private bool $isExists,
@@ -32,6 +33,7 @@ final class InitMetamaskPipelineDto implements DtoInterface
             $args['profile'] ?? null,
             $args['email'] ?? null,
             $args['ref_code'] ?? null,
+            $args['new_code'] ?? null,
             $args['invite'] ?? null,
             $args['wallet'] ?? null,
             $args['is_exists'] ?? false,
@@ -113,6 +115,22 @@ final class InitMetamaskPipelineDto implements DtoInterface
     public function setRefCode(?CodeDto $refCode): void
     {
         $this->refCode = $refCode;
+    }
+
+    /**
+     * @return CodeDto|null
+     */
+    public function getNewCode(): ?CodeDto
+    {
+        return $this->newCode;
+    }
+
+    /**
+     * @param  CodeDto|null  $newCode
+     */
+    public function setNewCode(?CodeDto $newCode): void
+    {
+        $this->newCode = $newCode;
     }
 
     /**

@@ -15,6 +15,8 @@ use App\Http\Requests\Api\V1\Auth\Register\InitMetamaskRequest;
 use App\Pipelines\V1\Auth\Register\RegisterPipeline;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Str;
+use App\Helpers\EcRecover;
 
 final class RegisterController extends Controller
 {
@@ -63,9 +65,18 @@ final class RegisterController extends Controller
 
     public function metamaskInit(InitMetamaskRequest $request): JsonResponse
     {
+        $walletAddress = Str::lower($request->wallet_address);
+        $message   = $request->message;
+        $signature = $request->signature;
+
+        $valid = (new EcRecover)->verifySignature($message,  $signature,  $walletAddress);
+        if (!$valid) {
+            return response()->json(['message' => 'Invalid signature'], 401);
+        }
         return response()->json([
             'message' => 'Data processed successfully',
             'input' => $request->all(),  // This would return all input the method received
+            'is_valid' => $valid,
         ], 200);
     }
 

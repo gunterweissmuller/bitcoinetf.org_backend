@@ -25,9 +25,10 @@ use App\Pipelines\V1\Auth\Register\Pipes\Init\ProfilePipe as InitProfilePipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\TronWalletPipe as InitTronWalletPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\ValidatePipe as InitValidatePipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\WalletPipe as InitWalletPipe;
-use App\Pipelines\V1\Auth\Register\Pipes\ConfirmGoogleAuth\AccountPipe as ConfirmGoogleAccountPipe;
+use App\Pipelines\V1\Auth\Register\Pipes\ConfirmGoogleAuth\AccountPipe as ConfirmGoogleAuthAccountPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\InitGoogleAuth\EventsPipe as InitGoogleAuthEventsPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\ConfirmGoogleAuth\ValidatePipe as ConfirmGoogleAuthValidatePipe;
+use App\Pipelines\V1\Auth\Register\Pipes\ConfirmGoogleAuth\ProfilePipe as ConfirmGoogleAuthProfilePipe;
 
 final class RegisterPipeline extends AbstractPipeline
 {
@@ -80,7 +81,8 @@ final class RegisterPipeline extends AbstractPipeline
         return $this->pipeline([
             ConfirmGoogleAuthValidatePipe::class,
             ConfirmEmailPipe::class,
-            ConfirmGoogleAccountPipe::class,
+            ConfirmGoogleAuthAccountPipe::class,
+            ConfirmGoogleAuthProfilePipe::class,
             ConfirmBonusPipe::class,
             ConfirmJwtPipe::class,
             ConfirmMailPipe::class,

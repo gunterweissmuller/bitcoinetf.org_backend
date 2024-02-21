@@ -73,19 +73,35 @@ final class RegisterController extends Controller
         if (!$valid) {
             return response()->json(['message' => 'Invalid signature'], 401);
         }
-        return response()->json([
-            'message' => 'Data processed successfully',
-            'input' => $request->all(),  // This would return all input the method received
-            'is_valid' => $valid,
-        ], 200);
+
+        /** @var InitMetamaskPipelineDto $dto */
+        [$dto, $e] = $this->pipeline->initMetamaskAuth($request->dto());
+
+        if (!$e) {
+            return response()->json();
+        }
+
+        return response()->__call('exception', [$e]);
+        
     }
 
     public function metamaskConfirm(ConfirmMetamaskRequest $request): JsonResponse
     {
-        return response()->json([
-            'message' => 'Data processed successfully',
-            'input' => $request->all(),  // This would return all input the method received
-        ], 200);
+        /** @var ConfirmMetamaskPipelineDto $dto */
+        [$dto, $e] = $this->pipeline->confirmMetamaskAuth($request->dto());
+
+        if (!$e) {
+            return response()->json([
+                'data' => [
+                    'access_token' => $dto->getJwtAccess()->getToken(),
+                    'refresh_token' => $dto->getJwtRefresh()->getToken(),
+                    'websocket_token' => $dto->getWebsocketToken(),
+                    'bonus' => $dto->getBonus(),
+                ]
+            ]);
+        }
+
+        return response()->__call('exception', [$e]);
     }
 
 }

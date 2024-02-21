@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Pipelines\V1\Auth\Register;
 
+use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmMetamaskPipelineDto;
+use App\Dto\Pipelines\Api\V1\Auth\Register\InitMetamaskPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmGooglePipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\InitGooglePipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmPipelineDto;
@@ -77,6 +79,34 @@ final class RegisterPipeline extends AbstractPipeline
         return $this->pipeline([
             ConfirmEmailPipe::class,
             ConfirmGoogleAccountPipe::class,
+            ConfirmBonusPipe::class,
+            ConfirmJwtPipe::class,
+            ConfirmMailPipe::class,
+        ], $dto);
+    }
+
+    public function initMetamaskAuth(InitMetamaskPipelineDto $dto): array
+    {
+        return $this->pipeline([
+            InitValidatePipe::class,
+            InitAccountPipe::class,
+            InitProfilePipe::class,
+            InitEmailPipe::class,
+            InitWalletPipe::class,
+            InitInvitePipe::class,
+            InitTronWalletPipe::class,
+            InitNewCodePipe::class,
+            InitBonusPipe::class,
+            InitEventsPipe::class,
+        ], $dto);
+    }
+
+    public function confirmMetamaskAuth(ConfirmMetamaskPipelineDto $dto): array
+    {
+        return $this->pipeline([
+            ConfirmEmailPipe::class,
+            ConfirmCodePipe::class,
+            ConfirmAccountPipe::class,
             ConfirmBonusPipe::class,
             ConfirmJwtPipe::class,
             ConfirmMailPipe::class,

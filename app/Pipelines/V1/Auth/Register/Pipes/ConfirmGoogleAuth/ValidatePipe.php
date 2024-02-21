@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Pipelines\V1\Auth\Register\Pipes\ConfirmGoogleAuth;
 
 use App\Dto\DtoInterface;
-use App\Dto\Pipelines\Api\V1\Auth\Register\InitPipelineDto;
+use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmGooglePipelineDto;
 use App\Enums\Users\Email\StatusEnum;
 use App\Exceptions\Pipelines\V1\Auth\EmailAlreadyUseException;
 use App\Exceptions\Pipelines\V1\Auth\EmailNotFoundException;
@@ -22,7 +22,7 @@ final class ValidatePipe implements PipeInterface
     ) {
     }
 
-    public function handle(InitPipelineDto|DtoInterface $dto, Closure $next): DtoInterface
+    public function handle(ConfirmGooglePipelineDto|DtoInterface $dto, Closure $next): DtoInterface
     {
         if ($email = $this->emailService->get([
             'email' => $dto->getEmail()->getEmail(),

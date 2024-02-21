@@ -26,6 +26,8 @@ use App\Pipelines\V1\Auth\Register\Pipes\Init\TronWalletPipe as InitTronWalletPi
 use App\Pipelines\V1\Auth\Register\Pipes\Init\ValidatePipe as InitValidatePipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\WalletPipe as InitWalletPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\ConfirmGoogleAuth\AccountPipe as ConfirmGoogleAccountPipe;
+use App\Pipelines\V1\Auth\Register\Pipes\InitGoogleAuth\EventsPipe as InitGoogleAuthEventsPipe;
+use App\Pipelines\V1\Auth\Register\Pipes\ConfirmGoogleAuth\ValidatePipe as ConfirmGoogleAuthValidatePipe;
 
 final class RegisterPipeline extends AbstractPipeline
 {
@@ -67,14 +69,16 @@ final class RegisterPipeline extends AbstractPipeline
             InitWalletPipe::class,
             InitInvitePipe::class,
             InitTronWalletPipe::class,
+            InitNewCodePipe::class,
             InitBonusPipe::class,
-            InitEventsPipe::class,
+            InitGoogleAuthEventsPipe::class,
         ], $dto);
     }
 
     public function confirmGoogleAuth(ConfirmGooglePipelineDto $dto): array
     {
         return $this->pipeline([
+            ConfirmGoogleAuthValidatePipe::class,
             ConfirmEmailPipe::class,
             ConfirmGoogleAccountPipe::class,
             ConfirmBonusPipe::class,

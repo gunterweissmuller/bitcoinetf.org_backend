@@ -18,6 +18,7 @@ final class InitGooglePipelineDto implements DtoInterface
         private ?AccountDto $account,
         private ?ProfileDto $profile,
         private ?CodeDto    $refCode,
+        private ?CodeDto    $newCode,
         private ?InviteDto  $invite,
         private bool        $isExists,
     )
@@ -31,6 +32,7 @@ final class InitGooglePipelineDto implements DtoInterface
             $args['account'] ?? null,
             $args['profile'] ?? null,
             $args['ref_code'] ?? null,
+            $args['new_code'] ?? null,
             $args['invite'] ?? null,
             $args['is_exists'] ?? false,
         );
@@ -43,6 +45,7 @@ final class InitGooglePipelineDto implements DtoInterface
             'account' => $this->account,
             'profile' => $this->profile,
             'ref_code' => $this->refCode,
+            'new_code' => $this->newCode,
             'invite' => $this->invite,
             'is_exists' => $this->isExists,
         ];
@@ -110,6 +113,22 @@ final class InitGooglePipelineDto implements DtoInterface
     public function setRefCode(?CodeDto $refCode): void
     {
         $this->refCode = $refCode;
+    }
+
+    /**
+     * @return CodeDto|null
+     */
+    public function getNewCode(): ?CodeDto
+    {
+        return $this->newCode;
+    }
+
+    /**
+     * @param CodeDto|null $newCode
+     */
+    public function setNewCode(?CodeDto $newCode): void
+    {
+        $this->newCode = $newCode;
     }
 
     /**

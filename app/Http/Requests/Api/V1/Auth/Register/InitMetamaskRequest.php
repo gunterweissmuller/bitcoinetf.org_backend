@@ -46,6 +46,9 @@ final class InitMetamaskRequest extends AbstractRequest
             'ref_code' => CodeDto::fromArray([
                 'code' => $this->get('ref_code') ? strtoupper($this->get('ref_code')) : null,
             ]),
+            'wallet' => WalletDto::fromArray([
+                'wallet' => strtolower($this->get('wallet_address')),
+            ]),
         ]);
     }
 }

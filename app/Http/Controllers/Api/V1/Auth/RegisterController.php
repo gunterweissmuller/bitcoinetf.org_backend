@@ -61,7 +61,7 @@ final class RegisterController extends Controller
         ], 200);
     }
 
-    public function initMetamask(InitMetamaskRequest $request): JsonResponse
+    public function metamaskInit(InitMetamaskRequest $request): JsonResponse
     {
         return response()->json([
             'message' => 'Data processed successfully',
@@ -69,7 +69,7 @@ final class RegisterController extends Controller
         ], 200);
     }
 
-    public function confirmMetamask(ConfirmMetamaskRequest $request): JsonResponse
+    public function metamaskConfirm(ConfirmMetamaskRequest $request): JsonResponse
     {
         return response()->json([
             'message' => 'Data processed successfully',

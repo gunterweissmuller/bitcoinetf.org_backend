@@ -169,4 +169,20 @@ final class ConfirmGooglePipelineDto implements DtoInterface
     {
         $this->providerType = $providerType;
     }
+
+    /**
+     * @return ProfileDto|null
+     */
+    public function getProfile(): ?ProfileDto
+    {
+        return $this->profile;
+    }
+
+    /**
+     * @param  ProfileDto|null  $profile
+     */
+    public function setProfile(?ProfileDto $profile): void
+    {
+        $this->profile = $profile;
+    }
 }

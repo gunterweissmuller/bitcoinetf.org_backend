@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Pipelines\V1\Auth\Register\Pipes\InitGoogleAuth;
 
 use App\Dto\DtoInterface;
-use App\Dto\Pipelines\Api\V1\Auth\Register\InitPipelineDto;
+use App\Dto\Pipelines\Api\V1\Auth\Register\InitGooglePipelineDto;
 use App\Enums\Kafka\ProducerEnum;
 use App\Pipelines\PipeInterface;
 use App\Services\Utils\KafkaProducerService;
@@ -13,7 +13,7 @@ use Closure;
 
 final class EventsPipe implements PipeInterface
 {
-    public function handle(InitPipelineDto|DtoInterface $dto, Closure $next): DtoInterface
+    public function handle(InitGooglePipelineDto|DtoInterface $dto, Closure $next): DtoInterface
     {
         $account = $dto->getAccount();
 

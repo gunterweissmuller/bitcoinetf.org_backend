@@ -30,6 +30,8 @@ global:
         refresh: "10080"
     centrifugal:
       host: "centrifugo.etf-api-service.svc.cluster.local:9000/api"
+    greenfield:
+      host: "https://btc.techetf.org"
     payment:
       host: "http://payments.payments.svc.cluster.local:3000"
     mailchimp:
@@ -73,6 +75,8 @@ global:
         refresh: "10080"
     centrifugal:
       host: "centrifugo.etf-api-service-development.svc.cluster.local:9000/api"
+    greenfield:
+      host: "https://btc.stage.techetf.org"
     payment:
       host: "payments.stage-etf-private-payment.svc.cluster.local:3000"
     mailchimp:

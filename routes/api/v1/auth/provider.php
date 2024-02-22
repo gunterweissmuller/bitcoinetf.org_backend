@@ -12,6 +12,7 @@ Route::prefix('provider')
         Route::get('/metamask/message', 'RegisterController@metamaskMessage');
         Route::post('/metamask/init', 'RegisterController@metamaskInit');
         Route::post('/metamask/confirm', 'RegisterController@metamaskConfirm');
+        Route::post('/metamask/login', 'LoginController@loginMetamask');
         Route::get('/apple-auth/redirect-url', 'AuthController@redirectUrlToAppleAuth');
         Route::get('/apple-auth/init', 'AuthController@initAppleAuth');
         Route::Post('/apple-auth/confirm', 'AuthController@confirmAppleAuth');

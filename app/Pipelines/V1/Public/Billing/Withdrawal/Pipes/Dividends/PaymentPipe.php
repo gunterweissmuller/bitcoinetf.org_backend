@@ -33,20 +33,22 @@ final readonly class PaymentPipe implements PipeInterface
                 'account_uuid' => $wallet->getAccountUuid(),
                 'type' => TypeEnum::WITHDRAWAL->value,
                 'dividend_wallet_uuid' => $wallet->getUuid(),
-                'dividend_amount' => $wallet->getAmount(),
-                'total_amount_btc' => 1 / $btcPrice * $wallet->getAmount(),
+                'dividend_amount' => $wallet->getBtcAmount() * $btcPrice,
+                'total_amount_btc' => $wallet->getBtcAmount(),
                 'btc_price' => $btcPrice,
                 'withdrawal_method' => $dto->getMethod(),
             ]))
         );
 
         $wallet->setAmount(0);
+        $wallet->setBtcAmount(0);
         $dto->setWallet($wallet);
 
         $this->walletService->update([
             'uuid' => $wallet->getUuid(),
         ], [
             'amount' => $wallet->getAmount(),
+            'btc_amount' => $wallet->getBtcAmount(),
         ]);
 
         return $next($dto);

@@ -34,6 +34,7 @@ use App\Pipelines\V1\Auth\Register\Pipes\ConfirmGoogleAuth\ValidatePipe as Confi
 use App\Pipelines\V1\Auth\Register\Pipes\ConfirmGoogleAuth\ProfilePipe as ConfirmGoogleAuthProfilePipe;
 use App\Pipelines\V1\Auth\Register\Pipes\InitMetamaskAuth\EmailPipe as InitMetamaskEmailPipe;
 
+
 final class RegisterPipeline extends AbstractPipeline
 {
     public function init(InitPipelineDto $dto): array

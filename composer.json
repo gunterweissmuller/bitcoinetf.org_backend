@@ -12,7 +12,6 @@
         "dompdf/dompdf": "^2.0",
         "enqueue/rdkafka": "^0.10.20",
         "genealabs/laravel-sign-in-with-apple": "^0.7.0",
-        "genealabs/laravel-socialiter": "^10.0",
         "greensea/keccak": "^1.0",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^10.10",

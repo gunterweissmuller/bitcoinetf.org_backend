@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d623bfb77019b6dccd5e611bef0ccfd9",
+    "content-hash": "56c147e923ca7210ecf80a22ef772df8",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -1042,45 +1042,6 @@
             "time": "2023-10-12T05:21:21+00:00"
         },
         {
-            "name": "genealabs/laravel-overridable-model",
-            "version": "10.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/GeneaLabs/laravel-overridable-model.git",
-                "reference": "3a320e9ccbee1effa62f24970f7a144b98ebec1f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/GeneaLabs/laravel-overridable-model/zipball/3a320e9ccbee1effa62f24970f7a144b98ebec1f",
-                "reference": "3a320e9ccbee1effa62f24970f7a144b98ebec1f",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/support": "^10.0",
-                "symfony/thanks": "^1.2"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "GeneaLabs\\LaravelOverridableModel\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Provide a uniform method of allowing models to be overridden in Laravel.",
-            "keywords": [
-                "laravel",
-                "nova"
-            ],
-            "support": {
-                "issues": "https://github.com/GeneaLabs/laravel-overridable-model/issues",
-                "source": "https://github.com/GeneaLabs/laravel-overridable-model/tree/10.0.0"
-            },
-            "time": "2023-05-20T20:12:51+00:00"
-        },
-        {
             "name": "genealabs/laravel-sign-in-with-apple",
             "version": "0.7.0",
             "source": {
@@ -1146,66 +1107,6 @@
                 }
             ],
             "time": "2023-02-26T15:15:40+00:00"
-        },
-        {
-            "name": "genealabs/laravel-socialiter",
-            "version": "10.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/GeneaLabs/laravel-socialiter.git",
-                "reference": "12cea6a215cd2ff4a613ac1275ac197b20090828"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/GeneaLabs/laravel-socialiter/zipball/12cea6a215cd2ff4a613ac1275ac197b20090828",
-                "reference": "12cea6a215cd2ff4a613ac1275ac197b20090828",
-                "shasum": ""
-            },
-            "require": {
-                "genealabs/laravel-overridable-model": "^10.0",
-                "illuminate/auth": "^10.0",
-                "illuminate/database": "^10.0",
-                "illuminate/support": "^10.0",
-                "laravel/socialite": "^5.3"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "\\GeneaLabs\\LaravelSocialiter\\Providers\\ServiceProvider"
-                    ],
-                    "aliases": {
-                        "Socialiter": "\\GeneaLabs\\LaravelSocialiter\\Facades\\Socialiter"
-                    }
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "GeneaLabs\\LaravelSocialiter\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Mike Bronner",
-                    "email": "hello@genealabs.com"
-                }
-            ],
-            "description": "Automatically manager user persistence and resolution for any Laravel Socialite provider.",
-            "support": {
-                "issues": "https://github.com/GeneaLabs/laravel-socialiter/issues",
-                "source": "https://github.com/GeneaLabs/laravel-socialiter/tree/10.0.0"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/mikebronner",
-                    "type": "github"
-                }
-            ],
-            "time": "2023-05-20T21:00:34+00:00"
         },
         {
             "name": "graham-campbell/result-type",
@@ -6823,67 +6724,6 @@
                 }
             ],
             "time": "2024-01-29T15:41:16+00:00"
-        },
-        {
-            "name": "symfony/thanks",
-            "version": "v1.2.10",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/thanks.git",
-                "reference": "e9c4709560296acbd4fe9e12b8d57a925aa7eae8"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/thanks/zipball/e9c4709560296acbd4fe9e12b8d57a925aa7eae8",
-                "reference": "e9c4709560296acbd4fe9e12b8d57a925aa7eae8",
-                "shasum": ""
-            },
-            "require": {
-                "composer-plugin-api": "^1.0|^2.0",
-                "php": ">=5.5.9"
-            },
-            "type": "composer-plugin",
-            "extra": {
-                "branch-alias": {
-                    "dev-main": "1.2-dev"
-                },
-                "class": "Symfony\\Thanks\\Thanks"
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Thanks\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Nicolas Grekas",
-                    "email": "p@tchwork.com"
-                }
-            ],
-            "description": "Encourages sending ⭐ and 💵 to fellow PHP package maintainers (not limited to Symfony components)!",
-            "support": {
-                "issues": "https://github.com/symfony/thanks/issues",
-                "source": "https://github.com/symfony/thanks/tree/v1.2.10"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2020-10-14T17:47:37+00:00"
         },
         {
             "name": "symfony/translation",

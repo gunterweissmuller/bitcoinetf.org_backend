@@ -34,7 +34,8 @@ use App\Pipelines\V1\Auth\Register\Pipes\InitGoogleAuth\EventsPipe as InitGoogle
 use App\Pipelines\V1\Auth\Register\Pipes\ConfirmGoogleAuth\ValidatePipe as ConfirmGoogleAuthValidatePipe;
 use App\Pipelines\V1\Auth\Register\Pipes\ConfirmGoogleAuth\ProfilePipe as ConfirmGoogleAuthProfilePipe;
 use App\Pipelines\V1\Auth\Register\Pipes\InitMetamaskAuth\EmailPipe as InitMetamaskEmailPipe;
-use App\Pipelines\V1\Auth\Register\Pipes\InitAppleAuth\AppleAccountPipe as InitAppleAccountPipe;
+use App\Pipelines\V1\Auth\Register\Pipes\InitAppleAuth\AppleAccountPipe as InitAppleAuthAppleAccountPipe;
+use App\Pipelines\V1\Auth\Register\Pipes\InitAppleAuth\ValidatePipe as InitAppleAuthValidatePipe;
 
 final class RegisterPipeline extends AbstractPipeline
 {
@@ -126,13 +127,14 @@ final class RegisterPipeline extends AbstractPipeline
     public function initAppleAuth(InitApplePipelineDto $dto): array
     {
         return $this->pipeline([
+            InitAppleAuthValidatePipe::class,
             InitAccountPipe::class,
-            InitAppleAccountPipe::class,
+            InitAppleAuthAppleAccountPipe::class,
         ], $dto);
         return $this->pipeline([
             InitValidatePipe::class,
             InitAccountPipe::class,
-            InitAppleAccountPipe::class,
+            InitAppleAuthAppleAccountPipe::class,
             InitProfilePipe::class,
             InitEmailPipe::class,
             InitWalletPipe::class,

@@ -30,5 +30,6 @@ final class Email extends Model
         'account_uuid',
         'email',
         'status',
+        'wallet',
     ];
 }

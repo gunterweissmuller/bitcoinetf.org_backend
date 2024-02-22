@@ -8,7 +8,6 @@ use App\Dto\Core\JwtDto;
 use App\Dto\DtoInterface;
 use App\Dto\Models\Users\AccountDto;
 use App\Dto\Models\Users\EmailDto;
-use App\Dto\Models\Users\WalletDto;
 
 final class LoginMetamaskPipelineDto implements DtoInterface
 {
@@ -18,7 +17,6 @@ final class LoginMetamaskPipelineDto implements DtoInterface
         private ?JwtDto $jwtAccess,
         private ?JwtDto $jwtRefresh,
         private ?string $websocketToken = null,
-        private ?WalletDto $wallet,
     ) {
     }
 
@@ -30,7 +28,6 @@ final class LoginMetamaskPipelineDto implements DtoInterface
             $args['jwt_access'] ?? null,
             $args['jwt_refresh'] ?? null,
             $args['websocket_token'] ?? null,
-            $args['wallet'] ?? null,
         );
     }
 
@@ -42,7 +39,6 @@ final class LoginMetamaskPipelineDto implements DtoInterface
             'jwt_access' => $this->jwtAccess,
             'jwt_refresh' => $this->jwtRefresh,
             'websocket_token' => $this->websocketToken,
-            'wallet' => $this->wallet,
         ];
     }
 
@@ -118,21 +114,5 @@ final class LoginMetamaskPipelineDto implements DtoInterface
     public function setJwtRefresh(?JwtDto $jwtRefresh): void
     {
         $this->jwtRefresh = $jwtRefresh;
-    }
-
-    /**
-     * @return WalletDto|null
-     */
-    public function getWallet(): ?WalletDto
-    {
-        return $this->wallet;
-    }
-
-    /**
-     * @param  WalletDto|null  $email
-     */
-    public function setWallet(?WalletDto $wallet): void
-    {
-        $this->wallet = $wallet;
     }
 }

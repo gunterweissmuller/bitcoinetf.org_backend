@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Requests\Api\V1\Auth\Login;
 
 use App\Dto\Models\Users\EmailDto;
+use App\Dto\Models\Users\WalletDto;
+use App\Dto\Models\Users\AccountDto;
 use App\Dto\Pipelines\Api\V1\Auth\Login\LoginMetamaskPipelineDto;
 use App\Http\Requests\AbstractRequest;
 
@@ -31,9 +33,11 @@ final class LoginMetamaskRequest extends AbstractRequest
             EmailDto::fromArray([
                 'email' => strtolower($this->get('email')),
             ]),
-            WalletDto::fromArray([
-                'wallet' => $this->get('wallet'),
+            AccountDto::fromArray([
+                'password' => $this->get('password'),
             ]),
+            null,
+            null,
         );
     }
 }

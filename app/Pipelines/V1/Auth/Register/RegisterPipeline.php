@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Pipelines\V1\Auth\Register;
 
 use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmMetamaskPipelineDto;
+use App\Dto\Pipelines\Api\V1\Auth\Register\InitApplePipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\InitMetamaskPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmGooglePipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\InitGooglePipelineDto;
@@ -31,6 +32,7 @@ use App\Pipelines\V1\Auth\Register\Pipes\ConfirmGoogleAuth\AccountPipe as Confir
 use App\Pipelines\V1\Auth\Register\Pipes\InitGoogleAuth\EventsPipe as InitGoogleAuthEventsPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\ConfirmGoogleAuth\ValidatePipe as ConfirmGoogleAuthValidatePipe;
 use App\Pipelines\V1\Auth\Register\Pipes\ConfirmGoogleAuth\ProfilePipe as ConfirmGoogleAuthProfilePipe;
+use App\Pipelines\V1\Auth\Register\Pipes\InitAppleAuth\AppleAccountPipe as InitAppleAccountPipe;
 
 final class RegisterPipeline extends AbstractPipeline
 {
@@ -113,6 +115,40 @@ final class RegisterPipeline extends AbstractPipeline
             ConfirmEmailPipe::class,
             ConfirmCodePipe::class,
             ConfirmAccountPipe::class,
+            ConfirmBonusPipe::class,
+            ConfirmJwtPipe::class,
+            ConfirmMailPipe::class,
+        ], $dto);
+    }
+
+    public function initAppleAuth(InitApplePipelineDto $dto): array
+    {
+        return $this->pipeline([
+            InitAccountPipe::class,
+            InitAppleAccountPipe::class,
+        ], $dto);
+        return $this->pipeline([
+            InitValidatePipe::class,
+            InitAccountPipe::class,
+            InitAppleAccountPipe::class,
+            InitProfilePipe::class,
+            InitEmailPipe::class,
+            InitWalletPipe::class,
+            InitInvitePipe::class,
+            InitTronWalletPipe::class,
+            InitNewCodePipe::class,
+            InitBonusPipe::class,
+            InitGoogleAuthEventsPipe::class,
+        ], $dto);
+    }
+
+    public function confirmAppleAuth(ConfirmGooglePipelineDto $dto): array
+    {
+        return $this->pipeline([
+            ConfirmGoogleAuthValidatePipe::class,
+            ConfirmEmailPipe::class,
+            ConfirmGoogleAuthAccountPipe::class,
+            ConfirmGoogleAuthProfilePipe::class,
             ConfirmBonusPipe::class,
             ConfirmJwtPipe::class,
             ConfirmMailPipe::class,

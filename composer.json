@@ -11,6 +11,8 @@
         "chillerlan/php-qrcode": "^4.3",
         "dompdf/dompdf": "^2.0",
         "enqueue/rdkafka": "^0.10.20",
+        "genealabs/laravel-sign-in-with-apple": "^0.7.0",
+        "genealabs/laravel-socialiter": "^10.0",
         "greensea/keccak": "^1.0",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^10.10",
@@ -77,7 +79,8 @@
         "sort-packages": true,
         "allow-plugins": {
             "pestphp/pest-plugin": true,
-            "php-http/discovery": true
+            "php-http/discovery": true,
+            "symfony/thanks": true
         }
     },
     "minimum-stability": "stable",

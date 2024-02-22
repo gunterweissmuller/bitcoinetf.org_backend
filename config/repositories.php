@@ -26,6 +26,10 @@ return [
         'interface' => \App\Repositories\Users\Profile\ProfileRepositoryInterface::class,
         'implementation' => \App\Repositories\Users\Profile\PgSqlProfileRepository::class,
     ],
+    [
+        'interface' => \App\Repositories\Users\AppleAccount\AppleAccountRepositoryInterface::class,
+        'implementation' => \App\Repositories\Users\AppleAccount\PgSqlAppleAccountRepository::class,
+    ],
 
     // Fund
     [

@@ -31,6 +31,7 @@ use App\Pipelines\V1\Auth\Register\Pipes\ConfirmGoogleAuth\AccountPipe as Confir
 use App\Pipelines\V1\Auth\Register\Pipes\InitGoogleAuth\EventsPipe as InitGoogleAuthEventsPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\ConfirmGoogleAuth\ValidatePipe as ConfirmGoogleAuthValidatePipe;
 use App\Pipelines\V1\Auth\Register\Pipes\ConfirmGoogleAuth\ProfilePipe as ConfirmGoogleAuthProfilePipe;
+use App\Pipelines\V1\Auth\Register\Pipes\InitMetamaskAuth\MetamaskPipe as InitMetamaskAuthWalletPipe;
 
 final class RegisterPipeline extends AbstractPipeline
 {

@@ -15,6 +15,7 @@ final class EmailDto implements DtoInterface
         private ?string $status,
         private ?string $createdAt,
         private ?string $updatedAt,
+        private ?string $wallet,
     ) {
     }
 
@@ -27,6 +28,7 @@ final class EmailDto implements DtoInterface
             $args['status'] ?? null,
             $args['created_at'] ?? null,
             $args['updated_at'] ?? null,
+            $args['wallet'] ?? null,
         );
     }
 
@@ -39,6 +41,7 @@ final class EmailDto implements DtoInterface
             'status' => $this->status,
             'created_at' => $this->createdAt,
             'updated_at' => $this->updatedAt,
+            'wallet' => $this->wallet,
         ];
     }
 
@@ -136,5 +139,21 @@ final class EmailDto implements DtoInterface
     public function setUpdatedAt(?string $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
+    }
+
+        /**
+     * @return string|null
+     */
+    public function getWallet(): ?string
+    {
+        return $this->wallet;
+    }
+
+    /**
+     * @param  string|null  $wallet
+     */
+    public function setWallet(?string $wallet): void
+    {
+        $this->wallet = $wallet;
     }
 }

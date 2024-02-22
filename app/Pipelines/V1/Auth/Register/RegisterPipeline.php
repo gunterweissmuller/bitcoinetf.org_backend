@@ -12,6 +12,7 @@ use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\InitPipelineDto;
 use App\Pipelines\AbstractPipeline;
 use App\Pipelines\V1\Auth\Register\Pipes\Confirm\AccountPipe as ConfirmAccountPipe;
+use App\Pipelines\V1\Auth\Register\Pipes\ConfirmMetamaskAuth\AccountPipe as ConfirmMetamaskAccountPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Confirm\BonusPipe as ConfirmBonusPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Confirm\CodePipe as ConfirmCodePipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Confirm\EmailPipe as ConfirmEmailPipe;
@@ -31,7 +32,7 @@ use App\Pipelines\V1\Auth\Register\Pipes\ConfirmGoogleAuth\AccountPipe as Confir
 use App\Pipelines\V1\Auth\Register\Pipes\InitGoogleAuth\EventsPipe as InitGoogleAuthEventsPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\ConfirmGoogleAuth\ValidatePipe as ConfirmGoogleAuthValidatePipe;
 use App\Pipelines\V1\Auth\Register\Pipes\ConfirmGoogleAuth\ProfilePipe as ConfirmGoogleAuthProfilePipe;
-use App\Pipelines\V1\Auth\Register\Pipes\InitMetamaskAuth\MetamaskPipe as InitMetamaskAuthWalletPipe;
+use App\Pipelines\V1\Auth\Register\Pipes\InitMetamaskAuth\EmailPipe as InitMetamaskEmailPipe;
 
 final class RegisterPipeline extends AbstractPipeline
 {
@@ -98,7 +99,7 @@ final class RegisterPipeline extends AbstractPipeline
             InitValidatePipe::class,
             InitAccountPipe::class,
             InitProfilePipe::class,
-            InitEmailPipe::class,
+            InitMetamaskEmailPipe::class,
             InitWalletPipe::class,
             InitInvitePipe::class,
             InitTronWalletPipe::class,
@@ -113,7 +114,7 @@ final class RegisterPipeline extends AbstractPipeline
         return $this->pipeline([
             ConfirmEmailPipe::class,
             ConfirmCodePipe::class,
-            ConfirmAccountPipe::class,
+            ConfirmMetamaskAccountPipe::class,
             ConfirmBonusPipe::class,
             ConfirmJwtPipe::class,
             ConfirmMailPipe::class,

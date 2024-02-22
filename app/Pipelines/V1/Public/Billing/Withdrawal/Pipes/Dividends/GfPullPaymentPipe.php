@@ -26,8 +26,8 @@ final class GfPullPaymentPipe implements PipeInterface
 
         if ($pullPayment = $this->greenfieldService->createPullPayment(PullPaymentDto::fromArray([
             'description' => 'Account UUID:'.$payment->getAccountUuid(),
-            'amount' => $payment->getTotalAmount(),
-            'currency' => 'USD',
+            'amount' => $payment->getTotalAmountBtc(),
+            'currency' => 'BTC',
             'autoApproveClaims' => true,
         ]))) {
             $dto->setPullPayment($pullPayment);

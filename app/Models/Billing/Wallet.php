@@ -22,12 +22,14 @@ final class Wallet extends Model
 
     protected $casts = [
         'amount' => 'float',
+        'btc_amount' => 'float',
     ];
 
     protected $fillable = [
         'account_uuid',
         'type',
         'amount',
+        'btc_amount',
         'withdrawal_address',
         'withdrawal_method',
     ];

@@ -33,7 +33,7 @@ final class GfPayoutPipe implements PipeInterface
 
         if ($payout = $this->greenfieldService->createPayouts($pullPayment->getId(), PayoutDto::fromArray([
             'destination' => $wallet->getWithdrawalAddress(),
-            'amount' => $payment->getTotalAmount(),
+            'amount' => $payment->getTotalAmountBtc(),
             'paymentMethod' => ($dto->getMethod() == MethodEnum::BITCOIN_ON_CHAIN->value) ? 'BTC-OnChain' : 'BTC-LightningNetwork',
         ]))) {
             $dto->setPayout($payout);

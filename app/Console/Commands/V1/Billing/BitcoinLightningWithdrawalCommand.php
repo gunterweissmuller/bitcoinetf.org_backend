@@ -55,7 +55,7 @@ final class BitcoinLightningWithdrawalCommand extends Command
         $walletService->allByFiltersWithChunk([
             'withdrawal_method' => WithdrawalMethodEnum::BITCOIN_LIGHTNING->value,
             ['withdrawal_address', '!=', null],
-            ['amount', '>', 0],
+            ['btc_amount', '>', 0],
         ], self::COUNT, $callback);
     }
 }

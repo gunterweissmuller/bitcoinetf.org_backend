@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Email
+ * Class Wallet
  * @property string $uuid
  * @property string $account_uuid
  * @property string $wallet

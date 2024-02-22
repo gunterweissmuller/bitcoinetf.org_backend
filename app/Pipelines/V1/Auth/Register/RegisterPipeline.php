@@ -32,7 +32,15 @@ use App\Pipelines\V1\Auth\Register\Pipes\ConfirmGoogleAuth\AccountPipe as Confir
 use App\Pipelines\V1\Auth\Register\Pipes\InitGoogleAuth\EventsPipe as InitGoogleAuthEventsPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\ConfirmGoogleAuth\ValidatePipe as ConfirmGoogleAuthValidatePipe;
 use App\Pipelines\V1\Auth\Register\Pipes\ConfirmGoogleAuth\ProfilePipe as ConfirmGoogleAuthProfilePipe;
+use App\Pipelines\V1\Auth\Register\Pipes\InitMetamaskAuth\WalletPipe as InitMetamaskWalletPipe;
+use App\Pipelines\V1\Auth\Register\Pipes\InitMetamaskAuth\ValidatePipe as InitMetamaskValidatePipe;
+use App\Pipelines\V1\Auth\Register\Pipes\InitMetamaskAuth\AccountPipe as InitMetamaskAccountPipe;
+use App\Pipelines\V1\Auth\Register\Pipes\InitMetamaskAuth\BillingWalletPipe as InitMetamaskBillingWalletPipe;
+use App\Pipelines\V1\Auth\Register\Pipes\InitMetamaskAuth\BonusPipe as InitMetamaskBonusPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\InitMetamaskAuth\EmailPipe as InitMetamaskEmailPipe;
+use App\Pipelines\V1\Auth\Register\Pipes\InitMetamaskAuth\InvitePipe as InitMetamaskInvitePipe;
+use App\Pipelines\V1\Auth\Register\Pipes\InitMetamaskAuth\NewCodePipe as InitMetamaskNewCodePipe;
+use App\Pipelines\V1\Auth\Register\Pipes\InitMetamaskAuth\ProfilePipe as InitMetamaskProfilePipe;
 
 
 final class RegisterPipeline extends AbstractPipeline
@@ -97,15 +105,16 @@ final class RegisterPipeline extends AbstractPipeline
     public function initMetamaskAuth(InitMetamaskPipelineDto $dto): array
     {
         return $this->pipeline([
-            InitValidatePipe::class,
-            InitAccountPipe::class,
-            InitProfilePipe::class,
+            InitMetamaskValidatePipe::class,
+            InitMetamaskAccountPipe::class,
             InitMetamaskEmailPipe::class,
-            InitWalletPipe::class,
-            InitInvitePipe::class,
+            InitMetamaskProfilePipe::class,
+            InitMetamaskWalletPipe::class,
+            InitMetamaskBillingWalletPipe::class,
+            InitMetamaskInvitePipe::class,
             InitTronWalletPipe::class,
-            InitNewCodePipe::class,
-            InitBonusPipe::class,
+            InitMetamaskNewCodePipe::class,
+            InitMetamaskBonusPipe::class,
             InitEventsPipe::class,
         ], $dto);
     }

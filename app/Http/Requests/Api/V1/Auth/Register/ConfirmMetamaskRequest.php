@@ -12,22 +12,12 @@ use App\Http\Requests\AbstractRequest;
 
 final class ConfirmMetamaskRequest extends AbstractRequest
 {
-    const FAST_KEY = 'fast';
-
     public function rules(): array
     {
-        if ($this->has(self::FAST_KEY)) {
-            return [
-                'email' => ['required', 'email'],
-                'code' => ['required', 'string'],
-            ];
-        } else {
-            return [
-                'email' => ['required', 'email'],
-                'code' => ['required', 'string'],
-                'password' => ['required', 'string'],
-            ];
-        }
+        return [
+            'email' => ['required', 'email'],
+            'code' => ['required', 'string'],
+        ];
     }
 
     public function messages(): array
@@ -47,7 +37,6 @@ final class ConfirmMetamaskRequest extends AbstractRequest
             'account' => AccountDto::fromArray([
                 'password' => $this->get('password'),
             ]),
-            'is_fast' => $this->has(self::FAST_KEY),
         ]);
     }
 }

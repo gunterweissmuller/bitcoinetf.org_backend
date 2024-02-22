@@ -7,12 +7,12 @@ namespace App\Dto\Pipelines\Api\V1\Auth\Login;
 use App\Dto\Core\JwtDto;
 use App\Dto\DtoInterface;
 use App\Dto\Models\Users\AccountDto;
-use App\Dto\Models\Users\EmailDto;
+use App\Dto\Models\Users\WalletDto;
 
 final class LoginMetamaskPipelineDto implements DtoInterface
 {
     public function __construct(
-        private ?EmailDto $email,
+        private ?WalletDto $wallet,
         private ?AccountDto $account,
         private ?JwtDto $jwtAccess,
         private ?JwtDto $jwtRefresh,
@@ -23,7 +23,7 @@ final class LoginMetamaskPipelineDto implements DtoInterface
     public static function fromArray(array $args): DtoInterface|self
     {
         return new self(
-            $args['email'] ?? null,
+            $args['wallet'] ?? null,
             $args['account'] ?? null,
             $args['jwt_access'] ?? null,
             $args['jwt_refresh'] ?? null,
@@ -34,7 +34,7 @@ final class LoginMetamaskPipelineDto implements DtoInterface
     public function toArray(): array
     {
         return [
-            'email' => $this->email,
+            'wallet' => $this->wallet,
             'account' => $this->account,
             'jwt_access' => $this->jwtAccess,
             'jwt_refresh' => $this->jwtRefresh,
@@ -53,19 +53,20 @@ final class LoginMetamaskPipelineDto implements DtoInterface
     }
 
     /**
-     * @return EmailDto|null
+     * @return WalletDto|null
      */
-    public function getEmail(): ?EmailDto
+    public function getWallet(): ?WalletDto
     {
-        return $this->email;
+        return $this->wallet;
     }
 
     /**
-     * @param  EmailDto|null  $email
+     * @param WalletDto|null $wallet
+     * @return void
      */
-    public function setEmail(?EmailDto $email): void
+    public function setWallet(?WalletDto $wallet): void
     {
-        $this->email = $email;
+        $this->wallet = $wallet;
     }
 
     /**

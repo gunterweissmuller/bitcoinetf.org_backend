@@ -10,8 +10,6 @@ use App\Enums\Users\Email\StatusEnum;
 use App\Pipelines\PipeInterface;
 use App\Services\Api\V1\Users\EmailService;
 use Closure;
-use App\Models\Users\Wallet;
-use App\Enums\Users\Wallet\StatusEnum as MetamaskWalletStatus;
 
 final class EmailPipe implements PipeInterface
 {
@@ -22,16 +20,10 @@ final class EmailPipe implements PipeInterface
 
     public function handle(InitMetamaskPipelineDto|DtoInterface $dto, Closure $next): DtoInterface
     {
-        if (!$dto->getIsExists()) {
+        if (!$dto->getIsExistsEmail()) {
             $email = $dto->getEmail();
             $email->setAccountUuid($dto->getAccount()->getUuid());
             $email->setStatus(StatusEnum::AwaitConfirm->value);
-
-            $wallet = new Wallet();
-            $wallet->account_uuid = ($dto->getAccount()->getUuid());
-            $wallet->wallet = ($dto->getWallet()->getWallet());
-            $wallet->status = (MetamaskWalletStatus::Verified->value);
-            $wallet->save();
 
             $email = $this->emailService->create($email);
         } else {

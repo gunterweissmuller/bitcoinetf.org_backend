@@ -35,7 +35,7 @@ final class WalletDto implements DtoInterface
         return [
             'uuid' => $this->uuid,
             'account_uuid' => $this->accountUuid,
-            'wallet' => $this->email,
+            'wallet' => $this->wallet,
             'status' => $this->status,
             'created_at' => $this->createdAt,
             'updated_at' => $this->updatedAt,
@@ -83,7 +83,8 @@ final class WalletDto implements DtoInterface
     }
 
     /**
-     * @param  string|null  $email
+     * @param string|null $wallet
+     * @return void
      */
     public function setWallet(?string $wallet): void
     {

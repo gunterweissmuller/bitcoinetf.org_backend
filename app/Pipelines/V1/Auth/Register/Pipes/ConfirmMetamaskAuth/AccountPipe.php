@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Pipelines\V1\Auth\Register\Pipes\Confirm;
+namespace App\Pipelines\V1\Auth\Register\Pipes\ConfirmMetamaskAuth;
 
 use App\Dto\DtoInterface;
 use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmPipelineDto;

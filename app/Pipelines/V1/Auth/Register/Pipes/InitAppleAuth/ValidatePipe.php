@@ -7,7 +7,7 @@ namespace App\Pipelines\V1\Auth\Register\Pipes\InitAppleAuth;
 use App\Dto\DtoInterface;
 use App\Dto\Pipelines\Api\V1\Auth\Register\InitApplePipelineDto;
 use App\Enums\Users\Email\StatusEnum;
-use App\Exceptions\Pipelines\V1\Auth\EmailAlreadyUseException;
+use App\Exceptions\Pipelines\V1\Auth\UserAlreadyExistException;
 use App\Pipelines\PipeInterface;
 use App\Services\Api\V1\Users\AccountService;
 use App\Services\Api\V1\Users\AppleAccountService;
@@ -31,7 +31,7 @@ final class ValidatePipe implements PipeInterface
             ])) {
                 if ($appleAccount->getStatus() == StatusEnum::Enabled->value
                     || $appleAccount->getStatus() == StatusEnum::Disabled->value) {
-                    throw new EmailAlreadyUseException();
+                    throw new UserAlreadyExistException();
                 }
             }
 

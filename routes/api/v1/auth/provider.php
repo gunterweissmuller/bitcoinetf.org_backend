@@ -16,4 +16,5 @@ Route::prefix('provider')
         Route::get('/apple-auth/redirect-url', 'AuthController@redirectUrlToAppleAuth');
         Route::get('/apple-auth/init', 'AuthController@initAppleAuth');
         Route::Post('/apple-auth/confirm', 'AuthController@confirmAppleAuth');
+        Route::Post('/apple-auth/check-email', 'AuthController@checkUserEmailAppleAuth');
     });

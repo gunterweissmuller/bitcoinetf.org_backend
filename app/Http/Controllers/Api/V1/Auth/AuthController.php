@@ -34,7 +34,9 @@ final class AuthController extends Controller
     {
     }
 
-
+    /**
+     * @return JsonResponse
+     */
     public function redirectUrlToGoogleAuth(): JsonResponse
     {
         return response()->json([
@@ -45,6 +47,10 @@ final class AuthController extends Controller
         ]);
     }
 
+    /**
+     * @param InitGoogleRequest $request
+     * @return JsonResponse
+     */
     public function initGoogleAuth(InitGoogleRequest $request): JsonResponse
     {
         try {
@@ -77,6 +83,10 @@ final class AuthController extends Controller
         return response()->__call('exception', [$e]);
     }
 
+    /**
+     * @param ConfirmGoogleRequest $request
+     * @return JsonResponse
+     */
     public function confirmGoogleAuth(ConfirmGoogleRequest $request): JsonResponse
     {
         [$dto, $e] = $this->registerPipeline->confirmGoogleAuth($request->dto());
@@ -94,6 +104,10 @@ final class AuthController extends Controller
 
         return response()->__call('exception', [$e]);
     }
+
+    /**
+     * @return JsonResponse
+     */
     public function redirectUrlToAppleAuth(): JsonResponse
     {
         return response()->json([
@@ -104,6 +118,10 @@ final class AuthController extends Controller
         ]);
     }
 
+    /**
+     * @param InitAppleRequest $request
+     * @return JsonResponse
+     */
     public function initAppleAuth(InitAppleRequest $request): JsonResponse
     {
         //@fixme-v
@@ -124,13 +142,40 @@ final class AuthController extends Controller
         [$dto, $e] = $this->registerPipeline->initAppleAuth($request->dto());
 
         if (!$e) {
-//            $familyName = $socialiteUser->offsetExists('family_name') ? ucfirst(strtolower($socialiteUser->offsetGet('family_name'))) : '';
+//            return response()->json([
+//                'data' => [
+//                    'email' => $dto->getAppleAccount()->getAppleId(),
+//                    'email' => strtolower($socialiteUser->getEmail() ?? ''),
+//                    'first_name' => $socialiteUser->offsetExists('firstName') ? $socialiteUser->offsetGet('firstName') : '',
+//                    'last_name' => $socialiteUser->offsetExists('lastName') ? $socialiteUser->offsetGet('lastName') : '',
+//                ]
+//            ]);
 
             return response()->json([
                 'data' => [
-                    'email' => $dto->getEmail()->getEmail(),
-//                    'first_name' => ucfirst(strtolower($socialiteUser->offsetGet('given_name'))),
-//                    'last_name' => $familyName,
+                    'apple_id' => 'apple_id',
+                    'email' => 'email@gmail.com',
+                    'first_name' => 'first',
+                    'last_name' => 'last',
+                ]
+            ]);
+        }
+
+        return response()->__call('exception', [$e]);
+    }
+
+
+    public function checkUserEmailAppleAuth(ConfirmGoogleRequest $request): JsonResponse
+    {
+        [$dto, $e] = $this->registerPipeline->confirmGoogleAuth($request->dto());
+
+        if (!$e) {
+            return response()->json([
+                'data' => [
+                    'access_token' => $dto->getJwtAccess()->getToken(),
+                    'refresh_token' => $dto->getJwtRefresh()->getToken(),
+                    'websocket_token' => $dto->getWebsocketToken(),
+                    'bonus' => $dto->getBonus(),
                 ]
             ]);
         }

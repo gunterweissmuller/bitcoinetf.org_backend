@@ -57,6 +57,8 @@ enum CodeEnum: string
     case C050001 = '050001'; // code not found
 
     case C050002 = '050002'; // already used code
+	
+	case C060001 = '060001'; // withdrawal is not possible
 
     case C090001 = '090001'; // file save error
 

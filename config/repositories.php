@@ -27,8 +27,8 @@ return [
         'implementation' => \App\Repositories\Users\Profile\PgSqlProfileRepository::class,
     ],
     [
-        'interface' => \App\Repositories\Users\Profile\MetamaskRepositoryInterface::class,
-        'implementation' => \App\Repositories\Users\Profile\PgSqlMetamaskRepository::class,
+        'interface' => \App\Repositories\Users\Wallet\WalletRepositoryInterface::class,
+        'implementation' => \App\Repositories\Users\Wallet\PgSqlWalletRepository::class,
     ],
     [
         'interface' => \App\Repositories\Users\AppleAccount\AppleAccountRepositoryInterface::class,

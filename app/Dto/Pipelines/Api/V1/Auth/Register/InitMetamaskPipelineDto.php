@@ -22,7 +22,8 @@ final class InitMetamaskPipelineDto implements DtoInterface
         private ?CodeDto $newCode,
         private ?InviteDto $invite,
         private ?WalletDto $wallet,
-        private bool $isExists,
+        private bool $isExistsEmail,
+        private bool $isExistsWallet,
     ) {
     }
 
@@ -36,7 +37,8 @@ final class InitMetamaskPipelineDto implements DtoInterface
             $args['new_code'] ?? null,
             $args['invite'] ?? null,
             $args['wallet'] ?? null,
-            $args['is_exists'] ?? false,
+            $args['is_exists_email'] ?? false,
+            $args['is_exists_wallet'] ?? false,
         );
     }
 
@@ -49,7 +51,8 @@ final class InitMetamaskPipelineDto implements DtoInterface
             'ref_code' => $this->refCode,
             'invite' => $this->invite,
             'wallet' => $this->wallet,
-            'is_exists' => $this->isExists,
+            'is_exists_email' => $this->isExistsEmail,
+            'is_exists_wallet' => $this->isExistsWallet,
         ];
     }
 
@@ -168,16 +171,34 @@ final class InitMetamaskPipelineDto implements DtoInterface
     /**
      * @return bool|null
      */
-    public function getIsExists(): ?bool
+    public function getIsExistsEmail(): ?bool
     {
-        return $this->isExists;
+        return $this->isExistsEmail;
     }
 
     /**
-     * @param  bool|null  $isExists
+     * @param bool|null $isExistsEmail
+     * @return void
      */
-    public function setIsExists(?bool $isExists): void
+    public function setIsExistsEmail(?bool $isExistsEmail): void
     {
-        $this->isExists = $isExists;
+        $this->isExistsEmail = $isExistsEmail;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getIsExistsWallet(): ?bool
+    {
+        return $this->isExistsWallet;
+    }
+
+    /**
+     * @param bool|null $isExistsWallet
+     * @return void
+     */
+    public function setIsExistsWallet(?bool $isExistsWallet): void
+    {
+        $this->isExistsWallet = $isExistsWallet;
     }
 }

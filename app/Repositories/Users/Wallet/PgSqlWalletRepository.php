@@ -4,13 +4,10 @@ declare(strict_types=1);
 
 namespace App\Repositories\Users\Wallet;
 
-use App\Dto\Core\PaginationFilterDto;
 use App\Dto\Models\Users\WalletDto;
 use App\Models\Users\Wallet;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Collection;
 
-final class PgSqlMetamaskRepository implements MetamaskRepositoryInterface
+final class PgSqlWalletRepository implements WalletRepositoryInterface
 {
     public function __construct(
         private readonly Wallet $model,
@@ -44,33 +41,11 @@ final class PgSqlMetamaskRepository implements MetamaskRepositoryInterface
             ->update($data);
     }
 
-    public function all(array $filters): ?Collection
-    {
-        $rows = $this->model
-            ->newQuery()
-            ->where($filters)
-            ->orderBy('created_at', 'desc')
-            ->get()
-            ->toArray();
-
-        return $rows ? Collection::make($rows)->map(function (array $row) {
-            return WalletDto::fromArray($row);
-        }) : null;
-    }
-
     public function delete(array $condition): void
     {
         $this->model
             ->newQuery()
             ->where($condition)
             ->delete();
-    }
-
-    public function allByFilters(PaginationFilterDto $dto): LengthAwarePaginator
-    {
-        return $this->model
-            ->newQuery()
-            ->orderBy('created_at', 'desc')
-            ->paginate($dto->getPerPage(), ['*'], 'page', $dto->getPage());
     }
 }

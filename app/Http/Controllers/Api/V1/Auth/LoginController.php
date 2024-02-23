@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\V1\Auth;
 
-use App\Dto\Pipelines\Api\V1\Auth\Login\LoginMetamaskPipelineDto;
+use App\Exceptions\Pipelines\V1\Auth\InvalidSignatureMetamaskException;
 use App\Http\Requests\Api\V1\Auth\Login\LoginMetamaskRequest;
 use App\Dto\Pipelines\Api\V1\Auth\Login\LoginPipelineDto;
 use App\Http\Requests\Api\V1\Auth\Login\LoginRequest;
@@ -47,13 +47,21 @@ final class LoginController extends Controller
 
         $valid = (new EcRecover)->verifySignature($message,  $signature,  $walletAddress);
         if (!$valid) {
-            return response()->json(['message' => 'Invalid signature'], 401);
+            return response()->__call('exception', [new InvalidSignatureMetamaskException]);
         }
 
-        return response()->json([
-            'message' => 'Data processed successfully',
-            'is_valid' => $valid, 
-            'input' => $request->all(), 
-        ], 200);
+        [$dto, $e] = $this->pipeline->loginMetamask($request->dto());
+
+        if (!$e) {
+            return response()->json([
+                'data' => [
+                    'access_token' => $dto->getJwtAccess()->getToken(),
+                    'refresh_token' => $dto->getJwtRefresh()->getToken(),
+                    'websocket_token' => $dto->getWebsocketToken(),
+                ]
+            ]);
+        }
+
+        return response()->__call('exception', [$e]);
     }
 }

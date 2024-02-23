@@ -38,7 +38,9 @@ enum CodeEnum: string
 
     case C011009 = '011009'; // authorization token expired
 
-    case C020002 = '020002'; // глобальная настройка по symbol не найдена
+    case C011010 = '011010'; // invalid signature
+
+    case C020002 = '020002'; // global symbol setup not found
 
     case C030001 = '030001'; // form not found
 

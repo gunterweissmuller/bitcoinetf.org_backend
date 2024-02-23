@@ -10,6 +10,7 @@ use App\Enums\Billing\Wallet\TypeEnum;
 use App\Enums\Billing\Wallet\WithdrawalMethodEnum;
 use App\Enums\Billing\Withdrawal\MethodEnum;
 use App\Pipelines\V1\Public\Billing\Withdrawal\WithdrawalPipeline;
+use App\Services\Api\V1\Billing\TokenService;
 use App\Services\Api\V1\Billing\WalletService;
 use App\Services\Api\V1\Users\AccountService;
 use Illuminate\Console\Command;
@@ -27,8 +28,11 @@ final class BitcoinOnChainWithdrawalCommand extends Command
     public function handle(
         WalletService $walletService,
         WithdrawalPipeline $withdrawalPipeline,
-        AccountService $accountService
+        AccountService $accountService,
+        TokenService $tokenService,
     ): void {
+        $btcPrice = $tokenService->getBitcoinAmount();
+
         $callback = function (Collection $wallets) use ($withdrawalPipeline, $accountService) {
             foreach ($wallets as $wallet) {
                 $wallet = WalletDto::fromArray($wallet->toArray());
@@ -52,10 +56,12 @@ final class BitcoinOnChainWithdrawalCommand extends Command
             return CommandAlias::SUCCESS;
         };
 
+        $minAmount = bcdiv('250', number_format($btcPrice, 8, '.', ''), 8);
+
         $walletService->allByFiltersWithChunk([
             'withdrawal_method' => WithdrawalMethodEnum::BITCOIN_ON_CHAIN->value,
             ['withdrawal_address', '!=', null],
-            ['amount', '>=', 250]
+            ['btc_amount', '>=', (float)$minAmount]
         ], self::COUNT, $callback);
     }
 }

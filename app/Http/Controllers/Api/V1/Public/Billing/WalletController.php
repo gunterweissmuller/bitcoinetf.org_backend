@@ -87,7 +87,7 @@ final class WalletController extends Controller
         }
 
         if ($wallet->getType() == TypeEnum::DIVIDENDS->value) {
-            $btcAmount = '0';
+            $btcAmount = $wallet->getBtcAmount();
             $difference = 0;
             $btcAmountAdded = '0';
             $lastPayment = null;
@@ -119,40 +119,22 @@ final class WalletController extends Controller
                 ])
                 ->first();
 
-
-            Payment::query()
+            $btcAmountAdded = Payment::query()
                 ->where([
                     'account_uuid' => $wallet->getAccountUuid(),
-                    ['dividend_wallet_uuid', '!=', null]
-                ])->chunkById(100, function ($rows) use (&$btcAmount, &$lastPayment, &$btcAmountAdded) {
-                    foreach ($rows as $row) {
-                        if ($row['type'] == PaymentTypeEnum::CREDIT_FROM_CLIENT->value) {
-                            $btcAmount = bcsub(
-                                number_format($row['total_amount_btc'], 8, '.', ''),
-                                $btcAmount,
-                                8
-                            );
-                        } elseif ($row['type'] == PaymentTypeEnum::DEBIT_TO_CLIENT->value) {
-                            $btcAmountAdded = bcadd(
-                                number_format($row['total_amount_btc'], 8, '.', ''),
-                                $btcAmountAdded,
-                                8
-                            );
-                            $btcAmount = bcadd(
-                                number_format($row['total_amount_btc'], 8, '.', ''),
-                                $btcAmount,
-                                8
-                            );
-                        } elseif ($row['type'] == PaymentTypeEnum::WITHDRAWAL->value) {
-                            $btcAmount = bcsub(
-                                number_format($row['total_amount_btc'], 8, '.', ''),
-                                $btcAmount,
-                                8
-                            );
-                        }
-                        $lastPayment = $row;
-                    }
-                });
+                    ['dividend_wallet_uuid', '!=', null],
+                    'type' => PaymentTypeEnum::DEBIT_TO_CLIENT->value,
+                ])
+                ->sum('total_amount_btc');
+
+            $lastPayment = Payment::query()
+                ->where([
+                    'account_uuid' => $wallet->getAccountUuid(),
+                    ['dividend_wallet_uuid', '!=', null],
+                    'type' => PaymentTypeEnum::DEBIT_TO_CLIENT->value,
+                ])
+                ->orderBy('created_at', 'DESC')
+                ->first();
 
             if ($btcAmount > 0) {
                 $difference = ((((float) $btcAmount + $lastPayment['total_amount_btc']) - (float) $btcAmount) / (float) $btcAmount) * 100;
@@ -161,11 +143,11 @@ final class WalletController extends Controller
             $data = [
                 ...$data,
                 'usd_amount' => (float) bcmul(
-                    $btcAmount,
+                    number_format($btcAmount, 8, '.', ''),
                     number_format($this->tokenService->getBitcoinAmount(), 8, '.', ''),
                     8
                 ),
-                'btc_amount' => number_format((float) $sumToClient->toArray()['sum'] - ($withdrawal->toArray()['sum'] + $reinvesting->toArray()['sum']), 8, '.', ''),
+                'btc_amount' => number_format((float)$wallet->getBtcAmount(), 8, '.', ''),
                 'btc_amount_added' => number_format((float) $btcAmountAdded, 8, '.', ''),
                 'difference' => $difference,
             ];

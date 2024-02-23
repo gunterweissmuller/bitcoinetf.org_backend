@@ -59,6 +59,10 @@ return [
         'implementation' => \App\Repositories\Billing\Replenishment\PgSqlReplenishmentRepository::class,
     ],
     [
+        'interface' => \App\Repositories\Billing\Withdrawal\WithdrawalRepositoryInterface::class,
+        'implementation' => \App\Repositories\Billing\Withdrawal\PgSqlWithdrawalRepository::class,
+    ],
+    [
         'interface' => \App\Repositories\Billing\CreditCardRequest\CreditCardRequestRepositoryInterface::class,
         'implementation' => \App\Repositories\Billing\CreditCardRequest\PgSqlCreditCardRequestRepository::class,
     ],

@@ -24,7 +24,7 @@ final readonly class SendPaymentPipe implements PipeInterface
                 ->withHeaders([
                     'Authorization' => 'Bearer '.env('PAYMENT_API_KEY'),
                 ])
-                ->post('/payments/withdraw', [
+                ->post('/v1/withdraw', [
                     'uuid' => $withdrawal->getUuid(),
                     'network' => 'tron',
                     'token' => 'usdt',
@@ -34,7 +34,7 @@ final readonly class SendPaymentPipe implements PipeInterface
                 ->throw()
                 ->json();
         } catch (Exception $exception) {
-            throw new WithdrawalNotPossibleException();
+            throw new WithdrawalNotPossibleException($exception->getMessage());
         }
 
         return $next($dto);

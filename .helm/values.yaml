@@ -33,7 +33,7 @@ global:
     greenfield:
       host: "https://btc.techetf.org"
     payment:
-      host: "http://payments.payments.svc.cluster.local:3000"
+      host: "http://payments.etf-private-payment.svc.cluster.local:3000"
     mailchimp:
       server_prefix: "us10"
       list_id: "3a78876f55"

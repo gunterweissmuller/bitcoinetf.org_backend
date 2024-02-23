@@ -44,6 +44,9 @@ global:
       consumer: "fund"
       reset: "beginning"
       username: "php-backend"
+    google_auth:
+      client_id: "981820521247-mee663n9a5i3qhg1eftd0un5ku1r9en7.apps.googleusercontent.com"
+      redirect_uri: "https://bitcoinetf.org/auth/google"
 
   stage:
     app:

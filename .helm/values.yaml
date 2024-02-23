@@ -31,7 +31,7 @@ global:
     centrifugal:
       host: "centrifugo.etf-api-service.svc.cluster.local:9000/api"
     payment:
-      host: "http://payments.payments.svc.cluster.local:3000"
+      host: "http://payments.etf-private-payment.svc.cluster.local:3000"
     mailchimp:
       server_prefix: "us10"
       list_id: "3a78876f55"

@@ -34,7 +34,7 @@ final readonly class SendPaymentPipe implements PipeInterface
                 ->throw()
                 ->json();
         } catch (Exception $exception) {
-            throw new WithdrawalNotPossibleException();
+            throw new WithdrawalNotPossibleException($exception->getMessage());
         }
 
         return $next($dto);

@@ -32,6 +32,7 @@ return [
     CodeEnum::C040002->value => 'replenishment not found',
     CodeEnum::C050001->value => 'code not found',
     CodeEnum::C050002->value => 'already used code',
+    CodeEnum::C060001->value => 'withdrawal is not possible',
     CodeEnum::C090001->value => 'file save error',
     CodeEnum::C100001->value => 'merchant001 unavailable',
 ];

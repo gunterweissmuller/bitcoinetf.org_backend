@@ -24,7 +24,7 @@ final readonly class SendPaymentPipe implements PipeInterface
                 ->withHeaders([
                     'Authorization' => 'Bearer '.env('PAYMENT_API_KEY'),
                 ])
-                ->post('/v1/payments/withdraw', [
+                ->post('/v1/withdraw', [
                     'uuid' => $withdrawal->getUuid(),
                     'network' => 'tron',
                     'token' => 'usdt',

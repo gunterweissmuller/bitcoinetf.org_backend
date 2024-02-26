@@ -26,6 +26,10 @@ return [
         'interface' => \App\Repositories\Users\Profile\ProfileRepositoryInterface::class,
         'implementation' => \App\Repositories\Users\Profile\PgSqlProfileRepository::class,
     ],
+    [
+        'interface' => \App\Repositories\Users\Wallet\WalletRepositoryInterface::class,
+        'implementation' => \App\Repositories\Users\Wallet\PgSqlWalletRepository::class,
+    ],
 
     // Fund
     [
@@ -49,6 +53,10 @@ return [
     [
         'interface' => \App\Repositories\Billing\Replenishment\ReplenishmentRepositoryInterface::class,
         'implementation' => \App\Repositories\Billing\Replenishment\PgSqlReplenishmentRepository::class,
+    ],
+    [
+        'interface' => \App\Repositories\Billing\Withdrawal\WithdrawalRepositoryInterface::class,
+        'implementation' => \App\Repositories\Billing\Withdrawal\PgSqlWithdrawalRepository::class,
     ],
     [
         'interface' => \App\Repositories\Billing\CreditCardRequest\CreditCardRequestRepositoryInterface::class,

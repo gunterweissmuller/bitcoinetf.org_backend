@@ -24,6 +24,8 @@ final class Kernel extends ConsoleKernel
         // billing
         $schedule->command('billing:check-expired-replenishments')->everyMinute();
         $schedule->command('billing:calculate-trc-bonus')->dailyAt('00:01'); // 00:06
+        $schedule->command('billing:bitcoin-lightning-withdrawal')->dailyAt('06:30'); // 00:05
+        $schedule->command('billing:bitcoin-on-chain-withdrawal')->dailyAt('06:30'); // 00:06
     }
 
     protected function commands(): void

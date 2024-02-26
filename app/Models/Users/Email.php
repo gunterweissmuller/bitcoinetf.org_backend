@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $status
  * @property string $created_at
  * @property string $updated_at
+ * @property string $wallet
  *
  * @package App\Models\Users
  */
@@ -30,5 +31,6 @@ final class Email extends Model
         'account_uuid',
         'email',
         'status',
+        'wallet',
     ];
 }

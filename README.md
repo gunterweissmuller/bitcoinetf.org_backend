@@ -2,7 +2,7 @@
 
 ## Auth
 
-Для работы JWT требуется в директории `/storage/jwt` создать приватный и публичный ключ командами:
+For JWT to work, you need to create a private and public key in the `/storage/jwt` directory using the commands:
 
 ```shell
 openssl ecparam -name prime256v1 -genkey -noout -out private.pem
@@ -11,19 +11,19 @@ openssl ec -in private.pem -pubout -out public.pem
 
 ## Queue
 
-Список команд:
+List of commands:
 
 ```shell
-php artisan statistic:save-daily-wallet - [запуск раз в день] сбор статистики баланса кошельков юзеров
-php artisan statistic:create-monthly-report - [запуск 1 раз в месяц] формирование месячного отчета об аккаунте
-php artisan queue:work --tries=3 --queue=statistic.report.monthly_account_report - генерация месячного отчета по аккаунту
-php artisan kafka:consumer-process - Запуск процесса чтения топика Kafka
+php artisan statistic:save-daily-wallet - [run once a day] collect statistics on the balance of users’ wallets
+php artisan statistic:create-monthly-report - [run once a month] generation of a monthly account report
+php artisan queue:work --tries=3 --queue=statistic.report.monthly_account_report - generating a monthly account report
+php artisan kafka:consumer-process - starting the Kafka topic reading process
 ```
 
-## Ограничения!
+## Restrictions!
 
-- Нельзя переименовывать существующие enum значения в БД / коде
-- Нельзя удалять существующие enum в таблицах
-- Если вы осуществляете добавления новых полей в существующие таблицы - делайте их nullbable 
-- очереди (и зафейленные очереди) находятся в таблицах: queue.jobs_fund и queue.failed_jobs_fund
+- You cannot rename existing enum values in the database/code
+- You cannot delete existing enums in tables
+- If you are adding new fields to existing tables, make them nullable
+- queues (and failed queues) are located in the tables: queue.jobs_fund and queue.failed_jobs_fund
 

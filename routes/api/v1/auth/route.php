@@ -12,4 +12,5 @@ Route::namespace('Auth')
         require_once 'login.php';
         require_once 'token.php';
         require_once 'recovery.php';
+        require_once 'provider.php';
     });

@@ -30,6 +30,8 @@ global:
         refresh: "10080"
     centrifugal:
       host: "centrifugo.etf-api-service.svc.cluster.local:9000/api"
+    greenfield:
+      host: "https://btc.techetf.org"
     payment:
       host: "http://payments.etf-private-payment.svc.cluster.local:3000"
     mailchimp:
@@ -42,6 +44,9 @@ global:
       consumer: "fund"
       reset: "beginning"
       username: "php-backend"
+    google_auth:
+      client_id: "981820521247-mee663n9a5i3qhg1eftd0un5ku1r9en7.apps.googleusercontent.com"
+      redirect_uri: "https://bitcoinetf.org/auth/google"
 
   stage:
     app:
@@ -73,6 +78,8 @@ global:
         refresh: "10080"
     centrifugal:
       host: "centrifugo.etf-api-service-development.svc.cluster.local:9000/api"
+    greenfield:
+      host: "https://btc.stage.techetf.org"
     payment:
       host: "payments.stage-etf-private-payment.svc.cluster.local:3000"
     mailchimp:
@@ -85,6 +92,9 @@ global:
       consumer: "fund"
       reset: "beginning"
       username: "php-backend"
+    google_auth:
+      client_id: "745955834530-cp4m04pm6sv2emqkll922blijde5o1u2.apps.googleusercontent.com"
+      redirect_uri: "https://front.stage.techetf.org/auth/google"
 
 otherServices:
 - name: queue

@@ -6,8 +6,10 @@ namespace App\Pipelines\V1\Auth\Login\Pipes\Login;
 
 use App\Dto\DtoInterface;
 use App\Dto\Pipelines\Api\V1\Auth\Login\LoginPipelineDto;
+use App\Enums\Users\Account\ProviderTypeEnum;
 use App\Enums\Users\Account\StatusEnum;
 use App\Exceptions\Pipelines\V1\Auth\IncorrectLoginDataException;
+use App\Exceptions\Pipelines\V1\Auth\IncorrectLoginProviderTypeException;
 use App\Pipelines\PipeInterface;
 use App\Services\Api\V1\Users\AccountService;
 use Closure;
@@ -26,6 +28,9 @@ final class AccountPipe implements PipeInterface
             'uuid' => $dto->getEmail()->getAccountUuid(),
             'status' => StatusEnum::Enabled->value,
         ])) {
+            if ($account->getProviderType() !== ProviderTypeEnum::Email->value) {
+                throw new IncorrectLoginProviderTypeException();
+            }
             if (!Hash::check($dto->getAccount()->getPassword(), $account->getPassword())) {
                 throw new IncorrectLoginDataException();
             }

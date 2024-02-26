@@ -10,19 +10,21 @@ final class AccountDto implements DtoInterface
 {
     public function __construct(
         private ?string $uuid,
-        private ?int $number,
+        private ?int    $number,
         private ?string $username,
         private ?string $type,
         private ?string $status,
         private ?string $password,
-        private ?float $personalBonus,
-        private ?float $increasedMinimumApy,
+        private ?float  $personalBonus,
+        private ?float  $increasedMinimumApy,
         private ?string $tronWallet,
-        private ?bool $fastReg,
-        private ?bool $fastPayment,
+        private ?bool   $fastReg,
+        private ?bool   $fastPayment,
         private ?string $createdAt,
         private ?string $updatedAt,
-    ) {
+        private ?string $providerType,
+    )
+    {
     }
 
     public static function fromArray(array $args): DtoInterface|self
@@ -41,6 +43,7 @@ final class AccountDto implements DtoInterface
             $args['fast_payment'] ?? null,
             $args['created_at'] ?? null,
             $args['updated_at'] ?? null,
+            $args['provider_type'] ?? null,
         );
     }
 
@@ -60,6 +63,7 @@ final class AccountDto implements DtoInterface
             'fast_payment' => $this->fastPayment,
             'created_at' => $this->createdAt,
             'updated_at' => $this->updatedAt,
+            'provider_type' => $this->providerType,
         ];
     }
 
@@ -191,5 +195,15 @@ final class AccountDto implements DtoInterface
     public function setUpdatedAt(?string $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
+    }
+
+    public function getProviderType(): ?string
+    {
+        return $this->providerType;
+    }
+
+    public function setProviderType(?string $providerType): void
+    {
+        $this->providerType = $providerType;
     }
 }

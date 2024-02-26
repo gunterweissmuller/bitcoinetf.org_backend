@@ -167,6 +167,19 @@ Create chart name and version as used by the chart label.
       name: secrets-backend
       key: centrifugalSecretKey
 
+- name: GREENFIELD_HOST
+  value: "{{ $globals.greenfield.host }}"
+- name: GREENFIELD_API_KEY
+  valueFrom:
+    secretKeyRef:
+      name: secrets-backend
+      key: greenfieldApiKey
+- name: GREENFIELD_STORE_ID
+  valueFrom:
+    secretKeyRef:
+      name: secrets-backend
+      key: greenfieldStoreId
+
 - name: PAYMENT_HOST
   value: "{{ $globals.payment.host }}"
 - name: PAYMENT_API_KEY
@@ -211,5 +224,15 @@ Create chart name and version as used by the chart label.
     secretKeyRef:
       name: secrets-backend
       key: kafkaPassword
+
+- name: GOOGLE_CLIENT_ID
+  value: "{{ $globals.google_auth.client_id }}"
+- name: GOOGLE_CLIENT_SECRET
+  valueFrom:
+    secretKeyRef:
+      name: secrets-backend
+      key: googleSecret
+- name: GOOGLE_REDIRECT_URI
+  value: "{{ $globals.google_auth.redirect_uri }}"
 
 {{- end -}}

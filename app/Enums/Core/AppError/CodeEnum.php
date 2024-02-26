@@ -34,7 +34,13 @@ enum CodeEnum: string
 
     case C011007 = '011007'; // incorrect refresh token
 
-    case C020002 = '020002'; // глобальная настройка по symbol не найдена
+    case C011008 = '011008'; // incorrect login provider
+
+    case C011009 = '011009'; // authorization token expired
+
+    case C011010 = '011010'; // invalid signature
+
+    case C020002 = '020002'; // global symbol setup not found
 
     case C030001 = '030001'; // form not found
 
@@ -51,6 +57,8 @@ enum CodeEnum: string
     case C050001 = '050001'; // code not found
 
     case C050002 = '050002'; // already used code
+	
+	case C060001 = '060001'; // withdrawal is not possible
 
     case C090001 = '090001'; // file save error
 

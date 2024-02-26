@@ -1,0 +1,204 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Dto\Pipelines\Api\V1\Auth\Register;
+
+use App\Dto\DtoInterface;
+use App\Dto\Models\Referrals\CodeDto;
+use App\Dto\Models\Referrals\InviteDto;
+use App\Dto\Models\Users\AccountDto;
+use App\Dto\Models\Users\EmailDto;
+use App\Dto\Models\Users\ProfileDto;
+use App\Dto\Models\Users\WalletDto;
+
+final class InitMetamaskPipelineDto implements DtoInterface
+{
+    public function __construct(
+        private ?AccountDto $account,
+        private ?ProfileDto $profile,
+        private ?EmailDto $email,
+        private ?CodeDto $refCode,
+        private ?CodeDto $newCode,
+        private ?InviteDto $invite,
+        private ?WalletDto $wallet,
+        private bool $isExistsEmail,
+        private bool $isExistsWallet,
+    ) {
+    }
+
+    public static function fromArray(array $args): DtoInterface|self
+    {
+        return new self(
+            $args['account'] ?? null,
+            $args['profile'] ?? null,
+            $args['email'] ?? null,
+            $args['ref_code'] ?? null,
+            $args['new_code'] ?? null,
+            $args['invite'] ?? null,
+            $args['wallet'] ?? null,
+            $args['is_exists_email'] ?? false,
+            $args['is_exists_wallet'] ?? false,
+        );
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'account' => $this->account,
+            'profile' => $this->profile,
+            'email' => $this->email,
+            'ref_code' => $this->refCode,
+            'invite' => $this->invite,
+            'wallet' => $this->wallet,
+            'is_exists_email' => $this->isExistsEmail,
+            'is_exists_wallet' => $this->isExistsWallet,
+        ];
+    }
+
+    /**
+     * @return AccountDto|null
+     */
+    public function getAccount(): ?AccountDto
+    {
+        return $this->account;
+    }
+
+    /**
+     * @param  AccountDto|null  $account
+     */
+    public function setAccount(?AccountDto $account): void
+    {
+        $this->account = $account;
+    }
+
+    /**
+     * @return ProfileDto|null
+     */
+    public function getProfile(): ?ProfileDto
+    {
+        return $this->profile;
+    }
+
+    /**
+     * @param  ProfileDto|null  $profile
+     */
+    public function setProfile(?ProfileDto $profile): void
+    {
+        $this->profile = $profile;
+    }
+
+    /**
+     * @return EmailDto|null
+     */
+    public function getEmail(): ?EmailDto
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param  EmailDto|null  $email
+     */
+    public function setEmail(?EmailDto $email): void
+    {
+        $this->email = $email;
+    }
+
+    /**
+     * @return CodeDto|null
+     */
+    public function getRefCode(): ?CodeDto
+    {
+        return $this->refCode;
+    }
+
+    /**
+     * @param  CodeDto|null  $refCode
+     */
+    public function setRefCode(?CodeDto $refCode): void
+    {
+        $this->refCode = $refCode;
+    }
+
+    /**
+     * @return CodeDto|null
+     */
+    public function getNewCode(): ?CodeDto
+    {
+        return $this->newCode;
+    }
+
+    /**
+     * @param  CodeDto|null  $newCode
+     */
+    public function setNewCode(?CodeDto $newCode): void
+    {
+        $this->newCode = $newCode;
+    }
+
+    /**
+     * @return InviteDto|null
+     */
+    public function getInvite(): ?InviteDto
+    {
+        return $this->invite;
+    }
+
+    /**
+     * @param  InviteDto|null  $invite
+     */
+    public function setInvite(?InviteDto $invite): void
+    {
+        $this->invite = $invite;
+    }
+
+    /**
+     * @return WalletDto|null
+     */
+    public function getWallet(): ?WalletDto
+    {
+        return $this->wallet;
+    }
+
+    /**
+     * @param  WalletDto|null  $invite
+     */
+    public function setWallet(?WalletDto $wallet): void
+    {
+        $this->wallet = $wallet;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getIsExistsEmail(): ?bool
+    {
+        return $this->isExistsEmail;
+    }
+
+    /**
+     * @param bool|null $isExistsEmail
+     * @return void
+     */
+    public function setIsExistsEmail(?bool $isExistsEmail): void
+    {
+        $this->isExistsEmail = $isExistsEmail;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getIsExistsWallet(): ?bool
+    {
+        return $this->isExistsWallet;
+    }
+
+    /**
+     * @param bool|null $isExistsWallet
+     * @return void
+     */
+    public function setIsExistsWallet(?bool $isExistsWallet): void
+    {
+        $this->isExistsWallet = $isExistsWallet;
+    }
+}

@@ -20,6 +20,9 @@ return [
     CodeEnum::C011005->value => 'incorrect code',
     CodeEnum::C011006->value => 'incorrect login data',
     CodeEnum::C011007->value => 'incorrect refresh token',
+    CodeEnum::C011008->value => 'incorrect login provider',
+    CodeEnum::C011009->value => 'authorization token expired',
+    CodeEnum::C011010->value => 'invalid signature',
     CodeEnum::C020002->value => 'global symbol setup not found',
     CodeEnum::C030001->value => 'form not found',
     CodeEnum::C030002->value => 'screen not found',
@@ -29,6 +32,7 @@ return [
     CodeEnum::C040002->value => 'replenishment not found',
     CodeEnum::C050001->value => 'code not found',
     CodeEnum::C050002->value => 'already used code',
+    CodeEnum::C060001->value => 'withdrawal is not possible',
     CodeEnum::C090001->value => 'file save error',
     CodeEnum::C100001->value => 'merchant001 unavailable',
 ];

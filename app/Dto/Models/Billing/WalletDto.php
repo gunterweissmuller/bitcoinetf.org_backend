@@ -17,6 +17,7 @@ final class WalletDto implements DtoInterface
         private ?string $withdrawalMethod,
         private ?string $createdAt,
         private ?string $updatedAt,
+        private ?float  $btcAmount,
     ) {
     }
 
@@ -31,6 +32,7 @@ final class WalletDto implements DtoInterface
             $args['withdrawal_method'] ?? null,
             $args['created_at'] ?? null,
             $args['updated_at'] ?? null,
+            $args['btc_amount'] ?? null,
         );
     }
 
@@ -45,6 +47,7 @@ final class WalletDto implements DtoInterface
             'withdrawal_method' => $this->withdrawalMethod,
             'created_at' => $this->createdAt,
             'updated_at' => $this->updatedAt,
+            'btc_amount' => $this->btcAmount,
         ];
 
         if ($without) {
@@ -62,6 +65,16 @@ final class WalletDto implements DtoInterface
     public function getUuid(): ?string
     {
         return $this->uuid;
+    }
+
+    public function getBtcAmount(): ?float
+    {
+        return $this->btcAmount;
+    }
+
+    public function setBtcAmount(?float $value): void
+    {
+        $this->btcAmount = $value;
     }
 
     /**

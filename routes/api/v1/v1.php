@@ -18,4 +18,5 @@ Route::namespace('V1')
         require_once 'pages/route.php';
         require_once 'referrals/route.php';
         require_once 'newsletter/route.php';
+        require_once 'pap/route.php';
     });

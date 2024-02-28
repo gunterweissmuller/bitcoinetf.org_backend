@@ -7,7 +7,6 @@ namespace App\Pipelines\V1\Auth\Register;
 use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmGooglePipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmMetamaskPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmPipelineDto;
-use App\Dto\Pipelines\Api\V1\Auth\Register\InitApplePipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\InitGooglePipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\InitMetamaskPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\InitPipelineDto;
@@ -18,6 +17,7 @@ use App\Pipelines\V1\Auth\Register\Pipes\Confirm\CodePipe as ConfirmCodePipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Confirm\EmailPipe as ConfirmEmailPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Confirm\JwtPipe as ConfirmJwtPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Confirm\MailPipe as ConfirmMailPipe;
+use App\Pipelines\V1\Auth\Register\Pipes\Confirm\UpdateUsersInfoPipe as ConfirmUpdateUsersInfoPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\ConfirmGoogleAuth\AccountPipe as ConfirmGoogleAuthAccountPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\ConfirmGoogleAuth\ProfilePipe as ConfirmGoogleAuthProfilePipe;
 use App\Pipelines\V1\Auth\Register\Pipes\ConfirmGoogleAuth\ValidatePipe as ConfirmGoogleAuthValidatePipe;
@@ -25,27 +25,21 @@ use App\Pipelines\V1\Auth\Register\Pipes\ConfirmMetamaskAuth\AccountPipe as Conf
 use App\Pipelines\V1\Auth\Register\Pipes\Init\AccountPipe as InitAccountPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\BonusPipe as InitBonusPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\EmailPipe as InitEmailPipe;
-use App\Pipelines\V1\Auth\Register\Pipes\Init\EventsPipe as InitEventsPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\InvitePipe as InitInvitePipe;
+use App\Pipelines\V1\Auth\Register\Pipes\Init\KafkaEventPipe as InitKafkaEventPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\NewCodePipe as InitNewCodePipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\ProfilePipe as InitProfilePipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\TronWalletPipe as InitTronWalletPipe;
+use App\Pipelines\V1\Auth\Register\Pipes\Init\UserEventPipe as InitUserEventPipe;
+use App\Pipelines\V1\Auth\Register\Pipes\Init\UserWalletPipe as InitMetamaskWalletPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\ValidatePipe as InitValidatePipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\WalletPipe as InitWalletPipe;
+use App\Dto\Pipelines\Api\V1\Auth\Register\InitApplePipelineDto;
 use App\Pipelines\V1\Auth\Register\Pipes\InitAppleAuth\AccountPipe as InitAppleAuthAccountPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\InitAppleAuth\AppleAccountPipe as InitAppleAuthAppleAccountPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\InitAppleAuth\ValidatePipe as InitAppleAuthValidatePipe;
 use App\Pipelines\V1\Auth\Register\Pipes\InitAppleAuth\EventsPipe as InitAppleAuthEventsPipe;
-use App\Pipelines\V1\Auth\Register\Pipes\InitGoogleAuth\EventsPipe as InitGoogleAuthEventsPipe;
-use App\Pipelines\V1\Auth\Register\Pipes\InitMetamaskAuth\AccountPipe as InitMetamaskAccountPipe;
-use App\Pipelines\V1\Auth\Register\Pipes\InitMetamaskAuth\BillingWalletPipe as InitMetamaskBillingWalletPipe;
-use App\Pipelines\V1\Auth\Register\Pipes\InitMetamaskAuth\BonusPipe as InitMetamaskBonusPipe;
-use App\Pipelines\V1\Auth\Register\Pipes\InitMetamaskAuth\EmailPipe as InitMetamaskEmailPipe;
-use App\Pipelines\V1\Auth\Register\Pipes\InitMetamaskAuth\InvitePipe as InitMetamaskInvitePipe;
-use App\Pipelines\V1\Auth\Register\Pipes\InitMetamaskAuth\NewCodePipe as InitMetamaskNewCodePipe;
-use App\Pipelines\V1\Auth\Register\Pipes\InitMetamaskAuth\ProfilePipe as InitMetamaskProfilePipe;
-use App\Pipelines\V1\Auth\Register\Pipes\InitMetamaskAuth\ValidatePipe as InitMetamaskValidatePipe;
-use App\Pipelines\V1\Auth\Register\Pipes\InitMetamaskAuth\WalletPipe as InitMetamaskWalletPipe;
+
 
 final class RegisterPipeline extends AbstractPipeline
 {
@@ -61,7 +55,8 @@ final class RegisterPipeline extends AbstractPipeline
             InitTronWalletPipe::class,
             InitNewCodePipe::class,
             InitBonusPipe::class,
-            InitEventsPipe::class,
+            InitKafkaEventPipe::class,
+            InitUserEventPipe::class,
         ], $dto);
     }
 
@@ -74,6 +69,7 @@ final class RegisterPipeline extends AbstractPipeline
             ConfirmBonusPipe::class,
             ConfirmJwtPipe::class,
             ConfirmMailPipe::class,
+            ConfirmUpdateUsersInfoPipe::class,
         ], $dto);
     }
 
@@ -89,7 +85,7 @@ final class RegisterPipeline extends AbstractPipeline
             InitTronWalletPipe::class,
             InitNewCodePipe::class,
             InitBonusPipe::class,
-            InitGoogleAuthEventsPipe::class,
+            InitKafkaEventPipe::class,
         ], $dto);
     }
 
@@ -103,23 +99,25 @@ final class RegisterPipeline extends AbstractPipeline
             ConfirmBonusPipe::class,
             ConfirmJwtPipe::class,
             ConfirmMailPipe::class,
+            ConfirmUpdateUsersInfoPipe::class,
         ], $dto);
     }
 
     public function initMetamaskAuth(InitMetamaskPipelineDto $dto): array
     {
         return $this->pipeline([
-            InitMetamaskValidatePipe::class,
-            InitMetamaskAccountPipe::class,
-            InitMetamaskEmailPipe::class,
-            InitMetamaskProfilePipe::class,
+            InitValidatePipe::class,
+            InitAccountPipe::class,
+            InitEmailPipe::class,
+            InitProfilePipe::class,
             InitMetamaskWalletPipe::class,
-            InitMetamaskBillingWalletPipe::class,
-            InitMetamaskInvitePipe::class,
+            InitWalletPipe::class,
+            InitInvitePipe::class,
             InitTronWalletPipe::class,
-            InitMetamaskNewCodePipe::class,
-            InitMetamaskBonusPipe::class,
-            InitEventsPipe::class,
+            InitNewCodePipe::class,
+            InitBonusPipe::class,
+            InitKafkaEventPipe::class,
+            InitUserEventPipe::class,
         ], $dto);
     }
 
@@ -132,6 +130,7 @@ final class RegisterPipeline extends AbstractPipeline
             ConfirmBonusPipe::class,
             ConfirmJwtPipe::class,
             ConfirmMailPipe::class,
+            ConfirmUpdateUsersInfoPipe::class,
         ], $dto);
     }
 

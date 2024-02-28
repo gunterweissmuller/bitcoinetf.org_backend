@@ -71,7 +71,7 @@ final class RegisterController extends Controller
 
         $valid = (new EcRecover)->verifySignature($message,  $signature,  $walletAddress);
         if (!$valid) {
-            return response()->json(['message' => 'Invalid signature'], 401);
+            return response()->__call('exception', [new InvalidSignatureMetamaskException]);
         }
 
         /** @var InitMetamaskPipelineDto $dto */

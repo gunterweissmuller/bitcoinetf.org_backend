@@ -33,9 +33,6 @@ final class AccountPipe implements PipeInterface
             $account = $this->accountService->create($account);
 
             $dto->setAccount($account);
-        } else {
-            $email = $dto->getEmail();
-            $dto->setAccount($this->accountService->get(['uuid' => $email->getAccountUuid()]));
         }
 
         return $next($dto);

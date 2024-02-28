@@ -2,7 +2,7 @@
 
 ## Auth
 
-Для работы JWT требуется в директории `/storage/jwt` создать приватный и публичный ключ командами:
+For JWT to work, you need to create a private and public key in the `/storage/jwt` directory using the commands:
 
 ```shell
 openssl ecparam -name prime256v1 -genkey -noout -out private.pem
@@ -11,13 +11,13 @@ openssl ec -in private.pem -pubout -out public.pem
 
 ## Queue
 
-Список команд:
+List of commands:
 
 ```shell
-php artisan statistic:save-daily-wallet - [запуск раз в день] сбор статистики баланса кошельков юзеров
-php artisan statistic:create-monthly-report - [запуск 1 раз в месяц] формирование месячного отчета об аккаунте
-php artisan queue:work --tries=3 --queue=statistic.report.monthly_account_report - генерация месячного отчета по аккаунту
-php artisan kafka:consumer-process - Запуск процесса чтения топика Kafka
+php artisan statistic:save-daily-wallet - [run once a day] collect statistics on the balance of users’ wallets
+php artisan statistic:create-monthly-report - [run once a month] generation of a monthly account report
+php artisan queue:work --tries=3 --queue=statistic.report.monthly_account_report - generating a monthly account report
+php artisan kafka:consumer-process - starting the Kafka topic reading process
 ```
 
 ## Restrictions!

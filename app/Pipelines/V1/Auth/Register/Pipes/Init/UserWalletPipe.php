@@ -20,7 +20,7 @@ final class UserWalletPipe implements PipeInterface
 
     public function handle(InitMetamaskPipelineDto|DtoInterface $dto, Closure $next): DtoInterface
     {
-        if (!$this->walletService->get([
+        if (!$wallet = $this->walletService->get([
             'wallet' => $dto->getWallet()->getWallet(),
         ])) {
             $wallet = $dto->getWallet();
@@ -29,8 +29,6 @@ final class UserWalletPipe implements PipeInterface
             $wallet->setWallet($dto->getWallet()->getWallet());
 
             $wallet = $this->walletService->create($wallet);
-        } else {
-            $wallet = $this->walletService->get(['account_uuid' => $dto->getAccount()->getUuid()]);
         }
 
         $dto->setWallet($wallet);

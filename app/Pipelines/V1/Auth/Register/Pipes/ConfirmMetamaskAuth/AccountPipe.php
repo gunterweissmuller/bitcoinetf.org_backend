@@ -6,7 +6,6 @@ namespace App\Pipelines\V1\Auth\Register\Pipes\ConfirmMetamaskAuth;
 
 use App\Dto\DtoInterface;
 use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmMetamaskPipelineDto;
-use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmPipelineDto;
 use App\Enums\Users\Account\ProviderTypeEnum;
 use App\Enums\Users\Account\StatusEnum;
 use App\Pipelines\PipeInterface;

@@ -12,13 +12,11 @@ use App\Pipelines\PipeInterface;
 use App\Services\Utils\KafkaProducerService;
 use Closure;
 
-final class EventsPipe implements PipeInterface
+final class KafkaEventPipe implements PipeInterface
 {
     public function handle(InitPipelineDto|DtoInterface $dto, Closure $next): DtoInterface
     {
         $account = $dto->getAccount();
-
-        event(new NewUserEvent($account, $dto->getEmail()));
 
         KafkaProducerService::handle(
             ProducerEnum::AUTH_REGISTRATION,

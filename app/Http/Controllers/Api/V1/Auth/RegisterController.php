@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\V1\Auth;
 
+use App\Exceptions\Pipelines\V1\Auth\InvalidSignatureMetamaskException;
 use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\InitPipelineDto;
 use App\Http\Requests\Api\V1\Auth\Register\ConfirmRequest;

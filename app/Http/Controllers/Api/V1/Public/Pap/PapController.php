@@ -26,19 +26,11 @@ final class PapController extends Controller
 
     public function sale(): JsonResponse
     {
-        $saleTracker = new Pap_Api_SaleTracker('https://bitcoinetf.postaffiliatepro.com/scripts/sale.php');
-
-        $saleTracker->setAccountId('bitcoinetf.postaffiliatepro.com');
-
-        //if you need to set customer's IP use this row, otherwise is used IP recognized from $_SERVER['REMOTE_ADDR']
-        $saleTracker->setIp('127.0.0.1');
-
+        $saleTracker = new Pap_Api_SaleTracker(PAP_SALE_TRACKER_HOST);
+        $saleTracker->setAccountId(PAP_ACCOUNT_ID);
         $sale1 = $saleTracker->createSale();
         $sale1->setTotalCost('100');
         $sale1->setOrderID('staging');
-        $sale1->setProductID('replenishment');
-        $sale1->doNotDeleteCookies();
-
         $saleTracker->register();
 
         return response()->json([

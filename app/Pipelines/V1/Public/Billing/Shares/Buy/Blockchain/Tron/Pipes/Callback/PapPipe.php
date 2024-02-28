@@ -48,12 +48,13 @@ final readonly class PapPipe implements PipeInterface
         $accountUuid = $dto->getAccount()->getUuid();
 
 
-        $saleTracker = (new Pap_Api_SaleTracker('https://bitcoinetf.postaffiliatepro.com/scripts/sale.php'))->setAccountId('bitcoinetf.postaffiliatepro.com');
+        $saleTracker = new Pap_Api_SaleTracker(PAP_SALE_TRACKER_HOST);
+        $saleTracker->setAccountId(PAP_ACCOUNT_ID);        
         $sale = $saleTracker->createSale();
         $sale->setTotalCost($dto->getReplenishment()->getRealAmount());
         $saleTracker->register();
 
-
+        
         return $next($dto);
     }
 }

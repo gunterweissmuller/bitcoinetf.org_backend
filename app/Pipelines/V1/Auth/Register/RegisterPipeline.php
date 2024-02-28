@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Pipelines\V1\Auth\Register;
 
+use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmApplePipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmGooglePipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmMetamaskPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmPipelineDto;
+use App\Dto\Pipelines\Api\V1\Auth\Register\InitApplePipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\InitGooglePipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\InitMetamaskPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\InitPipelineDto;
@@ -18,11 +20,13 @@ use App\Pipelines\V1\Auth\Register\Pipes\Confirm\EmailPipe as ConfirmEmailPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Confirm\JwtPipe as ConfirmJwtPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Confirm\MailPipe as ConfirmMailPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Confirm\UpdateUsersInfoPipe as ConfirmUpdateUsersInfoPipe;
+use App\Pipelines\V1\Auth\Register\Pipes\Confirm\ValidatePipe as ConfirmValidatePipe;
 use App\Pipelines\V1\Auth\Register\Pipes\ConfirmGoogleAuth\AccountPipe as ConfirmGoogleAuthAccountPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\ConfirmGoogleAuth\ProfilePipe as ConfirmGoogleAuthProfilePipe;
-use App\Pipelines\V1\Auth\Register\Pipes\ConfirmGoogleAuth\ValidatePipe as ConfirmGoogleAuthValidatePipe;
 use App\Pipelines\V1\Auth\Register\Pipes\ConfirmMetamaskAuth\AccountPipe as ConfirmMetamaskAccountPipe;
+use App\Pipelines\V1\Auth\Register\Pipes\ConfirmAppleAuth\AccountPipe as ConfirmAppleAuthAccountPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\AccountPipe as InitAccountPipe;
+use App\Pipelines\V1\Auth\Register\Pipes\Init\AppleAccountPipe as InitAppleAuthAppleAccountPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\BonusPipe as InitBonusPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\EmailPipe as InitEmailPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\InvitePipe as InitInvitePipe;
@@ -34,11 +38,6 @@ use App\Pipelines\V1\Auth\Register\Pipes\Init\UserEventPipe as InitUserEventPipe
 use App\Pipelines\V1\Auth\Register\Pipes\Init\UserWalletPipe as InitMetamaskWalletPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\ValidatePipe as InitValidatePipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\WalletPipe as InitWalletPipe;
-use App\Dto\Pipelines\Api\V1\Auth\Register\InitApplePipelineDto;
-use App\Pipelines\V1\Auth\Register\Pipes\InitAppleAuth\AccountPipe as InitAppleAuthAccountPipe;
-use App\Pipelines\V1\Auth\Register\Pipes\InitAppleAuth\AppleAccountPipe as InitAppleAuthAppleAccountPipe;
-use App\Pipelines\V1\Auth\Register\Pipes\InitAppleAuth\ValidatePipe as InitAppleAuthValidatePipe;
-use App\Pipelines\V1\Auth\Register\Pipes\InitAppleAuth\EventsPipe as InitAppleAuthEventsPipe;
 
 
 final class RegisterPipeline extends AbstractPipeline
@@ -92,7 +91,7 @@ final class RegisterPipeline extends AbstractPipeline
     public function confirmGoogleAuth(ConfirmGooglePipelineDto $dto): array
     {
         return $this->pipeline([
-            ConfirmGoogleAuthValidatePipe::class,
+            ConfirmValidatePipe::class,
             ConfirmEmailPipe::class,
             ConfirmGoogleAuthAccountPipe::class,
             ConfirmGoogleAuthProfilePipe::class,
@@ -124,6 +123,7 @@ final class RegisterPipeline extends AbstractPipeline
     public function confirmMetamaskAuth(ConfirmMetamaskPipelineDto $dto): array
     {
         return $this->pipeline([
+            ConfirmValidatePipe::class,
             ConfirmEmailPipe::class,
             ConfirmCodePipe::class,
             ConfirmMetamaskAccountPipe::class,
@@ -137,28 +137,32 @@ final class RegisterPipeline extends AbstractPipeline
     public function initAppleAuth(InitApplePipelineDto $dto): array
     {
         return $this->pipeline([
-            InitAppleAuthValidatePipe::class,
-            InitAppleAuthAccountPipe::class,
-            InitAppleAuthAppleAccountPipe::class,
+            InitValidatePipe::class,
+            InitAccountPipe::class,
+            InitEmailPipe::class,
             InitProfilePipe::class,
+            InitAppleAuthAppleAccountPipe::class,
             InitWalletPipe::class,
             InitInvitePipe::class,
             InitTronWalletPipe::class,
+            InitNewCodePipe::class,
             InitBonusPipe::class,
-            InitAppleAuthEventsPipe::class,
+            InitKafkaEventPipe::class,
+            InitUserEventPipe::class,
         ], $dto);
     }
 
-    public function confirmAppleAuth(ConfirmGooglePipelineDto $dto): array
+    public function confirmAppleAuth(ConfirmApplePipelineDto $dto): array
     {
         return $this->pipeline([
-            ConfirmGoogleAuthValidatePipe::class,
+            ConfirmValidatePipe::class,
             ConfirmEmailPipe::class,
-            ConfirmGoogleAuthAccountPipe::class,
-            ConfirmGoogleAuthProfilePipe::class,
+            ConfirmCodePipe::class,
+            ConfirmAppleAuthAccountPipe::class,
             ConfirmBonusPipe::class,
             ConfirmJwtPipe::class,
             ConfirmMailPipe::class,
+            ConfirmUpdateUsersInfoPipe::class,
         ], $dto);
     }
 }

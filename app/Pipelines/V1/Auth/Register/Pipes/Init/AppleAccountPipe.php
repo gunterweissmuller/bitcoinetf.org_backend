@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Pipelines\V1\Auth\Register\Pipes\InitAppleAuth;
+namespace App\Pipelines\V1\Auth\Register\Pipes\Init;
 
 use App\Dto\DtoInterface;
 use App\Dto\Pipelines\Api\V1\Auth\Register\InitApplePipelineDto;
@@ -20,18 +20,15 @@ final class AppleAccountPipe implements PipeInterface
 
     public function handle(InitApplePipelineDto|DtoInterface $dto, Closure $next): DtoInterface
     {
-        if (!$dto->getIsExists()) {
+        if (!$appleAccount = $this->appleAccountService->get(['apple_id' => $dto->getAppleAccount()->getAppleId()])) {
             $appleAccount = $dto->getAppleAccount();
             $appleAccount->setAccountUuid($dto->getAccount()->getUuid());
             $appleAccount->setStatus(StatusEnum::AwaitConfirm->value);
 
             $appleAccount = $this->appleAccountService->create($appleAccount);
-        } else {
-            $appleAccount = $this->appleAccountService->get(['account_uuid' => $dto->getAccount()->getUuid()]);
         }
 
         $dto->setAppleAccount($appleAccount);
-
         return $next($dto);
     }
 }

@@ -17,4 +17,8 @@ Route::prefix('provider')
         Route::get('/apple-auth/init', 'RegisterController@initApple');
         Route::Post('/apple-auth/confirm', 'RegisterController@confirmApple');
         Route::Post('/apple-auth/login', 'LoginController@loginApple');
+        Route::get('/telegram/credentials', 'RegisterController@getCredentialsTelegram');
+        Route::post('/telegram/init', 'RegisterController@initTelegram');
+        Route::post('/telegram/confirm', 'RegisterController@confirmTelegram');
+        Route::post('/telegram/login', 'LoginController@loginTelegram');
     });

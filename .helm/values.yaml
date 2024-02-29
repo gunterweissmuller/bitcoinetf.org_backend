@@ -100,6 +100,9 @@ global:
       client_secret: "secret"
       login_uri: "https://front.stage.techetf.org/auth/google"
       redirect_uri: "https://front.stage.techetf.org/auth/google"
+    telegram_auth:
+      bot_name: "add bot name"
+      redirect_uri: "https://front.stage.techetf.org/auth/telegram"
 
 otherServices:
 - name: queue

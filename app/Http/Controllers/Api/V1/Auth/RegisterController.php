@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\V1\Auth;
 
+use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmTelegramPipelineDto;
+use App\Dto\Pipelines\Api\V1\Auth\Register\InitTelegramPipelineDto;
 use App\Exceptions\Pipelines\V1\Auth\InvalidSignatureMetamaskException;
 use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmApplePipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmPipelineDto;
@@ -11,11 +13,13 @@ use App\Dto\Pipelines\Api\V1\Auth\Register\InitPipelineDto;
 use App\Http\Requests\Api\V1\Auth\Register\ConfirmAppleRequest;
 use App\Http\Requests\Api\V1\Auth\Register\ConfirmRequest;
 use App\Http\Requests\Api\V1\Auth\Register\InitAppleRequest;
+use App\Http\Requests\Api\V1\Auth\Register\ConfirmTelegramRequest;
 use App\Http\Requests\Api\V1\Auth\Register\InitRequest;
 use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmMetamaskPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\InitMetamaskPipelineDto;
 use App\Http\Requests\Api\V1\Auth\Register\ConfirmMetamaskRequest;
 use App\Http\Requests\Api\V1\Auth\Register\InitMetamaskRequest;
+use App\Http\Requests\Api\V1\Auth\Register\InitTelegramRequest;
 use App\Pipelines\V1\Auth\Register\RegisterPipeline;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
@@ -27,7 +31,8 @@ final class RegisterController extends Controller
 {
     public function __construct(
         private readonly RegisterPipeline $pipeline,
-    ) {
+    )
+    {
     }
 
     public function init(InitRequest $request): JsonResponse
@@ -71,10 +76,10 @@ final class RegisterController extends Controller
     public function metamaskInit(InitMetamaskRequest $request): JsonResponse
     {
         $walletAddress = Str::lower($request->wallet_address);
-        $message   = $request->message;
+        $message = $request->message;
         $signature = $request->signature;
 
-        $valid = (new EcRecover)->verifySignature($message,  $signature,  $walletAddress);
+        $valid = (new EcRecover)->verifySignature($message, $signature, $walletAddress);
         if (!$valid || $message !== METAMASK_MSG) {
             return response()->__call('exception', [new InvalidSignatureMetamaskException]);
         }
@@ -147,6 +152,57 @@ final class RegisterController extends Controller
     {
         /** @var ConfirmApplePipelineDto $dto */
         [$dto, $e] = $this->pipeline->confirmAppleAuth($request->dto());
+
+        if (!$e) {
+            return response()->json([
+                'data' => [
+                    'access_token' => $dto->getJwtAccess()->getToken(),
+                    'refresh_token' => $dto->getJwtRefresh()->getToken(),
+                    'websocket_token' => $dto->getWebsocketToken(),
+                    'bonus' => $dto->getBonus(),
+                ]
+            ]);
+        }
+
+        return response()->__call('exception', [$e]);
+    }
+    /**
+     * @return JsonResponse
+     */
+    public function getCredentialsTelegram(): JsonResponse
+    {
+        return response()->json([
+            'data' => [
+                'bot_name' => env('TELEGRAM_BOT_NAME'),
+                'redirect_url' => env('TELEGRAM_REDIRECT_URI'),
+            ]
+        ]);
+    }
+
+    /**
+     * @param InitTelegramRequest $request
+     * @return JsonResponse
+     */
+    public function initTelegram(InitTelegramRequest $request): JsonResponse
+    {
+        /** @var InitTelegramPipelineDto $dto */
+        [$dto, $e] = $this->pipeline->initTelegramAuth($request->dto());
+
+        if (!$e) {
+            return response()->json();
+        }
+
+        return response()->__call('exception', [$e]);
+    }
+
+    /**
+     * @param ConfirmTelegramRequest $request
+     * @return JsonResponse
+     */
+    public function confirmTelegram(ConfirmTelegramRequest $request): JsonResponse
+    {
+        /** @var ConfirmTelegramPipelineDto $dto */
+        [$dto, $e] = $this->pipeline->confirmTelegramAuth($request->dto());
 
         if (!$e) {
             return response()->json([

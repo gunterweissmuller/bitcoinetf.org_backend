@@ -11,7 +11,6 @@ use App\Dto\Pipelines\Api\V1\Auth\Register\InitPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\InitTelegramPipelineDto;
 use App\Enums\Users\Email\StatusEnum;
 use App\Exceptions\Pipelines\V1\Auth\EmailAlreadyUseException;
-use App\Exceptions\Pipelines\V1\Auth\IncorrectCodeException;
 use App\Exceptions\Pipelines\V1\Auth\UserAlreadyExistException;
 use App\Pipelines\PipeInterface;
 use App\Services\Api\V1\Users\AccountService;
@@ -28,7 +27,7 @@ final class ValidatePipe implements PipeInterface
         private readonly AccountService      $accountService,
         private readonly WalletService       $walletService,
         private readonly AppleAccountService $appleAccountService,
-        private readonly TelegramService $telegramService,
+        private readonly TelegramService     $telegramService,
     )
     {
     }
@@ -72,7 +71,7 @@ final class ValidatePipe implements PipeInterface
             ])) {
                 if ($account->getStatus() == StatusEnum::Enabled->value
                     || $account->getStatus() == StatusEnum::Disabled->value) {
-                    throw new IncorrectCodeException();
+                    throw new UserAlreadyExistException();
                 }
             }
 
@@ -99,14 +98,14 @@ final class ValidatePipe implements PipeInterface
         }
 
         if (($dto instanceof InitTelegramPipelineDto) && $telegram = $this->telegramService->get([
-            'telegram_id' => $dto->getTelegram()->getTelegramId(),
-        ])) {
+                'telegram_id' => $dto->getTelegram()->getTelegramId(),
+            ])) {
             if ($account = $this->accountService->get([
                 'uuid' => $telegram->getAccountUuid(),
             ])) {
                 if ($account->getStatus() == StatusEnum::Enabled->value
                     || $account->getStatus() == StatusEnum::Disabled->value) {
-                    throw new IncorrectCodeException();
+                    throw new UserAlreadyExistException();
                 }
             }
 

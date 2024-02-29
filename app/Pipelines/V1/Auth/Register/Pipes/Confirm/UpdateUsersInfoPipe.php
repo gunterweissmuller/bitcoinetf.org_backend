@@ -16,9 +16,9 @@ use Closure;
 final class UpdateUsersInfoPipe implements PipeInterface
 {
     public function __construct(
-        private readonly WalletService $walletService,
+        private readonly WalletService       $walletService,
         private readonly AppleAccountService $appleAccountService,
-        private readonly TelegramService $telegramService,
+        private readonly TelegramService     $telegramService,
     )
     {
     }

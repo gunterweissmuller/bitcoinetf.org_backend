@@ -9,7 +9,7 @@ use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmTelegramPipelineDto;
 use App\Enums\Users\Email\StatusEnum;
 use App\Exceptions\Pipelines\V1\Auth\EmailAlreadyUseException;
 use App\Exceptions\Pipelines\V1\Auth\EmailNotFoundException;
-use App\Exceptions\Pipelines\V1\Auth\IncorrectCodeException;
+use App\Exceptions\Pipelines\V1\Auth\UserAlreadyExistException;
 use App\Pipelines\PipeInterface;
 use App\Services\Api\V1\Users\AccountService;
 use App\Services\Api\V1\Users\EmailService;
@@ -40,7 +40,7 @@ final class ValidatePipe implements PipeInterface
                 'account_uuid' => $email->getAccountUuid(),
                 'status' => StatusEnum::AwaitConfirm->value,
             ])) {
-                throw new IncorrectCodeException();
+                throw new UserAlreadyExistException();
             }
         } else {
             throw new EmailNotFoundException();

@@ -9,8 +9,10 @@ Route::namespace('Public')
     ->group(function () {
         Route::namespace('Pap')
             ->prefix('pap')
+            ->middleware('auth')
             ->group(function () {
                 Route::post('/signup', 'PapController@signup');
-                Route::post('/sale', 'PapController@sale');
+                Route::post('/saletron', 'PapController@saleTron');
+                Route::post('/salemerchant001', 'PapController@saleMerchant001');
             });
     });

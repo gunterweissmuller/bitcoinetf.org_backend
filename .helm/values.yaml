@@ -95,6 +95,11 @@ global:
     google_auth:
       client_id: "745955834530-cp4m04pm6sv2emqkll922blijde5o1u2.apps.googleusercontent.com"
       redirect_uri: "https://front.stage.techetf.org/auth/google"
+    apple_auth:
+      client_id: "org.BitcoinETF.signin"
+      client_secret: "secret"
+      login_uri: "https://front.stage.techetf.org/auth/google"
+      redirect_uri: "https://front.stage.techetf.org/auth/google"
     telegram_auth:
       bot_name: "add bot name"
       redirect_uri: "https://front.stage.techetf.org/auth/telegram"

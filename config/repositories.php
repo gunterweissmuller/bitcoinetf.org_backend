@@ -31,6 +31,10 @@ return [
         'implementation' => \App\Repositories\Users\Wallet\PgSqlWalletRepository::class,
     ],
     [
+        'interface' => \App\Repositories\Users\AppleAccount\AppleAccountRepositoryInterface::class,
+        'implementation' => \App\Repositories\Users\AppleAccount\PgSqlAppleAccountRepository::class,
+    ],
+    [
         'interface' => \App\Repositories\Users\Telegram\TelegramRepositoryInterface::class,
         'implementation' => \App\Repositories\Users\Telegram\PgSqlTelegramRepository::class,
     ],

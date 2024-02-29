@@ -46,7 +46,7 @@ final class LoginController extends Controller
         $signature = $request->signature;
 
         $valid = (new EcRecover)->verifySignature($message,  $signature,  $walletAddress);
-        if (!$valid) {
+        if (!$valid  || $message !== METAMASK_MSG) {
             return response()->__call('exception', [new InvalidSignatureMetamaskException]);
         }
 

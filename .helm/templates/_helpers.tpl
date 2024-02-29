@@ -235,4 +235,14 @@ Create chart name and version as used by the chart label.
 - name: GOOGLE_REDIRECT_URI
   value: "{{ $globals.google_auth.redirect_uri }}"
 
+- name: TELEGRAM_BOT_NAME
+  value: "{{ $globals.telegram_auth.bot_name }}"
+- name: TELEGRAM_CLIENT_SECRET
+  valueFrom:
+    secretKeyRef:
+      name: secrets-backend
+      key: telegramSecret
+- name: TELEGRAM_REDIRECT_URI
+  value: "{{ $globals.telegram_auth.redirect_uri }}"
+
 {{- end -}}

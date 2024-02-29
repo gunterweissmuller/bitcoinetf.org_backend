@@ -30,6 +30,10 @@ return [
         'interface' => \App\Repositories\Users\Wallet\WalletRepositoryInterface::class,
         'implementation' => \App\Repositories\Users\Wallet\PgSqlWalletRepository::class,
     ],
+    [
+        'interface' => \App\Repositories\Users\Telegram\TelegramRepositoryInterface::class,
+        'implementation' => \App\Repositories\Users\Telegram\PgSqlTelegramRepository::class,
+    ],
 
     // Fund
     [

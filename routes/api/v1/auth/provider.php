@@ -13,4 +13,8 @@ Route::prefix('provider')
         Route::post('/metamask/init', 'RegisterController@metamaskInit');
         Route::post('/metamask/confirm', 'RegisterController@metamaskConfirm');
         Route::post('/metamask/login', 'LoginController@loginMetamask');
+        Route::get('/telegram/credentials', 'RegisterController@getCredentialsTelegram');
+        Route::post('/telegram/init', 'RegisterController@initTelegram');
+        Route::post('/telegram/confirm', 'RegisterController@confirmTelegram');
+        Route::post('/telegram/login', 'LoginController@loginTelegram');
     });

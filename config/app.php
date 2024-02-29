@@ -172,6 +172,7 @@ return [
         App\Providers\UtilsServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\ConstantServiceProvider::class,
     ])->toArray(),
 
     /*

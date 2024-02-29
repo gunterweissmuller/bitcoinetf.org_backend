@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\V1\Auth;
 
+use App\Exceptions\Pipelines\V1\Auth\InvalidSignatureMetamaskException;
 use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmApplePipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\InitPipelineDto;
@@ -63,7 +64,7 @@ final class RegisterController extends Controller
     public function metamaskMessage(): JsonResponse
     {
         return response()->json([
-            'message' => 'I fully understand and agree to the Terms and Conditions (available at https://bitcoinetf.org/terms) and certify that I am not a US citizen, resident or taxpayer.'
+            'message' => METAMASK_MSG
         ], 200);
     }
 
@@ -74,7 +75,7 @@ final class RegisterController extends Controller
         $signature = $request->signature;
 
         $valid = (new EcRecover)->verifySignature($message,  $signature,  $walletAddress);
-        if (!$valid) {
+        if (!$valid || $message !== METAMASK_MSG) {
             return response()->__call('exception', [new InvalidSignatureMetamaskException]);
         }
 

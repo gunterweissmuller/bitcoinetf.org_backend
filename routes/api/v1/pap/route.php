@@ -12,7 +12,7 @@ Route::namespace('Public')
             ->middleware('auth')
             ->group(function () {
                 Route::post('/signup', 'PapController@signup');
-                Route::post('/saletron', 'PapController@saleTron');
-                Route::post('/salemerchant001', 'PapController@saleMerchant001');
+                Route::post('/sale/tron', 'PapController@saleTron');
+                Route::post('/sale/merchant001', 'PapController@saleMerchant001');
             });
     });

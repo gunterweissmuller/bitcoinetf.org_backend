@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Pipelines\V1\Auth\Login;
 
+use App\Dto\Pipelines\Api\V1\Auth\Login\LoginApplePipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Login\LoginGooglePipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Login\LoginMetamaskPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Login\LoginPipelineDto;
@@ -13,6 +14,8 @@ use App\Pipelines\V1\Auth\Login\Pipes\LoginGoogle\AccountPipe as LoginGoogleAcco
 use App\Pipelines\V1\Auth\Login\Pipes\Login\EmailPipe as LoginEmailPipe;
 use App\Pipelines\V1\Auth\Login\Pipes\Login\JwtPipe as LoginJwtPipe;
 use App\Pipelines\V1\Auth\Login\Pipes\LoginMetamask\AccountPipe as LoginMetamaskAccountPipe;
+use App\Pipelines\V1\Auth\Login\Pipes\LoginApple\AccountPipe as LoginAppleAccountPipe;
+use App\Pipelines\V1\Auth\Login\Pipes\LoginApple\AppleAccountPipe as LoginAppleAppleAccountPipe;
 use App\Pipelines\V1\Auth\Login\Pipes\LoginMetamask\WalletPipe as LoginWalletPipe;
 
 final class LoginPipeline extends AbstractPipeline
@@ -40,6 +43,15 @@ final class LoginPipeline extends AbstractPipeline
         return $this->pipeline([
             LoginWalletPipe::class,
             LoginMetamaskAccountPipe::class,
+            LoginJwtPipe::class,
+        ], $dto);
+    }
+
+    public function loginApple(LoginApplePipelineDto $dto): array
+    {
+        return $this->pipeline([
+            LoginAppleAppleAccountPipe::class,
+            LoginAppleAccountPipe::class,
             LoginJwtPipe::class,
         ], $dto);
     }

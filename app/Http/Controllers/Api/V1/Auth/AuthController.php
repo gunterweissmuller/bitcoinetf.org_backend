@@ -32,7 +32,9 @@ final class AuthController extends Controller
     {
     }
 
-
+    /**
+     * @return JsonResponse
+     */
     public function redirectUrlToGoogleAuth(): JsonResponse
     {
         return response()->json([
@@ -43,6 +45,10 @@ final class AuthController extends Controller
         ]);
     }
 
+    /**
+     * @param InitGoogleRequest $request
+     * @return JsonResponse
+     */
     public function initGoogleAuth(InitGoogleRequest $request): JsonResponse
     {
         try {
@@ -75,6 +81,10 @@ final class AuthController extends Controller
         return response()->__call('exception', [$e]);
     }
 
+    /**
+     * @param ConfirmGoogleRequest $request
+     * @return JsonResponse
+     */
     public function confirmGoogleAuth(ConfirmGoogleRequest $request): JsonResponse
     {
         [$dto, $e] = $this->registerPipeline->confirmGoogleAuth($request->dto());

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Exceptions\Pipelines\V1\Pap;
+namespace App\Exceptions\Pipelines\V1\Auth;
 
 use App\Enums\Core\AppError\CodeEnum;
 use App\Exceptions\AppExceptionInterface;
@@ -10,7 +10,7 @@ use RuntimeException;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
-final class PapTrackerAlreadyInUseException extends RuntimeException implements AppExceptionInterface
+final class UserAlreadyExistException extends RuntimeException implements AppExceptionInterface
 {
     public function __construct(
         string $message = '',
@@ -22,6 +22,6 @@ final class PapTrackerAlreadyInUseException extends RuntimeException implements 
 
     public function getErrorCode(): CodeEnum
     {
-        return CodeEnum::C100002;
+        return CodeEnum::C011011;
     }
 }

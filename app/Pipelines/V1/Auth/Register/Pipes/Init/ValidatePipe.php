@@ -5,27 +5,34 @@ declare(strict_types=1);
 namespace App\Pipelines\V1\Auth\Register\Pipes\Init;
 
 use App\Dto\DtoInterface;
+use App\Dto\Pipelines\Api\V1\Auth\Register\InitApplePipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\InitMetamaskPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\InitPipelineDto;
+use App\Dto\Pipelines\Api\V1\Auth\Register\InitTelegramPipelineDto;
 use App\Enums\Users\Email\StatusEnum;
 use App\Exceptions\Pipelines\V1\Auth\EmailAlreadyUseException;
-use App\Exceptions\Pipelines\V1\Auth\IncorrectCodeException;
+use App\Exceptions\Pipelines\V1\Auth\UserAlreadyExistException;
 use App\Pipelines\PipeInterface;
 use App\Services\Api\V1\Users\AccountService;
+use App\Services\Api\V1\Users\AppleAccountService;
 use App\Services\Api\V1\Users\EmailService;
+use App\Services\Api\V1\Users\TelegramService;
 use App\Services\Api\V1\Users\WalletService;
 use Closure;
 
 final class ValidatePipe implements PipeInterface
 {
     public function __construct(
-        private readonly EmailService $emailService,
-        private readonly AccountService $accountService,
-        private readonly WalletService $walletService,
-    ) {
+        private readonly EmailService        $emailService,
+        private readonly AccountService      $accountService,
+        private readonly WalletService       $walletService,
+        private readonly AppleAccountService $appleAccountService,
+        private readonly TelegramService     $telegramService,
+    )
+    {
     }
 
-    public function handle(InitPipelineDto|InitMetamaskPipelineDto|DtoInterface $dto, Closure $next): DtoInterface
+    public function handle(InitPipelineDto|InitMetamaskPipelineDto|InitApplePipelineDto|InitTelegramPipelineDto|DtoInterface $dto, Closure $next): DtoInterface
     {
         $isExist = false;
 
@@ -57,18 +64,52 @@ final class ValidatePipe implements PipeInterface
         }
 
         if (($dto instanceof InitMetamaskPipelineDto) && $wallet = $this->walletService->get([
-            'wallet' => $dto->getWallet()->getWallet(),
-        ])) {
+                'wallet' => $dto->getWallet()->getWallet(),
+            ])) {
             if ($account = $this->accountService->get([
                 'uuid' => $wallet->getAccountUuid(),
             ])) {
                 if ($account->getStatus() == StatusEnum::Enabled->value
                     || $account->getStatus() == StatusEnum::Disabled->value) {
-                    throw new IncorrectCodeException();
+                    throw new UserAlreadyExistException();
                 }
             }
 
             $dto->setWallet($wallet);
+            $dto->setAccount($account);
+            $isExist = true;
+        }
+
+        if (($dto instanceof InitApplePipelineDto) && $appleAccount = $this->appleAccountService->get([
+                'apple_id' => $dto->getAppleAccount()->getAppleId(),
+            ])) {
+            if ($account = $this->accountService->get([
+                'uuid' => $appleAccount->getAccountUuid(),
+            ])) {
+                if ($appleAccount->getStatus() == StatusEnum::Enabled->value
+                    || $appleAccount->getStatus() == StatusEnum::Disabled->value) {
+                    throw new UserAlreadyExistException();
+                }
+            }
+
+            $dto->setAppleAccount($appleAccount);
+            $dto->setAccount($account);
+            $isExist = true;
+        }
+
+        if (($dto instanceof InitTelegramPipelineDto) && $telegram = $this->telegramService->get([
+                'telegram_id' => $dto->getTelegram()->getTelegramId(),
+            ])) {
+            if ($account = $this->accountService->get([
+                'uuid' => $telegram->getAccountUuid(),
+            ])) {
+                if ($account->getStatus() == StatusEnum::Enabled->value
+                    || $account->getStatus() == StatusEnum::Disabled->value) {
+                    throw new UserAlreadyExistException();
+                }
+            }
+
+            $dto->setTelegram($telegram);
             $dto->setAccount($account);
             $isExist = true;
         }

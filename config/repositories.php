@@ -181,4 +181,11 @@ return [
         'interface' => \App\Repositories\Pages\Language\LanguageRepositoryInterface::class,
         'implementation' => \App\Repositories\Pages\Language\PgSqlLanguageRepository::class,
     ],
+
+    // Pap
+    [
+        'interface' => \App\Repositories\Pap\Tracking\TrackingRepositoryInterface::class,
+        'implementation' => \App\Repositories\Pap\Tracking\PgSqlTrackingRepository::class,
+    ],
+
 ];

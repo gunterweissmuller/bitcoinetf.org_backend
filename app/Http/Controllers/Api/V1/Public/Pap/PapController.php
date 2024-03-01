@@ -16,11 +16,15 @@ use App\Enums\Pap\Asset\AssetEnum;
 use Illuminate\Support\Str;
 use App\Services\Api\V1\Users\AccountService;
 use App\Http\Requests\Api\V1\Public\Pap\Signup\PapSignupRequest;
+use App\Http\Requests\Api\V1\Public\Billing\Shares\Buy\Blockchain\Tron\CallbackRequest;
+use App\Pipelines\V1\Public\Billing\Shares\Buy\Blockchain\Tron\TronPipeline;
+use App\Exceptions\Pipelines\V1\Pap\PapTrackerAlreadyInUseException;
 
 final class PapController extends Controller
 {
     public function __construct(
         private readonly AccountService $accountService,
+        private readonly TronPipeline $pipeline,
     ) {}
 
     public function signup(PapSignupRequest $request): JsonResponse
@@ -29,10 +33,7 @@ final class PapController extends Controller
         $account_uuid = $account->getUuid();
         $record = Tracking::where('account_uuid', $account_uuid)->first();
         if ($record !== null) {
-            return response()->json([
-                'status' => 400,
-                'message' => 'this account_uuid already exists in the pap tracking table',
-            ]);
+            return response()->__call('exception', [new PapTrackerAlreadyInUseException()]);
         } else {
             $tracking = new Tracking();
             $tracking->account_uuid = $account_uuid; 
@@ -103,5 +104,16 @@ final class PapController extends Controller
                 'message' => 'this account_uuid does not exist in the pap tracking table',
             ]);    
         }
-    }   
+    } 
+    
+    public function saleTronCallbackMock(CallbackRequest $request): JsonResponse
+    {   
+        [$dto, $e] = $this->pipeline->callback($request->dto());
+
+        if (!$e) {
+            return response()->json([]);
+        }
+
+        return response()->__call('exception', [$e]);
+    }
 }

@@ -40,6 +40,8 @@ enum CodeEnum: string
 
     case C011010 = '011010'; // invalid signature
 
+    case C011011 = '011011'; // this account pap tracker is already in use
+
     case C020002 = '020002'; // global symbol setup not found
 
     case C030001 = '030001'; // form not found

@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('users.telegrams', function (Blueprint $table) {
             $table->uuid()->unique()->primary();
             $table->uuid('account_uuid')->unsigned();
-            $table->integer('telegram_id')->nullable();
+            $table->bigInteger('telegram_id')->nullable();
             $table->enum('status', StatusEnum::values())->default(StatusEnum::AwaitConfirm->value);
             $table->timestamps();
 

@@ -68,6 +68,7 @@ final class RegisterPipeline extends AbstractPipeline
     public function confirm(ConfirmPipelineDto $dto): array
     {
         return $this->pipeline([
+            ConfirmValidatePipe::class,
             ConfirmEmailPipe::class,
             ConfirmCodePipe::class,
             ConfirmAccountPipe::class,

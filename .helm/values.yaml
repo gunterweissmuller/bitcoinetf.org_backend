@@ -101,9 +101,8 @@ global:
       login_uri: "https://front.stage.techetf.org/auth/google"
       redirect_uri: "https://front.stage.techetf.org/auth/google"
     telegram_auth:
-      bot_name: "add bot name"
+      bot_name: "BitcoinETFlogin_bot"
       redirect_uri: "https://front.stage.techetf.org/auth/telegram"
-      client_secret: "add telegram token and move it into secrets"
 
 otherServices:
 - name: queue

@@ -6,10 +6,6 @@ namespace App\Http\Controllers\Api\V1\Public\Pap;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
-use Illuminate\Http\Request;
-use App\Enums\Pap\Event\EventEnum;
-use App\Enums\Pap\Asset\AssetEnum;
-use Illuminate\Support\Str;
 use App\Services\Api\V1\Users\AccountService;
 use App\Http\Requests\Api\V1\Public\Pap\Signup\PapSignupRequest;
 use App\Exceptions\Pipelines\V1\Pap\PapTrackerAlreadyInUseException;

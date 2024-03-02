@@ -65,4 +65,6 @@ enum CodeEnum: string
     case C090001 = '090001'; // file save error
 
     case C100001 = '100001'; // merchant001 unavailable
+
+    case C100002 = '100002'; // this account pap tracker is already in use
 }

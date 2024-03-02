@@ -12,8 +12,8 @@ final class PapSignupRequest extends AbstractRequest
     public function rules(): array
     {
         return [
-            'pap_id' => ['required', 'string'],
-            'utm_label' => ['required', 'string'],
+            'pap_id' => ['required', 'string', 'max:255'],
+            'utm_label' => ['string', 'max:255'],
         ];
     }
 

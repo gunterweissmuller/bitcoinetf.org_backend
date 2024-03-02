@@ -36,37 +36,5 @@ final class PapController extends Controller
             return response()->json([]);
         }
     }
-
-    public function saleTron(Request $request): JsonResponse
-    {   
-        $account_uuid = $request->input('account_uuid');
-        $real_amount = $request->input('real_amount');
-        $record = $this->trackingService->get(['account_uuid' => $account_uuid]);
-        if ($record !== null) {
-            $this->trackingService->createSale($account_uuid, $real_amount, AssetEnum::Tron->value);
-            return response()->json([]);
-        } else {
-            return response()->json([
-                'status' => 400,
-                'message' => 'this account_uuid does not exist in the pap tracking table',
-            ]);    
-        }
-    }
-
-    public function saleMerchant001(Request $request): JsonResponse
-    {   
-        $account_uuid = $request->input('account_uuid');
-        $real_amount = $request->input('real_amount');
-        $record = $this->trackingService->get(['account_uuid' => $account_uuid]);
-        if ($record !== null) {
-            $this->trackingService->createSale($account_uuid, $real_amount, AssetEnum::FiatMerchant001->value);
-            return response()->json([]);
-        } else {
-            return response()->json([
-                'status' => 400,
-                'message' => 'this account_uuid does not exist in the pap tracking table',
-            ]);    
-        }
-    } 
-    
+   
 }

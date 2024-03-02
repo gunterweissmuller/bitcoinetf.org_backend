@@ -247,7 +247,10 @@ Create chart name and version as used by the chart label.
 - name: TELEGRAM_BOT_NAME
   value: "{{ $globals.telegram_auth.bot_name }}"
 - name: TELEGRAM_CLIENT_SECRET
-  value: "{{ $globals.telegram_auth.client_secret }}"
+  valueFrom:
+    secretKeyRef:
+      name: secrets-backend
+      key: telegramSecret
 - name: TELEGRAM_REDIRECT_URI
   value: "{{ $globals.telegram_auth.redirect_uri }}"
 

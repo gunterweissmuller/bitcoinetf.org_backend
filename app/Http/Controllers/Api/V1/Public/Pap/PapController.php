@@ -12,8 +12,6 @@ use App\Enums\Pap\Asset\AssetEnum;
 use Illuminate\Support\Str;
 use App\Services\Api\V1\Users\AccountService;
 use App\Http\Requests\Api\V1\Public\Pap\Signup\PapSignupRequest;
-use App\Http\Requests\Api\V1\Public\Billing\Shares\Buy\Blockchain\Tron\CallbackRequest;
-use App\Pipelines\V1\Public\Billing\Shares\Buy\Blockchain\Tron\TronPipeline;
 use App\Exceptions\Pipelines\V1\Pap\PapTrackerAlreadyInUseException;
 use App\Services\Api\V1\Pap\TrackingService;
 

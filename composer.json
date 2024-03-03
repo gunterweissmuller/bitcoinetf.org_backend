@@ -11,6 +11,7 @@
         "chillerlan/php-qrcode": "^4.3",
         "dompdf/dompdf": "^2.0",
         "enqueue/rdkafka": "^0.10.20",
+        "genealabs/laravel-sign-in-with-apple": "^0.7.0",
         "greensea/keccak": "^1.0",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^10.10",
@@ -22,10 +23,10 @@
         "simplito/elliptic-php": "^1.0",
         "stephenhill/base58": "^1.1",
         "symfony/yaml": "^6.3",
-        "web-token/jwt-checker": "^3.2",
-        "web-token/jwt-core": "^3.2",
-        "web-token/jwt-key-mgmt": "^3.2",
-        "web-token/jwt-signature-algorithm-ecdsa": "^3.2"
+        "web-token/jwt-checker": "^3.3",
+        "web-token/jwt-core": "^3.3",
+        "web-token/jwt-key-mgmt": "^3.3",
+        "web-token/jwt-signature-algorithm-ecdsa": "^3.3"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
@@ -77,7 +78,8 @@
         "sort-packages": true,
         "allow-plugins": {
             "pestphp/pest-plugin": true,
-            "php-http/discovery": true
+            "php-http/discovery": true,
+            "symfony/thanks": true
         }
     },
     "minimum-stability": "stable",

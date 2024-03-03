@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\V1\Auth;
 
+use App\Dto\Pipelines\Api\V1\Auth\AuthType\AuthTypeTelegramPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Login\LoginGooglePipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\InitGooglePipelineDto;
 use App\Enums\Users\Email\StatusEnum as EmailStatusEnum;
 use App\Exceptions\Pipelines\V1\Auth\AuthorizationTokenExpiredException;
+use App\Http\Requests\Api\V1\Auth\AuthType\AuthTypeTelegramRequest;
 use App\Http\Requests\Api\V1\Auth\Login\LoginGoogleRequest;
 use App\Http\Requests\Api\V1\Auth\Register\ConfirmGoogleRequest;
 use App\Http\Requests\Api\V1\Auth\Register\InitGoogleRequest;
+use App\Pipelines\V1\Auth\AuthType\AuthTypePipeline;
 use App\Pipelines\V1\Auth\Login\LoginPipeline;
 use App\Pipelines\V1\Auth\Register\RegisterPipeline;
 use App\Services\Api\V1\Users\AccountService;
@@ -28,11 +31,14 @@ final class AuthController extends Controller
         private readonly RegisterPipeline $registerPipeline,
         private readonly EmailService     $emailService,
         private readonly AccountService   $accountService,
+        private readonly AuthTypePipeline $authTypePipeline,
     )
     {
     }
 
-
+    /**
+     * @return JsonResponse
+     */
     public function redirectUrlToGoogleAuth(): JsonResponse
     {
         return response()->json([
@@ -43,6 +49,10 @@ final class AuthController extends Controller
         ]);
     }
 
+    /**
+     * @param InitGoogleRequest $request
+     * @return JsonResponse
+     */
     public function initGoogleAuth(InitGoogleRequest $request): JsonResponse
     {
         try {
@@ -75,6 +85,10 @@ final class AuthController extends Controller
         return response()->__call('exception', [$e]);
     }
 
+    /**
+     * @param ConfirmGoogleRequest $request
+     * @return JsonResponse
+     */
     public function confirmGoogleAuth(ConfirmGoogleRequest $request): JsonResponse
     {
         [$dto, $e] = $this->registerPipeline->confirmGoogleAuth($request->dto());
@@ -93,6 +107,29 @@ final class AuthController extends Controller
         return response()->__call('exception', [$e]);
     }
 
+    /**
+     * @param AuthTypeTelegramRequest $request
+     * @return JsonResponse
+     */
+    public function getAuthTypeTelegram(AuthTypeTelegramRequest $request): JsonResponse
+    {
+        /** @var AuthTypeTelegramPipelineDto $dto */
+        [$dto, $e] = $this->authTypePipeline->checkTelegram($request->dto());
+
+        if (!$e) {
+            return response()->json([
+                'data' => [
+                    'auth_type' => $dto->getAuthType(),
+                ]
+            ]);
+        }
+
+        return response()->__call('exception', [$e]);
+    }
+
+    /**
+     * @return JsonResponse
+     */
     private function loginGoogleAuth(): JsonResponse
     {
         $request = new LoginGoogleRequest;
@@ -113,6 +150,10 @@ final class AuthController extends Controller
         return response()->__call('exception', [$e]);
     }
 
+    /**
+     * @param string $email
+     * @return bool
+     */
     private function existsAccountByEmail(string $email): bool
     {
         if ($email = $this->emailService->get(['email' => $email])) {

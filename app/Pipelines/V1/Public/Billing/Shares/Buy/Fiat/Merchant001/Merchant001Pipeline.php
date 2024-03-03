@@ -11,6 +11,8 @@ use App\Pipelines\V1\Public\Billing\Shares\Buy\Fiat\Merchant001\Pipes\Callback\S
 use App\Pipelines\V1\Public\Billing\Shares\Buy\Fiat\Merchant001\Pipes\Callback\ValidatePipe as CallbackValidatePipe;
 use App\Pipelines\V1\Public\Billing\Shares\Buy\Fiat\Merchant001\Pipes\Payment\ReplenishmentPipe as PaymentReplenishmentPipe;
 use App\Pipelines\V1\Public\Billing\Shares\Buy\Fiat\Merchant001\Pipes\Payment\TransactionPipe as PaymentTransactionPipe;
+use App\Pipelines\V1\Public\Billing\Shares\Buy\Fiat\Merchant001\Pipes\Callback\PapMerchant001Pipe as CallbackPapFiatMerchant001SalePipe;
+
 
 class Merchant001Pipeline extends AbstractPipeline
 {
@@ -28,7 +30,8 @@ class Merchant001Pipeline extends AbstractPipeline
             CallbackValidatePipe::class,
             CallbackReplenishmentPipe::class,
             CallbackSuccessPipe::class,
-            CallbackFailurePipe::class
+            CallbackFailurePipe::class,
+            CallbackPapFiatMerchant001SalePipe::class,
         ], $dto);
     }
 }

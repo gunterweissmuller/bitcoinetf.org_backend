@@ -23,6 +23,7 @@ return [
     CodeEnum::C011008->value => 'incorrect login provider',
     CodeEnum::C011009->value => 'authorization token expired',
     CodeEnum::C011010->value => 'invalid signature',
+    CodeEnum::C011011->value => 'user already exist',
     CodeEnum::C020002->value => 'global symbol setup not found',
     CodeEnum::C030001->value => 'form not found',
     CodeEnum::C030002->value => 'screen not found',
@@ -35,4 +36,5 @@ return [
     CodeEnum::C060001->value => 'withdrawal is not possible',
     CodeEnum::C090001->value => 'file save error',
     CodeEnum::C100001->value => 'merchant001 unavailable',
+    CodeEnum::C100002->value => 'this account pap tracker is already in use',
 ];

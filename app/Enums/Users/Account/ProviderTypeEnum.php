@@ -15,4 +15,8 @@ enum ProviderTypeEnum: string
     case Google = 'google';
 
     case Metamask = 'metamask';
+
+    case Apple = 'apple';
+
+    case Telegram = 'telegram';
 }

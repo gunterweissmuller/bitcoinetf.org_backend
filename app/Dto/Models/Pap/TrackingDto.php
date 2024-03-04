@@ -14,7 +14,7 @@ final class TrackingDto implements DtoInterface
         private ?string $event_type,
         private ?string $pap_id,
         private ?string $utm_label,
-        private ?string $real_amount,
+        private ?float $real_amount,
         private ?string $amount_type,
         private ?string $createdAt,
         private ?string $updatedAt,
@@ -133,17 +133,17 @@ final class TrackingDto implements DtoInterface
     }
 
     /**
-     * @return string|null
+     * @return float|null
      */
-    public function getRealAmount(): ?string
+    public function getRealAmount(): ?float
     {
         return $this->real_amount;
     }
 
     /**
-     * @param  string|null  $real_amount
+     * @param  float|null  $real_amount
      */
-    public function setRealAmount(?string $real_amount): void
+    public function setRealAmount(?float $real_amount): void
     {
         $this->real_amount = $real_amount;
     }

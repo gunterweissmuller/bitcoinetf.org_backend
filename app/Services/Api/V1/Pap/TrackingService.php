@@ -55,7 +55,7 @@ final class TrackingService
         return $this->repository->create($dto);
     }
 
-    public function createSale(string $account_uuid, string $real_amount, string $amount_type): TrackingDto
+    public function createSale(string $account_uuid, float $real_amount, string $amount_type): TrackingDto
     {
         $saleTracker = new Pap_Api_SaleTracker(PAP_SALE_TRACKER_HOST);
         $saleTracker->setAccountId(PAP_ACCOUNT_ID);

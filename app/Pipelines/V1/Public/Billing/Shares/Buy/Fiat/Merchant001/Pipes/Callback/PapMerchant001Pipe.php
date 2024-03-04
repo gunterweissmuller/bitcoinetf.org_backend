@@ -23,7 +23,7 @@ final readonly class PapMerchant001Pipe implements PipeInterface
     public function handle(CallbackPipelineDto|DtoInterface $dto, Closure $next): DtoInterface
     {
         $accountUuid = $dto->getAccount()->getUuid();
-        $record = $this->trackingService->get(['account_uuid' => $account_uuid]);
+        $record = $this->trackingService->get(['account_uuid' => $accountUuid]);
         if ($record !== null && $dto->getReplenishment()->getStatus() === ReplenishmentStatusEnum::SUCCESS->value)
         {
             $real_amount = $dto->getReplenishment()->getRealAmount();

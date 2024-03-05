@@ -106,7 +106,7 @@ final readonly class RestakePipe implements PipeInterface
             'dividend_wallet_uuid' => $replenishment->getDividendWalletUuid(),
             'referral_amount' => $replenishment->getReferralAmount(),
             'bonus_amount' => ceil($replenishment->getBonusAmount() + $replenishment->getAddedAmount()),
-            'dividend_amount' => $replenishment->getDividendAmount(),
+            'dividend_amount' => $replenishment->getDividendAmount() + $replenishment->getDividendRespAmount(),
             'real_amount' => $replenishment->getRealAmount(),
             'total_amount_btc' => $replenishment->getTotalAmountBtc(),
             'btc_price' => $replenishment->getBtcPrice(),
@@ -196,6 +196,7 @@ final readonly class RestakePipe implements PipeInterface
                     'account_uuid' => $accountUuid,
                     'payment_uuid' => $payment->getUuid(),
                     'amount' => $payment->getTotalAmount(),
+                    'reinvest' => (bool) $replenishment->getDividendWalletUuid()
                 ],
             ],
         );

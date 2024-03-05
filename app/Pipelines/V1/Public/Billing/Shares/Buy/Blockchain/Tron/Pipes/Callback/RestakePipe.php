@@ -60,15 +60,44 @@ final readonly class RestakePipe implements PipeInterface
             );
         }
 
-        $addedAmountFloor = floor($replenishment->getAddedAmount());
-        $addedAmountResp = $replenishment->getAddedAmount() - $addedAmountFloor;
-
         $replenishment->setAddedAmount((float)$respAmount);
+
+        $bonusWallet = null;
+        if ($replenishment->getAddedAmount()) {
+            $bonusWallet = $this->walletService->get([
+                'account_uuid' => $accountUuid,
+                'type' => WalletTypeEnum::BONUS->value
+            ]);
+            $this->paymentService->create(PaymentDto::fromArray([
+                'account_uuid' => $accountUuid,
+                'bonus_wallet_uuid' => $bonusWallet->getUuid(),
+                'bonus_amount' => $replenishment->getAddedAmount(),
+                'type' => PaymentTypeEnum::DEBIT_TO_CLIENT->value,
+                'real_amount' => 0,
+                'total_amount_btc' => 1 / $replenishment->getBtcPrice() * $replenishment->getAddedAmount(),
+                'btc_price' => $replenishment->getBtcPrice(),
+                'created_at' => Carbon::now()->subSecond()->toDateTimeString(),
+                'updated_at' => Carbon::now()->subSecond()->toDateTimeString(),
+            ]));
+
+            $bonusAmountFloor = floor($replenishment->getAddedAmount());
+            $bonusAmountResp = $replenishment->getAddedAmount() - $bonusAmountFloor;
+
+            if ($bonusAmountResp > 0) {
+                $this->refund(
+                    $bonusWallet->getUuid(),
+                    $bonusAmountResp,
+                );
+            }
+
+            $replenishment->setAddedAmount($bonusAmountFloor);
+        }
+
         $replenishment->setTotalAmount(
             $replenishment->getReferralAmount() +
             $replenishment->getBonusAmount() +
             $replenishment->getRealAmount() +
-            $addedAmountFloor +
+            $replenishment->getAddedAmount() +
             $replenishment->getDividendAmount()
         );
         $replenishment->setTotalAmountBtc(1 / $replenishment->getBtcPrice() * $replenishment->getTotalAmount());
@@ -82,25 +111,6 @@ final readonly class RestakePipe implements PipeInterface
                 'total_amount' => $replenishment->getTotalAmount(),
                 'total_amount_btc' => $replenishment->getTotalAmountBtc(),
             ]);
-        }
-
-        $bonusWallet = null;
-        if ($replenishment->getAddedAmount()) {
-            $bonusWallet = $this->walletService->get([
-                'account_uuid' => $accountUuid,
-                'type' => WalletTypeEnum::BONUS->value
-            ]);
-            $this->paymentService->create(PaymentDto::fromArray([
-                'account_uuid' => $accountUuid,
-                'bonus_wallet_uuid' => $bonusWallet->getUuid(),
-                'bonus_amount' => $addedAmountFloor,
-                'type' => PaymentTypeEnum::DEBIT_TO_CLIENT->value,
-                'real_amount' => 0,
-                'total_amount_btc' => 1 / $replenishment->getBtcPrice() * $addedAmountFloor,
-                'btc_price' => $replenishment->getBtcPrice(),
-                'created_at' => Carbon::now()->subSecond()->toDateTimeString(),
-                'updated_at' => Carbon::now()->subSecond()->toDateTimeString(),
-            ]));
         }
 
         $payment = $this->paymentService->create(PaymentDto::fromArray([
@@ -121,22 +131,6 @@ final readonly class RestakePipe implements PipeInterface
             'account_uuid' => $accountUuid,
             'type' => TypeEnum::BONUS->value,
         ]);
-
-        if ($addedAmountResp > 0) {
-            $this->paymentService->create(PaymentDto::fromArray([
-                'account_uuid' => $accountUuid,
-                'bonus_wallet_uuid' => $bonusWallet->getUuid(),
-                'bonus_amount' => $addedAmountResp,
-                'total_amount_btc' => (1 / $replenishment->getTotalAmountBtc()) * $addedAmountResp,
-                'btc_price' => $replenishment->getBtcPrice(),
-                'type' => PaymentTypeEnum::DEBIT_TO_CLIENT->value,
-            ]));
-
-            $this->refund(
-                $bonusWallet->getUuid(),
-                $addedAmountResp,
-            );
-        }
 
         if ($replenishment->getDividendRespAmount()) {
             $this->paymentService->create(PaymentDto::fromArray([

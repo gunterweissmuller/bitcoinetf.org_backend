@@ -12,6 +12,7 @@ use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\Dividends\KafkaPipe;
 use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\Dividends\GfPayoutPipe as DividendsGfPayoutPipe;
 use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\Dividends\GfPullPaymentPipe as DividendsGfPullPaymentPipe;
 use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\Dividends\PaymentPipe as DividendsPaymentPipe;
+use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\Dividends\SendPaymentPipe as DividendsSendPaymentPipe;
 use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\NewCentrifugalPipe;
 use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\Referrals\PaymentPipe as ReferralsPaymentPipe;
 use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\Referrals\SendPaymentPipe as ReferralsSendPaymentPipe;
@@ -33,6 +34,7 @@ final class WithdrawalPipeline extends AbstractPipeline
             DividendsGfPullPaymentPipe::class,
             DividendsGfPayoutPipe::class,
             NewCentrifugalPipe::class,
+            DividendsSendPaymentPipe::class,
             KafkaPipe::class,
         ], $dto);
     }

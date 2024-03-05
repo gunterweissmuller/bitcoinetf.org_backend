@@ -165,7 +165,7 @@ final readonly class RestakePipe implements PipeInterface
             'type' => 'updated',
             'data' => [
                 ...$replenishment->toArray(),
-                'amount' => $payment->getTotalAmount(),
+                'amount' => $replenishment->getTotalAmount(),
             ],
         ]);
 
@@ -209,7 +209,7 @@ final readonly class RestakePipe implements PipeInterface
                 'record' => [
                     'account_uuid' => $accountUuid,
                     'payment_uuid' => $payment->getUuid(),
-                    'amount' => $payment->getTotalAmount(),
+                    'amount' => $replenishment->getTotalAmount(),
                     'reinvest' => (bool) $replenishment->getDividendWalletUuid()
                 ],
             ],

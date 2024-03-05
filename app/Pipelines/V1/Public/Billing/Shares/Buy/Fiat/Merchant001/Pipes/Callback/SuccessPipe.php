@@ -88,7 +88,7 @@ final readonly class SuccessPipe implements PipeInterface
                 'dividend_wallet_uuid' => $replenishment->getDividendWalletUuid(),
                 'referral_amount' => $replenishment->getReferralAmount(),
                 'bonus_amount' => $replenishment->getBonusAmount(),
-                'dividend_amount' => $replenishment->getDividendAmount(),
+                'dividend_amount' => $replenishment->getDividendAmount() + $replenishment->getDividendRespAmount(),
                 'real_amount' => ceil($replenishment->getRealAmount() + $replenishment->getAddedAmount()),
                 'total_amount_btc' => $replenishment->getTotalAmountBtc(),
                 'btc_price' => $replenishment->getBtcPrice(),
@@ -178,6 +178,7 @@ final readonly class SuccessPipe implements PipeInterface
                         'account_uuid' => $accountUuid,
                         'payment_uuid' => $payment->getUuid(),
                         'amount' => $payment->getTotalAmount(),
+                        'reinvest' => (bool) $replenishment->getDividendWalletUuid()
                     ],
                 ],
             );

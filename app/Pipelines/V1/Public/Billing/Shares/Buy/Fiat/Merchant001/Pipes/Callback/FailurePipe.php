@@ -38,7 +38,12 @@ final readonly class FailurePipe implements PipeInterface
 
             if ($dto->isReplenished()) {
                 if ($replenishment->getDividendWalletUuid()) {
-                    $this->refund($replenishment->getDividendWalletUuid(), $replenishment->getDividendAmount());
+                    $this->refund(
+                        $replenishment->getDividendWalletUuid(),
+                        $replenishment->getDividendUsdtAmount(),
+                        $replenishment->getDividendBtcAmount(),
+                        true,
+                    );
                 }
 
                 if ($replenishment->getReferralWalletUuid()) {
@@ -59,14 +64,23 @@ final readonly class FailurePipe implements PipeInterface
         return $next($dto);
     }
 
-    private function refund(string $walletUuid, float $amount): void
+    private function refund(string $walletUuid, float $amount, float $btcAmount = null, bool $isDividends = false): void
     {
         if ($wallet = $this->walletService->get(['uuid' => $walletUuid])) {
-            $this->walletService->update([
-                'uuid' => $wallet->getUuid(),
-            ], [
-                'amount' => $wallet->getAmount() + $amount,
-            ]);
+            if ($isDividends) {
+                $this->walletService->update([
+                    'uuid' => $wallet->getUuid(),
+                ], [
+                    'amount' => $wallet->getAmount() + $amount,
+                    'btc_amount' => $wallet->getBtcAmount() + $btcAmount,
+                ]);
+            } else {
+                $this->walletService->update([
+                    'uuid' => $wallet->getUuid(),
+                ], [
+                    'amount' => $wallet->getAmount() + $amount,
+                ]);
+            }
         }
     }
 }

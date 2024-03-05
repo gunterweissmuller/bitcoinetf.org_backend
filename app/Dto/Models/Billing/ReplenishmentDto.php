@@ -17,6 +17,9 @@ final class ReplenishmentDto implements DtoInterface
         private ?float $referralAmount,
         private ?float $bonusAmount,
         private ?float $dividendAmount,
+        private ?float $dividendBtcAmount,
+        private ?float $dividendUsdtAmount,
+        private ?float $dividendRespAmount,
         private ?float $selectedAmount,
         private ?float $realAmount,
         private ?float $addedAmount,
@@ -41,6 +44,9 @@ final class ReplenishmentDto implements DtoInterface
             $args['referral_amount'] ?? null,
             $args['bonus_amount'] ?? null,
             $args['dividend_amount'] ?? null,
+            $args['dividend_btc_amount'] ?? null,
+            $args['dividend_usdt_amount'] ?? null,
+            $args['dividend_resp_amount'] ?? null,
             $args['selected_amount'] ?? null,
             $args['real_amount'] ?? null,
             $args['added_amount'] ?? null,
@@ -65,6 +71,9 @@ final class ReplenishmentDto implements DtoInterface
             'referral_amount' => $this->referralAmount,
             'bonus_amount' => $this->bonusAmount,
             'dividend_amount' => $this->dividendAmount,
+            'dividend_btc_amount' => $this->dividendBtcAmount,
+            'dividend_usdt_amount' => $this->dividendUsdtAmount,
+            'dividend_resp_amount' => $this->dividendRespAmount,
             'selected_amount' => $this->selectedAmount,
             'real_amount' => $this->realAmount,
             'added_amount' => $this->addedAmount,
@@ -156,6 +165,36 @@ final class ReplenishmentDto implements DtoInterface
     public function setDividendAmount(?float $dividendAmount): void
     {
         $this->dividendAmount = $dividendAmount;
+    }
+
+    public function getDividendBtcAmount(): ?float
+    {
+        return $this->dividendBtcAmount;
+    }
+
+    public function setDividendBtcAmount(?float $dividendBtcAmount): void
+    {
+        $this->dividendBtcAmount = $dividendBtcAmount;
+    }
+
+    public function getDividendUsdtAmount(): ?float
+    {
+        return $this->dividendUsdtAmount;
+    }
+
+    public function setDividendUsdtAmount(?float $dividendUsdtAmount): void
+    {
+        $this->dividendUsdtAmount = $dividendUsdtAmount;
+    }
+
+    public function getDividendRespAmount(): ?float
+    {
+        return $this->dividendRespAmount;
+    }
+
+    public function setDividendRespAmount(?float $dividendRespAmount): void
+    {
+        $this->dividendRespAmount = $dividendRespAmount;
     }
 
     public function getSelectedAmount(): ?float

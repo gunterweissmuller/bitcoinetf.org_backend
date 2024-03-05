@@ -9,6 +9,7 @@ use App\Dto\Models\Billing\PaymentDto;
 use App\Dto\Pipelines\Api\V1\Public\Billing\Shares\Buy\Blockchain\Tron\CallbackPipelineDto;
 use App\Enums\Billing\Payment\TypeEnum as PaymentTypeEnum;
 use App\Enums\Billing\Replenishment\StatusEnum;
+use App\Enums\Billing\Wallet\TypeEnum;
 use App\Enums\Billing\Wallet\TypeEnum as WalletTypeEnum;
 use App\Enums\Kafka\ProducerEnum;
 use App\Jobs\V1\Billing\Buy\UpdateDailyAumJob;
@@ -113,9 +114,14 @@ final readonly class RestakePipe implements PipeInterface
         ]));
 
         if ($replenishment->getDividendRespAmount()) {
+            $bonusWallet = $this->walletService->get([
+                'account_uuid' => $accountUuid,
+                'type' => TypeEnum::BONUS->value,
+            ]);
+
             $this->paymentService->create(PaymentDto::fromArray([
                 'account_uuid' => $accountUuid,
-                'bonus_wallet_uuid' => $replenishment->getBonusWalletUuid(),
+                'bonus_wallet_uuid' => $bonusWallet->getUuid(),
                 'bonus_amount' => $replenishment->getDividendRespAmount(),
                 'total_amount_btc' => (1 / $replenishment->getTotalAmountBtc()) * $replenishment->getDividendRespAmount(),
                 'btc_price' => $replenishment->getBtcPrice(),
@@ -123,7 +129,7 @@ final readonly class RestakePipe implements PipeInterface
             ]));
 
             $this->refund(
-                $replenishment->getBonusWalletUuid(),
+                $bonusWallet->getUuid(),
                 $replenishment->getDividendRespAmount(),
             );
         }

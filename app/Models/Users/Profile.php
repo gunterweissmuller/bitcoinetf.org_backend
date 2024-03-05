@@ -18,6 +18,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $postalCode
  * @property string $state
  * @property string $country
+ * @property string $phoneNumber
+ * @property string $phoneNumberCode
  * @property string $created_at
  * @property string $updated_at
  *
@@ -41,5 +43,7 @@ final class Profile extends Model
         'postal_code',
         'state',
         'country',
+        'phone_number',
+        'phone_number_code',
     ];
 }

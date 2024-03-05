@@ -20,6 +20,8 @@ final class ProfileDto implements DtoInterface
         private ?string $country,
         private ?string $createdAt,
         private ?string $updatedAt,
+        private ?string $phoneNumber,
+        private ?string $phoneNumberCode,
     ) {
     }
 
@@ -37,6 +39,8 @@ final class ProfileDto implements DtoInterface
             $args['country'] ?? null,
             $args['created_at'] ?? null,
             $args['updated_at'] ?? null,
+            $args['phone_number'] ?? null,
+            $args['phone_number_code'] ?? null,
         );
     }
 
@@ -54,6 +58,8 @@ final class ProfileDto implements DtoInterface
             'country' => $this->country,
             'created_at' => $this->createdAt,
             'updated_at' => $this->updatedAt,
+            'phone_number' => $this->phoneNumber,
+            'phone_number_code' => $this->phoneNumberCode,
         ];
     }
 
@@ -231,5 +237,39 @@ final class ProfileDto implements DtoInterface
     public function setUpdatedAt(?string $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPhoneNumber(): ?string
+    {
+        return $this->phoneNumber;
+    }
+
+    /**
+     * @param string|null $phoneNumber
+     * @return void
+     */
+    public function setPhoneNumber(?string $phoneNumber): void
+    {
+        $this->phoneNumber = $phoneNumber;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPhoneNumberCode(): ?string
+    {
+        return $this->phoneNumberCode;
+    }
+
+    /**
+     * @param string|null $phoneNumberCode
+     * @return void
+     */
+    public function setPhoneNumberCode(?string $phoneNumberCode): void
+    {
+        $this->phoneNumberCode = $phoneNumberCode;
     }
 }

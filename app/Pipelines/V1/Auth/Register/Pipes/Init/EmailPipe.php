@@ -15,7 +15,8 @@ final class EmailPipe implements PipeInterface
 {
     public function __construct(
         private readonly EmailService $emailService,
-    ) {
+    )
+    {
     }
 
     public function handle(InitPipelineDto|DtoInterface $dto, Closure $next): DtoInterface
@@ -27,7 +28,8 @@ final class EmailPipe implements PipeInterface
 
             $email = $this->emailService->create($email);
         } else {
-            $email = $this->emailService->get(['account_uuid' => $dto->getAccount()->getUuid()]);
+            $this->emailService->update(['account_uuid' => $dto->getAccount()->getUuid()], ['email' => $dto->getEmail()->getEmail()]);
+            $email = $this->emailService->get(['email' => $dto->getEmail()->getEmail()]);
         }
 
         $dto->setEmail($email);

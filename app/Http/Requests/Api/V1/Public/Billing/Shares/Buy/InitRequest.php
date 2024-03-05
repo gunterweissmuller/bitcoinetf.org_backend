@@ -33,6 +33,8 @@ final class InitRequest extends AbstractRequest
 
     public function dto(): InitPipelineDto
     {
+        $roundedAmount = (integer)round($this->get('amount'));
+
         return InitPipelineDto::fromArray([
             ...$this->only([
                 TypeEnum::DIVIDENDS->value,
@@ -41,8 +43,8 @@ final class InitRequest extends AbstractRequest
             ]),
             'account' => AccountDto::fromArray($this->payload()->toArray()),
             'replenishment' => ReplenishmentDto::fromArray([
-                'selected_amount' => (float) $this->get('amount'),
-                'real_amount' => (float) $this->get('amount'),
+                'selected_amount' => $roundedAmount,
+                'real_amount' => $roundedAmount,
             ]),
         ]);
     }

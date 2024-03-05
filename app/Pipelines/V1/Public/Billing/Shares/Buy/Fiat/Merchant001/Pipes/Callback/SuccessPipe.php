@@ -64,10 +64,11 @@ final readonly class SuccessPipe implements PipeInterface
                     $replenishment->getReferralAmount() +
                     $replenishment->getBonusAmount() +
                     $replenishment->getRealAmount() +
-                    $replenishment->getAddedAmount()
+                    $replenishment->getAddedAmount() +
+                    $replenishment->getDividendAmount()
                 );
             }
-            $replenishment->setTotalAmountBtc((1 / $replenishment->getBtcPrice() * $replenishment->getTotalAmount()) + $replenishment->getDividendBtcAmount());
+            $replenishment->setTotalAmountBtc(1 / $replenishment->getBtcPrice() * $replenishment->getTotalAmount());
 
             if ($dto->isReplenished()) {
                 $this->replenishmentService->update([

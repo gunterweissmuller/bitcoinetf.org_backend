@@ -68,9 +68,10 @@ final readonly class RestakePipe implements PipeInterface
             $replenishment->getReferralAmount() +
             $replenishment->getBonusAmount() +
             $replenishment->getRealAmount() +
-            $addedAmountFloor
+            $addedAmountFloor +
+            $replenishment->getDividendAmount()
         );
-        $replenishment->setTotalAmountBtc((1 / $replenishment->getBtcPrice() * $replenishment->getTotalAmount()) + $replenishment->getDividendBtcAmount());
+        $replenishment->setTotalAmountBtc(1 / $replenishment->getBtcPrice() * $replenishment->getTotalAmount());
 
         if ($dto->isReplenishment()) {
             $this->replenishmentService->update([

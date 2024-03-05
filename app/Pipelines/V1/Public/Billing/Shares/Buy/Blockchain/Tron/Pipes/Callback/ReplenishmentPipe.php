@@ -9,21 +9,17 @@ use App\Dto\Pipelines\Api\V1\Public\Billing\Shares\Buy\Blockchain\Tron\CallbackP
 use App\Enums\Billing\Replenishment\StatusEnum;
 use App\Pipelines\PipeInterface;
 use App\Services\Api\V1\Billing\ReplenishmentService;
-use App\Services\Api\V1\Billing\TokenService;
 use Closure;
 
 final readonly class ReplenishmentPipe implements PipeInterface
 {
     public function __construct(
         private ReplenishmentService $replenishmentService,
-        private TokenService $tokenService,
     ) {
     }
 
     public function handle(CallbackPipelineDto|DtoInterface $dto, Closure $next): DtoInterface
     {
-        $btcPrice = $this->tokenService->getBitcoinAmount();
-
         $accountUuid = $dto->getAccount()->getUuid();
 
         if ($replenishment = $this->replenishmentService->get([
@@ -35,26 +31,13 @@ final readonly class ReplenishmentPipe implements PipeInterface
                 ->orderBy('bonus_amount', 'desc')
                 ->orderBy('dividend_amount', 'desc');
         })) {
-            $replenishment->setTotalAmountBtc(1 / $btcPrice * $replenishment->getTotalAmount());
-            $replenishment->setBtcPrice($btcPrice);
-            $replenishment->setRealAmount($dto->getReplenishment()->getRealAmount());
-
-            $this->replenishmentService->update([
-                'uuid' => $replenishment->getUuid(),
-            ], [
-                'real_amount' => $replenishment->getRealAmount(),
-                'total_amount_btc' => $replenishment->getTotalAmountBtc(),
-                'btc_price' => $replenishment->getBtcPrice(),
-            ]);
-
             $dto->setReplenishment($replenishment);
             $dto->setIsReplenishment(true);
         } else {
             $replenishment = $dto->getReplenishment();
 
             $replenishment->setAccountUuid($accountUuid);
-            $replenishment->setTotalAmountBtc(1 / $btcPrice * $replenishment->getRealAmount());
-            $replenishment->setBtcPrice($btcPrice);
+            $replenishment->setTotalAmountBtc((1 / $replenishment->getBtcPrice() * $replenishment->getRealAmount()) + $replenishment->getDividendBtcAmount());
 
             $dto->setIsReplenishment(false);
         }

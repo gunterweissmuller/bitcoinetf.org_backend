@@ -28,22 +28,30 @@ final readonly class DividendsPipe implements PipeInterface
                 'account_uuid' => $account->getUuid(),
                 'type' => TypeEnum::DIVIDENDS->value,
             ])) {
-                $repAmount = floor($wallet->getAmount());
-                $resp = $wallet->getAmount() - $repAmount;
-
-                if ($resp >= 0) {
-                    $replenishment->setDividendWalletUuid($wallet->getUuid());
-                    $replenishment->setDividendAmount($repAmount);
-
-                    $this->walletService->update([
-                        'uuid' => $wallet->getUuid(),
-                    ], [
-                        'amount' => $resp,
-                    ]);
-
-                    $dto->setDividends($wallet);
-                    $dto->setReplenishment($replenishment);
+                if ($wallet->getBtcAmount() <= 0) {
+                    return $next($dto);
                 }
+
+                $btcPrice = $replenishment->getBtcPrice();
+                $dividendAmount = $btcPrice * $wallet->getBtcAmount();
+                $dividendAmountFloor = floor($btcPrice * $wallet->getBtcAmount());
+                $dividendAmountResp = $dividendAmount - $dividendAmountFloor;
+
+                $replenishment->setDividendWalletUuid($wallet->getUuid());
+                $replenishment->setDividendAmount($dividendAmountFloor);
+                $replenishment->setDividendBtcAmount($wallet->getBtcAmount());
+                $replenishment->setDividendUsdtAmount($wallet->getAmount());
+                $replenishment->setDividendRespAmount($dividendAmountResp > 0 ? $dividendAmountResp : null);
+
+                $this->walletService->update([
+                    'uuid' => $wallet->getUuid(),
+                ], [
+                    'amount' => 0,
+                    'btc_amount' => 0,
+                ]);
+
+                $dto->setDividends($wallet);
+                $dto->setReplenishment($replenishment);
             }
         }
 

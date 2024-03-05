@@ -61,13 +61,12 @@ final readonly class SuccessPipe implements PipeInterface
             } else {
                 $replenishment->setTotalAmount(
                     $replenishment->getReferralAmount() +
-                    $replenishment->getDividendAmount() +
                     $replenishment->getBonusAmount() +
                     $replenishment->getRealAmount() +
                     $replenishment->getAddedAmount()
                 );
             }
-            $replenishment->setTotalAmountBtc(1 / $replenishment->getBtcPrice() * $replenishment->getTotalAmount());
+            $replenishment->setTotalAmountBtc((1 / $replenishment->getBtcPrice() * $replenishment->getTotalAmount()) + $replenishment->getDividendBtcAmount());
 
             if ($dto->isReplenished()) {
                 $this->replenishmentService->update([
@@ -94,6 +93,22 @@ final readonly class SuccessPipe implements PipeInterface
                 'btc_price' => $replenishment->getBtcPrice(),
                 'type' => PaymentTypeEnum::CREDIT_FROM_CLIENT->value,
             ]));
+
+            if ($replenishment->getDividendRespAmount()) {
+                $this->paymentService->create(PaymentDto::fromArray([
+                    'account_uuid' => $accountUuid,
+                    'bonus_wallet_uuid' => $replenishment->getBonusWalletUuid(),
+                    'bonus_amount' => $replenishment->getDividendRespAmount(),
+                    'total_amount_btc' => (1 / $replenishment->getTotalAmountBtc()) * $replenishment->getDividendRespAmount(),
+                    'btc_price' => $replenishment->getBtcPrice(),
+                    'type' => PaymentTypeEnum::DEBIT_TO_CLIENT->value,
+                ]));
+
+                $this->refund(
+                    $replenishment->getBonusWalletUuid(),
+                    $replenishment->getDividendRespAmount(),
+                );
+            }
 
             if ($this->accountService->get([
                 'uuid' => $accountUuid,
@@ -163,5 +178,16 @@ final readonly class SuccessPipe implements PipeInterface
         }
 
         return $next($dto);
+    }
+
+    private function refund(string $walletUuid, float $amount): void
+    {
+        if ($wallet = $this->walletService->get(['uuid' => $walletUuid])) {
+            $this->walletService->update([
+                'uuid' => $wallet->getUuid(),
+            ], [
+                'amount' => $wallet->getAmount() + $amount,
+            ]);
+        }
     }
 }

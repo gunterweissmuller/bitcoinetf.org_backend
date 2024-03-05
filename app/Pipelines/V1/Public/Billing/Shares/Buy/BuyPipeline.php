@@ -11,12 +11,14 @@ use App\Pipelines\V1\Public\Billing\Shares\Buy\Pipes\Init\DividendsPipe as InitD
 use App\Pipelines\V1\Public\Billing\Shares\Buy\Pipes\Init\ReferralPipe as InitReferralPipe;
 use App\Pipelines\V1\Public\Billing\Shares\Buy\Pipes\Init\ReplenishmentPipe as InitReplenishmentPipe;
 use App\Pipelines\V1\Public\Billing\Shares\Buy\Pipes\Init\TronWalletPipe as InitTronWalletPipe;
+use App\Pipelines\V1\Public\Billing\Shares\Buy\Pipes\Init\FillReplenishmentPipe as InitFillReplenishmentPipe;
 
 class BuyPipeline extends AbstractPipeline
 {
     public function init(InitPipelineDto $dto): array
     {
         return $this->pipeline([
+            InitFillReplenishmentPipe::class,
             InitTronWalletPipe::class,
             InitBonusPipe::class,
             InitDividendsPipe::class,

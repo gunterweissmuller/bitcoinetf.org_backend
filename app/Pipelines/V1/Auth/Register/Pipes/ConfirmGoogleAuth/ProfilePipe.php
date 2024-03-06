@@ -19,10 +19,14 @@ final class ProfilePipe implements PipeInterface
 
     public function handle(ConfirmGooglePipelineDto|DtoInterface $dto, Closure $next): DtoInterface
     {
+        $profile = $dto->getProfile();
+
         $this->profileService->update([
             'account_uuid' => $dto->getAccount()->getUuid(),
         ], [
-            'full_name' => $dto->getProfile()->getFullName(),
+            'full_name' => $profile->getFullName(),
+            'phone_number' => $profile->getPhoneNumber(),
+            'phone_number_code' => $profile->getPhoneNumberCode(),
         ]);
 
         return $next($dto);

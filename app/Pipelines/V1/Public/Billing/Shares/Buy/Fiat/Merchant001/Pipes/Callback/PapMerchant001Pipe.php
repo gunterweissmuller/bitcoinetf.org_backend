@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Pipelines\V1\Public\Billing\Shares\Buy\Blockchain\Tron\Pipes\Callback;
+namespace App\Pipelines\V1\Public\Billing\Shares\Buy\Fiat\Merchant001\Pipes\Callback;
 
 use App\Dto\DtoInterface;
 use App\Dto\Pipelines\Api\V1\Public\Billing\Shares\Buy\Blockchain\Tron\CallbackPipelineDto;
@@ -17,7 +17,7 @@ final readonly class PapMerchant001Pipe implements PipeInterface
     public function __construct(
         private readonly TrackingService $trackingService,
     )
-    {    
+    {
     }
 
     public function handle(CallbackPipelineDto|DtoInterface $dto, Closure $next): DtoInterface

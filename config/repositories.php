@@ -196,4 +196,14 @@ return [
         'implementation' => \App\Repositories\Pap\Tracking\PgSqlTrackingRepository::class,
     ],
 
+    //Apollopayments
+    [
+        'interface' => \App\Repositories\Apollopayment\Clients\ClientsRepositoryInterface::class,
+        'implementation' => \App\Repositories\Apollopayment\Clients\PgSqlClientsRepository::class,
+    ],
+    [
+        'interface' => \App\Repositories\Apollopayment\Webhooks\WebhooksRepositoryInterface::class,
+        'implementation' => \App\Repositories\Apollopayment\Webhooks\WebhooksRepository::class,
+    ],
+
 ];

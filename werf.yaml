@@ -30,7 +30,7 @@ docker:
   WORKDIR: /var/www/html
 ---
 image: php_fpm
-from: zerogit.org:5005/etf/php-fpm:v1.1
+from: zerogit.org:5005/etf/php-fpm:v1.2
 git:
   - add: /
     to: /var/www/html

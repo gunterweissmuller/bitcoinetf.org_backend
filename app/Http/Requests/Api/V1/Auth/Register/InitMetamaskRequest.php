@@ -25,6 +25,8 @@ final class InitMetamaskRequest extends AbstractRequest
             'message' => ['required', 'string'],
             'signature' => ['required', 'string'],
             'ref_code' => ['nullable', 'string'],
+            'phone_number' => ['required', 'string'],
+            'phone_number_code' => ['required', 'string'],
         ];
     }
 
@@ -39,6 +41,8 @@ final class InitMetamaskRequest extends AbstractRequest
             'account' => AccountDto::fromArray([]),
             'profile' => ProfileDto::fromArray([
                 'full_name' => ucfirst(strtolower($this->get('first_name'))) . ' ' . ucfirst(strtolower($this->get('last_name'))),
+                'phone_number' => preg_replace('/\s+/', '', $this->get('phone_number')),
+                'phone_number_code' => $this->get('phone_number_code'),
             ]),
             'email' => EmailDto::fromArray([
                 'email' => strtolower($this->get('email')),

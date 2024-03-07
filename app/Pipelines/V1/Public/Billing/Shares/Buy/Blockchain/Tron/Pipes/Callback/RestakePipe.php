@@ -137,7 +137,7 @@ final readonly class RestakePipe implements PipeInterface
                 'account_uuid' => $accountUuid,
                 'bonus_wallet_uuid' => $bonusWallet->getUuid(),
                 'bonus_amount' => $replenishment->getDividendRespAmount(),
-                'total_amount_btc' => 1 / $replenishment->getTotalAmountBtc() * $replenishment->getDividendRespAmount(),
+                'total_amount_btc' => 1 / $replenishment->getBtcPrice() * $replenishment->getDividendRespAmount(),
                 'btc_price' => $replenishment->getBtcPrice(),
                 'type' => PaymentTypeEnum::DEBIT_TO_CLIENT->value,
             ]));

@@ -65,8 +65,8 @@ final class TrackingService
         $saleTracker = new Pap_Api_SaleTracker(PAP_SALE_TRACKER_HOST);
         $saleTracker->setAccountId(PAP_ACCOUNT_ID);
         $saleTracker->setVisitorId($pap_id);
-        $saleTracker->createSale();
-        $saleTracker->setTotalCost($real_amount);
+        $sale1 = $saleTracker->createSale();
+        $sale1->setTotalCost($real_amount);
         $saleTracker->register();
         $dto = new TrackingDto(
             null,

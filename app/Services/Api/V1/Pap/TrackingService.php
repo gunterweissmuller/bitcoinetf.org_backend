@@ -43,7 +43,8 @@ final class TrackingService
     {
         $saleTracker = new Pap_Api_SaleTracker(PAP_SALE_TRACKER_HOST);
         $saleTracker->setAccountId(PAP_ACCOUNT_ID);
-        $sale1 = $saleTracker->createAction('signup');
+        $saleTracker->setVisitorId($pap_id);
+        $saleTracker->createAction('signup');
         $saleTracker->register();
         $dto = new TrackingDto(
             null,
@@ -59,12 +60,13 @@ final class TrackingService
         return $this->repository->create($dto);
     }
 
-    public function createSale(string $account_uuid, float $real_amount, string $amount_type): TrackingDto
+    public function createSale(string $account_uuid, string $pap_id, float $real_amount, string $amount_type): TrackingDto
     {
         $saleTracker = new Pap_Api_SaleTracker(PAP_SALE_TRACKER_HOST);
         $saleTracker->setAccountId(PAP_ACCOUNT_ID);
-        $sale1 = $saleTracker->createSale();
-        $sale1->setTotalCost($real_amount);
+        $saleTracker->setVisitorId($pap_id);
+        $saleTracker->createSale();
+        $saleTracker->setTotalCost($real_amount);
         $saleTracker->register();
         $dto = new TrackingDto(
             null,

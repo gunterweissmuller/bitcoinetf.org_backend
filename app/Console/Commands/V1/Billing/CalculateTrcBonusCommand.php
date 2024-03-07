@@ -27,13 +27,13 @@ final class CalculateTrcBonusCommand extends Command
                 $globalService->update([
                     'symbol' => SymbolEnum::TRC_BONUS->value,
                 ], [
-                    'value' => $trcBonus - 0.0001,
+                    'value' => $trcBonus - 0.01,
                 ]);
 
                 $globalService->update([
                     'symbol' => SymbolEnum::TRC_BONUS_DECREASE->value,
                 ], [
-                    'value' => Carbon::now()->addDays(7)->toDateString(),
+                    'value' => Carbon::now()->addDays(10)->toDateString(),
                 ]);
             }
         }

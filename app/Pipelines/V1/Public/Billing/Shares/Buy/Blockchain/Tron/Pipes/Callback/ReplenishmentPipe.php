@@ -9,12 +9,14 @@ use App\Dto\Pipelines\Api\V1\Public\Billing\Shares\Buy\Blockchain\Tron\CallbackP
 use App\Enums\Billing\Replenishment\StatusEnum;
 use App\Pipelines\PipeInterface;
 use App\Services\Api\V1\Billing\ReplenishmentService;
+use App\Services\Api\V1\Billing\TokenService;
 use Closure;
 
 final readonly class ReplenishmentPipe implements PipeInterface
 {
     public function __construct(
         private ReplenishmentService $replenishmentService,
+        private TokenService $tokenService
     ) {
     }
 
@@ -51,9 +53,12 @@ final readonly class ReplenishmentPipe implements PipeInterface
             $dto->setReplenishment($replenishment);
             $dto->setIsReplenishment(true);
         } else {
+            $btcPrice = $this->tokenService->getBitcoinAmount();
+
             $replenishment = $dto->getReplenishment();
 
             $replenishment->setAccountUuid($accountUuid);
+            $replenishment->setBtcPrice($btcPrice);
             $replenishment->setTotalAmount(
                 $replenishment->getReferralAmount() +
                 $replenishment->getBonusAmount() +

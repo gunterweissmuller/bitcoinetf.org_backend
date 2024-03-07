@@ -6,7 +6,7 @@ namespace App\Services\Api\V1\Apollopayment;
 
 
 use App\Dto\Models\Apollopayment\WebhooksDto;
-use App\Repositories\Apollopaymnt\Webhooks\WebhooksRepositoryInterface;
+use App\Repositories\Apollopayment\Webhooks\WebhooksRepositoryInterface;
 
 final class ApollopaymentWebhooksService
 {

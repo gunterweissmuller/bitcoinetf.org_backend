@@ -31,13 +31,36 @@ final readonly class ReplenishmentPipe implements PipeInterface
                 ->orderBy('bonus_amount', 'desc')
                 ->orderBy('dividend_amount', 'desc');
         })) {
+            $replenishment->setRealAmount($dto->getReplenishment()->getRealAmount());
+            $replenishment->setTotalAmount(
+                $replenishment->getReferralAmount() +
+                $replenishment->getBonusAmount() +
+                $replenishment->getRealAmount() +
+                $replenishment->getDividendAmount()
+            );
+            $replenishment->setTotalAmountBtc(1 / $replenishment->getBtcPrice() * $replenishment->getTotalAmount());
+
+            $this->replenishmentService->update([
+                'uuid' => $replenishment->getUuid(),
+            ], [
+                'real_amount' => $replenishment->getRealAmount(),
+                'total_amount' => $replenishment->getTotalAmount(),
+                'total_amount_btc' => $replenishment->getTotalAmountBtc(),
+            ]);
+
             $dto->setReplenishment($replenishment);
             $dto->setIsReplenishment(true);
         } else {
             $replenishment = $dto->getReplenishment();
 
             $replenishment->setAccountUuid($accountUuid);
-            $replenishment->setTotalAmountBtc((1 / $replenishment->getBtcPrice() * $replenishment->getRealAmount()) + $replenishment->getDividendBtcAmount());
+            $replenishment->setTotalAmount(
+                $replenishment->getReferralAmount() +
+                $replenishment->getBonusAmount() +
+                $replenishment->getRealAmount() +
+                $replenishment->getDividendAmount()
+            );
+            $replenishment->setTotalAmountBtc(1 / $replenishment->getBtcPrice() * $replenishment->getTotalAmount());
 
             $dto->setReplenishment($replenishment);
             $dto->setIsReplenishment(false);

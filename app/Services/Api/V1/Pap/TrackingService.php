@@ -9,7 +9,6 @@ include app_path() . '/Helpers/PapApiNamespace.class.php';
 use App\Dto\Models\Pap\TrackingDto;
 use App\Repositories\Pap\Tracking\TrackingRepositoryInterface;
 use App\Enums\Pap\Event\EventEnum;
-use App\Enums\Pap\Asset\AssetEnum;
 use Qu\Pap\Api\Pap_Api_SaleTracker;
 
 final class TrackingService

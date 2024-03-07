@@ -19,15 +19,15 @@ final readonly class PapTronPipe implements PipeInterface
     public function __construct(
         private readonly TrackingService $trackingService,
     )
-    {    
+    {
     }
 
     public function handle(CallbackPipelineDto|DtoInterface $dto, Closure $next): DtoInterface
     {
         $accountUuid = $dto->getAccount()->getUuid();
-        $record = $this->trackingService->get(['account_uuid' => $accountUuid, 'event' => EventEnum::Signup->value]);
+        $record = $this->trackingService->get(['account_uuid' => $accountUuid, 'event_type' => EventEnum::Signup->value]);
         if ($record !== null && $dto->getReplenishment()->getStatus() === ReplenishmentStatusEnum::SUCCESS->value)
-        { 
+        {
             $pap_id = $record->getPapId();
             $real_amount = $dto->getReplenishment()->getRealAmount();
             $this->trackingService->createSale($accountUuid, $pap_id, $real_amount, AssetEnum::Tron->value);

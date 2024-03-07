@@ -27,7 +27,7 @@ final class CalculateTrcBonusCommand extends Command
                 $globalService->update([
                     'symbol' => SymbolEnum::TRC_BONUS->value,
                 ], [
-                    'value' => $trcBonus - 0.01,
+                    'value' => $trcBonus - 0.0001,
                 ]);
 
                 $globalService->update([

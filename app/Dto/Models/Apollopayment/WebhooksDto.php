@@ -6,19 +6,22 @@ namespace App\Dto\Models\Apollopayment;
 
 use App\Dto\DtoInterface;
 
-final class WehooksDto implements DtoInterface
+final class WebhooksDto implements DtoInterface
 {
     public function __construct(
         private ?string $uuid,
         private ?string $client_id,
         private ?string $webhook_id,
         private ?string $address_id,
-        private ?float $amount,
+        private ?float  $amount,
         private ?string $currency,
         private ?string $network,
         private ?string $tx,
         private ?string $type,
-    ) {
+        private ?string $createdAt,
+        private ?string $updatedAt,
+    )
+    {
     }
 
     public static function fromArray(array $args): DtoInterface|self
@@ -33,6 +36,8 @@ final class WehooksDto implements DtoInterface
             $args['network'] ?? null,
             $args['tx'] ?? null,
             $args['type'] ?? null,
+            $args['created_at'] ?? null,
+            $args['updated_at'] ?? null,
         );
     }
 
@@ -48,6 +53,8 @@ final class WehooksDto implements DtoInterface
             'network' => $this->network,
             'tx' => $this->tx,
             'type' => $this->type,
+            'created_at' => $this->createdAt,
+            'updated_at' => $this->updatedAt,
         ];
     }
 
@@ -141,24 +148,35 @@ final class WehooksDto implements DtoInterface
         $this->type = $type;
     }
 
+    /**
+     * @return string|null
+     */
     public function getCreatedAt(): ?string
     {
-        return $this->created_at;
+        return $this->createdAt;
     }
 
-    public function setCreatedAt(?string $created_at): void
+    /**
+     * @param  string|null  $createdAt
+     */
+    public function setCreatedAt(?string $createdAt): void
     {
-        $this->created_at = $created_at;
+        $this->createdAt = $createdAt;
     }
 
+    /**
+     * @return string|null
+     */
     public function getUpdatedAt(): ?string
     {
-        return $this->updated_at;
+        return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?string $updated_at): void
+    /**
+     * @param  string|null  $updatedAt
+     */
+    public function setUpdatedAt(?string $updatedAt): void
     {
-        $this->updated_at = $updated_at;
+        $this->updatedAt = $updatedAt;
     }
-    
 }

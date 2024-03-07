@@ -41,6 +41,10 @@ final class TrackingService
 
     public function createSignup(string $account_uuid, string $pap_id, string $utm_label): TrackingDto
     {
+        $saleTracker = new Pap_Api_SaleTracker(PAP_SALE_TRACKER_HOST);
+        $saleTracker->setAccountId(PAP_ACCOUNT_ID);
+        $sale1 = $saleTracker->createAction('signup');
+        $saleTracker->register();
         $dto = new TrackingDto(
             null,
             $account_uuid,

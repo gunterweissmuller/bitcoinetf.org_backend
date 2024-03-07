@@ -38,7 +38,9 @@ abstract class AbstractPipeline
         } catch (Exception|Throwable $e) {
             DB::rollBack();
             Log::error((string) $e);
-            dump($e->getMessage());
+            return response()->json([
+                'message' => $e->getMessage(),
+            ], 400);
             $exception = $e;
         }
 

@@ -6,7 +6,7 @@ namespace App\Dto\Models\Apollopayment;
 
 use App\Dto\DtoInterface;
 
-final class WehooksDto implements DtoInterface
+final class WebhooksDto implements DtoInterface
 {
     public function __construct(
         private ?string $uuid,

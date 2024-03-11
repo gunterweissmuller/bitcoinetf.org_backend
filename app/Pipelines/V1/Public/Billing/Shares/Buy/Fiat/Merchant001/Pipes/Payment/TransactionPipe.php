@@ -28,7 +28,7 @@ final class TransactionPipe implements PipeInterface
         if (!$replenishment->getMerchant001Id()) {
             if ($replenishment->getRealAmount() > 1000) {
                 $replenishment->setRealAmount(1000);
-            } elseif ($this->globalService->getMinReplenishmentAmount() < $replenishment->getRealAmount()) {
+            } elseif ($replenishment->getRealAmount() < $this->globalService->getMinReplenishmentAmount()) {
                 $replenishment->setRealAmount($this->globalService->getMinReplenishmentAmount());
             }
 

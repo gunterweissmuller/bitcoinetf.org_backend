@@ -41,8 +41,8 @@ final readonly class ReferralPipe implements PipeInterface
                         'amount' => $resp,
                     ]);
 
-                    $dto->setBonus($wallet);
-                    $dto->setReferral($replenishment);
+                    $dto->setReferral($wallet);
+                    $dto->setReplenishment($replenishment);
                 }
             }
         }

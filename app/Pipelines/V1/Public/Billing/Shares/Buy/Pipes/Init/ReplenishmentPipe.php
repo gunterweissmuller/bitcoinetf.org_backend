@@ -26,10 +26,10 @@ final readonly class ReplenishmentPipe implements PipeInterface
         $btcPrice = $replenishment->getBtcPrice();
 
         $trcBonus = number_format($this->globalService->getTrcBonus(), 8, '.', '');
-        if ($trcBonus > 0) {
-            $realAmount = $replenishment->getRealAmount() - $replenishment->getRealAmount() * $trcBonus;
-            $replenishment->setRealAmount($realAmount);
-        }
+//        if ($trcBonus > 0) {
+//            $realAmount = $replenishment->getRealAmount() - $replenishment->getRealAmount() * $trcBonus;
+//            $replenishment->setRealAmount($realAmount);
+//        }
 
         $replenishment->setAccountUuid($dto->getAccount()->getUuid());
         $replenishment->setTotalAmount($replenishment->getReferralAmount() + $replenishment->getBonusAmount() + $replenishment->getRealAmount() + $replenishment->getDividendAmount());

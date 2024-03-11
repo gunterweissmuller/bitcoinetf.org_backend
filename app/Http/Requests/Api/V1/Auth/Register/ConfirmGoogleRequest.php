@@ -17,6 +17,8 @@ final class ConfirmGoogleRequest extends AbstractRequest
             'first_name' => ['required', 'string'],
             'last_name' => ['required', 'string'],
             'email' => ['required', 'string'],
+            'phone_number' => ['required', 'string'],
+            'phone_number_code' => ['required', 'string'],
         ];
     }
 
@@ -30,6 +32,8 @@ final class ConfirmGoogleRequest extends AbstractRequest
         return ConfirmGooglePipelineDto::fromArray([
             'profile' => ProfileDto::fromArray([
                 'full_name' => ucfirst(strtolower($this->get('first_name'))) . ' ' . ucfirst(strtolower($this->get('last_name'))),
+                'phone_number' => preg_replace('/\s+/', '', $this->get('phone_number')),
+                'phone_number_code' => $this->get('phone_number_code'),
             ]),
             'email' => EmailDto::fromArray([
                 'email' => $this->get('email'),

@@ -31,6 +31,8 @@ final class ProfilePipe implements PipeInterface
                 'account_uuid' => $dto->getAccount()->getUuid(),
             ], [
                 'full_name' => $profile->getFullName(),
+                'phone_number' => $profile->getPhoneNumber(),
+                'phone_number_code' => $profile->getPhoneNumberCode(),
             ]);
         }
 

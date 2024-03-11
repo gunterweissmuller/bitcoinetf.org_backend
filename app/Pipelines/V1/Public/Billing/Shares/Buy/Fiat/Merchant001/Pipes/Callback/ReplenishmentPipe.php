@@ -26,18 +26,6 @@ final class ReplenishmentPipe implements PipeInterface
         $replenishment = $dto->getReplenishment();
 
         if ($replenishment = $this->replenishmentService->get(array_filter($replenishment->toArray()))) {
-            $btcPrice = $this->tokenService->getBitcoinAmount();
-
-            $replenishment->setTotalAmountBtc(1 / $btcPrice * $replenishment->getTotalAmount());
-            $replenishment->setBtcPrice($btcPrice);
-
-            $this->replenishmentService->update([
-                'uuid' => $replenishment->getUuid(),
-            ], [
-                'total_amount_btc' => $replenishment->getTotalAmountBtc(),
-                'btc_price' => $replenishment->getBtcPrice(),
-            ]);
-
             if ($replenishment->getStatus() == StatusEnum::SUCCESS->value || $replenishment->getStatus() == StatusEnum::EXPIRED->value) {
                 $dto->setIsReplenished(true);
             }

@@ -6,6 +6,7 @@ namespace App\Pipelines\V1\Public\Billing\Shares\Buy\Fiat\Merchant001\Pipes\Call
 
 use App\Dto\DtoInterface;
 use App\Dto\Pipelines\Api\V1\Public\Billing\Shares\Buy\Blockchain\Tron\CallbackPipelineDto;
+use App\Enums\Pap\Event\EventEnum;
 use App\Pipelines\PipeInterface;
 use Closure;
 use App\Enums\Pap\Asset\AssetEnum;
@@ -23,11 +24,12 @@ final readonly class PapMerchant001Pipe implements PipeInterface
     public function handle(CallbackPipelineDto|DtoInterface $dto, Closure $next): DtoInterface
     {
         $accountUuid = $dto->getAccount()->getUuid();
-        $record = $this->trackingService->get(['account_uuid' => $accountUuid]);
+        $record = $this->trackingService->get(['account_uuid' => $accountUuid, 'event_type' => EventEnum::Signup->value]);
         if ($record !== null && $dto->getReplenishment()->getStatus() === ReplenishmentStatusEnum::SUCCESS->value)
         {
+            $pap_id = $record->getPapId();
             $real_amount = $dto->getReplenishment()->getRealAmount();
-            $this->trackingService->createSale($accountUuid, $real_amount, AssetEnum::FiatMerchant001->value);
+            $this->trackingService->createSale($accountUuid, $pap_id, $real_amount, AssetEnum::FiatMerchant001->value);
         }
         return $next($dto);
     }

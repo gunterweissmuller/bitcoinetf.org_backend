@@ -9,7 +9,6 @@ include app_path() . '/Helpers/PapApiNamespace.class.php';
 use App\Dto\Models\Pap\TrackingDto;
 use App\Repositories\Pap\Tracking\TrackingRepositoryInterface;
 use App\Enums\Pap\Event\EventEnum;
-use App\Enums\Pap\Asset\AssetEnum;
 use Qu\Pap\Api\Pap_Api_SaleTracker;
 
 final class TrackingService
@@ -41,6 +40,11 @@ final class TrackingService
 
     public function createSignup(string $account_uuid, string $pap_id, string $utm_label): TrackingDto
     {
+        $saleTracker = new Pap_Api_SaleTracker(PAP_SALE_TRACKER_HOST);
+        $saleTracker->setAccountId(PAP_ACCOUNT_ID);
+        $saleTracker->setVisitorId($pap_id);
+        $saleTracker->createAction('signup');
+        $saleTracker->register();
         $dto = new TrackingDto(
             null,
             $account_uuid,
@@ -55,10 +59,11 @@ final class TrackingService
         return $this->repository->create($dto);
     }
 
-    public function createSale(string $account_uuid, float $real_amount, string $amount_type): TrackingDto
+    public function createSale(string $account_uuid, string $pap_id, float $real_amount, string $amount_type): TrackingDto
     {
         $saleTracker = new Pap_Api_SaleTracker(PAP_SALE_TRACKER_HOST);
         $saleTracker->setAccountId(PAP_ACCOUNT_ID);
+        $saleTracker->setVisitorId($pap_id);
         $sale1 = $saleTracker->createSale();
         $sale1->setTotalCost($real_amount);
         $saleTracker->register();

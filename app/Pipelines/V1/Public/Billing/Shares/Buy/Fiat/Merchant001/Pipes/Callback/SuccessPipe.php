@@ -9,6 +9,7 @@ use App\Dto\Models\Billing\PaymentDto;
 use App\Dto\Pipelines\Api\V1\Public\Billing\Shares\Buy\Fiat\Merchant001\CallbackPipelineDto;
 use App\Enums\Billing\Payment\TypeEnum as PaymentTypeEnum;
 use App\Enums\Billing\Replenishment\StatusEnum;
+use App\Enums\Billing\Wallet\TypeEnum;
 use App\Enums\Billing\Wallet\TypeEnum as WalletTypeEnum;
 use App\Enums\Kafka\ProducerEnum;
 use App\Jobs\V1\Billing\Buy\UpdateDailyAumJob;
@@ -61,10 +62,10 @@ final readonly class SuccessPipe implements PipeInterface
             } else {
                 $replenishment->setTotalAmount(
                     $replenishment->getReferralAmount() +
-                    $replenishment->getDividendAmount() +
                     $replenishment->getBonusAmount() +
                     $replenishment->getRealAmount() +
-                    $replenishment->getAddedAmount()
+                    $replenishment->getAddedAmount() +
+                    $replenishment->getDividendAmount()
                 );
             }
             $replenishment->setTotalAmountBtc(1 / $replenishment->getBtcPrice() * $replenishment->getTotalAmount());
@@ -88,12 +89,33 @@ final readonly class SuccessPipe implements PipeInterface
                 'dividend_wallet_uuid' => $replenishment->getDividendWalletUuid(),
                 'referral_amount' => $replenishment->getReferralAmount(),
                 'bonus_amount' => $replenishment->getBonusAmount(),
-                'dividend_amount' => $replenishment->getDividendAmount(),
+                'dividend_amount' => $replenishment->getDividendAmount() + $replenishment->getDividendRespAmount(),
                 'real_amount' => ceil($replenishment->getRealAmount() + $replenishment->getAddedAmount()),
                 'total_amount_btc' => $replenishment->getTotalAmountBtc(),
                 'btc_price' => $replenishment->getBtcPrice(),
                 'type' => PaymentTypeEnum::CREDIT_FROM_CLIENT->value,
             ]));
+
+            if ($replenishment->getDividendRespAmount()) {
+                $bonusWallet = $this->walletService->get([
+                    'account_uuid' => $accountUuid,
+                    'type' => TypeEnum::BONUS->value,
+                ]);
+
+                $this->paymentService->create(PaymentDto::fromArray([
+                    'account_uuid' => $accountUuid,
+                    'bonus_wallet_uuid' => $bonusWallet->getUuid(),
+                    'bonus_amount' => $replenishment->getDividendRespAmount(),
+                    'total_amount_btc' => (1 / $replenishment->getTotalAmountBtc()) * $replenishment->getDividendRespAmount(),
+                    'btc_price' => $replenishment->getBtcPrice(),
+                    'type' => PaymentTypeEnum::DEBIT_TO_CLIENT->value,
+                ]));
+
+                $this->refund(
+                    $bonusWallet->getUuid(),
+                    $replenishment->getDividendRespAmount(),
+                );
+            }
 
             if ($this->accountService->get([
                 'uuid' => $accountUuid,
@@ -157,11 +179,23 @@ final readonly class SuccessPipe implements PipeInterface
                         'account_uuid' => $accountUuid,
                         'payment_uuid' => $payment->getUuid(),
                         'amount' => $payment->getTotalAmount(),
+                        'reinvest' => (bool) $replenishment->getDividendWalletUuid()
                     ],
                 ],
             );
         }
 
         return $next($dto);
+    }
+
+    private function refund(string $walletUuid, float $amount): void
+    {
+        if ($wallet = $this->walletService->get(['uuid' => $walletUuid])) {
+            $this->walletService->update([
+                'uuid' => $wallet->getUuid(),
+            ], [
+                'amount' => $wallet->getAmount() + $amount,
+            ]);
+        }
     }
 }

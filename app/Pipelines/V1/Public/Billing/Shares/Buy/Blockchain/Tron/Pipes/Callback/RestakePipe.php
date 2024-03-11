@@ -48,16 +48,23 @@ final readonly class RestakePipe implements PipeInterface
         $replenishment = $dto->getReplenishment();
         $replenishment->setStatus(StatusEnum::SUCCESS->value);
 
-        $totalAmount = number_format($replenishment->getRealAmount(), 8, '.', '');
+        $realAmount = number_format($replenishment->getRealAmount(), 8, '.', '');
         $trcBonus = number_format($this->globalService->getTrcBonus(), 8, '.', '');
-
         $respAmount = null;
         if ($trcBonus > 0) {
-            $respAmount = bcmul(
-                $totalAmount,
-                $trcBonus,
+            $percent100 = number_format(100, 8, '.', '');
+            $percent = bcsub(
+                $percent100,
+                bcmul($percent100, $trcBonus, 8),
                 8
             );
+
+            $totalAmount = bcmul(
+                bcdiv($realAmount, $percent, 8),
+                $percent100,
+                8
+            );
+            $respAmount = bcsub($totalAmount, $realAmount, 8);
         }
 
         $replenishment->setAddedAmount((float)$respAmount);
@@ -210,7 +217,7 @@ final readonly class RestakePipe implements PipeInterface
                     'account_uuid' => $accountUuid,
                     'payment_uuid' => $payment->getUuid(),
                     'amount' => $replenishment->getTotalAmount(),
-                    'reinvest' => (bool) $replenishment->getDividendWalletUuid()
+                    'reinvest' => (bool)$replenishment->getDividendWalletUuid()
                 ],
             ],
         );

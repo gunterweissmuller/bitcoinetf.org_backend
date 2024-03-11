@@ -54,10 +54,11 @@ final readonly class RestakePipe implements PipeInterface
         $respAmount = null;
         if ($trcBonus > 0) {
 //            $respAmount = $replenishment->getTotalAmount() - $replenishment->getBonusAmount() - $replenishment->getReferralAmount() - $replenishment->getDividendAmount() - $replenishment->getRealAmount();
-            $respAmount = bcsub(number_format($replenishment->getTotalAmount(), 8, '.', ''), number_format($replenishment->getBonusAmount(), 8, '.', ''), 8);
-            $respAmount = bcsub($respAmount, number_format($replenishment->getReferralAmount(), 8, '.', ''), 8);
-            $respAmount = bcsub($respAmount, number_format($replenishment->getDividendAmount(), 8, '.', ''), 8);
-            $respAmount = bcsub($respAmount, $realAmount, 8);
+//            $respAmount = bcsub(number_format($replenishment->getTotalAmount(), 8, '.', ''), number_format($replenishment->getBonusAmount(), 8, '.', ''), 8);
+//            $respAmount = bcsub($respAmount, number_format($replenishment->getReferralAmount(), 8, '.', ''), 8);
+//            $respAmount = bcsub($respAmount, number_format($replenishment->getDividendAmount(), 8, '.', ''), 8);
+//            $respAmount = bcsub($respAmount, $realAmount, 8);
+            $respAmount = bcsub(number_format($replenishment->getTotalAmount(), 8, '.', ''), $realAmount, 8);
 //            $respAmount = bcmul(
 //                $realAmount,
 //                $trcBonus,

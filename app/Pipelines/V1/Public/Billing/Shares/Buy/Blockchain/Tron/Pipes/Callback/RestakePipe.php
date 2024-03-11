@@ -65,21 +65,6 @@ final readonly class RestakePipe implements PipeInterface
                 8
             );
             $respAmount = bcsub($totalAmount, $realAmount, 8);
-
-//            $percent = 100 - 100 * $this->globalService->getTrcBonus();
-//            $totalAmount = ($replenishment->getRealAmount()/$percent) * 100;
-//            $respAmount = $totalAmount - $realAmount;
-//            $respAmount = bcmul(number_format(100, 8, '.', ''), $realAmount, 8);
-//            $respAmount = bcdiv(number_format(100, 8, '.', ''), $realAmount, 8);
-//            $minTrcPrice = number_format(100, 8, '.', '');
-//            $respAmount = bcdiv($realAmount, $minTrcPrice, 8);
-//            $discountValue = bcmul($minTrcPrice, $trcBonus, 8);
-//            $respAmount = bcmul(number_format(ceil((float)$respAmount), 8, '.', ''), $discountValue, 8);
-//            $respAmount = bcmul(
-//                $realAmount,
-//                $trcBonus,
-//                8
-//            );
         }
 
         $replenishment->setAddedAmount((float)$respAmount);

@@ -27,11 +27,11 @@ final readonly class ReplenishmentPipe implements PipeInterface
 
         $trcBonus = number_format($this->globalService->getTrcBonus(), 8, '.', '');
         $trcAmount = 0;
-//        if ($trcBonus > 0) {
-//            $trcAmount = $replenishment->getRealAmount() * $trcBonus;
-//            $realAmount = $replenishment->getRealAmount() - $trcAmount;
-//            $replenishment->setRealAmount($realAmount);
-//        }
+        if ($trcBonus > 0) {
+            $trcAmount = $replenishment->getRealAmount() * $trcBonus;
+            $realAmount = $replenishment->getRealAmount() - $trcAmount;
+            $replenishment->setRealAmount($realAmount);
+        }
 
         $replenishment->setAccountUuid($dto->getAccount()->getUuid());
         $replenishment->setTotalAmount($replenishment->getReferralAmount() + $replenishment->getBonusAmount() + $replenishment->getRealAmount() + $trcAmount + $replenishment->getDividendAmount());

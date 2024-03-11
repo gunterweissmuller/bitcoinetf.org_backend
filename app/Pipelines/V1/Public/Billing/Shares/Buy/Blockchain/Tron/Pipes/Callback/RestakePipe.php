@@ -50,14 +50,36 @@ final readonly class RestakePipe implements PipeInterface
 
         $realAmount = number_format($replenishment->getRealAmount(), 8, '.', '');
         $trcBonus = number_format($this->globalService->getTrcBonus(), 8, '.', '');
-//        $respAmount = floor($replenishment->getRealAmount() / 100) * 100 * $trcBonus;
         $respAmount = null;
         if ($trcBonus > 0) {
-            $respAmount = bcmul(
-                $realAmount,
-                $trcBonus,
+            $percent100 = number_format(100, 8, '.', '');
+            $percent = bcsub(
+                $percent100,
+                bcmul($percent100, $trcBonus, 8),
                 8
             );
+
+            $totalAmount = bcmul(
+                bcdiv($realAmount, $percent, 8),
+                $percent100,
+                8
+            );
+            $respAmount = bcsub($totalAmount, $realAmount, 8);
+
+//            $percent = 100 - 100 * $this->globalService->getTrcBonus();
+//            $totalAmount = ($replenishment->getRealAmount()/$percent) * 100;
+//            $respAmount = $totalAmount - $realAmount;
+//            $respAmount = bcmul(number_format(100, 8, '.', ''), $realAmount, 8);
+//            $respAmount = bcdiv(number_format(100, 8, '.', ''), $realAmount, 8);
+//            $minTrcPrice = number_format(100, 8, '.', '');
+//            $respAmount = bcdiv($realAmount, $minTrcPrice, 8);
+//            $discountValue = bcmul($minTrcPrice, $trcBonus, 8);
+//            $respAmount = bcmul(number_format(ceil((float)$respAmount), 8, '.', ''), $discountValue, 8);
+//            $respAmount = bcmul(
+//                $realAmount,
+//                $trcBonus,
+//                8
+//            );
         }
 
         $replenishment->setAddedAmount((float)$respAmount);
@@ -210,7 +232,7 @@ final readonly class RestakePipe implements PipeInterface
                     'account_uuid' => $accountUuid,
                     'payment_uuid' => $payment->getUuid(),
                     'amount' => $replenishment->getTotalAmount(),
-                    'reinvest' => (bool) $replenishment->getDividendWalletUuid()
+                    'reinvest' => (bool)$replenishment->getDividendWalletUuid()
                 ],
             ],
         );

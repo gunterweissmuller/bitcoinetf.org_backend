@@ -50,20 +50,14 @@ final readonly class RestakePipe implements PipeInterface
 
         $realAmount = number_format($replenishment->getRealAmount(), 8, '.', '');
         $trcBonus = number_format($this->globalService->getTrcBonus(), 8, '.', '');
-
+//        $respAmount = floor($replenishment->getRealAmount() / 100) * 100 * $trcBonus;
         $respAmount = null;
         if ($trcBonus > 0) {
-//            $respAmount = $replenishment->getTotalAmount() - $replenishment->getBonusAmount() - $replenishment->getReferralAmount() - $replenishment->getDividendAmount() - $replenishment->getRealAmount();
-//            $respAmount = bcsub(number_format($replenishment->getTotalAmount(), 8, '.', ''), number_format($replenishment->getBonusAmount(), 8, '.', ''), 8);
-//            $respAmount = bcsub($respAmount, number_format($replenishment->getReferralAmount(), 8, '.', ''), 8);
-//            $respAmount = bcsub($respAmount, number_format($replenishment->getDividendAmount(), 8, '.', ''), 8);
-//            $respAmount = bcsub($respAmount, $realAmount, 8);
-            $respAmount = bcsub(number_format($replenishment->getTotalAmount(), 8, '.', ''), $realAmount, 8);
-//            $respAmount = bcmul(
-//                $realAmount,
-//                $trcBonus,
-//                8
-//            );
+            $respAmount = bcmul(
+                $realAmount,
+                $trcBonus,
+                8
+            );
         }
 
         $replenishment->setAddedAmount((float)$respAmount);

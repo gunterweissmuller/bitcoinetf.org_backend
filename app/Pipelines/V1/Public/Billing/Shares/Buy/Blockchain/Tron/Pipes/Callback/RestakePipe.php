@@ -48,12 +48,12 @@ final readonly class RestakePipe implements PipeInterface
         $replenishment = $dto->getReplenishment();
         $replenishment->setStatus(StatusEnum::SUCCESS->value);
 
-        $realAmount = number_format($replenishment->getRealAmount(), 8, '.', '');
+//        $realAmount = number_format($replenishment->getRealAmount(), 8, '.', '');
         $trcBonus = number_format($this->globalService->getTrcBonus(), 8, '.', '');
 
         $respAmount = null;
         if ($trcBonus > 0) {
-            $respAmount = $replenishment->getTotalAmount() - $replenishment->getBonusAmount() - $replenishment->getReferralAmount() - $replenishment->getDividendAmount() - $realAmount;
+            $respAmount = $replenishment->getTotalAmount() - $replenishment->getBonusAmount() - $replenishment->getReferralAmount() - $replenishment->getDividendAmount() - $replenishment->getRealAmount();
 //            $respAmount = bcmul(
 //                $realAmount,
 //                $trcBonus,

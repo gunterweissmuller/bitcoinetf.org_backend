@@ -6,7 +6,7 @@ namespace App\Services\Api\V1\Apollopayment;
 
 
 use App\Dto\Models\Apollopayment\ClientsDto;
-use App\Repositories\Apollopaymnt\Clients\ClientsRepositoryInterface;
+use App\Repositories\Apollopayment\Clients\ClientsRepositoryInterface;
 
 final class ApollopaymentClientsService
 {

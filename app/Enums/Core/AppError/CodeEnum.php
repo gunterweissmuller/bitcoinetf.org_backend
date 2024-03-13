@@ -59,7 +59,7 @@ enum CodeEnum: string
     case C050001 = '050001'; // code not found
 
     case C050002 = '050002'; // already used code
-	
+
 	case C060001 = '060001'; // withdrawal is not possible
 
     case C090001 = '090001'; // file save error
@@ -67,4 +67,6 @@ enum CodeEnum: string
     case C100001 = '100001'; // merchant001 unavailable
 
     case C100002 = '100002'; // this account pap tracker is already in use
+
+    case C100003 = '100003'; // apollo payment unavailable
 }

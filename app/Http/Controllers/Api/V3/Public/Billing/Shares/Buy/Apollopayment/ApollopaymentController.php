@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace app\Http\Controllers\Api\V3\Public\Billing\Shares\Buy\Apollopayment;
+namespace App\Http\Controllers\Api\V3\Public\Billing\Shares\Buy\Apollopayment;
 
 use App\Http\Requests\Api\EmptyRequest;
 use Exception;
@@ -60,5 +60,5 @@ class ApollopaymentController extends Controller
             ],
         ]);
     }
-
+    
 }

@@ -5,40 +5,36 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\V3\Public\Billing\Shares\Buy\Apollopayment;
 
 use App\Http\Requests\Api\EmptyRequest;
-use Exception;
+use App\Http\Requests\Api\V3\Public\Billing\Shares\Buy\Apollopayment\PaymentMethodsRequest;
+use App\Services\Api\V3\Apollopayment\ApollopaymentClientsService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Http;
 
 class ApollopaymentController extends Controller
 {
     public function __construct(
-    ) {
+        private readonly ApollopaymentClientsService $apollopaymentClientsService,
+
+    )
+    {
     }
 
-    public function methods(EmptyRequest $request): JsonResponse
+    public function getPaymentsMethods(PaymentMethodsRequest $request): JsonResponse
     {
-        return response()->json([
-            'data' => [
-                'methods' => [
-                    [
-                        'currency' => 'Tether USD',
-                        'network' => 'tron',
-                        'address' => 'TKn1s2NBirDJdcLkNd4EsHpv63veCCtaot',
-                    ],
-                    [
-                        'currency' => 'Tether USD',
-                        'network' => 'polygon',
-                        'address' => '0xeC4180b26b61A4E305AEB32Dc1B0db9E69c4d9bA',
-                    ],
-                    [
-                        'currency' => 'Tether USD',
-                        'network' => 'ethereum',
-                        'address' => '0xA3275F4e819Cf6707f7607E237336C950487793d',
-                    ],
-                ],
-            ],
-        ]);
+        $data = [];
+        $apolloClient = $this->apollopaymentClientsService->get(['account_uuid' => $request->payload()->getUuid()]);
+
+        if ($apolloClient->getPolygonAddr()) {
+            $data['polygon']['address'] = $apolloClient->getPolygonAddr();
+        }
+        if ($apolloClient->getTronAddr()) {
+            $data['tron']['address'] = $apolloClient->getTronAddr();
+        }
+        if ($apolloClient->getEthereumAddr()) {
+            $data['ethereum']['address'] = $apolloClient->getEthereumAddr();
+        }
+
+        return response()->json(['data' => $data]);
     }
 
     public function check(EmptyRequest $request): JsonResponse
@@ -60,5 +56,5 @@ class ApollopaymentController extends Controller
             ],
         ]);
     }
-    
+
 }

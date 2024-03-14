@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\V3\Public\Billing\Shares\Buy;
 
 use App\Dto\Models\Billing\ReplenishmentDto;
-use App\Http\Requests\Api\V3\Public\Billing\Shares\Buy\InitRequest;
+use App\Http\Requests\Api\V1\Public\Billing\Shares\Buy\InitRequest;
 use App\Pipelines\V3\Public\Billing\Shares\Buy\BuyPipeline;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;

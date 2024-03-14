@@ -31,6 +31,7 @@ use App\Pipelines\V1\Auth\Register\Pipes\ConfirmTelegramAuth\AccountPipe as Conf
 use App\Pipelines\V1\Auth\Register\Pipes\ConfirmTelegramAuth\TelegramPipe as ConfirmTelegramPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\ConfirmTelegramAuth\ValidatePipe as ConfirmTelegramValidatePipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\AccountPipe as InitAccountPipe;
+use App\Pipelines\V1\Auth\Register\Pipes\Init\ApolloClientPipe as InitApolloClientPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\AppleAccountPipe as InitAppleAuthAppleAccountPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\BonusPipe as InitBonusPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\EmailPipe as InitEmailPipe;
@@ -57,7 +58,7 @@ final class RegisterPipeline extends AbstractPipeline
             InitEmailPipe::class,
             InitWalletPipe::class,
             InitInvitePipe::class,
-            InitTronWalletPipe::class,
+            InitApolloClientPipe::class,
             InitNewCodePipe::class,
             InitBonusPipe::class,
             InitKafkaEventPipe::class,

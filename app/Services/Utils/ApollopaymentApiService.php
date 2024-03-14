@@ -7,6 +7,8 @@ namespace App\Services\Utils;
 
 use App\Dto\Utils\ApollopaymentApi\CreateUserDto;
 use App\Dto\Utils\ApollopaymentApi\GetUserAddressDto;
+use App\Dto\Utils\ApollopaymentApi\GetUserAllAddressesDto;
+use App\Dto\Utils\ApollopaymentApi\GetUserDto;
 use App\Exceptions\Utils\Apollopayment\ApollopaymentUnavailableException;
 use Carbon\Carbon;
 use Exception;
@@ -39,12 +41,30 @@ final class ApollopaymentApiService
     }
 
     /**
+     * @param GetUserDto $userData
+     * @return array
+     */
+    public function getUser(GetUserDto $userData): array
+    {
+        return $this->post('/api-gateway/personal-addresses/get-user', $userData->toArray());
+    }
+
+    /**
      * @param GetUserAddressDto $data
      * @return array
      */
     public function getUserAddress(GetUserAddressDto $data): array
     {
         return $this->post('/api-gateway/personal-addresses/get-user-address', $data->toArray());
+    }
+
+    /**
+     * @param GetUserAllAddressesDto $data
+     * @return array
+     */
+    public function getUserAllAddresses(GetUserAllAddressesDto $data): array
+    {
+        return $this->post('/api-gateway/personal-addresses/get-user-addresses', $data->toArray());
     }
 
     /**

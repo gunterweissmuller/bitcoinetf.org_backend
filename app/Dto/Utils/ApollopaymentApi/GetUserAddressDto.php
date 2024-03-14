@@ -7,7 +7,7 @@ use App\Dto\DtoInterface;
 class GetUserAddressDto implements DtoInterface
 {
     public function __construct(
-        private ?string $id,
+        private ?string $id, // user id in apollo
         private ?string $currency,
         private ?string $network,
         private ?bool   $renewAddress,

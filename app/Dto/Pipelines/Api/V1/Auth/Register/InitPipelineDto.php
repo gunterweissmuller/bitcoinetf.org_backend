@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Dto\Pipelines\Api\V1\Auth\Register;
 
 use App\Dto\DtoInterface;
+use App\Dto\Models\Apollopayment\ClientsDto;
 use App\Dto\Models\Referrals\CodeDto;
 use App\Dto\Models\Referrals\InviteDto;
 use App\Dto\Models\Users\AccountDto;
@@ -20,6 +21,7 @@ final class InitPipelineDto implements DtoInterface
         private ?CodeDto $refCode,
         private ?CodeDto $newCode,
         private ?InviteDto $invite,
+        private ?ClientsDto $apolloClient,
         private bool $isExists,
     ) {
     }
@@ -33,6 +35,7 @@ final class InitPipelineDto implements DtoInterface
             $args['ref_code'] ?? null,
             $args['new_code'] ?? null,
             $args['invite'] ?? null,
+            $args['apolloClient'] ?? null,
             $args['is_exists'] ?? false,
         );
     }
@@ -46,6 +49,7 @@ final class InitPipelineDto implements DtoInterface
             'ref_code' => $this->refCode,
             'new_code' => $this->newCode,
             'invite' => $this->invite,
+            'apolloClient' => $this->apolloClient,
             'is_exists' => $this->isExists,
         ];
     }
@@ -144,6 +148,23 @@ final class InitPipelineDto implements DtoInterface
     public function setInvite(?InviteDto $invite): void
     {
         $this->invite = $invite;
+    }
+
+    /**
+     * @return ClientsDto|null
+     */
+    public function getApolloClient(): ?ClientsDto
+    {
+        return $this->apolloClient;
+    }
+
+    /**
+     * @param ClientsDto|null $apolloClient
+     * @return void
+     */
+    public function setApolloClient(?ClientsDto $apolloClient): void
+    {
+        $this->apolloClient = $apolloClient;
     }
 
     /**

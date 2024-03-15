@@ -71,6 +71,7 @@ final class AccountController extends Controller
                     'username' => $account->getUsername(),
                     'increased' => $isAccountHalfYear && $isInvite,
                     'tron_wallet' => $account->getTronWallet(),
+                    'order_type' => $account->getOrderType(),
                 ],
                 'profile' => [
                     'full_name' => $profile->getFullName(),

@@ -19,6 +19,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $tron_wallet
  * @property bool $fast_reg
  * @property bool $fast_payment
+ * @property string provider_type
+ * @property string order_type
  * @property string $created_at
  * @property string $updated_at
  *
@@ -43,6 +45,7 @@ final class Account extends Model
         'fast_reg',
         'fast_payment',
         'provider_type',
+        'order_type',
     ];
 
     public $casts = [

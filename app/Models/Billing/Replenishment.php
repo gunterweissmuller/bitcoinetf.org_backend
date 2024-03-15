@@ -33,6 +33,7 @@ final class Replenishment extends Model
         'wallet_address',
         'status',
         'merchant001_id',
+        'order_type',
     ];
 
     protected $casts = [

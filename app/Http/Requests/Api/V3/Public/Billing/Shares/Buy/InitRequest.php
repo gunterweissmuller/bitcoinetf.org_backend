@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests\Api\V1\Public\Billing\Shares\Buy;
+namespace App\Http\Requests\Api\V3\Public\Billing\Shares\Buy;
 
 use App\Dto\Models\Billing\ReplenishmentDto;
 use App\Dto\Models\Users\AccountDto;
-use App\Dto\Pipelines\Api\V1\Public\Billing\Shares\Buy\InitPipelineDto;
+use App\Dto\Pipelines\Api\V3\Public\Billing\Shares\Buy\InitPipelineDto;
 use App\Enums\Billing\Wallet\TypeEnum;
+use App\Enums\Users\Account\OrderTypeEnum;
 use App\Http\Requests\AbstractRequest;
 use App\Services\Api\V1\Settings\GlobalService;
 
@@ -23,6 +24,7 @@ final class InitRequest extends AbstractRequest
             TypeEnum::REFERRAL->value => ['nullable', 'boolean'],
             TypeEnum::BONUS->value => ['nullable', 'boolean'],
             'amount' => ['required', 'numeric', 'min:'.$globalService->getMinReplenishmentAmount()],
+            'order_type' => ['nullable', 'string'],
         ];
     }
 
@@ -34,6 +36,7 @@ final class InitRequest extends AbstractRequest
     public function dto(): InitPipelineDto
     {
         $roundedAmount = (integer)round($this->get('amount'));
+        $orderType = $this->get('order_type') ?? OrderTypeEnum::InitBTC->value;
 
         return InitPipelineDto::fromArray([
             ...$this->only([
@@ -45,6 +48,7 @@ final class InitRequest extends AbstractRequest
             'replenishment' => ReplenishmentDto::fromArray([
                 'selected_amount' => $roundedAmount,
                 'real_amount' => $roundedAmount,
+                'order_type' => $orderType, 
             ]),
         ]);
     }

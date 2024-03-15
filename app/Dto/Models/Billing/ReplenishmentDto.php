@@ -30,6 +30,7 @@ final class ReplenishmentDto implements DtoInterface
         private ?string $merchant001Id,
         private ?string $createdAt,
         private ?string $updatedAt,
+        private ?string $orderType,
     ) {
     }
 
@@ -57,6 +58,7 @@ final class ReplenishmentDto implements DtoInterface
             $args['merchant001_id'] ?? null,
             $args['created_at'] ?? null,
             $args['updated_at'] ?? null,
+            $args['order_type'] ?? null,
         );
     }
 
@@ -84,6 +86,7 @@ final class ReplenishmentDto implements DtoInterface
             'merchant001_id' => $this->merchant001Id,
             'created_at' => $this->createdAt,
             'updated_at' => $this->updatedAt,
+            'order_type' => $this->orderType,
         ];
     }
 
@@ -296,4 +299,15 @@ final class ReplenishmentDto implements DtoInterface
     {
         $this->updatedAt = $updatedAt;
     }
+
+    public function getOrderType(): ?string
+    {
+        return $this->orderType;
+    }
+
+    public function setOrderType(?string $orderType): void
+    {
+        $this->orderType = $orderType;
+    }
+    
 }

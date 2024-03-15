@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests\Api\V1\Public\Billing\Shares\Buy;
+namespace App\Http\Requests\Api\V3\Public\Billing\Shares\Buy;
 
 use App\Dto\Models\Billing\ReplenishmentDto;
 use App\Dto\Models\Users\AccountDto;
-use App\Dto\Pipelines\Api\V1\Public\Billing\Shares\Buy\InitPipelineDto;
+use App\Dto\Pipelines\Api\V3\Public\Billing\Shares\Buy\InitPipelineDto;
 use App\Enums\Billing\Wallet\TypeEnum;
 use App\Http\Requests\AbstractRequest;
 use App\Services\Api\V1\Settings\GlobalService;

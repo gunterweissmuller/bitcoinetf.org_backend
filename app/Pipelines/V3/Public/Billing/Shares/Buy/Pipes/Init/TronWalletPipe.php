@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Pipelines\V1\Public\Billing\Shares\Buy\Pipes\Init;
+namespace App\Pipelines\V3\Public\Billing\Shares\Buy\Pipes\Init;
 
 use App\Dto\DtoInterface;
 use App\Dto\Pipelines\Api\V1\Public\Billing\Shares\Buy\InitPipelineDto;

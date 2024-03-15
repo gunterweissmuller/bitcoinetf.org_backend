@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Dto\Pipelines\Api\V1\Auth\Register;
 
 use App\Dto\DtoInterface;
+use App\Dto\Models\Apollopayment\ClientsDto;
 use App\Dto\Models\Referrals\CodeDto;
 use App\Dto\Models\Referrals\InviteDto;
 use App\Dto\Models\Users\AccountDto;
@@ -15,15 +16,17 @@ use App\Dto\Models\Users\TelegramDto;
 final class InitTelegramPipelineDto implements DtoInterface
 {
     public function __construct(
-        private ?AccountDto $account,
-        private ?ProfileDto $profile,
-        private ?EmailDto $email,
-        private ?CodeDto $refCode,
-        private ?CodeDto $newCode,
-        private ?InviteDto $invite,
+        private ?AccountDto  $account,
+        private ?ProfileDto  $profile,
+        private ?EmailDto    $email,
+        private ?CodeDto     $refCode,
+        private ?CodeDto     $newCode,
+        private ?InviteDto   $invite,
         private ?TelegramDto $telegram,
-        private bool $isExists,
-    ) {
+        private ?ClientsDto  $apolloClient,
+        private bool         $isExists,
+    )
+    {
     }
 
     public static function fromArray(array $args): DtoInterface|self
@@ -36,6 +39,7 @@ final class InitTelegramPipelineDto implements DtoInterface
             $args['new_code'] ?? null,
             $args['invite'] ?? null,
             $args['telegram'] ?? null,
+            $args['apolloClient'] ?? null,
             $args['is_exists'] ?? false,
         );
     }
@@ -49,6 +53,7 @@ final class InitTelegramPipelineDto implements DtoInterface
             'ref_code' => $this->refCode,
             'invite' => $this->invite,
             'telegram' => $this->telegram,
+            'apolloClient' => $this->apolloClient,
             'is_exists' => $this->isExists,
         ];
     }
@@ -62,7 +67,7 @@ final class InitTelegramPipelineDto implements DtoInterface
     }
 
     /**
-     * @param  AccountDto|null  $account
+     * @param AccountDto|null $account
      */
     public function setAccount(?AccountDto $account): void
     {
@@ -78,7 +83,7 @@ final class InitTelegramPipelineDto implements DtoInterface
     }
 
     /**
-     * @param  ProfileDto|null  $profile
+     * @param ProfileDto|null $profile
      */
     public function setProfile(?ProfileDto $profile): void
     {
@@ -94,7 +99,7 @@ final class InitTelegramPipelineDto implements DtoInterface
     }
 
     /**
-     * @param  EmailDto|null  $email
+     * @param EmailDto|null $email
      */
     public function setEmail(?EmailDto $email): void
     {
@@ -110,7 +115,7 @@ final class InitTelegramPipelineDto implements DtoInterface
     }
 
     /**
-     * @param  CodeDto|null  $refCode
+     * @param CodeDto|null $refCode
      */
     public function setRefCode(?CodeDto $refCode): void
     {
@@ -126,7 +131,7 @@ final class InitTelegramPipelineDto implements DtoInterface
     }
 
     /**
-     * @param  CodeDto|null  $newCode
+     * @param CodeDto|null $newCode
      */
     public function setNewCode(?CodeDto $newCode): void
     {
@@ -142,7 +147,7 @@ final class InitTelegramPipelineDto implements DtoInterface
     }
 
     /**
-     * @param  InviteDto|null  $invite
+     * @param InviteDto|null $invite
      */
     public function setInvite(?InviteDto $invite): void
     {
@@ -167,6 +172,23 @@ final class InitTelegramPipelineDto implements DtoInterface
     }
 
     /**
+     * @return ClientsDto|null
+     */
+    public function getApolloClient(): ?ClientsDto
+    {
+        return $this->apolloClient;
+    }
+
+    /**
+     * @param ClientsDto|null $apolloClient
+     * @return void
+     */
+    public function setApolloClient(?ClientsDto $apolloClient): void
+    {
+        $this->apolloClient = $apolloClient;
+    }
+
+    /**
      * @return bool|null
      */
     public function getIsExists(): ?bool
@@ -175,7 +197,7 @@ final class InitTelegramPipelineDto implements DtoInterface
     }
 
     /**
-     * @param  bool|null  $isExists
+     * @param bool|null $isExists
      */
     public function setIsExists(?bool $isExists): void
     {

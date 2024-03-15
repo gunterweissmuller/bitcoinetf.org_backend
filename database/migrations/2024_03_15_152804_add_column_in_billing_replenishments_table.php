@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\Users\Account\OrderTypeEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,8 +12,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users.accounts', function (Blueprint $table) {
-            $table->string('provider_type')->nullable();
+        Schema::table('billing.replenishments', function (Blueprint $table) {
+            $table->string('order_type')->nullable();
         });
     }
 
@@ -21,8 +22,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users.accounts', function (Blueprint $table) {
-            $table->dropColumn('provider_type');
+        Schema::table('billing.replenishments', function (Blueprint $table) {
+            $table->dropColumn('order_type');
         });
     }
 };
+

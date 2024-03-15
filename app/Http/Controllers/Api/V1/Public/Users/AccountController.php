@@ -13,7 +13,6 @@ use App\Services\Api\V1\Referrals\CodeService;
 use App\Services\Api\V1\Referrals\InviteService;
 use App\Services\Api\V1\Users\AccountService;
 use App\Services\Api\V1\Users\ProfileService;
-use App\Enums\Users\Account\OrderTypeEnum;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 
@@ -64,8 +63,6 @@ final class AccountController extends Controller
             'value' => $profile->getCountry(),
         ])?->getLabel() ?? $profile->getCountry();
 
-        $order_type = $account->getOrderType() === null ? OrderTypeEnum::InitBTC->value : $account->getOrderType();
-
         return response()->json([
             'data' => [
                 'account' => [
@@ -74,7 +71,7 @@ final class AccountController extends Controller
                     'username' => $account->getUsername(),
                     'increased' => $isAccountHalfYear && $isInvite,
                     'tron_wallet' => $account->getTronWallet(),
-                    'order_type' => $order_type,
+                    'order_type' => $account->getOrderType(),
                 ],
                 'profile' => [
                     'full_name' => $profile->getFullName(),

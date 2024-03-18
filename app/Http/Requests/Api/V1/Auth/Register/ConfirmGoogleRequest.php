@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Api\V1\Auth\Register;
 
+use App\Dto\Models\Apollopayment\ClientsDto;
 use App\Dto\Models\Users\EmailDto;
 use App\Dto\Models\Users\ProfileDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmGooglePipelineDto;
@@ -38,6 +39,7 @@ final class ConfirmGoogleRequest extends AbstractRequest
             'email' => EmailDto::fromArray([
                 'email' => $this->get('email'),
             ]),
+            'apolloClient' => ClientsDto::fromArray([]),
         ]);
     }
 }

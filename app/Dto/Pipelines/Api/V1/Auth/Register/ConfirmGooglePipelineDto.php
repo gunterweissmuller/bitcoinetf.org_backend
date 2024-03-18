@@ -6,6 +6,7 @@ namespace App\Dto\Pipelines\Api\V1\Auth\Register;
 
 use App\Dto\Core\JwtDto;
 use App\Dto\DtoInterface;
+use App\Dto\Models\Apollopayment\ClientsDto;
 use App\Dto\Models\Users\AccountDto;
 use App\Dto\Models\Users\EmailDto;
 use App\Dto\Models\Users\ProfileDto;
@@ -22,6 +23,7 @@ final class ConfirmGooglePipelineDto implements DtoInterface
         private ?string           $websocketToken = null,
         private ?bool             $isFast,
         private ?ProviderTypeEnum $providerType,
+        private ?ClientsDto       $apolloClient,
     )
     {
     }
@@ -37,6 +39,7 @@ final class ConfirmGooglePipelineDto implements DtoInterface
             $args['websocket_token'] ?? null,
             $args['is_fast'] ?? false,
             $args['provider_type'] ?? null,
+            $args['apolloClient'] ?? null,
         );
     }
 
@@ -51,6 +54,7 @@ final class ConfirmGooglePipelineDto implements DtoInterface
             'websocket_token' => $this->websocketToken,
             'is_fast' => $this->isFast,
             'provider_type' => $this->providerType,
+            'apolloClient' => $this->apolloClient,
         ];
     }
 
@@ -179,10 +183,27 @@ final class ConfirmGooglePipelineDto implements DtoInterface
     }
 
     /**
-     * @param  ProfileDto|null  $profile
+     * @param ProfileDto|null $profile
      */
     public function setProfile(?ProfileDto $profile): void
     {
         $this->profile = $profile;
+    }
+
+    /**
+     * @return ClientsDto|null
+     */
+    public function getApolloClient(): ?ClientsDto
+    {
+        return $this->apolloClient;
+    }
+
+    /**
+     * @param ClientsDto|null $apolloClient
+     * @return void
+     */
+    public function setApolloClient(?ClientsDto $apolloClient): void
+    {
+        $this->apolloClient = $apolloClient;
     }
 }

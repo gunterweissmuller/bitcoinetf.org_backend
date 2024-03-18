@@ -31,7 +31,7 @@ Route::namespace('Public')
                                     ->group(function () {
                                         Route::middleware(['auth'])->get('/methods', 'ApollopaymentController@methods');
                                         Route::middleware(['auth'])->post('/check', 'ApollopaymentController@check');
-                                        Route::post('/webhook', 'ApollopaymentController@webhook/{account_uuid}')->middleware([ApolloPaymentIp::class, ApolloPaymentSignature::class]);
+                                        Route::post('/webhook/{account_uuid}', 'ApollopaymentController@webhook')->middleware([ApolloPaymentIp::class, ApolloPaymentSignature::class]);
                                     });
                             });
                     });

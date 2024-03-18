@@ -62,6 +62,8 @@ final readonly class ApollopaymentService
                         }
                     }
 
+                    $apolloClient->setWebhookUrl(env('APP_URL') . "/webhook/" . $accountUuid);
+
                     $this->apollopaymentClientsService->create($apolloClient);
                 } else {
                     throw new ApollopaymentUnavailableException('Cannot get wallets');

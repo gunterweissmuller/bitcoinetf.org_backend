@@ -166,6 +166,7 @@ final class RegisterController extends Controller
 
         return response()->__call('exception', [$e]);
     }
+
     /**
      * @return JsonResponse
      */

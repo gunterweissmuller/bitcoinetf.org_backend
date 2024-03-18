@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Pipelines\V1\Public\Billing\Shares\Buy\Blockchain\Tron\Pipes\Callback;
+namespace App\Pipelines\V3\Public\Billing\Shares\Buy\Apollopayment\Pipes\Webhook;
 
 use App\Dto\DtoInterface;
 use App\Dto\Pipelines\Api\V1\Public\Billing\Shares\Buy\Blockchain\Tron\CallbackPipelineDto;

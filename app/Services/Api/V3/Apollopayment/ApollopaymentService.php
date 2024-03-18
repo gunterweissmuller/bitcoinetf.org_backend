@@ -25,7 +25,7 @@ final readonly class ApollopaymentService
         if (!$this->apollopaymentClientsService->get([
             'account_uuid' => $accountUuid
         ])) {
-            $webhookUrl = env('APP_URL') . "/webhook/" . $accountUuid;
+            $webhookUrl = env('APP_URL') . "/v3/public/billing/shares/buy/apollopayment/webhook/" . $accountUuid;
 
             $userData = CreateUserDto::fromArray([
                 'clientId' => $accountUuid,

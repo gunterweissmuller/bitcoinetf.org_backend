@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Api\V3\Public\Billing\Shares\Buy\Apollopayment;
 
-use App\Dto\DtoInterface;
 use App\Dto\Models\Billing\ReplenishmentDto;
 use App\Dto\Models\Users\AccountDto;
 use App\Dto\Pipelines\Api\V1\Public\Billing\Shares\Buy\Blockchain\Tron\CallbackPipelineDto;
@@ -26,10 +25,10 @@ final class PaymentMethodsRequest extends AbstractRequest
     {
         return CallbackPipelineDto::fromArray([
             'account' => AccountDto::fromArray([
-                'uuid' => $this->get('account_uuid'),
+                'uuid' => request()->account_uuid,//TODO add validation
             ]),
             'replenishment' => ReplenishmentDto::fromArray([
-                'real_amount' => $this->get('amount'),
+                'real_amount' => (float)$this->get('amount'),
             ])
         ]);
     }

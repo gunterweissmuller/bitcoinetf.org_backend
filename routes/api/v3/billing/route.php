@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\ApolloPaymentIp;
+use App\Http\Middleware\ApolloPaymentSignature;
 
 Route::namespace('Public')
     ->prefix('public')
@@ -10,7 +12,7 @@ Route::namespace('Public')
         Route::namespace('Billing')
             ->prefix('billing')
             ->group(function () {
-                
+
                 /*
                  * /billing/shares/buy/init
                  * /billing/shares/buy/apollopayment/methods
@@ -28,8 +30,8 @@ Route::namespace('Public')
                                     ->prefix('apollopayment')
                                     ->group(function () {
                                         Route::middleware(['auth'])->get('/methods', 'ApollopaymentController@methods');
-                                        Route::middleware(['auth'])->post('/check', 'ApollopaymentController@check');                                       
-                                        Route::post('/webhook', 'ApollopaymentController@webhook');
+                                        Route::middleware(['auth'])->post('/check', 'ApollopaymentController@check');
+                                        Route::post('/webhook', 'ApollopaymentController@webhook/{account_uuid}')->middleware([ApolloPaymentIp::class, ApolloPaymentSignature::class]);
                                     });
                             });
                     });

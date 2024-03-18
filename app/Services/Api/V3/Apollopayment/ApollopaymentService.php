@@ -25,11 +25,15 @@ final readonly class ApollopaymentService
         if (!$this->apollopaymentClientsService->get([
             'account_uuid' => $accountUuid
         ])) {
+            $webhookUrl = env('APP_URL') . "/webhook/" . $accountUuid;
+
             $userData = CreateUserDto::fromArray([
                 'clientId' => $accountUuid,
                 'clientEmail' => $email,
                 'clientName' => $fullName,
+                'depositWebhookUrl' => $webhookUrl,
             ]);
+
             $responseApolloUser = $this->apollopaymentApiService->createUser($userData);
 
             if ($responseApolloUser['success']) {
@@ -62,7 +66,7 @@ final readonly class ApollopaymentService
                         }
                     }
 
-                    $apolloClient->setWebhookUrl(env('APP_URL') . "/webhook/" . $accountUuid);
+                    $apolloClient->setWebhookUrl($webhookUrl);
 
                     $this->apollopaymentClientsService->create($apolloClient);
                 } else {

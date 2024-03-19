@@ -10,16 +10,20 @@ use App\Http\Requests\Api\V3\Public\Billing\Shares\Buy\Apollopayment\PaymentMeth
 use App\Pipelines\V1\Public\Billing\Shares\Buy\Blockchain\Tron\TronPipeline;
 use App\Services\Api\V1\Settings\GlobalService;
 use App\Services\Api\V3\Apollopayment\ApollopaymentClientsService;
+use App\Services\Api\V3\Apollopayment\ApollopaymentWebhooksService;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Log;
+use App\Dto\Models\Apollopayment\WebhooksDto;
+use App\Enums\Billing\Payment\ApolloPaymentWebhookTypeEnum;
 
 class ApollopaymentController extends Controller
 {
     public function __construct(
         private readonly ApollopaymentClientsService $apollopaymentClientsService,
         private readonly TronPipeline $pipeline,
+        private readonly ApollopaymentWebhooksService $apollopaymentWebhooksService,
     )
     {
     }
@@ -68,7 +72,21 @@ class ApollopaymentController extends Controller
             return response()->json([]);
         }
 
+        $dto = new WebhooksDto(
+            null,
+            request()->account_uuid,
+            $request->input('webhookId'),
+            $request->input('addressId'),
+            (float)$request->input('amount')??null,
+            $request->input('currency')??null,
+            $request->input('network')??null,
+            $request->input('tx')??null,
+            ApolloPaymentWebhookTypeEnum::DEPOSIT->value,
+            null,
+            null,
+        );
 
+        $this->apollopaymentWebhooksService->create($dto);
 
         [$dto, $e] = $this->pipeline->callback($request->dto());
 

@@ -16,6 +16,7 @@ use App\Services\Api\V1\Users\ProfileService;
 use App\Enums\Users\Account\OrderTypeEnum;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
+use App\Services\Api\V3\Apollopayment\ApollopaymentClientsService;
 
 final class AccountController extends Controller
 {
@@ -26,6 +27,7 @@ final class AccountController extends Controller
         private readonly InviteService $inviteService,
         private readonly ProfileService $profileService,
         private readonly FieldOptionService $fieldOptionService,
+        private readonly ApollopaymentClientsService $apollopaymentClientsService,
     ) {
     }
 
@@ -66,6 +68,9 @@ final class AccountController extends Controller
 
         $order_type = $account->getOrderType() === null ? OrderTypeEnum::InitBTC->value : $account->getOrderType();
 
+        $apolloClient = $this->apollopaymentClientsService->get(['account_uuid' => $request->payload()->getUuid()]);
+        $tron_wallet = $account->getTronWallet() === null ? $apolloClient->getTronAddr() : $account->getTronWallet();
+
         return response()->json([
             'data' => [
                 'account' => [
@@ -73,7 +78,7 @@ final class AccountController extends Controller
                     'number' => $account->getNumber(),
                     'username' => $account->getUsername(),
                     'increased' => $isAccountHalfYear && $isInvite,
-                    'tron_wallet' => $account->getTronWallet(),
+                    'tron_wallet' => $tron_wallet,
                     'order_type' => $order_type,
                 ],
                 'profile' => [

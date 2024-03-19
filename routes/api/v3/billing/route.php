@@ -29,7 +29,7 @@ Route::namespace('Public')
                                 Route::namespace('Apollopayment')
                                     ->prefix('apollopayment')
                                     ->group(function () {
-                                        Route::middleware(['auth'])->get('/methods', 'ApollopaymentController@methods');
+                                        Route::middleware(['auth'])->get('/payment-methods', 'ApollopaymentController@getPaymentsMethods');
                                         Route::middleware(['auth'])->post('/check', 'ApollopaymentController@check');
                                         Route::post('/webhook/{account_uuid}', 'ApollopaymentController@webhook')->middleware([ApolloPaymentIp::class, ApolloPaymentSignature::class]);
                                     });

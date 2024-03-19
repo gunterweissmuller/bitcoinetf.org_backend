@@ -4,16 +4,20 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\V1\Auth;
 
+use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmFacebookPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmTelegramPipelineDto;
+use App\Dto\Pipelines\Api\V1\Auth\Register\InitFacebookPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\InitTelegramPipelineDto;
 use App\Exceptions\Pipelines\V1\Auth\InvalidSignatureMetamaskException;
 use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmApplePipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\InitPipelineDto;
 use App\Http\Requests\Api\V1\Auth\Register\ConfirmAppleRequest;
+use App\Http\Requests\Api\V1\Auth\Register\ConfirmFacebookRequest;
 use App\Http\Requests\Api\V1\Auth\Register\ConfirmRequest;
 use App\Http\Requests\Api\V1\Auth\Register\InitAppleRequest;
 use App\Http\Requests\Api\V1\Auth\Register\ConfirmTelegramRequest;
+use App\Http\Requests\Api\V1\Auth\Register\InitFacebookRequest;
 use App\Http\Requests\Api\V1\Auth\Register\InitRequest;
 use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmMetamaskPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\InitMetamaskPipelineDto;
@@ -204,6 +208,70 @@ final class RegisterController extends Controller
     {
         /** @var ConfirmTelegramPipelineDto $dto */
         [$dto, $e] = $this->pipeline->confirmTelegramAuth($request->dto());
+
+        if (!$e) {
+            return response()->json([
+                'data' => [
+                    'access_token' => $dto->getJwtAccess()->getToken(),
+                    'refresh_token' => $dto->getJwtRefresh()->getToken(),
+                    'websocket_token' => $dto->getWebsocketToken(),
+                    'bonus' => $dto->getBonus(),
+                ]
+            ]);
+        }
+
+        return response()->__call('exception', [$e]);
+    }
+
+//@fixme-v
+    /**
+     * @return JsonResponse
+     */
+    public function getCredentialsFacebook(): JsonResponse
+    {
+        return response()->json([
+            'data' => [
+                'url' => Socialite::driver('facebook')
+                    ->stateless()
+                    ->redirect()
+                    ->getTargetUrl(),
+            ]
+        ]);
+
+
+        return response()->json([
+            'data' => [
+                'client_id' => env('FACEBOOK_CLIENT_ID'),
+                'client_secret' => env('FACEBOOK_CLIENT_SECRET'),
+                'redirect_uri' => env('FACEBOOK_REDIRECT_URI'),
+            ]
+        ]);
+    }
+
+    /**
+     * @param InitFacebookRequest $request
+     * @return JsonResponse
+     */
+    public function initFacebook(InitFacebookRequest $request): JsonResponse
+    {
+        /** @var InitFacebookPipelineDto $dto */
+        [$dto, $e] = $this->pipeline->initFacebookAuth($request->dto());
+
+        if (!$e) {
+            return response()->json();
+        }
+
+        return response()->__call('exception', [$e]);
+    }
+
+    /**
+     * @param ConfirmFacebookRequest $request
+     * @return JsonResponse
+     */
+    public function confirmFacebook(ConfirmFacebookRequest $request): JsonResponse
+    {
+        /** @var ConfirmFacebookPipelineDto $dto */
+        [$dto, $e] = $this->pipeline->confirmFacebookAuth($request->dto());
 
         if (!$e) {
             return response()->json([

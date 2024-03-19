@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace App\Pipelines\V1\Auth\Register;
 
 use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmApplePipelineDto;
+use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmFacebookPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmGooglePipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmMetamaskPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\InitApplePipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmTelegramPipelineDto;
+use App\Dto\Pipelines\Api\V1\Auth\Register\InitFacebookPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\InitGooglePipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\InitMetamaskPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\InitPipelineDto;
@@ -23,6 +25,9 @@ use App\Pipelines\V1\Auth\Register\Pipes\Confirm\JwtPipe as ConfirmJwtPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Confirm\MailPipe as ConfirmMailPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Confirm\UpdateUsersInfoPipe as ConfirmUpdateUsersInfoPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Confirm\ValidatePipe as ConfirmValidatePipe;
+use App\Pipelines\V1\Auth\Register\Pipes\ConfirmFacebookAuth\AccountPipe as ConfirmFacebookAccountPipe;
+use App\Pipelines\V1\Auth\Register\Pipes\ConfirmFacebookAuth\FacebookPipe as ConfirmFacebookPipe;
+use App\Pipelines\V1\Auth\Register\Pipes\ConfirmFacebookAuth\ValidatePipe as ConfirmFacebookValidatePipe;
 use App\Pipelines\V1\Auth\Register\Pipes\ConfirmGoogleAuth\AccountPipe as ConfirmGoogleAuthAccountPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\ConfirmGoogleAuth\ProfilePipe as ConfirmGoogleAuthProfilePipe;
 use App\Pipelines\V1\Auth\Register\Pipes\ConfirmMetamaskAuth\AccountPipe as ConfirmMetamaskAccountPipe;
@@ -34,6 +39,7 @@ use App\Pipelines\V1\Auth\Register\Pipes\Init\AccountPipe as InitAccountPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\AppleAccountPipe as InitAppleAuthAppleAccountPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\BonusPipe as InitBonusPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\EmailPipe as InitEmailPipe;
+use App\Pipelines\V1\Auth\Register\Pipes\Init\FacebookPipe as InitFacebookPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\InvitePipe as InitInvitePipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\KafkaEventPipe as InitKafkaEventPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\NewCodePipe as InitNewCodePipe;
@@ -199,6 +205,39 @@ final class RegisterPipeline extends AbstractPipeline
             ConfirmCodePipe::class,
             ConfirmTelegramAccountPipe::class,
             ConfirmTelegramPipe::class,
+            ConfirmBonusPipe::class,
+            ConfirmJwtPipe::class,
+            ConfirmMailPipe::class,
+            ConfirmUpdateUsersInfoPipe::class,
+        ], $dto);
+    }
+
+    public function initFacebookAuth(InitFacebookPipelineDto $dto): array
+    {
+        return $this->pipeline([
+            InitValidatePipe::class,
+            InitAccountPipe::class,
+            InitEmailPipe::class,
+            InitProfilePipe::class,
+            InitFacebookPipe::class,
+            InitWalletPipe::class,
+            InitInvitePipe::class,
+            InitTronWalletPipe::class,
+            InitNewCodePipe::class,
+            InitBonusPipe::class,
+            InitKafkaEventPipe::class,
+            InitUserEventPipe::class,
+        ], $dto);
+    }
+
+    public function confirmFacebookAuth(ConfirmFacebookPipelineDto $dto): array
+    {
+        return $this->pipeline([
+            ConfirmFacebookValidatePipe::class,
+            ConfirmEmailPipe::class,
+            ConfirmCodePipe::class,
+            ConfirmFacebookAccountPipe::class,
+            ConfirmFacebookPipe::class,
             ConfirmBonusPipe::class,
             ConfirmJwtPipe::class,
             ConfirmMailPipe::class,

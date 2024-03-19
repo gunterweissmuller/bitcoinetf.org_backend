@@ -23,7 +23,8 @@ final class InitRequest extends AbstractRequest
             TypeEnum::DIVIDENDS->value => ['nullable', 'boolean'],
             TypeEnum::REFERRAL->value => ['nullable', 'boolean'],
             TypeEnum::BONUS->value => ['nullable', 'boolean'],
-            'amount' => ['required', 'numeric', 'min:'.$globalService->getMinReplenishmentAmount()],
+            //'amount' => ['required', 'numeric', 'min:'.$globalService->getMinReplenishmentAmount()],
+            'amount' => ['required', 'numeric'],
             'order_type' => ['nullable', 'string'],
         ];
     }
@@ -48,7 +49,7 @@ final class InitRequest extends AbstractRequest
             'replenishment' => ReplenishmentDto::fromArray([
                 'selected_amount' => $roundedAmount,
                 'real_amount' => $roundedAmount,
-                'order_type' => $orderType, 
+                'order_type' => $orderType,
             ]),
         ]);
     }

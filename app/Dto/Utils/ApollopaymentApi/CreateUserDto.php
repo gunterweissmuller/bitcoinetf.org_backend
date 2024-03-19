@@ -13,7 +13,7 @@ class CreateUserDto implements DtoInterface
         private ?string $depositWebhookUrl,
         private ?bool   $createAddresses = true,
         private ?bool   $groupByBlockchain = true,
-        private ?bool   $checkRisks = true,
+        private ?bool   $checkRisks = false,
     )
     {
     }

@@ -33,14 +33,16 @@ class ApollopaymentController extends Controller
         $data = [];
         $apolloClient = $this->apollopaymentClientsService->get(['account_uuid' => $request->payload()->getUuid()]);
 
-        if ($apolloClient->getPolygonAddr()) {
-            $data['polygon']['address'] = $apolloClient->getPolygonAddr();
-        }
-        if ($apolloClient->getTronAddr()) {
-            $data['tron']['address'] = $apolloClient->getTronAddr();
-        }
-        if ($apolloClient->getEthereumAddr()) {
-            $data['ethereum']['address'] = $apolloClient->getEthereumAddr();
+        if ($apolloClient) {
+            if ($apolloClient->getPolygonAddr()) {
+                $data['polygon']['address'] = $apolloClient->getPolygonAddr();
+            }
+            if ($apolloClient->getTronAddr()) {
+                $data['tron']['address'] = $apolloClient->getTronAddr();
+            }
+            if ($apolloClient->getEthereumAddr()) {
+                $data['ethereum']['address'] = $apolloClient->getEthereumAddr();
+            }
         }
 
         return response()->json(['data' => $data]);

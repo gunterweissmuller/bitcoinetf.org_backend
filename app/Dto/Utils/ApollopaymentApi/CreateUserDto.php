@@ -31,7 +31,7 @@ class CreateUserDto implements DtoInterface
             $args['depositWebhookUrl'] ?? null,
             $args['createAddresses'] ?? true,
             $args['groupByBlockchain'] ?? true,
-            $args['checkRisks'] ?? true,
+            $args['checkRisks'] ?? false,
         );
     }
 

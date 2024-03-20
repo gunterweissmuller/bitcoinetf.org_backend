@@ -23,7 +23,7 @@ class ApolloPaymentIp
     public function handle(Request $request, Closure $next): Response
     {
         if (!$this->isValidIpRange($request->getClientIp())) {
-            return response()->json(['error' => [$request->headers, $request->request]], 403);
+            return response()->json(['error' => [$request->getClientIps()]], 403);
         }
 
         return $next($request);

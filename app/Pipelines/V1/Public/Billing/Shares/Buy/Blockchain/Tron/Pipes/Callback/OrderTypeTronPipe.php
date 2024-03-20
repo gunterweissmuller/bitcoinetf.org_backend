@@ -24,7 +24,7 @@ final readonly class OrderTypeTronPipe implements PipeInterface
     {
         $accountOrderType = $dto->getAccount()->getOrderType();
         $replenishmentOrderType = $dto->getReplenishment()->getOrderType();
-        if ($accountOrderType === OrderTypeEnum::InitBTC->value && $dto->getReplenishment()->getStatus() === ReplenishmentStatusEnum::SUCCESS->value)
+        if ($accountOrderType === null && $dto->getReplenishment()->getStatus() === ReplenishmentStatusEnum::SUCCESS->value)
         {
             if ($replenishmentOrderType === OrderTypeEnum::InitBTC->value){
                 $dto->getAccount()->setOrderType(OrderTypeEnum::BTC->value);

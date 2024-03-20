@@ -22,8 +22,8 @@ class ApolloPaymentIp
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!$this->isValidIpRange($request->getClientIp())) {
-            return response()->json(['error' => [$request->header()]], 403);
+        if (!$this->isValidIpRange($request->header('cf-connecting-ip'))) {
+            return response()->json(['error' => 'Access denied', 403]);
         }
 
         return $next($request);

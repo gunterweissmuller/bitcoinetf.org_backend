@@ -71,7 +71,7 @@ class ApollopaymentController extends Controller
 //        }
 
         if ($request->status === ApolloPaymentDepositStatusEnum::PENDING) {
-            return response()->json([]);
+            return response()->json(['status' => ApolloPaymentDepositStatusEnum::PENDING]);
         }
 
         $dto = new WebhooksDto(

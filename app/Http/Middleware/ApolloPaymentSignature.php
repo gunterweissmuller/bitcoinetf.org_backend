@@ -17,11 +17,11 @@ class ApolloPaymentSignature
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->header('x-api-public-key') === env('APOLLO_PAYMENT_PUBLIC_KEY')) {
+        if ($request->header('x-api-public-key') != env('APOLLO_PAYMENT_PUBLIC_KEY')) {
             return response()->json(['error' => 'PUBLIC_KEY error'], 403);
         }
 
-        if ($this->checkSignature($request->header('x-api-signature'), $request->all())
+        if (!$this->checkSignature($request->header('x-api-signature'), $request->all())
         ) {
             return response()->json(['error' => 'PUBLIC_KEY'], 403);
         }

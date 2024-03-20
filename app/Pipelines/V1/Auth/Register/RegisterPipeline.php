@@ -47,7 +47,6 @@ use App\Pipelines\V1\Auth\Register\Pipes\Init\KafkaEventPipe as InitKafkaEventPi
 use App\Pipelines\V1\Auth\Register\Pipes\Init\NewCodePipe as InitNewCodePipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\ProfilePipe as InitProfilePipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\TelegramPipe as InitTelegramPipe;
-use App\Pipelines\V1\Auth\Register\Pipes\Init\TronWalletPipe as InitTronWalletPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\UserEventPipe as InitUserEventPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\UserWalletPipe as InitMetamaskWalletPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\ValidatePipe as InitValidatePipe;
@@ -96,7 +95,6 @@ final class RegisterPipeline extends AbstractPipeline
             InitEmailPipe::class,
             InitWalletPipe::class,
             InitInvitePipe::class,
-            InitTronWalletPipe::class,
             InitNewCodePipe::class,
             InitBonusPipe::class,
             InitKafkaEventPipe::class,
@@ -225,7 +223,7 @@ final class RegisterPipeline extends AbstractPipeline
             InitFacebookPipe::class,
             InitWalletPipe::class,
             InitInvitePipe::class,
-            InitTronWalletPipe::class,
+            InitApolloClientPipe::class,
             InitNewCodePipe::class,
             InitBonusPipe::class,
             InitKafkaEventPipe::class,

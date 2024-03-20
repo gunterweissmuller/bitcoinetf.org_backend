@@ -29,6 +29,7 @@ use App\Pipelines\V1\Auth\Register\Pipes\ConfirmFacebookAuth\AccountPipe as Conf
 use App\Pipelines\V1\Auth\Register\Pipes\ConfirmFacebookAuth\FacebookPipe as ConfirmFacebookPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\ConfirmFacebookAuth\ValidatePipe as ConfirmFacebookValidatePipe;
 use App\Pipelines\V1\Auth\Register\Pipes\ConfirmGoogleAuth\AccountPipe as ConfirmGoogleAuthAccountPipe;
+use App\Pipelines\V1\Auth\Register\Pipes\ConfirmGoogleAuth\ApolloClientPipe as ConfirmGoogleAuthApolloClientPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\ConfirmGoogleAuth\ProfilePipe as ConfirmGoogleAuthProfilePipe;
 use App\Pipelines\V1\Auth\Register\Pipes\ConfirmMetamaskAuth\AccountPipe as ConfirmMetamaskAccountPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\ConfirmAppleAuth\AccountPipe as ConfirmAppleAuthAccountPipe;
@@ -36,6 +37,7 @@ use App\Pipelines\V1\Auth\Register\Pipes\ConfirmTelegramAuth\AccountPipe as Conf
 use App\Pipelines\V1\Auth\Register\Pipes\ConfirmTelegramAuth\TelegramPipe as ConfirmTelegramPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\ConfirmTelegramAuth\ValidatePipe as ConfirmTelegramValidatePipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\AccountPipe as InitAccountPipe;
+use App\Pipelines\V1\Auth\Register\Pipes\Init\ApolloClientPipe as InitApolloClientPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\AppleAccountPipe as InitAppleAuthAppleAccountPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\BonusPipe as InitBonusPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\EmailPipe as InitEmailPipe;
@@ -63,7 +65,7 @@ final class RegisterPipeline extends AbstractPipeline
             InitEmailPipe::class,
             InitWalletPipe::class,
             InitInvitePipe::class,
-            InitTronWalletPipe::class,
+            InitApolloClientPipe::class,
             InitNewCodePipe::class,
             InitBonusPipe::class,
             InitKafkaEventPipe::class,
@@ -109,6 +111,7 @@ final class RegisterPipeline extends AbstractPipeline
             ConfirmGoogleAuthAccountPipe::class,
             ConfirmGoogleAuthProfilePipe::class,
             ConfirmBonusPipe::class,
+            ConfirmGoogleAuthApolloClientPipe::class,
             ConfirmJwtPipe::class,
             ConfirmMailPipe::class,
             ConfirmUpdateUsersInfoPipe::class,
@@ -125,7 +128,7 @@ final class RegisterPipeline extends AbstractPipeline
             InitMetamaskWalletPipe::class,
             InitWalletPipe::class,
             InitInvitePipe::class,
-            InitTronWalletPipe::class,
+            InitApolloClientPipe::class,
             InitNewCodePipe::class,
             InitBonusPipe::class,
             InitKafkaEventPipe::class,
@@ -157,7 +160,7 @@ final class RegisterPipeline extends AbstractPipeline
             InitAppleAuthAppleAccountPipe::class,
             InitWalletPipe::class,
             InitInvitePipe::class,
-            InitTronWalletPipe::class,
+            InitApolloClientPipe::class,
             InitNewCodePipe::class,
             InitBonusPipe::class,
             InitKafkaEventPipe::class,
@@ -189,7 +192,7 @@ final class RegisterPipeline extends AbstractPipeline
             InitTelegramPipe::class,
             InitWalletPipe::class,
             InitInvitePipe::class,
-            InitTronWalletPipe::class,
+            InitApolloClientPipe::class,
             InitNewCodePipe::class,
             InitBonusPipe::class,
             InitKafkaEventPipe::class,

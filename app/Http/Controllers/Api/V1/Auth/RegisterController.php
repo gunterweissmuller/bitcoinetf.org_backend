@@ -180,6 +180,7 @@ final class RegisterController extends Controller
             'data' => [
                 'bot_name' => env('TELEGRAM_BOT_NAME'),
                 'redirect_url' => env('TELEGRAM_REDIRECT_URI'),
+                'bot_id' => explode(':', env('TELEGRAM_CLIENT_SECRET'))[0],
             ]
         ]);
     }

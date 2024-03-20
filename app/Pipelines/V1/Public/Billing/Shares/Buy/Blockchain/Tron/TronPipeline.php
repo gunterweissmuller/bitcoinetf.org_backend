@@ -9,6 +9,7 @@ use App\Pipelines\AbstractPipeline;
 use App\Pipelines\V1\Public\Billing\Shares\Buy\Blockchain\Tron\Pipes\Callback\ReplenishmentPipe as CallbackReplenishmentPipe;
 use App\Pipelines\V1\Public\Billing\Shares\Buy\Blockchain\Tron\Pipes\Callback\RestakePipe as CallbackRestakePipe;
 use App\Pipelines\V1\Public\Billing\Shares\Buy\Blockchain\Tron\Pipes\Callback\PapTronPipe as CallbackPapTronSalePipe;
+use App\Pipelines\V1\Public\Billing\Shares\Buy\Blockchain\Tron\Pipes\Callback\OrderTypeTronPipe as CallbackOrderTypeTronPipe;
 
 class TronPipeline extends AbstractPipeline
 {
@@ -18,6 +19,7 @@ class TronPipeline extends AbstractPipeline
             CallbackReplenishmentPipe::class,
             CallbackRestakePipe::class,
             CallbackPapTronSalePipe::class,
+            CallbackOrderTypeTronPipe::class,
         ], $dto);
     }
 }

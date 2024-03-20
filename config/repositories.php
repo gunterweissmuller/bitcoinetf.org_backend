@@ -207,7 +207,7 @@ return [
     ],
     [
         'interface' => \App\Repositories\Apollopayment\Webhooks\WebhooksRepositoryInterface::class,
-        'implementation' => \App\Repositories\Apollopayment\Webhooks\WebhooksRepository::class,
+        'implementation' => \App\Repositories\Apollopayment\Webhooks\PgSqlWebhooksRepository::class,
     ],
 
 ];

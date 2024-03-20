@@ -70,7 +70,7 @@ class ApollopaymentController extends Controller
 //            return response()->json([]);
 //        }
 
-        if ($request->status === ApolloPaymentDepositStatusEnum::PENDING) {
+        if ($request->input('status') === ApolloPaymentDepositStatusEnum::PENDING) {
             return response()->json(['status' => ApolloPaymentDepositStatusEnum::PENDING]);
         }
 

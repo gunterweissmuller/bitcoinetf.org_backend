@@ -8,23 +8,13 @@ use App\Dto\Models\Users\AccountDto;
 use App\Dto\Models\Users\FacebookDto;
 use App\Dto\Pipelines\Api\V1\Auth\AuthType\AuthTypeFacebookPipelineDto;
 use App\Http\Requests\AbstractRequest;
-use Illuminate\Contracts\Validation\Validator;
 
 final class AuthTypeFacebookRequest extends AbstractRequest
 {
 
     public function rules(): array
     {
-        return ['facebook_data' => ['required', 'string']];
-    }
-
-    public function withValidator(Validator $validator)
-    {
-        $validator->after(function ($validator) {
-            checkTelegramAuthorizationValidator($validator, $this->request->get('facebook_data'));
-        });
-
-        return $validator;
+        return ['facebook_id' => ['required', 'integer']];
     }
 
     public function messages(): array
@@ -34,11 +24,10 @@ final class AuthTypeFacebookRequest extends AbstractRequest
 
     public function dto(): AuthTypeFacebookPipelineDto
     {
-        $facebookData = json_decode($this->get('facebook_data'), true);
         return AuthTypeFacebookPipelineDto::fromArray([
             'account' => AccountDto::fromArray([]),
             'facebook' => FacebookDto::fromArray([
-                'facebook_id' => $facebookData['id'],
+                'facebook_id' => (int)$this->get('facebook_id'),
             ]),
             'auth_type' => null,
         ]);

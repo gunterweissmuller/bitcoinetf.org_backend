@@ -223,22 +223,11 @@ final class RegisterController extends Controller
         return response()->__call('exception', [$e]);
     }
 
-//@fixme-v
     /**
      * @return JsonResponse
      */
     public function getCredentialsFacebook(): JsonResponse
     {
-        return response()->json([
-            'data' => [
-                'url' => Socialite::driver('facebook')
-                    ->stateless()
-                    ->redirect()
-                    ->getTargetUrl(),
-            ]
-        ]);
-
-
         return response()->json([
             'data' => [
                 'client_id' => env('FACEBOOK_CLIENT_ID'),

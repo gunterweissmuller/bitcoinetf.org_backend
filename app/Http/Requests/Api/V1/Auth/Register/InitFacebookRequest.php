@@ -11,7 +11,6 @@ use App\Dto\Models\Users\FacebookDto;
 use App\Dto\Models\Users\ProfileDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\InitFacebookPipelineDto;
 use App\Http\Requests\AbstractRequest;
-use Illuminate\Contracts\Validation\Validator;
 
 final class InitFacebookRequest extends AbstractRequest
 {
@@ -19,7 +18,7 @@ final class InitFacebookRequest extends AbstractRequest
     public function rules(): array
     {
         return [
-            'facebook_data' => ['required', 'string'],
+            'facebook_id' => ['required', 'integer'],
             'first_name' => ['required', 'string', 'regex:/^[a-zA-Z]+$/i'],
             'last_name' => ['required', 'string', 'regex:/^[a-zA-Z]+$/i'],
             'email' => ['required', 'email'],
@@ -29,13 +28,6 @@ final class InitFacebookRequest extends AbstractRequest
         ];
     }
 
-    public function withValidator(Validator $validator)
-    {
-        $validator->after(function ($validator) {
-            checkTelegramAuthorizationValidator($validator, $this->request->get('facebook_data'));
-        });
-    }
-
     public function messages(): array
     {
         return [];
@@ -43,8 +35,6 @@ final class InitFacebookRequest extends AbstractRequest
 
     public function dto(): InitFacebookPipelineDto
     {
-        $facebookData = json_decode($this->get('facebook_data'), true);
-
         return InitFacebookPipelineDto::fromArray([
             'account' => AccountDto::fromArray([]),
             'profile' => ProfileDto::fromArray([
@@ -59,7 +49,7 @@ final class InitFacebookRequest extends AbstractRequest
                 'code' => $this->get('ref_code') ? strtoupper($this->get('ref_code')) : null,
             ]),
             'facebook' => FacebookDto::fromArray([
-                'facebook_id' => $facebookData['id'],
+                'facebook_id' => (int)$this->get('facebook_id'),
             ]),
         ]);
     }

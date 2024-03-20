@@ -38,6 +38,10 @@ return [
         'interface' => \App\Repositories\Users\Telegram\TelegramRepositoryInterface::class,
         'implementation' => \App\Repositories\Users\Telegram\PgSqlTelegramRepository::class,
     ],
+    [
+        'interface' => \App\Repositories\Users\Facebook\FacebookRepositoryInterface::class,
+        'implementation' => \App\Repositories\Users\Facebook\PgSqlFacebookRepository::class,
+    ],
 
     // Fund
     [

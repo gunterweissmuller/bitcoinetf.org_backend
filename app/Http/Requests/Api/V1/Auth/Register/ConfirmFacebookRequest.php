@@ -10,7 +10,6 @@ use App\Dto\Models\Users\EmailDto;
 use App\Dto\Models\Users\FacebookDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmFacebookPipelineDto;
 use App\Http\Requests\AbstractRequest;
-use Illuminate\Contracts\Validation\Validator;
 
 final class ConfirmFacebookRequest extends AbstractRequest
 {
@@ -19,15 +18,8 @@ final class ConfirmFacebookRequest extends AbstractRequest
         return [
             'email' => ['required', 'email'],
             'code' => ['required', 'string'],
-            'facebook_data' => ['required', 'string'],
+            'facebook_id' => ['required', 'integer'],
         ];
-    }
-
-    public function withValidator(Validator $validator)
-    {
-        $validator->after(function ($validator) {
-            checkTelegramAuthorizationValidator($validator, $this->request->get('facebook_data'));
-        });
     }
 
     public function messages(): array
@@ -37,8 +29,6 @@ final class ConfirmFacebookRequest extends AbstractRequest
 
     public function dto(): ConfirmFacebookPipelineDto
     {
-        $facebookData = json_decode($this->get('facebook_data'), true);
-
         return ConfirmFacebookPipelineDto::fromArray([
             'email' => EmailDto::fromArray([
                 'email' => strtolower($this->get('email')),
@@ -48,7 +38,7 @@ final class ConfirmFacebookRequest extends AbstractRequest
             ]),
             'account' => AccountDto::fromArray([]),
             'facebook' => FacebookDto::fromArray([
-                'facebook_id' => $facebookData['id'],
+                'facebook_id' => (int)$this->get('facebook_id'),
             ]),
         ]);
     }

@@ -17,8 +17,6 @@ use App\Services\Api\V3\Apollopayment\ApollopaymentWebhooksService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Log;
-use App\Dto\Models\Apollopayment\WebhooksDto;
-use App\Enums\Billing\Payment\ApolloPaymentWebhookTypeEnum;
 
 class ApollopaymentController extends Controller
 {
@@ -81,21 +79,7 @@ class ApollopaymentController extends Controller
             return response()->json(['status' => ApolloPaymentDepositStatusEnum::PENDING->value]);
         }
 
-        $dto = new WebhooksDto(
-            null,
-            request()->account_uuid,
-            $request->input('webhookId'),
-            $request->input('addressId'),
-            (float)$request->input('amount')??null,
-            $request->input('currency')??null,
-            $request->input('network')??null,
-            $request->input('tx')??null,
-            ApolloPaymentWebhookTypeEnum::DEPOSIT->value,
-            null,
-            null,
-        );
-
-        $this->apollopaymentWebhooksService->create($dto);
+        $this->apollopaymentWebhooksService->create($request->webhook());
 
         [$dto, $e] = $this->tronPipeline->callback($request->dto());
 

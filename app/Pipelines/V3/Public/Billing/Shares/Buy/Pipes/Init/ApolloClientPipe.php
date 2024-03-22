@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Pipelines\V3\Public\Billing\Shares\Buy\Pipes\Init;
 
 use App\Dto\DtoInterface;
-use App\Dto\Pipelines\Api\V1\Auth\Register\InitPipelineDto;
+use App\Dto\Pipelines\Api\V3\Public\Billing\Shares\Buy\InitPipelineDto;
 use App\Exceptions\Pipelines\V1\Billing\ReplenishmentNotAvailableException;
 use App\Pipelines\PipeInterface;
 use App\Services\Api\V3\Apollopayment\ApollopaymentService;

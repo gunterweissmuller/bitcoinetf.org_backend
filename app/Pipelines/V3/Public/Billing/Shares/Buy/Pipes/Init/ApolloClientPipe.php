@@ -39,7 +39,7 @@ final readonly class ApolloClientPipe implements PipeInterface
                 $apollopaymentClient
             );
         } catch (Exception $e) {
-            throw new ReplenishmentNotAvailableException($e->getMessage());
+            throw new ReplenishmentNotAvailableException();
         }
 
         return $next($dto);

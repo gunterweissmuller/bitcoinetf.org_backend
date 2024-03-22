@@ -33,7 +33,7 @@ final class AccountController extends Controller
         private readonly FieldOptionService $fieldOptionService,
         private readonly ApollopaymentClientsService $apollopaymentClientsService,
         private readonly EmailService $emailService,
-        private readonly ApollopaymentService $apollopaymentService,
+        private ApollopaymentService $apollopaymentService,
     ) {
     }
 
@@ -74,10 +74,10 @@ final class AccountController extends Controller
 
         $order_type = $account->getOrderType() === null ? OrderTypeEnum::InitBTC->value : $account->getOrderType();
 
-        $apolloClient = $this->apollopaymentClientsService->get(['account_uuid' => $request->payload()->getUuid()]);
         $tron_wallet = null;
+        $apolloClient = $this->apollopaymentClientsService->get(['account_uuid' => $request->payload()->getUuid()]);
         if (!$apolloClient) {
-            $email = $this->emailService->get(['account_uuid' =>  $request->payload()->getUuid()]);
+            $email = $this->emailService->get(['account_uuid' => $request->payload()->getUuid()]);
             try {
                 $this->apollopaymentService->createUser(
                     $account->getUuid(),

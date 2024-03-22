@@ -18,6 +18,7 @@ Route::namespace('Public')
                  * /billing/shares/buy/apollopayment/methods
                  * /billing/shares/buy/apollopayment/check
                  * /billing/shares/buy/apollopayment/webhook
+                 * /billing/shares/buy/apollopayment/cancel-order
                  */
                 Route::namespace('Shares')
                     ->prefix('shares')
@@ -31,6 +32,7 @@ Route::namespace('Public')
                                     ->group(function () {
                                         Route::middleware(['auth'])->get('/payment-methods', 'ApollopaymentController@getPaymentsMethods');
                                         Route::middleware(['auth'])->post('/check', 'ApollopaymentController@check');
+                                        Route::middleware(['auth'])->post('/cancel-order', 'ApollopaymentController@cancelOrder');
                                         Route::post('/webhook/{account_uuid}', 'ApollopaymentController@webhook')->middleware([ApolloPaymentIp::class, ApolloPaymentSignature::class]);
                                     });
                             });

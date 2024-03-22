@@ -14,12 +14,12 @@ class WebhookRequest extends AbstractRequest
 {
     public function rules(): array
     {
-        /** @var GlobalService $globalService */
-        $globalService = app(GlobalService::class);
+//        /** @var GlobalService $globalService */
+//        $globalService = app(GlobalService::class);
 
         return [
-            'account_uuid' => ['required', 'uuid', 'exists:App\Models\Users\Account,uuid'],
-            'amount' => ['required', 'numeric', 'min:'.$globalService->getMinReplenishmentAmount()],
+//            'account_uuid' => ['required', 'uuid', 'exists:App\Models\Users\Account,uuid'],
+//            'amount' => ['required', 'numeric', 'min:' . $globalService->getMinReplenishmentAmount()],
         ];
     }
 
@@ -32,10 +32,10 @@ class WebhookRequest extends AbstractRequest
     {
         return CallbackPipelineDto::fromArray([
             'account' => AccountDto::fromArray([
-                'uuid' => $this->get('account_uuid')
+                'uuid' => request()->account_uuid,//TODO add validation
             ]),
             'replenishment' => ReplenishmentDto::fromArray([
-                'real_amount' => $this->get('amount'),
+                'real_amount' => (float)$this->get('amount'),
             ])
         ]);
     }

@@ -13,7 +13,9 @@ use App\Repositories\Billing\Wallet\WalletRepositoryInterface;
 
 final class WalletService
 {
-    public function __construct(private readonly WalletRepositoryInterface $repository) {}
+    public function __construct(private readonly WalletRepositoryInterface $repository)
+    {
+    }
 
     public function create(WalletDto $dto): WalletDto
     {
@@ -76,5 +78,21 @@ final class WalletService
     public function allByFiltersWithChunk(array $filters, int $count, callable $callback): void
     {
         $this->repository->allByFiltersWithChunk($filters, $count, $callback);
+    }
+
+    /**
+     * @param string $walletUuid
+     * @param float $amount
+     * @return void
+     */
+    public function refund(string $walletUuid, float $amount): void
+    {
+        if ($wallet = $this->get(['uuid' => $walletUuid])) {
+            $this->update([
+                'uuid' => $wallet->getUuid(),
+            ], [
+                'amount' => $wallet->getAmount() + $amount,
+            ]);
+        }
     }
 }

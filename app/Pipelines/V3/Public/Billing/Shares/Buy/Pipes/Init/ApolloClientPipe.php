@@ -6,6 +6,7 @@ namespace App\Pipelines\V3\Public\Billing\Shares\Buy\Pipes\Init;
 
 use App\Dto\DtoInterface;
 use App\Dto\Pipelines\Api\V1\Auth\Register\InitPipelineDto;
+use App\Exceptions\Pipelines\V1\Billing\ReplenishmentNotAvailableException;
 use App\Pipelines\PipeInterface;
 use App\Services\Api\V3\Apollopayment\ApollopaymentService;
 use Closure;
@@ -38,6 +39,7 @@ final readonly class ApolloClientPipe implements PipeInterface
                 $apollopaymentClient
             );
         } catch (Exception $e) {
+            throw new ReplenishmentNotAvailableException($e->getMessage());
         }
 
         return $next($dto);

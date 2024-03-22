@@ -18,6 +18,7 @@ Route::namespace('Public')
                  * /billing/shares/buy/apollopayment/methods
                  * /billing/shares/buy/apollopayment/check
                  * /billing/shares/buy/apollopayment/webhook
+                 * /billing/shares/buy/apollopayment/cancel-order
                  */
                 Route::namespace('Shares')
                     ->prefix('shares')

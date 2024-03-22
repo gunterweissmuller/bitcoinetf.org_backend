@@ -31,6 +31,10 @@ class ApollopaymentController extends Controller
     {
     }
 
+    /**
+     * @param PaymentMethodsRequest $request
+     * @return JsonResponse
+     */
     public function getPaymentsMethods(PaymentMethodsRequest $request): JsonResponse
     {
         $data = [];
@@ -102,6 +106,10 @@ class ApollopaymentController extends Controller
         return response()->__call('exception', [$e]);
     }
 
+    /**
+     * @param CancelOrderRequest $request
+     * @return JsonResponse
+     */
     public function cancelOrder(CancelOrderRequest $request): JsonResponse
     {
         [$dto, $e] = $this->pipeline->cancelOrder($request->dto());

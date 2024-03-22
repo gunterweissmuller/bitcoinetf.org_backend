@@ -8,6 +8,7 @@ use App\Dto\Pipelines\Api\V3\Public\Billing\Shares\Buy\Apollopayment\CallbackPip
 use App\Dto\Pipelines\Api\V3\Public\Billing\Shares\Buy\Apollopayment\CancelOrderPipelineDto;
 use App\Pipelines\AbstractPipeline;
 use App\Pipelines\V3\Public\Billing\Shares\Buy\Apollopayment\Pipes\CancelOrder\ReplenishmentPipe as CancelOrderReplenishmentPipe;
+use App\Pipelines\V3\Public\Billing\Shares\Buy\Apollopayment\Pipes\CancelOrder\ValidatePipe as CancelOrderValidatePipe;
 use App\Pipelines\V3\Public\Billing\Shares\Buy\Apollopayment\Pipes\CancelOrder\WalletPipe as CancelOrderWalletPipe;
 
 class ApollopaymentPipeline extends AbstractPipeline
@@ -24,6 +25,7 @@ class ApollopaymentPipeline extends AbstractPipeline
     public function cancelOrder(CancelOrderPipelineDto $dto): array
     {
         return $this->pipeline([
+            CancelOrderValidatePipe::class,
             CancelOrderReplenishmentPipe::class,
             CancelOrderWalletPipe::class,
         ], $dto);

@@ -19,6 +19,29 @@ final readonly class WalletPipe implements PipeInterface
 
     public function handle(CancelOrderPipelineDto|DtoInterface $dto, Closure $next): DtoInterface
     {
+        $replenishment = $dto->getReplenishment();
+
+        if ($replenishment->getDividendWalletUuid()) {
+            $this->walletService->refund(
+                $replenishment->getDividendWalletUuid(),
+                $replenishment->getDividendAmount()
+            );
+        }
+
+        if ($replenishment->getReferralWalletUuid()) {
+            $this->walletService->refund(
+                $replenishment->getReferralWalletUuid(),
+                $replenishment->getReferralAmount()
+            );
+        }
+
+        if ($replenishment->getBonusWalletUuid()) {
+            $this->walletService->refund(
+                $replenishment->getBonusWalletUuid(),
+                $replenishment->getBonusAmount()
+            );
+        }
+
         return $next($dto);
     }
 }

@@ -48,10 +48,9 @@ global:
       client_id: "981820521247-mee663n9a5i3qhg1eftd0un5ku1r9en7.apps.googleusercontent.com"
       redirect_uri: "https://bitcoinetf.org/auth/google"
     apple_auth:
-      client_id: "org.BitcoinETF.signin"
-      client_secret: "secret" # doc process restore
-      login_uri: "https://bitcoinetf.org/auth/google"
-      redirect_uri: "https://bitcoinetf.org/auth/google"
+      client_id: "org.bitcoinetf.service"
+      login_uri: "https://bitcoinetf.org/auth/apple"
+      redirect_uri: "https://bitcoinetf.org/auth/apple"
     telegram_auth:
       bot_name: "BitcoinETF_loginbot"
       redirect_uri: "https://bitcoinetf.org/auth/telegram"
@@ -104,10 +103,9 @@ global:
       client_id: "745955834530-cp4m04pm6sv2emqkll922blijde5o1u2.apps.googleusercontent.com"
       redirect_uri: "https://front.stage.techetf.org/auth/google"
     apple_auth:
-      client_id: "org.BitcoinETF.signin"
-      client_secret: "secret"
-      login_uri: "https://front.stage.techetf.org/auth/google"
-      redirect_uri: "https://front.stage.techetf.org/auth/google"
+      client_id: "org.bitcoinetf.service"
+      login_uri: "https://front.stage.techetf.org/auth/apple"
+      redirect_uri: "https://front.stage.techetf.org/auth/apple"
     telegram_auth:
       bot_name: "BitcoinETFlogin_bot"
       redirect_uri: "https://front.stage.techetf.org/auth/telegram"

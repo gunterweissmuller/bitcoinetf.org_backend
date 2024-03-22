@@ -242,7 +242,10 @@ Create chart name and version as used by the chart label.
 - name: SIGN_IN_WITH_APPLE_CLIENT_ID
   value: "{{ $globals.apple_auth.client_id }}"
 - name: SIGN_IN_WITH_APPLE_CLIENT_SECRET
-  value: "{{ $globals.apple_auth.client_secret }}"
+  valueFrom:
+    secretKeyRef:
+      name: secrets-backend
+      key: appleSecret
 
 - name: TELEGRAM_BOT_NAME
   value: "{{ $globals.telegram_auth.bot_name }}"

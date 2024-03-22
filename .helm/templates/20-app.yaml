@@ -24,14 +24,14 @@ spec:
       initContainers:
       - name: migrate
         image: {{ .Values.werf.image.php_fpm }}
-        securityContext:                            
+        securityContext:
           allowPrivilegeEscalation: false
-          capabilities:                  
-            drop:                                                                                                       
-            - ALL                                   
-          runAsNonRoot: true                        
-          runAsUser: 82       
-          seccompProfile:                     
+          capabilities:
+            drop:
+            - ALL
+          runAsNonRoot: true
+          runAsUser: 82
+          seccompProfile:
             type: RuntimeDefault
         command: ["/migrate.sh"]
         args: [{{ .Values.global.env_name }}]
@@ -40,14 +40,14 @@ spec:
       containers:
       - name: php-fpm
         image: {{ .Values.werf.image.php_fpm }}
-        securityContext:                            
+        securityContext:
           allowPrivilegeEscalation: false
-          capabilities:                  
-            drop:                                                                                                       
-            - ALL                                   
-          runAsNonRoot: true                        
-          runAsUser: 82             
-          seccompProfile:                     
+          capabilities:
+            drop:
+            - ALL
+          runAsNonRoot: true
+          runAsUser: 82
+          seccompProfile:
             type: RuntimeDefault
         env:
         - name: ENV_SUBSTITUTION_ENABLE
@@ -78,14 +78,14 @@ spec:
             cpu: "750m"
       - name: nginx
         image: {{ .Values.werf.image.nginx }}
-        securityContext:                            
+        securityContext:
           allowPrivilegeEscalation: false
-          capabilities:                  
-            drop:                                                                                                       
-            - ALL                                   
-          runAsNonRoot: true                        
-          runAsUser: 101             
-          seccompProfile:                     
+          capabilities:
+            drop:
+            - ALL
+          runAsNonRoot: true
+          runAsUser: 101
+          seccompProfile:
             type: RuntimeDefault
         ports:
         - name: http

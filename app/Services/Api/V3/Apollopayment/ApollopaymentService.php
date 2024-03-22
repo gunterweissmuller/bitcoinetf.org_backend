@@ -20,11 +20,12 @@ final readonly class ApollopaymentService
     {
     }
 
-    public function createUser(string $accountUuid, string $email, string $fullName, ClientsDto $apolloClient): void
+    public function createUser(string $accountUuid, string $email, string $fullName, ?ClientsDto $apolloClient): void
     {
         if (!$this->apollopaymentClientsService->get([
             'account_uuid' => $accountUuid
         ])) {
+            $apolloClient = $apolloClient ?? ClientsDto::fromArray([]);
             $webhookUrl = env('APP_URL') . "/v3/public/billing/shares/buy/apollopayment/webhook/" . $accountUuid;
 
             $userData = CreateUserDto::fromArray([

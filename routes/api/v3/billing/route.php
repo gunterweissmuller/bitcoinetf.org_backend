@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use App\Http\Middleware\MoonPaySignature;
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\MoonPaySignature;
 
 Route::namespace('Public')
     ->prefix('public')
@@ -32,6 +32,7 @@ Route::namespace('Public')
                                         Route::post('/webhook', 'MoonPayController@webhook')->middleware([MoonPaySignature::class]);
                                     });
                             });
+
                     });
             });
     });

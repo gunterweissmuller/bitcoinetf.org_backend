@@ -22,6 +22,15 @@ Route::namespace('Public')
                             ->group(function () {
                                 Route::middleware(['auth'])->get('/payment-methods', 'PaymentController@getPaymentsMethods');
                             });
+                        Route::namespace('Buy')
+                            ->prefix('buy')
+                            ->group(function () {
+                                Route::namespace('MoonPay')
+                                    ->prefix('moonpay')
+                                    ->group(function () {
+                                        Route::post('/webhook', 'MoonPayController@webhook')->middleware([MoonPaySignature::class]);
+                                    });
+                            });
                     });
             });
     });

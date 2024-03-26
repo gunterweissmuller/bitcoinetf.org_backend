@@ -6,6 +6,7 @@ namespace app\Http\Controllers\Api\V3\Public\Billing\Shares\Buy\MoonPay;
 
 use App\Http\Requests\Api\EmptyRequest;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Log;
 
@@ -20,8 +21,10 @@ class MoonPayController extends Controller
         return response()->json([
             'data' => [
                 'status' => 'ok',
-                'from' => 'moonpay webhook',
+                'from' => 'moonpay',
+                'webhook' => $request->all(),
             ],
         ]);
     }
+
 }

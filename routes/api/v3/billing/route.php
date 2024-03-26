@@ -14,6 +14,7 @@ Route::namespace('Public')
 
                 /*
                  * /billing/shares/payment/payment-methods
+                 * * /billing/shares/buy/moonpay/webhook
                  */
                 Route::namespace('Shares')
                     ->prefix('shares')

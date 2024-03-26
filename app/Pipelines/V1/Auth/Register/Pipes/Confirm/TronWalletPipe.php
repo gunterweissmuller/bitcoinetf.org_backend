@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace app\Pipelines\V1\Auth\Register\Pipes\Confirm;
 
 use App\Dto\DtoInterface;
-use App\Dto\Pipelines\Api\V1\Public\Billing\Shares\Buy\InitPipelineDto;
+use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmPipelineDto;
 use App\Pipelines\PipeInterface;
 use App\Services\Api\V1\Users\AccountService;
 use Closure;
@@ -19,10 +19,10 @@ final readonly class TronWalletPipe implements PipeInterface
     ) {
     }
 
-    public function handle(InitPipelineDto|DtoInterface $dto, Closure $next): DtoInterface
+    public function handle(ConfirmPipelineDto|DtoInterface $dto, Closure $next): DtoInterface
     {
         try {
-            $account = $dto->getAccount();
+            $account = $this->accountService->get(['uuid' => $dto->getEmail()->getAccountUuid()]);
 
             if (!$account->getTronWallet()) {
                 $response = Http::baseUrl(env('PAYMENT_HOST'))

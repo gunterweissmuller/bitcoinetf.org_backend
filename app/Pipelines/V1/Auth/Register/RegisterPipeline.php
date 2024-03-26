@@ -44,6 +44,7 @@ use App\Pipelines\V1\Auth\Register\Pipes\Init\UserEventPipe as InitUserEventPipe
 use App\Pipelines\V1\Auth\Register\Pipes\Init\UserWalletPipe as InitMetamaskWalletPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\ValidatePipe as InitValidatePipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\WalletPipe as InitWalletPipe;
+use App\Pipelines\V1\Auth\Register\Pipes\Confirm\TronWalletPipe as ConfirmTronWalletPipe;
 
 
 final class RegisterPipeline extends AbstractPipeline
@@ -57,7 +58,6 @@ final class RegisterPipeline extends AbstractPipeline
             InitEmailPipe::class,
             InitWalletPipe::class,
             InitInvitePipe::class,
-            InitTronWalletPipe::class,
             InitNewCodePipe::class,
             InitBonusPipe::class,
             InitKafkaEventPipe::class,
@@ -72,6 +72,7 @@ final class RegisterPipeline extends AbstractPipeline
             ConfirmEmailPipe::class,
             ConfirmCodePipe::class,
             ConfirmAccountPipe::class,
+            ConfirmTronWalletPipe::class,
             ConfirmBonusPipe::class,
             ConfirmJwtPipe::class,
             ConfirmMailPipe::class,

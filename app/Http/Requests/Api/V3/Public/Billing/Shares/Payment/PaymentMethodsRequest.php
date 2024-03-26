@@ -9,16 +9,25 @@ use App\Http\Requests\AbstractRequest;
 
 final class PaymentMethodsRequest extends AbstractRequest
 {
+    /**
+     * @return array
+     */
     public function rules(): array
     {
         return [];
     }
 
+    /**
+     * @return array
+     */
     public function messages(): array
     {
         return [];
     }
 
+    /**
+     * @return DtoInterface|null
+     */
     public function dto(): ?DtoInterface
     {
         return null;

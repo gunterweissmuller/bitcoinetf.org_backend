@@ -254,4 +254,16 @@ Create chart name and version as used by the chart label.
 - name: TELEGRAM_REDIRECT_URI
   value: "{{ $globals.telegram_auth.redirect_uri }}"
 
+- name: MOONPAY_PUBLIC_KEY
+  value: "{{ $globals.moonpay.public_key }}"
+- name: MOONPAY_SECRET
+  value: "{{ $globals.moonpay.secret_key }}"
+- name: MOONPAY_WEBHOOK
+  value: "{{ $globals.moonpay.webhook_key }}"
+- name: MOONPAY_HOST
+  value: "{{ $globals.moonpay.host }}"
+
+- name: MOONPAY_HOST
+  value: "{{ $globals.global_wallets.apollo_polygon_usdt_address }}"
+
 {{- end -}}

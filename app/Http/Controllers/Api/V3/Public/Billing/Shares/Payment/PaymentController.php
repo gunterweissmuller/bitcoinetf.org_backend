@@ -14,6 +14,10 @@ final class PaymentController extends Controller
     {
     }
 
+    /**
+     * @param PaymentMethodsRequest $request
+     * @return JsonResponse
+     */
     public function getPaymentsMethods(PaymentMethodsRequest $request): JsonResponse
     {
         $data = [];

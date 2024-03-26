@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\MoonPaySignature;
+use Illuminate\Support\Facades\Route;
 
 Route::namespace('Public')
     ->prefix('public')

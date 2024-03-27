@@ -15,7 +15,9 @@ final class LoginAppleRequest extends AbstractRequest
 
     public function rules(): array
     {
-        return [];
+        return [
+            'apple_token' => ['required', 'string'],
+        ];
     }
 
     public function messages(): array
@@ -25,12 +27,12 @@ final class LoginAppleRequest extends AbstractRequest
 
     public function dto(): LoginApplePipelineDto
     {
-        $socialiteUser = Socialite::driver('sign-in-with-apple')->stateless()->user();
+        $socialiteUser = Socialite::driver('apple')->stateless()->userByIdentityToken($this->get('apple_token'));
 
         return LoginApplePipelineDto::fromArray([
                 'account' => AccountDto::fromArray([]),
                 'apple_account' => AppleAccountDto::fromArray([
-                    'apple_account' => strtolower($socialiteUser->getId()),
+                    'apple_id' => strtolower($socialiteUser->getId()),
                 ]),
             ]
         );

@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\V1\Auth;
 
+use App\Dto\Pipelines\Api\V1\Auth\AuthType\AuthTypeApplePipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\AuthType\AuthTypeTelegramPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Login\LoginGooglePipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\InitGooglePipelineDto;
 use App\Enums\Users\Email\StatusEnum as EmailStatusEnum;
 use App\Exceptions\Pipelines\V1\Auth\AuthorizationTokenExpiredException;
+use App\Http\Requests\Api\V1\Auth\AuthType\AuthTypeAppleRequest;
 use App\Http\Requests\Api\V1\Auth\AuthType\AuthTypeTelegramRequest;
 use App\Http\Requests\Api\V1\Auth\Login\LoginGoogleRequest;
 use App\Http\Requests\Api\V1\Auth\Register\ConfirmGoogleRequest;
@@ -115,6 +117,32 @@ final class AuthController extends Controller
     {
         /** @var AuthTypeTelegramPipelineDto $dto */
         [$dto, $e] = $this->authTypePipeline->checkTelegram($request->dto());
+
+        if (!$e) {
+            return response()->json([
+                'data' => [
+                    'auth_type' => $dto->getAuthType(),
+                ]
+            ]);
+        }
+
+        return response()->__call('exception', [$e]);
+    }
+
+    /**
+     * @param AuthTypeAppleRequest $request
+     * @return JsonResponse
+     */
+    public function getAuthTypeApple(AuthTypeAppleRequest $request): JsonResponse
+    {
+        try {
+            Socialite::driver('apple')->stateless()->userByIdentityToken($request->apple_token);
+        } catch (ClientException $e) {
+            return response()->__call('exception', [new AuthorizationTokenExpiredException]);
+        }
+
+        /** @var AuthTypeApplePipelineDto $dto */
+        [$dto, $e] = $this->authTypePipeline->checkApple($request->dto());
 
         if (!$e) {
             return response()->json([

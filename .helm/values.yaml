@@ -50,8 +50,7 @@ global:
     apple_auth:
       client_id: "org.BitcoinETF.signin"
       client_secret: "secret" # doc process restore
-      login_uri: "https://bitcoinetf.org/auth/google"
-      redirect_uri: "https://bitcoinetf.org/auth/google"
+      redirect_uri: "https://bitcoinetf.org/auth/apple"
     telegram_auth:
       bot_name: "BitcoinETF_loginbot"
       redirect_uri: "https://bitcoinetf.org/auth/telegram"
@@ -106,8 +105,7 @@ global:
     apple_auth:
       client_id: "org.BitcoinETF.signin"
       client_secret: "secret"
-      login_uri: "https://front.stage.techetf.org/auth/google"
-      redirect_uri: "https://front.stage.techetf.org/auth/google"
+      redirect_uri: "https://front.stage.techetf.org/auth/apple"
     telegram_auth:
       bot_name: "BitcoinETFlogin_bot"
       redirect_uri: "https://front.stage.techetf.org/auth/telegram"

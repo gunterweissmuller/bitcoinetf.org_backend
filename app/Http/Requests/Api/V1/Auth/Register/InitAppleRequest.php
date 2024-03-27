@@ -18,7 +18,13 @@ final class InitAppleRequest extends AbstractRequest
     public function rules(): array
     {
         return [
+            'apple_token' => ['required', 'string'],
+            'first_name' => ['required', 'string', 'regex:/^[a-zA-Z]+$/i'],
+            'last_name' => ['required', 'string', 'regex:/^[a-zA-Z]+$/i'],
+            'email' => ['required', 'email'],
             'ref_code' => ['nullable', 'string'],
+            'phone_number' => ['required', 'string'],
+            'phone_number_code' => ['required', 'string'],
         ];
     }
 
@@ -29,27 +35,23 @@ final class InitAppleRequest extends AbstractRequest
 
     public function dto(): InitApplePipelineDto
     {
-        //@fixme-v
-//        $socialiteUser = Socialite::driver('sign-in-with-apple')->stateless()->user();
-//        $firstName = $socialiteUser->offsetExists('firstName') ? ucfirst(strtolower($socialiteUser->offsetGet('firstName'))) : '';
-//        $lastName = $socialiteUser->offsetExists('lastName') ? ucfirst(strtolower($socialiteUser->offsetGet('lastName'))) : '';
+        $socialiteUser = Socialite::driver('apple')->stateless()->userByIdentityToken($this->get('apple_token'));
 
         return InitApplePipelineDto::fromArray([
             'account' => AccountDto::fromArray([]),
             'profile' => ProfileDto::fromArray([
-//                'full_name' => $firstName . ' ' . $lastName,
-                'full_name' => '',
+                'full_name' => ucfirst(strtolower($this->get('first_name'))) . ' ' . ucfirst(strtolower($this->get('last_name'))),
+                'phone_number' => preg_replace('/\s+/', '', $this->get('phone_number')),
+                'phone_number_code' => $this->get('phone_number_code'),
             ]),
             'email' => EmailDto::fromArray([
-//                'email' => strtolower($socialiteUser->getEmail() ?? ''),
-                'email' => 'email',
-            ]),
-            'apple_account' => AppleAccountDto::fromArray([
-//                'apple_id' => strtolower($socialiteUser->getId()),
-                'apple_id' => 'apple-------id',
+                'email' => strtolower($this->get('email')),
             ]),
             'ref_code' => CodeDto::fromArray([
                 'code' => $this->get('ref_code') ? strtoupper($this->get('ref_code')) : null,
+            ]),
+            'apple_account' => AppleAccountDto::fromArray([
+                'apple_id' => strtolower($socialiteUser->getId()),
             ]),
         ]);
     }

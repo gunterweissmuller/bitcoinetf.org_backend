@@ -22,5 +22,6 @@ class ConstantServiceProvider extends ServiceProvider
         define('PAP_SALE_TRACKER_HOST', 'https://bitcoinetf.postaffiliatepro.com/scripts/sale.php');
         define('PAP_ACCOUNT_ID', 'bitcoinetf.postaffiliatepro.com');
         define('METAMASK_MSG', 'I fully understand and agree to the Terms and Conditions (available at https://bitcoinetf.org/terms) and certify that I am not a US citizen, resident or taxpayer.');
+        define('MOON_PAY_CURRENCY_CODE', 'utk');
     }
 }

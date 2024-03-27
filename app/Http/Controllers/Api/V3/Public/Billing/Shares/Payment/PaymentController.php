@@ -41,7 +41,7 @@ final class PaymentController extends Controller
         })) {
             $data = [];
             $data['moonpay']['url'] = $this->moonpayApiService->generateUrlWithSignature(
-                "utk",
+                MOON_PAY_CURRENCY_CODE,
                 $replenishmentAmount = strval(intval($replenishment->getRealAmount())),
                 //$email->getEmail(),
                 $replenishment->getUuid(),

@@ -31,7 +31,7 @@ final class MoonpayApiService
      * @param string $currencyCode
      * @return string
      */
-    public function generateUrlWithSignature(string $currencyCode)
+    public function generateUrlWithSignature(string $currencyCode) : string
     {
         $query = "?apiKey=$this->publicKey&currencyCode=$currencyCode&walletAddress=$this->walletAddress";
         $signature  = base64_encode(hash_hmac('sha256', $query, $this->privateKey, true));

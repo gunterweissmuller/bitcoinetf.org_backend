@@ -6,7 +6,8 @@ namespace App\Pipelines\V1\Auth\Register\Pipes\ConfirmTelegramAuth;
 
 use App\Dto\DtoInterface;
 use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmTelegramPipelineDto;
-use App\Enums\Users\Email\StatusEnum;
+use App\Enums\Users\Email\StatusEnum as StatusEnumEmail;
+use App\Enums\Users\Telegram\StatusEnum as StatusEnumTelegram;
 use App\Exceptions\Pipelines\V1\Auth\EmailAlreadyUseException;
 use App\Exceptions\Pipelines\V1\Auth\EmailNotFoundException;
 use App\Exceptions\Pipelines\V1\Auth\UserAlreadyExistException;
@@ -32,13 +33,13 @@ final class ValidatePipe implements PipeInterface
         ])) {
             if (!$this->accountService->get([
                 'uuid' => $email->getAccountUuid(),
-                'status' => StatusEnum::AwaitConfirm->value,
+                'status' => StatusEnumEmail::AwaitConfirm->value,
             ])) {
                 throw new EmailAlreadyUseException();
             }
             if (!$this->telegramService->get([
                 'account_uuid' => $email->getAccountUuid(),
-                'status' => StatusEnum::AwaitConfirm->value,
+                'status' => StatusEnumTelegram::AwaitConfirm->value,
             ])) {
                 throw new UserAlreadyExistException();
             }

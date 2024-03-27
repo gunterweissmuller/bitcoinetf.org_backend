@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Api\V1\Auth\Register;
 
+use App\Dto\Models\Apollopayment\ClientsDto;
 use App\Dto\Models\Referrals\CodeDto;
 use App\Dto\Models\Users\AccountDto;
 use App\Dto\Models\Users\AppleAccountDto;
@@ -50,6 +51,7 @@ final class InitAppleRequest extends AbstractRequest
             'ref_code' => CodeDto::fromArray([
                 'code' => $this->get('ref_code') ? strtoupper($this->get('ref_code')) : null,
             ]),
+            'apolloClient' => ClientsDto::fromArray([]),
             'apple_account' => AppleAccountDto::fromArray([
                 'apple_id' => strtolower($socialiteUser->getId()),
             ]),

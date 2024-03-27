@@ -37,4 +37,5 @@ return [
     CodeEnum::C090001->value => 'file save error',
     CodeEnum::C100001->value => 'merchant001 unavailable',
     CodeEnum::C100002->value => 'this account pap tracker is already in use',
+    CodeEnum::C100003->value => 'apollo payment unavailable',
 ];

@@ -23,4 +23,9 @@ Route::prefix('provider')
         Route::post('/telegram/init', 'RegisterController@initTelegram');
         Route::post('/telegram/confirm', 'RegisterController@confirmTelegram');
         Route::post('/telegram/login', 'LoginController@loginTelegram');
+        Route::get('/facebook/credentials', 'RegisterController@getCredentialsFacebook');
+        Route::post('/facebook/get-auth-type', 'AuthController@getAuthTypeFacebook');
+        Route::post('/facebook/init', 'RegisterController@initFacebook');
+        Route::post('/facebook/confirm', 'RegisterController@confirmFacebook');
+        Route::post('/facebook/login', 'LoginController@loginFacebook');
     });

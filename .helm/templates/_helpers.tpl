@@ -240,7 +240,10 @@ Create chart name and version as used by the chart label.
 - name: APPLE_CLIENT_ID
   value: "{{ $globals.apple_auth.client_id }}"
 - name: APPLE_CLIENT_SECRET
-  value: "{{ $globals.apple_auth.client_secret }}"
+  valueFrom:
+    secretKeyRef:
+      name: secrets-backend
+      key: appleSecret
 
 - name: TELEGRAM_BOT_NAME
   value: "{{ $globals.telegram_auth.bot_name }}"
@@ -251,5 +254,12 @@ Create chart name and version as used by the chart label.
       key: telegramSecret
 - name: TELEGRAM_REDIRECT_URI
   value: "{{ $globals.telegram_auth.redirect_uri }}"
+
+- name: APOLLO_PAYMENT_HOST
+  value: "{{ $globals.apollo_payment.host_name }}"
+- name: APOLLO_PAYMENT_PUBLIC_KEY
+  value: "{{ $globals.apollo_payment.public_key }}"
+- name: APOLLO_PAYMENT_PRIVATE_KEY
+  value: "{{ $globals.apollo_payment.private_key }}"
 
 {{- end -}}

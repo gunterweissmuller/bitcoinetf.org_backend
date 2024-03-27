@@ -151,14 +151,6 @@ destroy:dev:
     export WERF_REPO="${REGISTRY_NAME_STAGE}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}"
     export REPOSITORY_NAME="${REPOSITORY_NAME_STAGE}"
     export SECRET_VALUES_FILE="secret-values-stage.yaml"
-  elif [ "${CI_COMMIT_REF_SLUG}" = "staging-test" ]; then
-    export ENV_NAME="stage"
-    export ENV_FULL_NAME="staging"
-    export APP_NAMESPACE="stage-${CI_PROJECT_PATH_SLUG}"
-    export APP_URL="${STAGE_DOMAIN}${PRODUCTION_PATH}"
-    export WERF_REPO="${REGISTRY_NAME_STAGE}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}"
-    export REPOSITORY_NAME="${REPOSITORY_NAME_STAGE}"
-    export SECRET_VALUES_FILE="secret-values-stage.yaml"
   elif [ "${CI_COMMIT_REF_SLUG}" = "master" ]; then
     if [ "${PRODUCTION_DOMAIN}" == "" ]; then
       echo "PRODUCTION_DOMAIN not set!"

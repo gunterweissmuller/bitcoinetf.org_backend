@@ -111,6 +111,13 @@ global:
     telegram_auth:
       bot_name: "BitcoinETFlogin_bot"
       redirect_uri: "https://front.stage.techetf.org/auth/telegram"
+    moonpay:
+      public_key: "pk_test_FwP9FlHx7TPVExAqIp8iE8ydu36z35"
+      secret_key: "sk_test_KX5CzOh7HFJDCGmHn6CJNs3DGO8zh"
+      webhook_key: "wk_test_sHONx8KfzNCghKTd6IrKWRphuTyAwBS"
+      host: "https://buy-sandbox.moonpay.com"
+    global_wallets:
+      apollo_polygon_usdt_address: "0xe175e4f1c662b2BD03F361a430453723f86c8f41"
 
 otherServices:
 - name: queue

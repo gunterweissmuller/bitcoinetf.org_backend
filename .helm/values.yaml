@@ -49,7 +49,6 @@ global:
       redirect_uri: "https://bitcoinetf.org/auth/google"
     apple_auth:
       client_id: "org.bitcoinetf.service"
-      login_uri: "https://bitcoinetf.org/auth/apple"
       redirect_uri: "https://bitcoinetf.org/auth/apple"
     telegram_auth:
       bot_name: "BitcoinETF_loginbot"
@@ -104,7 +103,6 @@ global:
       redirect_uri: "https://front.stage.techetf.org/auth/google"
     apple_auth:
       client_id: "org.bitcoinetf.service"
-      login_uri: "https://front.stage.techetf.org/auth/apple"
       redirect_uri: "https://front.stage.techetf.org/auth/apple"
     telegram_auth:
       bot_name: "BitcoinETFlogin_bot"

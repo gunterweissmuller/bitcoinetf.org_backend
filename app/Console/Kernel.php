@@ -14,6 +14,7 @@ final class Kernel extends ConsoleKernel
         // auth
         $schedule->command('auth:disabling-expired-codes')->everyMinute();
         $schedule->command('auth:clear-used-codes')->daily();
+        $schedule->command('auth:update-apple-jwt-token')->cron('0 0 1 */5 *');
 
         // statistic
         $schedule->command('statistic:save-daily-wallet')->dailyAt('00:00');

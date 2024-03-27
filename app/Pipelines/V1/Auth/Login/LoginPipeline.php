@@ -14,12 +14,12 @@ use App\Pipelines\AbstractPipeline;
 use App\Pipelines\V1\Auth\Login\Pipes\Login\AccountPipe as LoginAccountPipe;
 use App\Pipelines\V1\Auth\Login\Pipes\LoginFacebook\AccountPipe as LoginFacebookAccountPipe;
 use App\Pipelines\V1\Auth\Login\Pipes\LoginFacebook\FacebookPipe as LoginFacebookPipe;
+use App\Pipelines\V1\Auth\Login\Pipes\LoginApple\ApplePipe as LoginApplePipe;
 use App\Pipelines\V1\Auth\Login\Pipes\LoginGoogle\AccountPipe as LoginGoogleAccountPipe;
 use App\Pipelines\V1\Auth\Login\Pipes\Login\EmailPipe as LoginEmailPipe;
 use App\Pipelines\V1\Auth\Login\Pipes\Login\JwtPipe as LoginJwtPipe;
 use App\Pipelines\V1\Auth\Login\Pipes\LoginMetamask\AccountPipe as LoginMetamaskAccountPipe;
 use App\Pipelines\V1\Auth\Login\Pipes\LoginApple\AccountPipe as LoginAppleAccountPipe;
-use App\Pipelines\V1\Auth\Login\Pipes\LoginApple\AppleAccountPipe as LoginAppleAppleAccountPipe;
 use App\Pipelines\V1\Auth\Login\Pipes\LoginMetamask\WalletPipe as LoginWalletPipe;
 use App\Pipelines\V1\Auth\Login\Pipes\LoginTelegram\AccountPipe as LoginTelegramAccountPipe;
 use App\Pipelines\V1\Auth\Login\Pipes\LoginTelegram\TelegramPipe as LoginTelegramPipe;
@@ -56,7 +56,7 @@ final class LoginPipeline extends AbstractPipeline
     public function loginApple(LoginApplePipelineDto $dto): array
     {
         return $this->pipeline([
-            LoginAppleAppleAccountPipe::class,
+            LoginApplePipe::class,
             LoginAppleAccountPipe::class,
             LoginJwtPipe::class,
         ], $dto);

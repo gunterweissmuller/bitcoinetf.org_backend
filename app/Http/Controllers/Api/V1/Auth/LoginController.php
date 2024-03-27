@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Api\V1\Auth;
 
 use App\Dto\Pipelines\Api\V1\Auth\Login\LoginFacebookPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Login\LoginTelegramPipelineDto;
+use App\Exceptions\Pipelines\V1\Auth\AuthorizationTokenExpiredException;
 use App\Exceptions\Pipelines\V1\Auth\InvalidSignatureMetamaskException;
 use App\Http\Requests\Api\V1\Auth\Login\LoginAppleRequest;
 use App\Http\Requests\Api\V1\Auth\Login\LoginFacebookRequest;
@@ -14,10 +15,12 @@ use App\Dto\Pipelines\Api\V1\Auth\Login\LoginPipelineDto;
 use App\Http\Requests\Api\V1\Auth\Login\LoginRequest;
 use App\Http\Requests\Api\V1\Auth\Login\LoginTelegramRequest;
 use App\Pipelines\V1\Auth\Login\LoginPipeline;
+use GuzzleHttp\Exception\ClientException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Str;
 use App\Helpers\EcRecover;
+use Laravel\Socialite\Facades\Socialite;
 
 final class LoginController extends Controller
 {
@@ -72,13 +75,11 @@ final class LoginController extends Controller
 
     public function loginApple(LoginAppleRequest $request): JsonResponse
     {
-        //@fixme-v
-//        try {
-//            /** @var SocialiteUser $socialiteUser */
-//            $socialiteUser = Socialite::driver('sign-in-with-apple')->stateless()->user();
-//        } catch (ClientException $e) {
-//            return response()->__call('exception', [new AuthorizationTokenExpiredException]);
-//        }
+        try {
+            Socialite::driver('apple')->stateless()->userByIdentityToken($request->apple_token);
+        } catch (ClientException $e) {
+            return response()->__call('exception', [new AuthorizationTokenExpiredException]);
+        }
 
         [$dto, $e] = $this->pipeline->loginApple($request->dto());
 

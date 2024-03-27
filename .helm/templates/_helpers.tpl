@@ -235,13 +235,11 @@ Create chart name and version as used by the chart label.
 - name: GOOGLE_REDIRECT_URI
   value: "{{ $globals.google_auth.redirect_uri }}"
 
-- name: SIGN_IN_WITH_APPLE_LOGIN
-  value: "{{ $globals.apple_auth.login_uri }}"
-- name: SIGN_IN_WITH_APPLE_REDIRECT
+- name: APPLE_REDIRECT_URI
   value: "{{ $globals.apple_auth.redirect_uri }}"
-- name: SIGN_IN_WITH_APPLE_CLIENT_ID
+- name: APPLE_CLIENT_ID
   value: "{{ $globals.apple_auth.client_id }}"
-- name: SIGN_IN_WITH_APPLE_CLIENT_SECRET
+- name: APPLE_CLIENT_SECRET
   valueFrom:
     secretKeyRef:
       name: secrets-backend

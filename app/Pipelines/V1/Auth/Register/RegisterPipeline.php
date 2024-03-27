@@ -28,6 +28,8 @@ use App\Pipelines\V1\Auth\Register\Pipes\Confirm\ValidatePipe as ConfirmValidate
 use App\Pipelines\V1\Auth\Register\Pipes\ConfirmFacebookAuth\AccountPipe as ConfirmFacebookAccountPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\ConfirmFacebookAuth\FacebookPipe as ConfirmFacebookPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\ConfirmFacebookAuth\ValidatePipe as ConfirmFacebookValidatePipe;
+use App\Pipelines\V1\Auth\Register\Pipes\ConfirmAppleAuth\ApplePipe as ConfirmAppleAuthApplePipe;
+use App\Pipelines\V1\Auth\Register\Pipes\ConfirmAppleAuth\ValidatePipe as ConfirmAppleAuthValidatePipe;
 use App\Pipelines\V1\Auth\Register\Pipes\ConfirmGoogleAuth\AccountPipe as ConfirmGoogleAuthAccountPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\ConfirmGoogleAuth\ApolloClientPipe as ConfirmGoogleAuthApolloClientPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\ConfirmGoogleAuth\ProfilePipe as ConfirmGoogleAuthProfilePipe;
@@ -51,6 +53,7 @@ use App\Pipelines\V1\Auth\Register\Pipes\Init\UserEventPipe as InitUserEventPipe
 use App\Pipelines\V1\Auth\Register\Pipes\Init\UserWalletPipe as InitMetamaskWalletPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\ValidatePipe as InitValidatePipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\WalletPipe as InitWalletPipe;
+use App\Pipelines\V1\Auth\Register\Pipes\Confirm\TronWalletPipe as ConfirmTronWalletPipe;
 
 
 final class RegisterPipeline extends AbstractPipeline
@@ -79,6 +82,7 @@ final class RegisterPipeline extends AbstractPipeline
             ConfirmEmailPipe::class,
             ConfirmCodePipe::class,
             ConfirmAccountPipe::class,
+            ConfirmTronWalletPipe::class,
             ConfirmBonusPipe::class,
             ConfirmJwtPipe::class,
             ConfirmMailPipe::class,
@@ -169,10 +173,11 @@ final class RegisterPipeline extends AbstractPipeline
     public function confirmAppleAuth(ConfirmApplePipelineDto $dto): array
     {
         return $this->pipeline([
-            ConfirmValidatePipe::class,
+            ConfirmAppleAuthValidatePipe::class,
             ConfirmEmailPipe::class,
             ConfirmCodePipe::class,
             ConfirmAppleAuthAccountPipe::class,
+            ConfirmAppleAuthApplePipe::class,
             ConfirmBonusPipe::class,
             ConfirmJwtPipe::class,
             ConfirmMailPipe::class,

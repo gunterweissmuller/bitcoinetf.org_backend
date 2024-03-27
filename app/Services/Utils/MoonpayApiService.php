@@ -35,6 +35,6 @@ final class MoonpayApiService
     {
         $query = "?apiKey=$this->publicKey&currencyCode=$currencyCode&walletAddress=$this->walletAddress";
         $signature  = base64_encode(hash_hmac('sha256', $query, $this->privateKey, true));
-        return env('MOONPAY_HOST') . $query . urlencode($signature);
+        return env('MOONPAY_HOST') . $query . "&signature=" . urlencode($signature);
     }
 }

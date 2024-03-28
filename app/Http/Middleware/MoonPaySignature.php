@@ -41,12 +41,7 @@ class MoonPaySignature
 
     private function getPayload(Request $request): string
     {
-        if ($request->isMethod('post')) {
-            return $request->getContent();
-        } elseif ($request->isMethod('get')) {
-            return $request->getQueryString();
-        }
-        return '';
+        return json_encode($request->all());
     }
 
     private function getSignedPayload(string $timestamp, string $payload): string
@@ -60,4 +55,5 @@ class MoonPaySignature
 
         return $signature === $hashedPayload;
     }
+
 }

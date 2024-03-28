@@ -22,5 +22,6 @@ class Webhooks extends Model
         'network',
         'tx',
         'type',
+        'payload',
     ];
 }

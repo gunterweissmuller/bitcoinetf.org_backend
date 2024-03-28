@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace app\Http\Controllers\Api\V3\Public\Billing\Shares\Buy\MoonPay;
 
+use App\Enums\Billing\Payment\ApolloPaymentDepositStatusEnum;
 use App\Http\Requests\Api\EmptyRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -22,7 +23,10 @@ class MoonPayController extends Controller
     public function webhook(EmptyRequest $request): JsonResponse
     {
         Log::info('MoonPay webhook', $request->all());
-        $this->apollopaymentWebhooksService->createWebhookRecord($request->all());
+        //if ($request->input('status') === '') {
+        //    return response()->json(['status' => '']);
+        //}
+        $this->apollopaymentWebhooksService->createMoonPayWebhookRecord($request->all());
         return response()->json([
             'data' => [
                 'status' => 'ok',

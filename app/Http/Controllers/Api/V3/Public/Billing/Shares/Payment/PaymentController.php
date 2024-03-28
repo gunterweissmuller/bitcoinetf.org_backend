@@ -8,7 +8,7 @@ use App\Http\Requests\Api\V3\Public\Billing\Shares\Payment\PaymentMethodsRequest
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use App\Services\Utils\MoonpayApiService;
-use App\Services\Api\V1\Users\EmailService;
+//use App\Services\Api\V1\Users\EmailService;
 use App\Services\Api\V1\Billing\ReplenishmentService;
 use App\Enums\Billing\Replenishment\StatusEnum;
 
@@ -16,7 +16,7 @@ final class PaymentController extends Controller
 {
     public function __construct(
         private readonly MoonpayApiService $moonpayApiService,
-        private readonly EmailService $emailService,
+        //private readonly EmailService $emailService,
         private readonly ReplenishmentService $replenishmentService
     )
     {
@@ -29,7 +29,7 @@ final class PaymentController extends Controller
     public function getPaymentsMethods(PaymentMethodsRequest $request): JsonResponse
     {
         $accountUuid = $request->payload()->getUuid();
-        $email = $this->emailService->get(['account_uuid' => $accountUuid]);
+        //$email = $this->emailService->get(['account_uuid' => $accountUuid]);
         if ($replenishment = $this->replenishmentService->get([
             'account_uuid' => $accountUuid,
             'status' => StatusEnum::INIT->value,

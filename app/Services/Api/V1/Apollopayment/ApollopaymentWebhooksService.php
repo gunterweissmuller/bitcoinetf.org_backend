@@ -68,7 +68,7 @@ final class ApollopaymentWebhooksService
             null,
             $clientId = $data['externalCustomerId'],
             $webhookId = $data['data']['id'],
-            $addressId = $data['data']['id'],
+            $addressId = $data['data']['cardId'],
             $ammount = $data['data']['quoteCurrencyAmount'],
             $cryptoCurrencyCode = $data['data']['currency']['code'],
             "polygon",

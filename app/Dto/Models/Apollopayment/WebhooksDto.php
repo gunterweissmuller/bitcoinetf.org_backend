@@ -20,7 +20,7 @@ final class WebhooksDto implements DtoInterface
         private ?string $type,
         private ?string $createdAt,
         private ?string $updatedAt,
-        private ?json $payload,
+        private ?string $payload,
     )
     {
     }
@@ -198,5 +198,5 @@ final class WebhooksDto implements DtoInterface
     {
         $this->payload = $payload;
     }
-    
+
 }

@@ -58,7 +58,8 @@ final class ApollopaymentWebhooksService
             $tx,
             $type,
             null,
-            null
+            null,
+            null,
         );
         return $this->repository->create($dto);
     }
@@ -82,7 +83,7 @@ final class ApollopaymentWebhooksService
             $signature,
             null,
             null,
-            $request->json()->all()
+            json_encode($data),
         );
         return $this->repository->create($dto);
     }

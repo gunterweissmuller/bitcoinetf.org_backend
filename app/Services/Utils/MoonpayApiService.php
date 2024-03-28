@@ -21,11 +21,11 @@ final class MoonpayApiService
 
     public function __construct()
     {
-        //$this->client = Http::baseUrl(env('MOONPAY_HOST'));
-        $this->client = Http::baseUrl(MOONPAY_HOST_CONST);
+        $this->client = Http::baseUrl(env('MOONPAY_HOST'));
+        //$this->client = Http::baseUrl(MOONPAY_HOST_CONST);
         $this->publicKey = env('MOONPAY_PUBLIC_KEY');
         $this->privateKey = env('MOONPAY_SECRET');
-        //$this->walletAddress = env('BASIC_APOLLO_WALLET_POLYGON_USDT_ADDRESS');;
+        //$this->walletAddress = env('BASIC_APOLLO_WALLET_POLYGON_USDT_ADDRESS');
         $this->walletAddress = POLYGON_PAY_IN_ADDRESS;
     }
 
@@ -53,5 +53,6 @@ final class MoonpayApiService
         $query .= "&showWalletAddressForm=false";
         $signature  = base64_encode(hash_hmac('sha256', $query, $this->privateKey, true));
         return env('MOONPAY_HOST') . $query . "&signature=" . urlencode($signature);
+        //return MOONPAY_HOST_CONST . $query . "&signature=" . urlencode($signature);
     }
 }

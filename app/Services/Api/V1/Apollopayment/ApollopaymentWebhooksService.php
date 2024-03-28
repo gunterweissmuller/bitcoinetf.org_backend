@@ -80,7 +80,7 @@ final class ApollopaymentWebhooksService
             $timestamp,
             $status = $data['data']['status'],
             $cryptoTransactionId = $data['data']['cryptoTransactionId'],
-            $signature,
+            $moon_pay_signature,
             null,
             null,
             json_encode($data),

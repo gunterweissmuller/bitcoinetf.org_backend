@@ -28,6 +28,7 @@ class MoonPaySignature
                 'signature' => $signature,
                 'payload' => $payload,
                 'signed_payload' => $signed_payload,
+                'webhook_key' => env('MOONPAY_WEBHOOK'),
             ], 403);
         }
 
@@ -70,7 +71,7 @@ class MoonPaySignature
 
     private function checkSignature(string $signature, string $signed_payload): bool
     {
-        $hashedPayload = hash_hmac('sha256', $signed_payload, env('MOONPAY_WEBHOOK'));
+        $hashedPayload = base64_encode(hash_hmac('sha256', $signed_payload, env('MOONPAY_WEBHOOK')));
 
         return $signature === $hashedPayload;
     }

@@ -15,7 +15,7 @@ class MoonPaySignature
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $moon_pay_signature = $request->header('moonpay-signature-v2');
+        $moon_pay_signature = $request->header('Moonpay-Signature-V2');
         $timestamp = $this->getTimestampFromHeader($moon_pay_signature);
         $signature = $this->getSignatureFromHeader($moon_pay_signature);
         $payload = $this->getPayload($request);
@@ -24,10 +24,10 @@ class MoonPaySignature
         if (!$this->checkSignature($signature, $signed_payload)) {
             return response()->json([
                 'error' => 'PUBLIC_KEY',
-                //'timestamp' => $timestamp,
-                //'signature' => $signature,
-                //'payload' => $payload,
-                //'signed_payload' => $signed_payload,
+                'timestamp' => $timestamp,
+                'signature' => $signature,
+                'payload' => $payload,
+                'signed_payload' => $signed_payload,
             ], 403);
         }
 

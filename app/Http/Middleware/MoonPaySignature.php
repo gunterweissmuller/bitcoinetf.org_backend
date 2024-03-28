@@ -17,11 +17,18 @@ class MoonPaySignature
     {
         $moon_pay_signature = $request->header('moonpay-signature-v2');
         $timestamp = $this->getTimestampFromHeader($moon_pay_signature);
+        $signature = $this->getSignatureFromHeader($moon_pay_signature);
         $payload = $this->getPayload($request);
         $signed_payload = $this->getSignedPayload($timestamp, $payload);
 
-        if (!$this->checkSignature($moon_pay_signature, $signed_payload)) {
-            return response()->json(['error' => 'PUBLIC_KEY'], 403);
+        if (!$this->checkSignature($signature, $signed_payload)) {
+            return response()->json([
+                'error' => 'PUBLIC_KEY',
+                //'timestamp' => $timestamp,
+                //'signature' => $signature,
+                //'payload' => $payload,
+                //'signed_payload' => $signed_payload,
+            ], 403);
         }
 
         return $next($request);
@@ -33,6 +40,18 @@ class MoonPaySignature
         foreach ($elements as $element) {
             $pair = explode('=', $element);
             if ($pair[0] === 't') {
+                return $pair[1];
+            }
+        }
+        return '';
+    }
+
+    private function getSignatureFromHeader(string $header): string
+    {
+        $elements = explode(',', $header);
+        foreach ($elements as $element) {
+            $pair = explode('=', $element);
+            if ($pair[0] === 's') {
                 return $pair[1];
             }
         }

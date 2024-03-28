@@ -25,8 +25,8 @@ final class MoonpayApiService
         //$this->client = Http::baseUrl(MOONPAY_HOST_CONST);
         $this->publicKey = env('MOONPAY_PUBLIC_KEY');
         $this->privateKey = env('MOONPAY_SECRET');
-        //$this->walletAddress = env('BASIC_APOLLO_WALLET_POLYGON_USDT_ADDRESS');
-        $this->walletAddress = POLYGON_PAY_IN_ADDRESS;
+        $this->walletAddress = env('BASIC_APOLLO_WALLET_POLYGON_USDT_ADDRESS');
+        //$this->walletAddress = POLYGON_PAY_IN_ADDRESS;
     }
 
     /**

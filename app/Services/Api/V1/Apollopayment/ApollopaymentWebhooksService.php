@@ -66,14 +66,14 @@ final class ApollopaymentWebhooksService
     {
         $dto = new WebhooksDto(
             null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            "moonpay",
-            json_encode($data),
-            $type,
+            $clientId = $data['externalCustomerId'],
+            $webhookId = $data['data']['id'],
+            $addressId = $data['data']['id'],
+            $ammount = $data['data']['quoteCurrencyAmount'],
+            $cryptoCurrencyCode = $data['data']['currency']['code'],
+            "polygon",
+            $cryptoTransactionId = $data['data']['cryptoTransactionId'],
+            "moonpay_deposit",
             null,
             null
         );

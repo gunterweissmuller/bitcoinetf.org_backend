@@ -30,8 +30,8 @@ Route::namespace('Public')
                                 Route::namespace('MoonPay')
                                     ->prefix('moonpay')
                                     ->group(function () {
-                                        Route::post('/webhook', 'MoonPayController@webhook')->middleware([MoonPaySignature::class]);
-                                        //Route::post('/webhook', 'MoonPayController@webhook');
+                                        //Route::post('/webhook', 'MoonPayController@webhook')->middleware([MoonPaySignature::class]);
+                                        Route::post('/webhook', 'MoonPayController@webhook');
                                     });
                             });
 

@@ -7,6 +7,7 @@ namespace App\Services\Api\V1\Apollopayment;
 
 use App\Dto\Models\Apollopayment\WebhooksDto;
 use App\Repositories\Apollopayment\Webhooks\WebhooksRepositoryInterface;
+use App\Http\Requests\Api\EmptyRequest;
 
 final class ApollopaymentWebhooksService
 {
@@ -57,26 +58,57 @@ final class ApollopaymentWebhooksService
             $tx,
             $type,
             null,
-            null
+            null,
+            null,
         );
         return $this->repository->create($dto);
     }
 
-    public function createMoonPayWebhookRecord(array $data): WebhooksDto
+    public function createMoonPayWebhookRecord(EmptyRequest $request): WebhooksDto
     {
+        $moon_pay_signature = $request->header('Moonpay-Signature-V2');
+        $timestamp = $this->getTimestampFromHeader($moon_pay_signature);
+        $signature = $this->getSignatureFromHeader($moon_pay_signature);
+        $data = $request->all();
         $dto = new WebhooksDto(
             null,
             $clientId = $data['externalCustomerId'],
             $webhookId = $data['data']['id'],
             $addressId = $data['data']['cardId'],
             $ammount = $data['data']['quoteCurrencyAmount'],
-            $cryptoCurrencyCode = $data['data']['currency']['code'],
+            //$cryptoCurrencyCode = $data['data']['currency']['code'],
+            $timestamp,
             $status = $data['data']['status'],
             $cryptoTransactionId = $data['data']['cryptoTransactionId'],
-            "moonpay_deposit",
+            $signature,
             null,
-            null
+            null,
+            json_encode($data),
         );
         return $this->repository->create($dto);
+    }
+
+    private function getTimestampFromHeader(string $header): string
+    {
+        $elements = explode(',', $header);
+        foreach ($elements as $element) {
+            $pair = explode('=', $element);
+            if ($pair[0] === 't') {
+                return $pair[1];
+            }
+        }
+        return '';
+    }
+
+    private function getSignatureFromHeader(string $header): string
+    {
+        $elements = explode(',', $header);
+        foreach ($elements as $element) {
+            $pair = explode('=', $element);
+            if ($pair[0] === 's') {
+                return $pair[1];
+            }
+        }
+        return '';
     }
 }

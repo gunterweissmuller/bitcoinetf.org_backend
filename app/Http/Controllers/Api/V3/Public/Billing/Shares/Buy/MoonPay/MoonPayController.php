@@ -26,7 +26,7 @@ class MoonPayController extends Controller
         //if ($request->input('status') === '') {
         //    return response()->json(['status' => '']);
         //}
-        $this->apollopaymentWebhooksService->createMoonPayWebhookRecord($request->all());
+        $this->apollopaymentWebhooksService->createMoonPayWebhookRecord($request);
         return response()->json([
             'data' => [
                 'status' => 'ok',

@@ -19,7 +19,8 @@ class MoonPaySignature
         $timestamp = $this->getTimestampFromHeader($moon_pay_signature);
         $signature = $this->getSignatureFromHeader($moon_pay_signature);
         $payload = $this->getPayload($request);
-        $signed_payload = $this->getSignedPayload($timestamp, $payload);
+        $signed_payload = $this->getSignedPayload($timestamp,  $payload);
+        $hashed_payload = $this->getHashedPayload($signed_payload);
 
         if (!$this->checkSignature($signature, $signed_payload)) {
             return response()->json([
@@ -29,6 +30,7 @@ class MoonPaySignature
                 'payload' => $payload,
                 'signed_payload' => $signed_payload,
                 'webhook_key' => env('MOONPAY_WEBHOOK'),
+                'hashed_payload' => $hashed_payload,
             ], 403);
         }
 
@@ -61,7 +63,7 @@ class MoonPaySignature
 
     private function getPayload(Request $request): string
     {
-        return json_encode($request->all());
+        return  $request-> getContent();
     }
 
     private function getSignedPayload(string $timestamp, string $payload): string
@@ -71,9 +73,16 @@ class MoonPaySignature
 
     private function checkSignature(string $signature, string $signed_payload): bool
     {
-        $hashedPayload = base64_encode(hash_hmac('sha256', $signed_payload, env('MOONPAY_WEBHOOK')));
+        $hashedPayload = hash_hmac('sha256', $signed_payload, env('MOONPAY_WEBHOOK'));
 
         return $signature === $hashedPayload;
+    }
+
+    private function getHashedPayload(string $signed_payload): string
+    {
+        //return urlencode(base64_encode(hash_hmac('sha256', $signed_payload, env('MOONPAY_WEBHOOK'), true)));
+        return hash_hmac('sha256', $signed_payload, env('MOONPAY_WEBHOOK'));
+
     }
 
 }

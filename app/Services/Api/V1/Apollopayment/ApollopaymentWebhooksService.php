@@ -56,6 +56,26 @@ final class ApollopaymentWebhooksService
             $network,
             $tx,
             $type,
+            null,
+            null
+        );
+        return $this->repository->create($dto);
+    }
+
+    public function createWebhookRecord(array $data): WebhooksDto
+    {
+        $dto = new WebhooksDto(
+            null,
+            $clientId = $data['externalCustomerId'],
+            $webhookId = $data['data']['id'],
+            $addressId = $data['data']['id'],
+            $ammount = $data['data']['quoteCurrencyAmount'],
+            $cryptoCurrencyCode = $data['data']['currency']['code'],
+            "polygon",
+            $cryptoTransactionId = $data['data']['cryptoTransactionId'],
+            "moonpay_deposit",
+            null,
+            null
         );
         return $this->repository->create($dto);
     }

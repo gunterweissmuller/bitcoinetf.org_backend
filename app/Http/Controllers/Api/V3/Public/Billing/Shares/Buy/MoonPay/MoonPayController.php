@@ -9,15 +9,20 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Log;
+use App\Services\Api\V1\Apollopayment\ApollopaymentWebhooksService;
 
 class MoonPayController extends Controller
 {
-    public function __construct()
+    public function __construct(
+        private ApollopaymentWebhooksService $apollopaymentWebhooksService,
+    )
     {
     }
 
     public function webhook(EmptyRequest $request): JsonResponse
     {
+        Log::info('MoonPay webhook', $request->all());
+        $this->apollopaymentWebhooksService->createWebhookRecord($request->all());
         return response()->json([
             'data' => [
                 'status' => 'ok',

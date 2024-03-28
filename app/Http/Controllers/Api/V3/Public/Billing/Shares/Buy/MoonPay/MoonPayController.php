@@ -21,6 +21,8 @@ class MoonPayController extends Controller
 
     public function webhook(EmptyRequest $request): JsonResponse
     {
+        Log::info('MoonPay webhook', $request->all());
+        $this->apollopaymentWebhooksService->createWebhookRecord($request->all());
         return response()->json([
             'data' => [
                 'status' => 'ok',

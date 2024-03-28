@@ -116,8 +116,10 @@ global:
       secret_key: "sk_test_KX5CzOh7HFJDCGmHn6CJNs3DGO8zh"
       webhook_key: "wk_test_sHONx8KfzNCghKTd6IrKWRphuTyAwBS"
       host: "https://buy-sandbox.moonpay.com"
+      currency_code: "utk"
+
     global_wallets:
-      apollo_polygon_usdt_address: "test_address"
+      apollo_polygon_usdt_address: "0xe175e4f1c662b2BD03F361a430453723f86c8f41"
 
 otherServices:
 - name: queue

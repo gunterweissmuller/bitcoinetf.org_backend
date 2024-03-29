@@ -240,13 +240,25 @@ Create chart name and version as used by the chart label.
 - name: APPLE_CLIENT_ID
   value: "{{ $globals.apple_auth.client_id }}"
 - name: APPLE_PRIVATE_KEY
-  value: "{{ $globals.apple_auth.private_key }}"
+  valueFrom:
+    secretKeyRef:
+      name: secrets-backend
+      key: applePrivateKey
 - name: APPLE_TEAM_ID
-  value: "{{ $globals.apple_auth.team_id }}"
+  valueFrom:
+    secretKeyRef:
+      name: secrets-backend
+      key: appleTeamId
 - name: APPLE_SERVICE_ID
-  value: "{{ $globals.apple_auth.service_id }}"
+  valueFrom:
+    secretKeyRef:
+      name: secrets-backend
+      key: appleServiceId
 - name: APPLE_KEY_ID
-  value: "{{ $globals.apple_auth.key_id }}"
+  valueFrom:
+    secretKeyRef:
+      name: secrets-backend
+      key: appleKeyId
 - name: APPLE_SECRET_KEY_FILE_PATH
   value: "{{ $globals.apple_auth.secret_key_file_path }}"
 - name: APPLE_SECRET_KEY_FILE_NAME

@@ -51,6 +51,7 @@ final class MoonpayApiService
         $query .= "&externalTransactionId=$externalTransactionId";
         $query .= "&externalCustomerId=$externalCustomerId";
         $query .= "&showWalletAddressForm=false";
+        $query .= "&redirectURL=http://localhost:3000/personal/earnings?amount=$baseCurrencyAmount";
         $signature  = base64_encode(hash_hmac('sha256', $query, $this->privateKey, true));
         return env('MOONPAY_HOST') . $query . "&signature=" . urlencode($signature);
         //return MOONPAY_HOST_CONST . $query . "&signature=" . urlencode($signature);

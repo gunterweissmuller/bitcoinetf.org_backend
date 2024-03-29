@@ -22,6 +22,7 @@ use App\Pipelines\V1\Auth\Login\LoginPipeline;
 use App\Pipelines\V1\Auth\Register\RegisterPipeline;
 use App\Services\Api\V1\Users\AccountService;
 use App\Services\Api\V1\Users\EmailService;
+use App\Services\Utils\AppleAuthJWTService;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
@@ -158,6 +159,7 @@ final class AuthController extends Controller
     public function getAuthTypeApple(AuthTypeAppleRequest $request): JsonResponse
     {
         try {
+            config()->set('services.apple.client_secret', AppleAuthJWTService::getInstance()->getSecretKey());
             Socialite::driver('apple')->stateless()->userByIdentityToken($request->apple_token);
         } catch (ClientException $e) {
             return response()->__call('exception', [new AuthorizationTokenExpiredException]);

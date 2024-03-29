@@ -26,6 +26,7 @@ use App\Http\Requests\Api\V1\Auth\Register\ConfirmMetamaskRequest;
 use App\Http\Requests\Api\V1\Auth\Register\InitMetamaskRequest;
 use App\Http\Requests\Api\V1\Auth\Register\InitTelegramRequest;
 use App\Pipelines\V1\Auth\Register\RegisterPipeline;
+use App\Services\Utils\AppleAuthJWTService;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
@@ -41,6 +42,10 @@ final class RegisterController extends Controller
     {
     }
 
+    /**
+     * @param InitRequest $request
+     * @return JsonResponse
+     */
     public function init(InitRequest $request): JsonResponse
     {
         /** @var InitPipelineDto $dto */
@@ -53,6 +58,10 @@ final class RegisterController extends Controller
         return response()->__call('exception', [$e]);
     }
 
+    /**
+     * @param ConfirmRequest $request
+     * @return JsonResponse
+     */
     public function confirm(ConfirmRequest $request): JsonResponse
     {
         /** @var ConfirmPipelineDto $dto */
@@ -79,6 +88,10 @@ final class RegisterController extends Controller
         ], 200);
     }
 
+    /**
+     * @param InitMetamaskRequest $request
+     * @return JsonResponse
+     */
     public function metamaskInit(InitMetamaskRequest $request): JsonResponse
     {
         $walletAddress = Str::lower($request->wallet_address);
@@ -101,6 +114,10 @@ final class RegisterController extends Controller
 
     }
 
+    /**
+     * @param ConfirmMetamaskRequest $request
+     * @return JsonResponse
+     */
     public function metamaskConfirm(ConfirmMetamaskRequest $request): JsonResponse
     {
         /** @var ConfirmMetamaskPipelineDto $dto */
@@ -125,12 +142,18 @@ final class RegisterController extends Controller
      */
     public function redirectUrlToAppleAuth(): JsonResponse
     {
-        return response()->json([
-            'url' => Socialite::driver('apple')
-                ->stateless()
-                ->redirect()
-                ->getTargetUrl(),
-        ]);
+        try {
+            config()->set('services.apple.client_secret', AppleAuthJWTService::getInstance()->getSecretKey());
+
+            return response()->json([
+                'url' => Socialite::driver('apple')
+                    ->stateless()
+                    ->redirect()
+                    ->getTargetUrl(),
+            ]);
+        } catch (\Exception $e) {
+            return response()->__call('exception', [new AuthorizationTokenExpiredException]);
+        }
     }
 
     /**
@@ -140,6 +163,7 @@ final class RegisterController extends Controller
     public function initApple(InitAppleRequest $request): JsonResponse
     {
         try {
+            config()->set('services.apple.client_secret', AppleAuthJWTService::getInstance()->getSecretKey());
             Socialite::driver('apple')->stateless()->userByIdentityToken($request->apple_token);
         } catch (ClientException $e) {
             return response()->__call('exception', [new AuthorizationTokenExpiredException]);
@@ -162,6 +186,7 @@ final class RegisterController extends Controller
     public function confirmApple(ConfirmAppleRequest $request): JsonResponse
     {
         try {
+            config()->set('services.apple.client_secret', AppleAuthJWTService::getInstance()->getSecretKey());
             Socialite::driver('apple')->stateless()->userByIdentityToken($request->apple_token);
         } catch (ClientException $e) {
             return response()->__call('exception', [new AuthorizationTokenExpiredException]);

@@ -48,8 +48,14 @@ global:
       client_id: "981820521247-mee663n9a5i3qhg1eftd0un5ku1r9en7.apps.googleusercontent.com"
       redirect_uri: "https://bitcoinetf.org/auth/google"
     apple_auth:
-      client_id: "org.bitcoinetf.service"
+      client_id: "org.BitcoinETF.signin"
       redirect_uri: "https://bitcoinetf.org/auth/apple"
+      private_key: ""
+      team_id: ""
+      service_id: ""
+      key_id: ""
+      secret_key_file_path: "app/apple/auth/"
+      secret_key_file_name: "secret.txt"
     telegram_auth:
       bot_name: "BitcoinETF_loginbot"
       redirect_uri: "https://bitcoinetf.org/auth/telegram"
@@ -102,8 +108,10 @@ global:
       client_id: "745955834530-cp4m04pm6sv2emqkll922blijde5o1u2.apps.googleusercontent.com"
       redirect_uri: "https://front.stage.techetf.org/auth/google"
     apple_auth:
-      client_id: "org.bitcoinetf.service"
+      client_id: "org.BitcoinETF.signin"
       redirect_uri: "https://front.stage.techetf.org/auth/apple"
+      secret_key_file_path: "app/apple/auth/"
+      secret_key_file_name: "secret.txt"
     telegram_auth:
       bot_name: "BitcoinETFlogin_bot"
       redirect_uri: "https://front.stage.techetf.org/auth/telegram"
@@ -113,18 +121,18 @@ global:
       private_key: "TjF+TTg6J9TExAmRvg1l55sPqY+BCh8Lw9RUqgojHH90XeDLP8thH1rcxZAAq4w4DQS/jABHzFjoaOu0mZ0crQ=="
 
 otherServices:
-- name: queue
-  cmd: sh
-  args:
-  - -c
-  - php artisan queue:work
-- name: schedule
-  cmd: sh
-  args:
-  - -c
-  - php artisan schedule:work
-- name: statistic-report-monthly-account-report
-  cmd: sh
-  args:
-  - -c
-  - php artisan queue:work --tries=12 --queue=statistic.report.monthly_account_report
+  - name: queue
+    cmd: sh
+    args:
+      - -c
+      - php artisan queue:work
+  - name: schedule
+    cmd: sh
+    args:
+      - -c
+      - php artisan schedule:work
+  - name: statistic-report-monthly-account-report
+    cmd: sh
+    args:
+      - -c
+      - php artisan queue:work --tries=12 --queue=statistic.report.monthly_account_report

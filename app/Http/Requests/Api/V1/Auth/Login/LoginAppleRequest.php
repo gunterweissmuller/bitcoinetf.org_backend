@@ -8,6 +8,7 @@ use App\Dto\Models\Users\AccountDto;
 use App\Dto\Models\Users\AppleAccountDto;
 use App\Dto\Pipelines\Api\V1\Auth\Login\LoginApplePipelineDto;
 use App\Http\Requests\AbstractRequest;
+use App\Services\Utils\AppleAuthJWTService;
 use Laravel\Socialite\Facades\Socialite;
 
 final class LoginAppleRequest extends AbstractRequest
@@ -27,6 +28,7 @@ final class LoginAppleRequest extends AbstractRequest
 
     public function dto(): LoginApplePipelineDto
     {
+        config()->set('services.apple.client_secret', AppleAuthJWTService::getInstance()->getSecretKey());
         $socialiteUser = Socialite::driver('apple')->stateless()->userByIdentityToken($this->get('apple_token'));
 
         return LoginApplePipelineDto::fromArray([

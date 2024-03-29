@@ -58,6 +58,12 @@ return [
             'throw' => true,
         ],
 
+        'apple' => [
+            'driver' => 'local',
+            'root' => storage_path(env('APPLE_SECRET_KEY_FILE_PATH', 'app/apple/auth/')),
+            'throw' => false,
+        ],
+
     ],
 
     /*

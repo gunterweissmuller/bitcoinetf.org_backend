@@ -7,7 +7,7 @@ namespace App\Services\Api\V1\Apollopayment;
 
 use App\Dto\Models\Apollopayment\WebhooksDto;
 use App\Repositories\Apollopayment\Webhooks\WebhooksRepositoryInterface;
-use App\Http\Requests\Api\EmptyRequest;
+use App\Enums\Billing\MoonPay\Webhook\NetworkEnum;
 use App\Http\Requests\Api\V3\Public\Billing\Shares\Buy\MoonPayWebhookRequest;
 
 final class ApollopaymentWebhooksService
@@ -76,7 +76,7 @@ final class ApollopaymentWebhooksService
             $addressId = $data['data']['cardId'],
             $ammount = $data['data']['quoteCurrencyAmount'],
             $cryptoCurrencyCode = $data['data']['currency']['code'],
-            'polygon',
+            NetworkEnum::Polygon->value,
             $tx = $data['data']['cryptoTransactionId'],
             $type = $data['data']['status'],
             null,

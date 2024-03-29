@@ -10,6 +10,7 @@ use App\Dto\Models\Users\AppleAccountDto;
 use App\Dto\Models\Users\EmailDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmApplePipelineDto;
 use App\Http\Requests\AbstractRequest;
+use App\Services\Utils\AppleAuthJWTService;
 use Laravel\Socialite\Facades\Socialite;
 
 final class ConfirmAppleRequest extends AbstractRequest
@@ -30,6 +31,7 @@ final class ConfirmAppleRequest extends AbstractRequest
 
     public function dto(): ConfirmApplePipelineDto
     {
+        config()->set('services.apple.client_secret', AppleAuthJWTService::getInstance()->getSecretKey());
         $socialiteUser = Socialite::driver('apple')->stateless()->userByIdentityToken($this->get('apple_token'));
 
         return ConfirmApplePipelineDto::fromArray([

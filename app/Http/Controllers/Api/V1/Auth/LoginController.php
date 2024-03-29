@@ -15,6 +15,7 @@ use App\Dto\Pipelines\Api\V1\Auth\Login\LoginPipelineDto;
 use App\Http\Requests\Api\V1\Auth\Login\LoginRequest;
 use App\Http\Requests\Api\V1\Auth\Login\LoginTelegramRequest;
 use App\Pipelines\V1\Auth\Login\LoginPipeline;
+use App\Services\Utils\AppleAuthJWTService;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
@@ -26,9 +27,14 @@ final class LoginController extends Controller
 {
     public function __construct(
         private readonly LoginPipeline $pipeline,
-    ) {
+    )
+    {
     }
 
+    /**
+     * @param LoginRequest $request
+     * @return JsonResponse
+     */
     public function login(LoginRequest $request): JsonResponse
     {
         /** @var LoginPipelineDto $dto */
@@ -47,14 +53,18 @@ final class LoginController extends Controller
         return response()->__call('exception', [$e]);
     }
 
+    /**
+     * @param LoginMetamaskRequest $request
+     * @return JsonResponse
+     */
     public function loginMetamask(LoginMetamaskRequest $request): JsonResponse
     {
         $walletAddress = Str::lower($request->wallet_address);
-        $message   = $request->message;
+        $message = $request->message;
         $signature = $request->signature;
 
-        $valid = (new EcRecover)->verifySignature($message,  $signature,  $walletAddress);
-        if (!$valid  || $message !== METAMASK_MSG) {
+        $valid = (new EcRecover)->verifySignature($message, $signature, $walletAddress);
+        if (!$valid || $message !== METAMASK_MSG) {
             return response()->__call('exception', [new InvalidSignatureMetamaskException]);
         }
 
@@ -73,9 +83,14 @@ final class LoginController extends Controller
         return response()->__call('exception', [$e]);
     }
 
+    /**
+     * @param LoginAppleRequest $request
+     * @return JsonResponse
+     */
     public function loginApple(LoginAppleRequest $request): JsonResponse
     {
         try {
+            config()->set('services.apple.client_secret', AppleAuthJWTService::getInstance()->getSecretKey());
             Socialite::driver('apple')->stateless()->userByIdentityToken($request->apple_token);
         } catch (ClientException $e) {
             return response()->__call('exception', [new AuthorizationTokenExpiredException]);

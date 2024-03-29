@@ -31,7 +31,6 @@ Route::namespace('Public')
                                     ->prefix('moonpay')
                                     ->group(function () {
                                         Route::post('/webhook', 'MoonPayController@webhook')->middleware([MoonPaySignature::class]);
-                                        //Route::post('/webhook', 'MoonPayController@webhook');
                                     });
                             });
 

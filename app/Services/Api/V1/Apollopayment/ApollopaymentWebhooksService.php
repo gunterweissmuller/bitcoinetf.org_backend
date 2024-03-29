@@ -8,6 +8,7 @@ namespace App\Services\Api\V1\Apollopayment;
 use App\Dto\Models\Apollopayment\WebhooksDto;
 use App\Repositories\Apollopayment\Webhooks\WebhooksRepositoryInterface;
 use App\Http\Requests\Api\EmptyRequest;
+use App\Http\Requests\Api\V3\Public\Billing\Shares\Buy\MoonPayWebhookRequest;
 
 final class ApollopaymentWebhooksService
 {
@@ -64,25 +65,20 @@ final class ApollopaymentWebhooksService
         return $this->repository->create($dto);
     }
 
-    public function createMoonPayWebhookRecord(EmptyRequest $request): WebhooksDto
+    public function createMoonPayWebhookRecord(MoonPayWebhookRequest $request): WebhooksDto
     {
         $moon_pay_signature = $request->header('Moonpay-Signature-V2');
         $timestamp = $this->getTimestampFromHeader($moon_pay_signature);
         $signature = $this->getSignatureFromHeader($moon_pay_signature);
         $data = $request->all();
-        // $data = array_map(function($value) {
-        //     $value = is_string($value) ? trim($value) : $value; // Trim spaces
-        //     $value = is_string($value) ? str_replace("\\", "", $value) : $value; // Remove '\'
-        //     return $value;
-        // }, $data);
+
         $dto = new WebhooksDto(
             null,
             $clientId = $data['externalCustomerId'],
             $webhookId = $data['data']['id'],
             $addressId = $data['data']['cardId'],
             $ammount = $data['data']['quoteCurrencyAmount'],
-            //$cryptoCurrencyCode = $data['data']['currency']['code'],
-            $timestamp,
+            $cryptoCurrencyCode = $data['data']['currency']['code'],
             $status = $data['data']['status'],
             $cryptoTransactionId = $data['data']['cryptoTransactionId'],
             $moon_pay_signature,

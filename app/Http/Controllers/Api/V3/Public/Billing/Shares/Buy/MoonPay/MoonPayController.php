@@ -11,7 +11,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Log;
 use App\Services\Api\V1\Apollopayment\ApollopaymentWebhooksService;
 use App\Pipelines\V1\Public\Billing\Shares\Buy\Blockchain\Tron\TronPipeline;
-use App\Http\Requests\Api\V1\Public\Billing\Shares\Buy\Blockchain\Tron\CallbackRequest;
+use App\Http\Requests\Api\V3\Public\Billing\Shares\Buy\MoonPayWebhookRequest;
 
 class MoonPayController extends Controller
 {
@@ -22,7 +22,7 @@ class MoonPayController extends Controller
     {
     }
 
-    public function webhook(EmptyRequest $request): JsonResponse
+    public function webhook(MoonPayWebhookRequest $request): JsonResponse
     {
         $data = $request->all();
         Log::info('MoonPay webhook', $data);

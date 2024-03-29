@@ -8,6 +8,7 @@ namespace App\Services\Api\V1\Apollopayment;
 use App\Dto\Models\Apollopayment\WebhooksDto;
 use App\Repositories\Apollopayment\Webhooks\WebhooksRepositoryInterface;
 use App\Http\Requests\Api\EmptyRequest;
+use App\Http\Requests\Api\V3\Public\Billing\Shares\Buy\MoonPayWebhookRequest;
 
 final class ApollopaymentWebhooksService
 {
@@ -64,7 +65,7 @@ final class ApollopaymentWebhooksService
         return $this->repository->create($dto);
     }
 
-    public function createMoonPayWebhookRecord(EmptyRequest $request): WebhooksDto
+    public function createMoonPayWebhookRecord(MoonPayWebhookRequest $request): WebhooksDto
     {
         $moon_pay_signature = $request->header('Moonpay-Signature-V2');
         $timestamp = $this->getTimestampFromHeader($moon_pay_signature);

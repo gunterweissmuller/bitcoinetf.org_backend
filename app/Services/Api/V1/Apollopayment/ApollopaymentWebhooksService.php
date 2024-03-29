@@ -68,10 +68,7 @@ final class ApollopaymentWebhooksService
     public function createMoonPayWebhookRecord(MoonPayWebhookRequest $request): WebhooksDto
     {
         $moon_pay_signature = $request->header('Moonpay-Signature-V2');
-        $timestamp = $this->getTimestampFromHeader($moon_pay_signature);
-        $signature = $this->getSignatureFromHeader($moon_pay_signature);
         $data = $request->all();
-
         $dto = new WebhooksDto(
             null,
             $clientId = $data['externalCustomerId'],
@@ -79,37 +76,14 @@ final class ApollopaymentWebhooksService
             $addressId = $data['data']['cardId'],
             $ammount = $data['data']['quoteCurrencyAmount'],
             $cryptoCurrencyCode = $data['data']['currency']['code'],
-            $status = $data['data']['status'],
-            $cryptoTransactionId = $data['data']['cryptoTransactionId'],
-            $moon_pay_signature,
+            'polygon',
+            $tx = $data['data']['cryptoTransactionId'],
+            $type = $data['data']['status'],
             null,
             null,
-            json_encode($data,JSON_UNESCAPED_SLASHES),
+            json_encode( $moon_pay_signature.json_encode($data,JSON_UNESCAPED_SLASHES),JSON_UNESCAPED_SLASHES),
         );
         return $this->repository->create($dto);
     }
 
-    private function getTimestampFromHeader(string $header): string
-    {
-        $elements = explode(',', $header);
-        foreach ($elements as $element) {
-            $pair = explode('=', $element);
-            if ($pair[0] === 't') {
-                return $pair[1];
-            }
-        }
-        return '';
-    }
-
-    private function getSignatureFromHeader(string $header): string
-    {
-        $elements = explode(',', $header);
-        foreach ($elements as $element) {
-            $pair = explode('=', $element);
-            if ($pair[0] === 's') {
-                return $pair[1];
-            }
-        }
-        return '';
-    }
 }

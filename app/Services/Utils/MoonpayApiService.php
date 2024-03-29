@@ -22,11 +22,9 @@ final class MoonpayApiService
     public function __construct()
     {
         $this->client = Http::baseUrl(env('MOONPAY_HOST'));
-        //$this->client = Http::baseUrl(MOONPAY_HOST_CONST);
         $this->publicKey = env('MOONPAY_PUBLIC_KEY');
         $this->privateKey = env('MOONPAY_SECRET');
         $this->walletAddress = env('BASIC_APOLLO_WALLET_POLYGON_USDT_ADDRESS');
-        //$this->walletAddress = POLYGON_PAY_IN_ADDRESS;
     }
 
     /**
@@ -36,7 +34,6 @@ final class MoonpayApiService
     public function generateUrlWithSignature(
         string $currencyCode,
         string $baseCurrencyAmount,
-        //string $email,
         string $externalTransactionId,
         string $externalCustomerId
         ) : string
@@ -47,13 +44,10 @@ final class MoonpayApiService
         $query .= "&baseCurrencyCode=usd";
         $query .= "&baseCurrencyAmount=$baseCurrencyAmount";
         $query .= "&lockAmount=true";
-        //$query .= "&email=$email";
         $query .= "&externalTransactionId=$externalTransactionId";
         $query .= "&externalCustomerId=$externalCustomerId";
         $query .= "&showWalletAddressForm=false";
-        $query .= "&redirectURL=http://localhost:3000/personal/earnings?amount=$baseCurrencyAmount";
         $signature  = base64_encode(hash_hmac('sha256', $query, $this->privateKey, true));
         return env('MOONPAY_HOST') . $query . "&signature=" . urlencode($signature);
-        //return MOONPAY_HOST_CONST . $query . "&signature=" . urlencode($signature);
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace app\Http\Controllers\Api\V3\Public\Billing\Shares\Buy\MoonPay;
 
+use App\Enums\Billing\Wallet\TypeEnum as WalletTypeEnum;
 use App\Http\Requests\Api\EmptyRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -29,15 +30,14 @@ class MoonPayController extends Controller
         if ($data['data']['status'] === 'pending') {
            return response()->json(['status' => 'pending']);
         }
-        $this->apollopaymentWebhooksService->createMoonPayWebhookRecord($request);
+        if ($webhook = $this->apollopaymentWebhooksService->get([
+            'webhook_id' => $data['data']['id'],
+            'type' => 'completed',
+        ])) {
+            return response()->json(['status' => 'duplicate']);
+        }
 
-        //return response()->json([
-        //    'data' => [
-        //        'status' => 'ok',
-        //        'from' => 'moonpay',
-        //        'webhook' => $request->all(),
-        //    ],
-        //]);
+        $this->apollopaymentWebhooksService->createMoonPayWebhookRecord($request);
 
         [$dto, $e] = $this->pipeline->callback($request->dto());
 

@@ -70,6 +70,11 @@ final class ApollopaymentWebhooksService
         $timestamp = $this->getTimestampFromHeader($moon_pay_signature);
         $signature = $this->getSignatureFromHeader($moon_pay_signature);
         $data = $request->all();
+        // $data = array_map(function($value) {
+        //     $value = is_string($value) ? trim($value) : $value; // Trim spaces
+        //     $value = is_string($value) ? str_replace("\\", "", $value) : $value; // Remove '\'
+        //     return $value;
+        // }, $data);
         $dto = new WebhooksDto(
             null,
             $clientId = $data['externalCustomerId'],
@@ -83,7 +88,7 @@ final class ApollopaymentWebhooksService
             $moon_pay_signature,
             null,
             null,
-            json_encode($data),
+            json_encode($data,JSON_UNESCAPED_SLASHES),
         );
         return $this->repository->create($dto);
     }

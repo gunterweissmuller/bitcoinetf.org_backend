@@ -111,7 +111,7 @@ global:
       client_id: "org.BitcoinETF.signin"
       redirect_uri: "https://front.stage.techetf.org/auth/apple"
       secret_key_file_path: "app/apple/auth/"
-      secret_key_file_name: "secret.txt"
+      secret_key_file_name: "private.pem"
     telegram_auth:
       bot_name: "BitcoinETFlogin_bot"
       redirect_uri: "https://front.stage.techetf.org/auth/telegram"

@@ -67,6 +67,9 @@ spec:
         - name: auth-keys-volume
           mountPath: /var/www/html/storage/jwt/private.pem
           subPath: jwtPrivateKey
+        - name: auth-keys-volume
+          mountPath: /var/www/html/storage/app/apple/auth/private.pem
+          subPath: applePrivateKey
         - name: shm
           mountPath: /dev/shm
         resources:

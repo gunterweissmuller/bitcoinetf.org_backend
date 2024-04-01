@@ -91,13 +91,41 @@ final class AppleAuthJWTService
     }
 
     /**
+     * @param string $jwt
+     * @return bool
+     */
+    public function isExpiredToken(string $jwt): bool
+    {
+        try {
+            $serializer = new CompactSerializer();
+            $jws = $serializer->unserialize($jwt);
+            $payload = $jws->getPayload();
+            $decodedPayload = json_decode($payload, true);
+
+            // Check if the token has expired
+            if (isset($decodedPayload['exp'])) {
+                $expirationTime = $decodedPayload['exp'];
+                $currentTime = Carbon::now()->timestamp;
+                if ($currentTime > $expirationTime) {
+                    return true;
+                }
+            }
+
+            return false;
+        } catch (Exception $e) {
+            Log::critical('Apple Auth Secret key expiration: ' . $e->getMessage());
+        }
+        return true;
+    }
+
+    /**
      * @return string|null
      */
     public function getSecretKey(): ?string
     {
         $secretKey = $this->getFile();
 
-        if (!$secretKey) {
+        if (!$secretKey || $this->isExpiredToken($secretKey)) {
             $this->generateToken();
             $secretKey = $this->getFile();
         }

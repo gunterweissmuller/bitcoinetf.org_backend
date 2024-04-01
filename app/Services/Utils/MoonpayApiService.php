@@ -38,6 +38,7 @@ final class MoonpayApiService
         string $externalCustomerId
         ) : string
     {
+        $redirectLink = urlencode("https://app.front.stage.techetf.org/personal/analytics/performance)");
         $query = "?apiKey=$this->publicKey";
         $query .= "&currencyCode=$currencyCode";
         $query .= "&walletAddress=$this->walletAddress";
@@ -46,6 +47,7 @@ final class MoonpayApiService
         $query .= "&lockAmount=true";
         $query .= "&externalTransactionId=$externalTransactionId";
         $query .= "&externalCustomerId=$externalCustomerId";
+        $query .= "&redirectURL=$redirectLink";
         $query .= "&showWalletAddressForm=false";
         $signature  = base64_encode(hash_hmac('sha256', $query, $this->privateKey, true));
         return env('MOONPAY_HOST') . $query . "&signature=" . urlencode($signature);

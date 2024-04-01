@@ -7,7 +7,6 @@ namespace App\Services\Api\V1\Apollopayment;
 
 use App\Dto\Models\Apollopayment\WebhooksDto;
 use App\Repositories\Apollopayment\Webhooks\WebhooksRepositoryInterface;
-use App\Enums\Billing\MoonPay\Webhook\NetworkEnum;
 use App\Http\Requests\Api\V3\Public\Billing\Shares\Buy\MoonPayWebhookRequest;
 
 final class ApollopaymentWebhooksService
@@ -81,7 +80,7 @@ final class ApollopaymentWebhooksService
             $type = $data['data']['status'],
             null,
             null,
-            json_encode( $moon_pay_signature.json_encode($data,JSON_UNESCAPED_SLASHES),JSON_UNESCAPED_SLASHES),
+            json_encode( $moon_pay_signature.json_encode($data,JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT),JSON_UNESCAPED_SLASHES),
         );
         return $this->repository->create($dto);
     }

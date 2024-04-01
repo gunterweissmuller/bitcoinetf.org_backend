@@ -117,6 +117,7 @@ global:
       webhook_key: "wk_test_sHONx8KfzNCghKTd6IrKWRphuTyAwBS"
       host: "https://buy-sandbox.moonpay.com"
       currency_code: "utk"
+      currency_network: "ethereum_sepolia"
 
     global_wallets:
       apollo_polygon_usdt_address: "0xe175e4f1c662b2BD03F361a430453723f86c8f41"

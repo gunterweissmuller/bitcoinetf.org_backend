@@ -49,12 +49,8 @@ global:
       redirect_uri: "https://bitcoinetf.org/auth/google"
     apple_auth:
       redirect_uri: "https://bitcoinetf.org/auth/apple"
-      private_key: ""
-      team_id: ""
-      service_id: ""
-      key_id: ""
       secret_key_file_path: "app/apple/auth/"
-      secret_key_file_name: "secret.txt"
+      secret_key_file_name: "private.pem"
     telegram_auth:
       bot_name: "BitcoinETF_loginbot"
       redirect_uri: "https://bitcoinetf.org/auth/telegram"

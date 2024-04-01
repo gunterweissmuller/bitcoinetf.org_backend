@@ -237,8 +237,11 @@ Create chart name and version as used by the chart label.
 
 - name: APPLE_REDIRECT_URI
   value: "{{ $globals.apple_auth.redirect_uri }}"
-- name: APPLE_CLIENT_ID
-  value: "{{ $globals.apple_auth.client_id }}"
+- name: APPLE_PRIVATE_KEY
+  valueFrom:
+    secretKeyRef:
+      name: secrets-backend
+      key: applePrivateKey
 - name: APPLE_TEAM_ID
   valueFrom:
     secretKeyRef:

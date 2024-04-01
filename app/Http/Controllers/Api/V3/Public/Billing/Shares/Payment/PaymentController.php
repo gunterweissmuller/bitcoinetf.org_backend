@@ -34,7 +34,8 @@ final class PaymentController extends Controller
             return $query
                 ->orderBy('referral_amount', 'desc')
                 ->orderBy('bonus_amount', 'desc')
-                ->orderBy('dividend_amount', 'desc');
+                ->orderBy('dividend_amount', 'desc')
+                ->orderBy('created_at', 'desc');
         })) {
             $data = [];
             $data['moonpay']['url'] = $this->moonpayApiService->generateUrlWithSignature(

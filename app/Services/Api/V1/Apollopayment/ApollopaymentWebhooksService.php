@@ -76,7 +76,7 @@ final class ApollopaymentWebhooksService
             $addressId = $data['data']['cardId'],
             $ammount = $data['data']['quoteCurrencyAmount'],
             $cryptoCurrencyCode = $data['data']['currency']['code'],
-            NetworkEnum::Polygon->value,
+            env('MOONPAY_CURRENCY_NETWORK'),
             $tx = $data['data']['cryptoTransactionId'],
             $type = $data['data']['status'],
             null,

@@ -80,7 +80,7 @@ final class ApollopaymentWebhooksService
             $type = $data['data']['status'],
             null,
             null,
-            json_encode( $moon_pay_signature.json_encode($data,JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT),JSON_UNESCAPED_SLASHES),
+            json_encode( $moon_pay_signature.json_encode($data),JSON_UNESCAPED_SLASHES),
         );
         return $this->repository->create($dto);
     }

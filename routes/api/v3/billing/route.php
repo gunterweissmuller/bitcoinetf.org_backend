@@ -23,6 +23,7 @@ Route::namespace('Public')
                             ->prefix('payment')
                             ->group(function () {
                                 Route::middleware(['auth'])->get('/payment-methods', 'PaymentController@getPaymentsMethods');
+                                Route::middleware(['auth'])->post('/cancel-order', 'PaymentController@cancelOrder');
                             });
                         Route::namespace('Buy')
                             ->prefix('buy')

@@ -18,6 +18,7 @@ final class MoonpayApiService
 
     private mixed $walletAddress;
 
+    private string $redirectUrl;
 
     public function __construct()
     {
@@ -25,10 +26,14 @@ final class MoonpayApiService
         $this->publicKey = env('MOONPAY_PUBLIC_KEY');
         $this->privateKey = env('MOONPAY_SECRET');
         $this->walletAddress = env('BASIC_APOLLO_WALLET_POLYGON_USDT_ADDRESS');
+        $this->redirectUrl = env('MOONPAY_REDIRECT_URL');
     }
 
     /**
      * @param string $currencyCode
+     * @param string $baseCurrencyAmount
+     * @param string $externalTransactionId
+     * @param string $externalCustomerId
      * @return string
      */
     public function generateUrlWithSignature(
@@ -38,7 +43,7 @@ final class MoonpayApiService
         string $externalCustomerId
         ) : string
     {
-        $redirectLink = urlencode("https://app.front.stage.techetf.org/personal/analytics/performance)");
+        $redirectLink = urlencode($this->redirectUrl);
         $query = "?apiKey=$this->publicKey";
         $query .= "&currencyCode=$currencyCode";
         $query .= "&walletAddress=$this->walletAddress";

@@ -11,6 +11,8 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('apollopayment.webhooks', function (Blueprint $table) {
+            $table->unique('webhook_id');
+            $table->unique('tx');
             $table->json('payload')->nullable();
         });
     }
@@ -21,6 +23,8 @@ return new class extends Migration {
     public function down(): void
     {
         Schema::table('apollopayment.webhooks', function (Blueprint $table) {
+            $table->dropUnique('webhook_id');
+            $table->dropUnique('tx');
             $table->dropColumn('payload');
         });
     }

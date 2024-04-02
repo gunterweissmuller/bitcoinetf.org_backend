@@ -23,6 +23,8 @@ use App\Pipelines\V1\Auth\Register\Pipes\Confirm\JwtPipe as ConfirmJwtPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Confirm\MailPipe as ConfirmMailPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Confirm\UpdateUsersInfoPipe as ConfirmUpdateUsersInfoPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Confirm\ValidatePipe as ConfirmValidatePipe;
+use App\Pipelines\V1\Auth\Register\Pipes\ConfirmAppleAuth\ApplePipe as ConfirmAppleAuthApplePipe;
+use App\Pipelines\V1\Auth\Register\Pipes\ConfirmAppleAuth\ValidatePipe as ConfirmAppleAuthValidatePipe;
 use App\Pipelines\V1\Auth\Register\Pipes\ConfirmGoogleAuth\AccountPipe as ConfirmGoogleAuthAccountPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\ConfirmGoogleAuth\ProfilePipe as ConfirmGoogleAuthProfilePipe;
 use App\Pipelines\V1\Auth\Register\Pipes\ConfirmMetamaskAuth\AccountPipe as ConfirmMetamaskAccountPipe;
@@ -163,10 +165,11 @@ final class RegisterPipeline extends AbstractPipeline
     public function confirmAppleAuth(ConfirmApplePipelineDto $dto): array
     {
         return $this->pipeline([
-            ConfirmValidatePipe::class,
+            ConfirmAppleAuthValidatePipe::class,
             ConfirmEmailPipe::class,
             ConfirmCodePipe::class,
             ConfirmAppleAuthAccountPipe::class,
+            ConfirmAppleAuthApplePipe::class,
             ConfirmBonusPipe::class,
             ConfirmJwtPipe::class,
             ConfirmMailPipe::class,

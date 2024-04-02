@@ -2,26 +2,21 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests\Api\V1\Auth\Register;
+namespace App\Http\Requests\Api\V1\Auth\AuthType;
 
-use App\Dto\Models\Auth\CodeDto;
 use App\Dto\Models\Users\AccountDto;
 use App\Dto\Models\Users\AppleAccountDto;
-use App\Dto\Models\Users\EmailDto;
-use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmApplePipelineDto;
+use App\Dto\Pipelines\Api\V1\Auth\AuthType\AuthTypeApplePipelineDto;
 use App\Http\Requests\AbstractRequest;
 use App\Services\Utils\AppleAuthJWTService;
 use Laravel\Socialite\Facades\Socialite;
 
-final class ConfirmAppleRequest extends AbstractRequest
+final class AuthTypeAppleRequest extends AbstractRequest
 {
+
     public function rules(): array
     {
-        return [
-            'apple_token' => ['required', 'string'],
-            'email' => ['required', 'email'],
-            'code' => ['required', 'string'],
-        ];
+        return ['apple_token' => ['required', 'string']];
     }
 
     public function messages(): array
@@ -29,22 +24,17 @@ final class ConfirmAppleRequest extends AbstractRequest
         return [];
     }
 
-    public function dto(): ConfirmApplePipelineDto
+    public function dto(): AuthTypeApplePipelineDto
     {
         config()->set('services.apple.client_secret', AppleAuthJWTService::getInstance()->getSecretKey());
         $socialiteUser = Socialite::driver('apple')->stateless()->userByIdentityToken($this->get('apple_token'));
 
-        return ConfirmApplePipelineDto::fromArray([
-            'email' => EmailDto::fromArray([
-                'email' => strtolower($this->get('email')),
-            ]),
-            'code' => CodeDto::fromArray([
-                'code' => strval($this->get('code')),
-            ]),
+        return AuthTypeApplePipelineDto::fromArray([
             'account' => AccountDto::fromArray([]),
             'apple_account' => AppleAccountDto::fromArray([
                 'apple_id' => strtolower($socialiteUser->getId()),
             ]),
+            'auth_type' => null,
         ]);
     }
 }

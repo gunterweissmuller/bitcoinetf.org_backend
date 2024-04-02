@@ -235,14 +235,32 @@ Create chart name and version as used by the chart label.
 - name: GOOGLE_REDIRECT_URI
   value: "{{ $globals.google_auth.redirect_uri }}"
 
-- name: SIGN_IN_WITH_APPLE_LOGIN
-  value: "{{ $globals.apple_auth.login_uri }}"
-- name: SIGN_IN_WITH_APPLE_REDIRECT
+- name: APPLE_REDIRECT_URI
   value: "{{ $globals.apple_auth.redirect_uri }}"
-- name: SIGN_IN_WITH_APPLE_CLIENT_ID
-  value: "{{ $globals.apple_auth.client_id }}"
-- name: SIGN_IN_WITH_APPLE_CLIENT_SECRET
-  value: "{{ $globals.apple_auth.client_secret }}"
+- name: APPLE_PRIVATE_KEY
+  valueFrom:
+    secretKeyRef:
+      name: secrets-backend
+      key: applePrivateKey
+- name: APPLE_TEAM_ID
+  valueFrom:
+    secretKeyRef:
+      name: secrets-backend
+      key: appleTeamId
+- name: APPLE_SERVICE_ID
+  valueFrom:
+    secretKeyRef:
+      name: secrets-backend
+      key: appleServiceId
+- name: APPLE_KEY_ID
+  valueFrom:
+    secretKeyRef:
+      name: secrets-backend
+      key: appleKeyId
+- name: APPLE_SECRET_KEY_FILE_PATH
+  value: "{{ $globals.apple_auth.secret_key_file_path }}"
+- name: APPLE_SECRET_KEY_FILE_NAME
+  value: "{{ $globals.apple_auth.secret_key_file_name }}"
 
 - name: TELEGRAM_BOT_NAME
   value: "{{ $globals.telegram_auth.bot_name }}"

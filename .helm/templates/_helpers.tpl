@@ -266,6 +266,8 @@ Create chart name and version as used by the chart label.
   value: "{{ $globals.moonpay.currency_code }}"
 - name: MOONPAY_CURRENCY_NETWORK
   value: "{{ $globals.moonpay.currency_network }}"
+- name: MOONPAY_REDIRECT_URL
+  value: "{{ $globals.moonpay.redirect_url }}"
 
 - name: BASIC_APOLLO_WALLET_POLYGON_USDT_ADDRESS
   value: "{{ $globals.global_wallets.apollo_polygon_usdt_address }}"

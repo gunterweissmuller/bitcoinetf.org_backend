@@ -12,13 +12,14 @@ return new class extends Migration {
         Schema::create('apollopayment.webhooks', function (Blueprint $table) {
             $table->uuid()->primary();
             $table->uuid('client_id')->unsigned();
-            $table->uuid('webhook_id')->unsigned();
-            $table->uuid('address_id')->unsigned();
+            $table->uuid('webhook_id')->unique();
+            $table->uuid('address_id')->nullable();
             $table->float('amount')->nullable();
             $table->string('currency')->nullable();
             $table->string('network')->nullable();
-            $table->string('tx')->nullable();
+            $table->string('tx')->unique();
             $table->string('type')->nullable();
+            $table->json('payload')->nullable();
             $table->timestamps();
         });
     }

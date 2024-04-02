@@ -29,7 +29,7 @@ final readonly class ReplenishmentPipe implements PipeInterface
         $replenishment = $dto->getReplenishment();
 
         if ($this->replenishmentService->get(['uuid' => $replenishment->getUuid()])) {
-            $this->replenishmentService->cancelReplenishment($replenishment->getUuid());//@fixme-v
+            $this->replenishmentService->cancelReplenishment($replenishment->getUuid());
             $replenishment = $this->replenishmentService->get(['uuid' => $replenishment->getUuid()]);
             $dto->setReplenishment($replenishment);
         } else {

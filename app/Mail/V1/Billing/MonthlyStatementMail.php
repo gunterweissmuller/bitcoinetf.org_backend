@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Mail\V1\Billing;
 
-use Carbon;
+use Illuminate\Support\Carbon;
 use App\Models\Users\Account;
 use App\Models\Users\Profile;
 use App\Services\Api\V1\Statistic\ReportService;

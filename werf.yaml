@@ -1,8 +1,4 @@
-{
-  {
-    $_ := env "CI_PROJECT_PATH_SLUG"  | trunc 49 | trimSuffix "-" | set . "ProjectName",
-  },
-}
+{{ $_ := env "CI_PROJECT_PATH_SLUG"  | trunc 49 | trimSuffix "-" | set . "ProjectName" }}
 ---
 configVersion: 1
 project: { { .ProjectName } }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace app\Http\Controllers\Api\V3\Public\Billing\Shares\Buy\MoonPay;
 
-use App\Enums\Billing\MoonPay\Webhook\TypeEnum as WebhookTypeEnum;
+use App\Enums\Billing\MoonPay\Webhook\TypeEnum as MoonPayWebhookTypeEnum;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Log;
@@ -25,12 +25,15 @@ class MoonPayController extends Controller
     {
         $data = $request->all();
         Log::info('MoonPay webhook', $data);
-        if ($data['data']['status'] === 'pending') {
-           return response()->json(['status' => WebhookTypeEnum::Pending->value]);
+        if ($data['data']['status'] === MoonPayWebhookTypeEnum::Pending->value) {
+           return response()->json(['status' => MoonPayWebhookTypeEnum::Pending->value]);
+        }
+        if ($data['data']['status'] === MoonPayWebhookTypeEnum::Failed->value) {
+            return response()->json(['status' => MoonPayWebhookTypeEnum::Failed->value]);
         }
         if ($webhook = $this->apollopaymentWebhooksService->get([
             'webhook_id' => $data['data']['id'],
-            'type' => WebhookTypeEnum::Completed->value,
+            'type' => MoonPayWebhookTypeEnum::Completed->value,
         ])) {
             return response()->json(['status' => 'duplicate']);
         }

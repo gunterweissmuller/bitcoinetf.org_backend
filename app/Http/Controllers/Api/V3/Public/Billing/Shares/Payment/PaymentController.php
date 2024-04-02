@@ -31,16 +31,13 @@ final class PaymentController extends Controller
     public function getPaymentsMethods(PaymentMethodsRequest $request): JsonResponse
     {
         $accountUuid = $request->payload()->getUuid();
-        if ($replenishment = $this->replenishmentService->get([
+        $replenishmentUuid = $request->input('replenishment_uuid');
+        $replenishment = $this->replenishmentService->get([
+            'uuid' => $replenishmentUuid,
             'account_uuid' => $accountUuid,
             'status' => StatusEnum::INIT->value,
-        ], function ($query) use ($accountUuid) {
-            return $query
-                ->orderBy('referral_amount', 'desc')
-                ->orderBy('bonus_amount', 'desc')
-                ->orderBy('dividend_amount', 'desc')
-                ->orderBy('created_at', 'desc');
-        })) {
+        ]);
+        if ($replenishment) {
             $data = [];
             $data['moonpay']['url'] = $this->moonpayApiService->generateUrlWithSignature(
                 env('MOONPAY_CURRENCY_CODE'),

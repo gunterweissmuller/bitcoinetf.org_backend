@@ -48,7 +48,7 @@ final class MonthlyStatementMail extends Mailable
         ]);
         $file = $fileService->get(['uuid' => $report->getFileUuid()], true);
         $downloadUrl = Storage::disk('s3')->temporaryUrl(
-            $file->getPath(), Carbon::now()->addYear(1)
+            $file->getPath(), Carbon::now()->addDays(6)
         );
 
         return new Content(

@@ -7,11 +7,12 @@ namespace App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\Dividends;
 use App\Dto\DtoInterface;
 use App\Dto\Pipelines\Api\V1\Public\Billing\Withdrawal\DividendPipelineDto;
 use App\Dto\Pipelines\Utils\Greenfield\PullPaymentDto;
-use App\Enums\Billing\Withdrawal\MethodEnum;
 use App\Exceptions\Pipelines\V1\Billing\WithdrawalNotPossibleException;
 use App\Pipelines\PipeInterface;
 use App\Services\Utils\GreenfieldService;
 use Closure;
+
+//@fixme check type MethodEnum: BITCOIN_ON_CHAIN or BITCOIN_LIGHTNING
 
 final class GfPullPaymentPipe implements PipeInterface
 {

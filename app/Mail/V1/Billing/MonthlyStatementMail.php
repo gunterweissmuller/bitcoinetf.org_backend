@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Mail\V1\Billing;
 
-use Carbon;
+use Illuminate\Support\Carbon;
 use App\Models\Users\Account;
 use App\Models\Users\Profile;
 use App\Services\Api\V1\Statistic\ReportService;
@@ -48,7 +48,7 @@ final class MonthlyStatementMail extends Mailable
         ]);
         $file = $fileService->get(['uuid' => $report->getFileUuid()], true);
         $downloadUrl = Storage::disk('s3')->temporaryUrl(
-            $file->getPath(), Carbon::now()->addYear(1)
+            $file->getPath(), Carbon::now()->addDays(6)
         );
 
         return new Content(

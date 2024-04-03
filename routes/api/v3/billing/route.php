@@ -37,5 +37,13 @@ Route::namespace('Public')
                                     });
                             });
                     });
+
+                Route::prefix('withdrawal')
+                    ->group(function () {
+                        Route::post('/webhook/{account_uuid}', function ($account_uuid) {
+                            return response()->json(['status' => 'ок', 'account_uuid' => $account_uuid]);
+                        });
+                    });
+
             });
     });

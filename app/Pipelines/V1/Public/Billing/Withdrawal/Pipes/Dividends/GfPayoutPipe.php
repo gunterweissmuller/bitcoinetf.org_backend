@@ -23,6 +23,7 @@ final class GfPayoutPipe implements PipeInterface
     ) {
     }
 
+//@fixme check type MethodEnum: BITCOIN_ON_CHAIN or BITCOIN_LIGHTNING
     public function handle(DividendPipelineDto|DtoInterface $dto, Closure $next): DtoInterface
     {
         $wallet = $dto->getWallet();

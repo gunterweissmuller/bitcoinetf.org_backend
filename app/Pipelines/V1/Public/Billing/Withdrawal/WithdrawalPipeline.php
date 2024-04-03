@@ -57,6 +57,14 @@ final class WithdrawalPipeline extends AbstractPipeline
         ], $dto);
     }
 
+    //@fixme add apollo payment webhook here, add webhook in WithdrawalController
+    public function apollopaymentWebhook($dto): array
+    {
+        return $this->pipeline([
+            UpdateCentrifugalPipe::class,
+        ], $dto);
+    }
+
     public function referralsCallback(ReferralCallbackPipelineDto $dto): array
     {
         return $this->pipeline([

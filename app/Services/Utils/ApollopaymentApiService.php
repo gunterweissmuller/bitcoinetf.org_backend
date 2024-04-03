@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Services\Utils;
 
 
+use App\Dto\Utils\ApollopaymentApi\CreateAsyncWithdrawalDto;
 use App\Dto\Utils\ApollopaymentApi\CreateUserDto;
+use App\Dto\Utils\ApollopaymentApi\GetCommissionWithdrawalDto;
 use App\Dto\Utils\ApollopaymentApi\GetUserAddressDto;
 use App\Dto\Utils\ApollopaymentApi\GetUserAllAddressesDto;
 use App\Dto\Utils\ApollopaymentApi\GetUserDto;
@@ -65,6 +67,33 @@ final class ApollopaymentApiService
     public function getUserAllAddresses(GetUserAllAddressesDto $data): array
     {
         return $this->post('/api-gateway/personal-addresses/get-user-addresses', $data->toArray());
+    }
+
+    /**
+     * @param GetCommissionWithdrawalDto $data
+     * @return array
+     */
+    public function getCommissionWithdrawal(GetCommissionWithdrawalDto $data): array
+    {
+        return $this->post('/api-gateway/withdrawal-fee-token', $data->toArray());
+    }
+
+    /**
+     * @param CreateAsyncWithdrawalDto $data
+     * @return array
+     */
+    public function createAsyncWithdrawal(CreateAsyncWithdrawalDto $data): array
+    {
+        return $this->post('/api-gateway/make-withdrawal-async', $data->toArray());
+    }
+
+    /**
+     * @param string $address
+     * @return array
+     */
+    public function getBlockchainByAddress(string $address): array
+    {
+        return $this->post('/api-gateway/addresses/find-by-address', ['address' => $address]);
     }
 
     /**

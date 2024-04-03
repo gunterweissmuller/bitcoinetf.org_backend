@@ -8,6 +8,8 @@ use App\Dto\Pipelines\Api\V1\Public\Billing\Withdrawal\DividendPipelineDto;
 use App\Dto\Pipelines\Api\V1\Public\Billing\Withdrawal\ReferralCallbackPipelineDto;
 use App\Dto\Pipelines\Api\V1\Public\Billing\Withdrawal\ReferralPipelineDto;
 use App\Pipelines\AbstractPipeline;
+use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\Dividends\ApollopaymentWithdrawalCommissionPipe as DividendsApollopaymentWithdrawalCommissionPipe;
+use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\Dividends\ApollopaymentWithdrawalPipe as DividendsApollopaymentWithdrawalPipe;
 use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\Dividends\KafkaPipe;
 use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\Dividends\GfPayoutPipe as DividendsGfPayoutPipe;
 use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\Dividends\GfPullPaymentPipe as DividendsGfPullPaymentPipe;
@@ -33,6 +35,8 @@ final class WithdrawalPipeline extends AbstractPipeline
             WithdrawalPipe::class,
             DividendsGfPullPaymentPipe::class,
             DividendsGfPayoutPipe::class,
+            DividendsApollopaymentWithdrawalCommissionPipe::class,
+            DividendsApollopaymentWithdrawalPipe::class,
             NewCentrifugalPipe::class,
             DividendsSendPaymentPipe::class,
             KafkaPipe::class,

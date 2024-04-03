@@ -24,6 +24,7 @@ final class DividendPipelineDto implements DtoInterface
         private ?LightningInvoiceDto $lightningInvoice,
         private ?PayLightningInvoiceDto $payLightningInvoice,
         private readonly string $method,
+        private string $apollopaymentWithdrawalFeeToken,
     ) {
     }
 
@@ -38,6 +39,7 @@ final class DividendPipelineDto implements DtoInterface
             $args['lightning_invoice'] ?? null,
             $args['pay_lightning_invoice'] ?? null,
             $args['method'] ?? null,
+            $args['apollopaymentWithdrawalFeeToken'] ?? null,
         );
     }
 
@@ -52,6 +54,7 @@ final class DividendPipelineDto implements DtoInterface
             'lightning_invoice' => $this->lightningInvoice,
             'pay_lightning_invoice' => $this->payLightningInvoice,
             'method' => $this->method,
+            'apollopaymentWithdrawalFeeToken' => $this->method,
         ];
     }
 
@@ -173,5 +176,22 @@ final class DividendPipelineDto implements DtoInterface
     public function getMethod(): string
     {
         return $this->method;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getApollopaymentWithdrawalFeeToken(): ?string
+    {
+        return $this->apollopaymentWithdrawalFeeToken;
+    }
+
+    /**
+     * @param string|null $apollopaymentWithdrawalFeeToken
+     * @return void
+     */
+    public function setApollopaymentWithdrawalFeeToken(?string $apollopaymentWithdrawalFeeToken): void
+    {
+        $this->apollopaymentWithdrawalFeeToken = $apollopaymentWithdrawalFeeToken;
     }
 }

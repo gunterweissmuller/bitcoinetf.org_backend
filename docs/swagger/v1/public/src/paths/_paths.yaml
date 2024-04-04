@@ -60,6 +60,7 @@ POST-/v1/public/kyc/screen: '/kyc/screen/save.yaml'
 /v1/public/statistic: '/statistic/main.yaml'
 /v1/public/statistic/shareholders/count: '/statistic/shareholder/count.yaml'
 /v1/public/statistic/shareholders/top: '/statistic/shareholder/top.yaml'
+/v1/public/statistic/shareholders/strategies: '/statistic/shareholder/strategies.yaml'
 /v1/public/statistic/report: '/statistic/report/list.yaml'
 /v1/public/statistic/report/{uuid}: '/statistic/report/get.yaml'
 

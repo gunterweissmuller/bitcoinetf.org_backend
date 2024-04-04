@@ -38,11 +38,13 @@ Route::namespace('Public')
                             });
                     });
 
+                 /*
+                 * /billing/withdrawal/webhook
+                 */
                 Route::prefix('withdrawal')
                     ->group(function () {
-                        Route::post('/webhook/{account_uuid}', function ($account_uuid) {
-                            return response()->json(['status' => 'ок', 'account_uuid' => $account_uuid]);
-                        });
+                        //Route::post('/webhook/{account_uuid}', 'WithdrawalController@webhook');
+                        Route::post('/webhook/{account_uuid}', 'WithdrawalController@webhook')->middleware([ApolloPaymentIp::class, ApolloPaymentSignature::class]);
                     });
 
             });

@@ -23,7 +23,7 @@ class ApolloPaymentSignature
 
         if (!$this->checkSignature($request->header('x-api-signature'), $request->all())
         ) {
-            return response()->json(['error' => 'PUBLIC_KEY'], 403);
+            return response()->json(['error' => 'CHECK_SIGNATURE error'], 403);
         }
 
         return $next($request);

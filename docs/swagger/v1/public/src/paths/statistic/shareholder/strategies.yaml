@@ -1,0 +1,20 @@
+get:
+  tags:
+    - Shareholders
+  summary: Statistic of shareholders by investment strategies
+  description: Method for get statistic of shareholders by investment strategies
+  responses:
+    200:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: Name
+                example: "Tether"
+              percent:
+                type: string
+                description: Percent
+                example: "67"

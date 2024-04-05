@@ -35,7 +35,7 @@ final class ApollopaymentWithdrawalCommissionPipe implements PipeInterface
                 $commissionWithdrawalDto = GetCommissionWithdrawalDto::fromArray([
                     'advancedBalanceId' => env('APOLLO_PAYMENT_ADVANCED_BALANCE_ID'),
                     'addressId' => env('APOLLO_PAYMENT_BASIC_WALLET_POLYGON_USDT_ADDRESS_ID'),
-                    'amount' => $payment->getRealAmount(),//@fixme-v check amount
+                    'amount' => $payment->getDividendAmount(),
                 ]);
 
                 $commissionData = $this->apollopaymentApiService->getCommissionWithdrawal($commissionWithdrawalDto);

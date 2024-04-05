@@ -37,10 +37,10 @@ final class ApollopaymentWithdrawalPipe implements PipeInterface
                 $createAsyncWithdrawalDto = CreateAsyncWithdrawalDto::fromArray([
                     'advancedBalanceId' => env('APOLLO_PAYMENT_ADVANCED_BALANCE_ID'),
                     'addressId' => env('APOLLO_PAYMENT_BASIC_WALLET_POLYGON_USDT_ADDRESS_ID'),
-                    'amount' => $payment->getRealAmount(),//@fixme-v check amount
+                    'amount' => $payment->getDividendAmount(),
                     'address' => $wallet->getWithdrawalAddress(),
                     'feeToken' => $feeToken,
-                    'webhookUrl' => env('APP_URL') . "/v3/public/billing/withdrawal/webhook/" . $wallet->getAccountUuid(),
+                    'webhookUrl' => env('APP_URL') . "/v3/public/billing/withdrawal/webhook/" . $dto->getWithdrawal()->getUuid(),
                 ]);
 
                 $this->apollopaymentApiService->createAsyncWithdrawal($createAsyncWithdrawalDto);

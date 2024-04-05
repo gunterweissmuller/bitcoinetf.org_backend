@@ -13,6 +13,8 @@ Route::namespace('Public')
 
                 Route::get('/dividends', 'DividendController@get');
 
+                Route::get('/monthly-dividends-report/{file_uuid}', 'DividendController@monthlyDividendsReport');
+
                 Route::get('/', 'MainController@main');
 
                 Route::get('/funds', 'FundController@main');

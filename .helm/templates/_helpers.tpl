@@ -278,6 +278,12 @@ Create chart name and version as used by the chart label.
   value: "{{ $globals.apollo_payment.public_key }}"
 - name: APOLLO_PAYMENT_PRIVATE_KEY
   value: "{{ $globals.apollo_payment.private_key }}"
+- name: APOLLO_PAYMENT_BASIC_WALLET_POLYGON_USDT_ADDRESS
+  value: "{{ $globals.apollo_payment.basic_wallet_polygon_usdt_address }}"
+- name: APOLLO_PAYMENT_BASIC_WALLET_POLYGON_USDT_ADDRESS_ID
+  value: "{{ $globals.apollo_payment.basic_wallet_polygon_usdt_address_id }}"
+- name: APOLLO_PAYMENT_ADVANCED_BALANCE_ID
+  value: "{{ $globals.apollo_payment.advanced_balance_id }}"
 
 - name: FACEBOOK_CLIENT_ID
   value: "{{ $globals.facebook_auth.client_id }}"

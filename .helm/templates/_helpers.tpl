@@ -279,4 +279,11 @@ Create chart name and version as used by the chart label.
 - name: APOLLO_PAYMENT_PRIVATE_KEY
   value: "{{ $globals.apollo_payment.private_key }}"
 
+- name: FACEBOOK_CLIENT_ID
+  value: "{{ $globals.facebook_auth.client_id }}"
+- name: FACEBOOK_CLIENT_SECRET
+  value: "{{ $globals.facebook_auth.client_secret }}"
+- name: FACEBOOK_REDIRECT_URI
+  value: "{{ $globals.facebook_auth.redirect_uri }}"
+
 {{- end -}}

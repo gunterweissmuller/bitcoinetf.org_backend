@@ -37,9 +37,9 @@ final class WithdrawalPipeline extends AbstractPipeline
             DividendsGfPayoutPipe::class,
             DividendsApollopaymentWithdrawalCommissionPipe::class,
             DividendsApollopaymentWithdrawalPipe::class,
-            NewCentrifugalPipe::class,
-            DividendsSendPaymentPipe::class,
-            KafkaPipe::class,
+//            NewCentrifugalPipe::class, @fixme-v open after testing on local
+//            DividendsSendPaymentPipe::class, @fixme-v open after testing on local
+//            KafkaPipe::class, @fixme-v open after testing on local
         ], $dto);
     }
 

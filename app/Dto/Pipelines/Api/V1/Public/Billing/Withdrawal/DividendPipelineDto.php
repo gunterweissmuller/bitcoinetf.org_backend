@@ -24,7 +24,7 @@ final class DividendPipelineDto implements DtoInterface
         private ?LightningInvoiceDto $lightningInvoice,
         private ?PayLightningInvoiceDto $payLightningInvoice,
         private readonly string $method,
-        private string $apollopaymentWithdrawalFeeToken,
+        private ?string $apollopaymentWithdrawalFeeToken,
     ) {
     }
 

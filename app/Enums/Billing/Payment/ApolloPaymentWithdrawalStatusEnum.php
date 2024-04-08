@@ -10,7 +10,7 @@ enum ApolloPaymentWithdrawalStatusEnum: string
 {
     use InteractWithEnum;
 
-    case ERROR = 'ERROR';
+    case ERROR = 'error';
 
-    case PROCESSED = 'PROCESSED';
+    case PROCESSED = 'processed';
 }

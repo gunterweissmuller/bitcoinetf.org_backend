@@ -24,6 +24,7 @@ use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\ReferralsCallback\Withdrawa
 use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\UpdateCentrifugalPipe;
 use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\WalletPipe as WalletPipe;
 use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\WithdrawalPipe;
+use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\WithdrawalWebhookPipe;
 
 final class WithdrawalPipeline extends AbstractPipeline
 {
@@ -62,10 +63,11 @@ final class WithdrawalPipeline extends AbstractPipeline
     }
 
     //@fixme add apollo payment webhook here, add webhook in WithdrawalController
-    public function apollopaymentWebhook($dto): array
+    public function apolloWithdrawalWebhook(DividendPipelineDto $dto): array
     {
         return $this->pipeline([
-            UpdateCentrifugalPipe::class,
+            WithdrawalWebhookPipe::class,
+           // UpdateCentrifugalPipe::class, @fixme-v open after testing on local
         ], $dto);
     }
 

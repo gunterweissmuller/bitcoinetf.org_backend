@@ -14,6 +14,7 @@ use App\Services\Api\V3\Apollopayment\ApollopaymentWebhooksService;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Artisan;
 
 final class WithdrawalController extends Controller
 {
@@ -66,5 +67,20 @@ final class WithdrawalController extends Controller
         }
 
         return response()->json(['status' => 'unsupported webhook status',]);
+    }
+
+    public function mock(WebhookRequest $request): JsonResponse
+    {
+        if ($request->header('API-Key') !== 'ac2136bf-95ae-40e0-ab61-3b6b1165ee32') {
+            return response()->json(['error' => 'Invalid API key'], 401);
+        }
+        
+        // Execute command for bitcoin-apollo-polygon-usdt-withdrawal
+        Artisan::call('billing:bitcoin-apollo-polygon-usdt-withdrawal');
+        // You can return the output if needed
+        return response()->json([
+            'status' => 'ok',
+            'output' => Artisan::output()
+        ]);
     }
 }

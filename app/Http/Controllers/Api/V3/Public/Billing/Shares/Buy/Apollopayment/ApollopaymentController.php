@@ -66,7 +66,7 @@ class ApollopaymentController extends Controller
     public function webhook(WebhookRequest $request): JsonResponse
     {
         Log::info('apollo webhook', $request->all());
-//TODO uncomment
+//TODO uncomment @fixme-v
 //        $globalService = app(GlobalService::class);
 //
 //        if ($request->amount < $globalService->getMinReplenishmentAmount()) {

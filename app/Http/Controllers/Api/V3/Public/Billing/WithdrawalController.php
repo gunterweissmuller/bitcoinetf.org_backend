@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace app\Http\Controllers\Api\V3\Public\Billing;
+namespace App\Http\Controllers\Api\V3\Public\Billing;
 
 use App\Dto\Models\Apollopayment\WebhooksDto;
 use App\Enums\Billing\Payment\ApolloPaymentWebhookTypeEnum;
@@ -28,14 +28,6 @@ final class WithdrawalController extends Controller
     public function webhook(WebhookRequest $request): JsonResponse
     {
         Log::info('apollo withdrawal webhook', $request->all());
-//TODO uncomment
-//        $globalService = app(GlobalService::class);
-//
-//        if ($request->amount < $globalService->getMinReplenishmentAmount()) {
-//            Log::info('apollo deposit min amount required', [$request->amount]);
-//
-//            return response()->json([]);
-//        }
 
         if ($request->input('status') === ApolloPaymentWithdrawalStatusEnum::ERROR->value) {
             return response()->json(['status' => ApolloPaymentWithdrawalStatusEnum::ERROR->value]);

@@ -6,8 +6,6 @@ namespace App\Http\Controllers\Api\V3\Public\Billing\Shares\Buy\Apollopayment;
 
 use App\Enums\Billing\Payment\ApolloPaymentDepositStatusEnum;
 use App\Http\Requests\Api\EmptyRequest;
-use App\Http\Requests\Api\V3\Public\Billing\Shares\Buy\Apollopayment\CancelOrderRequest;
-use App\Http\Requests\Api\V3\Public\Billing\Shares\Buy\Apollopayment\PaymentMethodsRequest;
 use App\Http\Requests\Api\V3\Public\Billing\Shares\Buy\Apollopayment\WebhookRequest;
 use App\Pipelines\V1\Public\Billing\Shares\Buy\Blockchain\Tron\TronPipeline;
 use App\Pipelines\V3\Public\Billing\Shares\Buy\Apollopayment\ApollopaymentPipeline;
@@ -27,30 +25,6 @@ class ApollopaymentController extends Controller
         private readonly ApollopaymentWebhooksService $apollopaymentWebhooksService,
     )
     {
-    }
-
-    /**
-     * @param PaymentMethodsRequest $request
-     * @return JsonResponse
-     */
-    public function getPaymentsMethods(PaymentMethodsRequest $request): JsonResponse
-    {
-        $data = [];
-        $apolloClient = $this->apollopaymentClientsService->get(['account_uuid' => $request->payload()->getUuid()]);
-
-        if ($apolloClient) {
-            if ($apolloClient->getPolygonAddr()) {
-                $data['polygon']['address'] = $apolloClient->getPolygonAddr();
-            }
-            if ($apolloClient->getTronAddr()) {
-                $data['tron']['address'] = $apolloClient->getTronAddr();
-            }
-            if ($apolloClient->getEthereumAddr()) {
-                $data['ethereum']['address'] = $apolloClient->getEthereumAddr();
-            }
-        }
-
-        return response()->json(['data' => $data]);
     }
 
     public function check(EmptyRequest $request): JsonResponse
@@ -82,21 +56,6 @@ class ApollopaymentController extends Controller
         $this->apollopaymentWebhooksService->create($request->webhook());
 
         [$dto, $e] = $this->tronPipeline->callback($request->dto());
-
-        if (!$e) {
-            return response()->json([]);
-        }
-
-        return response()->__call('exception', [$e]);
-    }
-
-    /**
-     * @param CancelOrderRequest $request
-     * @return JsonResponse
-     */
-    public function cancelOrder(CancelOrderRequest $request): JsonResponse
-    {
-        [$dto, $e] = $this->pipeline->cancelOrder($request->dto());
 
         if (!$e) {
             return response()->json([]);

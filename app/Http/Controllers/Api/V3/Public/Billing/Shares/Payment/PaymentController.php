@@ -8,6 +8,7 @@ use App\Dto\Pipelines\Api\V3\Public\Billing\Shares\Buy\Payment\CancelOrderPipeli
 use App\Http\Requests\Api\V3\Public\Billing\Shares\Payment\CancelOrderRequest;
 use App\Http\Requests\Api\V3\Public\Billing\Shares\Payment\PaymentMethodsRequest;
 use App\Pipelines\V3\Public\Billing\Shares\Buy\Payment\PaymentPipeline;
+use App\Services\Api\V3\Apollopayment\ApollopaymentClientsService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use App\Services\Utils\MoonpayApiService;
@@ -17,9 +18,10 @@ use App\Enums\Billing\Replenishment\StatusEnum;
 final class PaymentController extends Controller
 {
     public function __construct(
-        private readonly MoonpayApiService     $moonpayApiService,
-        private readonly ReplenishmentService  $replenishmentService,
-        private readonly PaymentPipeline $pipeline,
+        private readonly MoonpayApiService    $moonpayApiService,
+        private readonly ReplenishmentService $replenishmentService,
+        private readonly PaymentPipeline      $pipeline,
+        private readonly ApollopaymentClientsService $apollopaymentClientsService,
     )
     {
     }
@@ -30,7 +32,10 @@ final class PaymentController extends Controller
      */
     public function getPaymentsMethods(PaymentMethodsRequest $request): JsonResponse
     {
+        $data = [];
         $accountUuid = $request->payload()->getUuid();
+
+        //moonpay
         $replenishmentUuid = $request->input('replenishment_uuid');
         $replenishment = $this->replenishmentService->get([
             'uuid' => $replenishmentUuid,
@@ -38,18 +43,30 @@ final class PaymentController extends Controller
             'status' => StatusEnum::INIT->value,
         ]);
         if ($replenishment) {
-            $data = [];
             $data['moonpay']['url'] = $this->moonpayApiService->generateUrlWithSignature(
                 env('MOONPAY_CURRENCY_CODE'),
                 $replenishmentAmount = strval(intval($replenishment->getRealAmount())),
                 $replenishment->getUuid(),
                 $accountUuid
             );
-            return response()->json(['data' => $data]);
-        } else {
-            return response()->json(['data' => 'No replenishment found.']);
         }
 
+        // apollo payment
+        $apolloClient = $this->apollopaymentClientsService->get(['account_uuid' => $accountUuid]);
+
+        if ($apolloClient) {
+            if ($apolloClient->getPolygonAddr()) {
+                $data['apollo']['polygon']['address'] = $apolloClient->getPolygonAddr();
+            }
+            if ($apolloClient->getTronAddr()) {
+                $data['apollo']['tron']['address'] = $apolloClient->getTronAddr();
+            }
+            if ($apolloClient->getEthereumAddr()) {
+                $data['apollo']['ethereum']['address'] = $apolloClient->getEthereumAddr();
+            }
+        }
+
+        return response()->json(['data' => $data]);
     }
 
     /**

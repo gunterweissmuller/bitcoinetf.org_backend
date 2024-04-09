@@ -15,14 +15,7 @@ final class LoginFacebookRequest extends AbstractRequest
 
     public function rules(): array
     {
-        return ['facebook_data' => ['required', 'string']];
-    }
-
-    public function withValidator(Validator $validator)
-    {
-        $validator->after(function ($validator) {
-            checkTelegramAuthorizationValidator($validator, $this->request->get('facebook_data'));
-        });
+        return ['facebook_id' => ['required', 'integer']];
     }
 
     public function messages(): array
@@ -32,11 +25,10 @@ final class LoginFacebookRequest extends AbstractRequest
 
     public function dto(): LoginFacebookPipelineDto
     {
-        $facebookData = json_decode($this->get('facebook_data'), true);
         return LoginFacebookPipelineDto::fromArray([
             'account' => AccountDto::fromArray([]),
             'facebook' => FacebookDto::fromArray([
-                'facebook_id' => $facebookData['id'],
+                'facebook_id' => (int)$this->get('facebook_id'),
             ]),
         ]);
     }

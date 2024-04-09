@@ -13,7 +13,9 @@ use App\Repositories\Billing\Wallet\WalletRepositoryInterface;
 
 final class WalletService
 {
-    public function __construct(private readonly WalletRepositoryInterface $repository) {}
+    public function __construct(private readonly WalletRepositoryInterface $repository)
+    {
+    }
 
     public function create(WalletDto $dto): WalletDto
     {

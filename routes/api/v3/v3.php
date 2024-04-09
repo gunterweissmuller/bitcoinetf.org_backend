@@ -9,4 +9,3 @@ Route::namespace('V3')
     ->group(function () {
         require_once 'billing/route.php';
     });
-

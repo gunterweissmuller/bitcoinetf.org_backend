@@ -11,6 +11,8 @@ use App\Pipelines\PipeInterface;
 use Closure;
 use Exception;
 use Illuminate\Support\Facades\Http;
+//@fixme check type MethodEnum: BITCOIN_ON_CHAIN or BITCOIN_LIGHTNING
+//@fixme how it works
 
 final readonly class SendPaymentPipe implements PipeInterface
 {

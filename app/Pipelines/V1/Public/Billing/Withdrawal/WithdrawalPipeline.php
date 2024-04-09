@@ -8,6 +8,8 @@ use App\Dto\Pipelines\Api\V1\Public\Billing\Withdrawal\DividendPipelineDto;
 use App\Dto\Pipelines\Api\V1\Public\Billing\Withdrawal\ReferralCallbackPipelineDto;
 use App\Dto\Pipelines\Api\V1\Public\Billing\Withdrawal\ReferralPipelineDto;
 use App\Pipelines\AbstractPipeline;
+use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\Dividends\ApollopaymentWithdrawalCommissionPipe as DividendsApollopaymentWithdrawalCommissionPipe;
+use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\Dividends\ApollopaymentWithdrawalPipe as DividendsApollopaymentWithdrawalPipe;
 use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\Dividends\KafkaPipe;
 use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\Dividends\GfPayoutPipe as DividendsGfPayoutPipe;
 use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\Dividends\GfPullPaymentPipe as DividendsGfPullPaymentPipe;
@@ -22,6 +24,7 @@ use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\ReferralsCallback\Withdrawa
 use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\UpdateCentrifugalPipe;
 use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\WalletPipe as WalletPipe;
 use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\WithdrawalPipe;
+use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\WithdrawalWebhookPipe;
 
 final class WithdrawalPipeline extends AbstractPipeline
 {
@@ -33,9 +36,11 @@ final class WithdrawalPipeline extends AbstractPipeline
             WithdrawalPipe::class,
             DividendsGfPullPaymentPipe::class,
             DividendsGfPayoutPipe::class,
-            NewCentrifugalPipe::class,
-            DividendsSendPaymentPipe::class,
-            KafkaPipe::class,
+            DividendsApollopaymentWithdrawalCommissionPipe::class,
+            DividendsApollopaymentWithdrawalPipe::class,
+//            NewCentrifugalPipe::class, @fixme-v open after testing on local
+//            DividendsSendPaymentPipe::class, @fixme-v open after testing on local
+//            KafkaPipe::class, @fixme-v open after testing on local
         ], $dto);
     }
 
@@ -54,6 +59,15 @@ final class WithdrawalPipeline extends AbstractPipeline
     {
         return $this->pipeline([
             UpdateCentrifugalPipe::class,
+        ], $dto);
+    }
+
+    //@fixme add apollo payment webhook here, add webhook in WithdrawalController
+    public function apolloWithdrawalWebhook(DividendPipelineDto $dto): array
+    {
+        return $this->pipeline([
+            WithdrawalWebhookPipe::class,
+           // UpdateCentrifugalPipe::class, @fixme-v open after testing on local
         ], $dto);
     }
 

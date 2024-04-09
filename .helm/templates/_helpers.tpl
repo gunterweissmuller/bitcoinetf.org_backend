@@ -272,6 +272,26 @@ Create chart name and version as used by the chart label.
 - name: TELEGRAM_REDIRECT_URI
   value: "{{ $globals.telegram_auth.redirect_uri }}"
 
+- name: APOLLO_PAYMENT_HOST
+  value: "{{ $globals.apollo_payment.host_name }}"
+- name: APOLLO_PAYMENT_PUBLIC_KEY
+  value: "{{ $globals.apollo_payment.public_key }}"
+- name: APOLLO_PAYMENT_PRIVATE_KEY
+  value: "{{ $globals.apollo_payment.private_key }}"
+- name: APOLLO_PAYMENT_BASIC_WALLET_POLYGON_USDT_ADDRESS
+  value: "{{ $globals.apollo_payment.basic_wallet_polygon_usdt_address }}"
+- name: APOLLO_PAYMENT_BASIC_WALLET_POLYGON_USDT_ADDRESS_ID
+  value: "{{ $globals.apollo_payment.basic_wallet_polygon_usdt_address_id }}"
+- name: APOLLO_PAYMENT_ADVANCED_BALANCE_ID
+  value: "{{ $globals.apollo_payment.advanced_balance_id }}"
+
+- name: FACEBOOK_CLIENT_ID
+  value: "{{ $globals.facebook_auth.client_id }}"
+- name: FACEBOOK_CLIENT_SECRET
+  value: "{{ $globals.facebook_auth.client_secret }}"
+- name: FACEBOOK_REDIRECT_URI
+  value: "{{ $globals.facebook_auth.redirect_uri }}"
+
 - name: MOONPAY_PUBLIC_KEY
   value: "{{ $globals.moonpay.public_key }}"
 - name: MOONPAY_SECRET
@@ -286,8 +306,5 @@ Create chart name and version as used by the chart label.
   value: "{{ $globals.moonpay.currency_network }}"
 - name: MOONPAY_REDIRECT_URL
   value: "{{ $globals.moonpay.redirect_url }}"
-
-- name: BASIC_APOLLO_WALLET_POLYGON_USDT_ADDRESS
-  value: "{{ $globals.global_wallets.apollo_polygon_usdt_address }}"
 
 {{- end -}}

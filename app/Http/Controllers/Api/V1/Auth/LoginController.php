@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\V1\Auth;
 
+use App\Dto\Pipelines\Api\V1\Auth\Login\LoginFacebookPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Login\LoginTelegramPipelineDto;
 use App\Exceptions\Pipelines\V1\Auth\AuthorizationTokenExpiredException;
 use App\Exceptions\Pipelines\V1\Auth\InvalidSignatureMetamaskException;
 use App\Http\Requests\Api\V1\Auth\Login\LoginAppleRequest;
+use App\Http\Requests\Api\V1\Auth\Login\LoginFacebookRequest;
 use App\Http\Requests\Api\V1\Auth\Login\LoginMetamaskRequest;
 use App\Dto\Pipelines\Api\V1\Auth\Login\LoginPipelineDto;
 use App\Http\Requests\Api\V1\Auth\Login\LoginRequest;
@@ -117,6 +119,28 @@ final class LoginController extends Controller
     {
         /** @var LoginTelegramPipelineDto $dto */
         [$dto, $e] = $this->pipeline->loginTelegram($request->dto());
+
+        if (!$e) {
+            return response()->json([
+                'data' => [
+                    'access_token' => $dto->getJwtAccess()->getToken(),
+                    'refresh_token' => $dto->getJwtRefresh()->getToken(),
+                    'websocket_token' => $dto->getWebsocketToken(),
+                ]
+            ]);
+        }
+
+        return response()->__call('exception', [$e]);
+    }
+
+    /**
+     * @param LoginFacebookRequest $request
+     * @return JsonResponse
+     */
+    public function loginFacebook(LoginFacebookRequest $request): JsonResponse
+    {
+        /** @var LoginFacebookPipelineDto $dto */
+        [$dto, $e] = $this->pipeline->loginFacebook($request->dto());
 
         if (!$e) {
             return response()->json([

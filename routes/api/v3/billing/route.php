@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\MoonPaySignature;
+use App\Http\Middleware\ApolloPaymentIp;
+use App\Http\Middleware\ApolloPaymentSignature;
 
 Route::namespace('Public')
     ->prefix('public')
@@ -13,8 +15,11 @@ Route::namespace('Public')
             ->group(function () {
 
                 /*
+                 * /billing/shares/buy/init
                  * /billing/shares/payment/payment-methods
-                 * * /billing/shares/buy/moonpay/webhook
+                 * /billing/shares/buy/apollopayment/check
+                 * /billing/shares/buy/apollopayment/webhook
+                 * /billing/shares/buy/moonpay/webhook
                  */
                 Route::namespace('Shares')
                     ->prefix('shares')
@@ -28,14 +33,30 @@ Route::namespace('Public')
                         Route::namespace('Buy')
                             ->prefix('buy')
                             ->group(function () {
+                                Route::middleware(['auth'])->post('/init', 'BuyController@init');
+                                Route::namespace('Apollopayment')
+                                    ->prefix('apollopayment')
+                                    ->group(function () {
+                                        Route::middleware(['auth'])->post('/check', 'ApollopaymentController@check');
+                                        Route::post('/webhook/{account_uuid}', 'ApollopaymentController@webhook')->middleware([ApolloPaymentIp::class, ApolloPaymentSignature::class]);
+                                    });
                                 Route::namespace('MoonPay')
                                     ->prefix('moonpay')
                                     ->group(function () {
                                         Route::post('/webhook', 'MoonPayController@webhook')->middleware([MoonPaySignature::class]);
                                     });
                             });
-
                     });
+
+                /*
+                * /billing/withdrawal/webhook
+                */
+                Route::prefix('withdrawal')
+                    ->group(function () {
+                        Route::post('/webhook/{withdrawal_uuid}', 'WithdrawalController@webhook');
+                        //Route::post('/webhook/{account_uuid}', 'WithdrawalController@webhook')->middleware([ApolloPaymentIp::class, ApolloPaymentSignature::class]);
+                        Route::get('/mock', 'WithdrawalController@mock');
+                    });
+
             });
     });
-

@@ -6,7 +6,6 @@ namespace App\Http\Controllers\Api\V1\Public\Users;
 
 use App\Dto\Models\Users\ProfileDto;
 use App\Enums\Billing\Wallet\TypeEnum;
-use App\Exceptions\Utils\Apollopayment\ApollopaymentUnavailableException;
 use App\Http\Requests\Api\EmptyRequest;
 use App\Services\Api\V1\Billing\WalletService;
 use App\Services\Api\V1\Kyc\FieldOptionService;
@@ -18,9 +17,6 @@ use App\Enums\Users\Account\OrderTypeEnum;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use App\Services\Api\V3\Apollopayment\ApollopaymentClientsService;
-use App\Services\Api\V1\Users\EmailService;
-use App\Services\Api\V3\Apollopayment\ApollopaymentService;
-use Exception;
 
 final class AccountController extends Controller
 {
@@ -32,8 +28,6 @@ final class AccountController extends Controller
         private readonly ProfileService $profileService,
         private readonly FieldOptionService $fieldOptionService,
         private readonly ApollopaymentClientsService $apollopaymentClientsService,
-        private readonly EmailService $emailService,
-        private ApollopaymentService $apollopaymentService,
     ) {
     }
 
@@ -74,22 +68,7 @@ final class AccountController extends Controller
 
         $order_type = $account->getOrderType() === null ? OrderTypeEnum::InitBTC->value : $account->getOrderType();
 
-        $tron_wallet = null;
         $apolloClient = $this->apollopaymentClientsService->get(['account_uuid' => $request->payload()->getUuid()]);
-        if (!$apolloClient) {
-            $email = $this->emailService->get(['account_uuid' => $request->payload()->getUuid()]);
-            try {
-                $this->apollopaymentService->createUser(
-                    $account->getUuid(),
-                    $email->getEmail(),
-                    $profile->getFullName(),
-                    $apolloClient
-                );
-            } catch (Exception $e) {
-                throw new ApollopaymentUnavailableException($e->getMessage());
-            }
-        }
-        $tron_wallet = $apolloClient->getTronAddr();
 
         return response()->json([
             'data' => [
@@ -98,7 +77,7 @@ final class AccountController extends Controller
                     'number' => $account->getNumber(),
                     'username' => $account->getUsername(),
                     'increased' => $isAccountHalfYear && $isInvite,
-                    'tron_wallet' => $tron_wallet,
+                    'tron_wallet' => $apolloClient?->getTronAddr(),
                     'order_type' => $order_type,
                 ],
                 'profile' => [

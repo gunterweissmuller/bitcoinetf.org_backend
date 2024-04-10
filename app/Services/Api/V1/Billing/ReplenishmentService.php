@@ -15,7 +15,6 @@ final class ReplenishmentService
 {
     public function __construct(
         private readonly ReplenishmentRepositoryInterface $repository,
-        private readonly WalletService                    $walletService
     )
     {
     }

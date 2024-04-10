@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Pipelines\V3\Public\Billing\Shares\Buy\Apollopayment\Pipes\CancelOrder;
+namespace App\Pipelines\V3\Public\Billing\Shares\Buy\Payment\Pipes\CancelOrder;
 
 use App\Dto\DtoInterface;
-use App\Dto\Pipelines\Api\V3\Public\Billing\Shares\Buy\Apollopayment\CancelOrderPipelineDto;
+use App\Dto\Pipelines\Api\V3\Public\Billing\Shares\Buy\Payment\CancelOrderPipelineDto;
 use App\Enums\Billing\Replenishment\StatusEnum;
 use App\Exceptions\Pipelines\V1\Billing\ReplenishmentNotFoundException;
 use App\Pipelines\PipeInterface;
@@ -20,6 +20,11 @@ final readonly class ValidatePipe implements PipeInterface
     {
     }
 
+    /**
+     * @param CancelOrderPipelineDto|DtoInterface $dto
+     * @param Closure $next
+     * @return DtoInterface
+     */
     public function handle(CancelOrderPipelineDto|DtoInterface $dto, Closure $next): DtoInterface
     {
         $replenishment = $dto->getReplenishment();
@@ -35,3 +40,4 @@ final readonly class ValidatePipe implements PipeInterface
         return $next($dto);
     }
 }
+

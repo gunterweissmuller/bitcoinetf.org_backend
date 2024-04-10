@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Dto\Pipelines\Api\V3\Public\Billing\Shares\Buy\Apollopayment;
+namespace App\Dto\Pipelines\Api\V3\Public\Billing\Shares\Buy\Payment;
 
 use App\Dto\DtoInterface;
 use App\Dto\Models\Billing\ReplenishmentDto;

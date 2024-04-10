@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Pipelines\V3\Public\Billing\Shares\Buy\Apollopayment\Pipes\CancelOrder;
+namespace App\Pipelines\V3\Public\Billing\Shares\Buy\Payment\Pipes\CancelOrder;
 
 use App\Dto\DtoInterface;
-use App\Dto\Pipelines\Api\V3\Public\Billing\Shares\Buy\Apollopayment\CancelOrderPipelineDto;
+use App\Dto\Pipelines\Api\V3\Public\Billing\Shares\Buy\Payment\CancelOrderPipelineDto;
 use App\Pipelines\PipeInterface;
 use App\Services\Api\V1\Billing\WalletService;
 use Closure;
@@ -17,6 +17,11 @@ final readonly class WalletPipe implements PipeInterface
     ) {
     }
 
+    /**
+     * @param CancelOrderPipelineDto|DtoInterface $dto
+     * @param Closure $next
+     * @return DtoInterface
+     */
     public function handle(CancelOrderPipelineDto|DtoInterface $dto, Closure $next): DtoInterface
     {
         $replenishment = $dto->getReplenishment();

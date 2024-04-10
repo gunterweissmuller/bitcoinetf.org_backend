@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\MoonPaySignature;
 use App\Http\Middleware\ApolloPaymentIp;
 use App\Http\Middleware\ApolloPaymentSignature;
 
@@ -15,14 +16,20 @@ Route::namespace('Public')
 
                 /*
                  * /billing/shares/buy/init
-                 * /billing/shares/buy/apollopayment/methods
+                 * /billing/shares/payment/payment-methods
                  * /billing/shares/buy/apollopayment/check
                  * /billing/shares/buy/apollopayment/webhook
-                 * /billing/shares/buy/apollopayment/cancel-order
+                 * /billing/shares/buy/moonpay/webhook
                  */
                 Route::namespace('Shares')
                     ->prefix('shares')
                     ->group(function () {
+                        Route::namespace('Payment')
+                            ->prefix('payment')
+                            ->group(function () {
+                                Route::middleware(['auth'])->get('/payment-methods', 'PaymentController@getPaymentsMethods');
+                                Route::middleware(['auth'])->post('/cancel-order', 'PaymentController@cancelOrder');
+                            });
                         Route::namespace('Buy')
                             ->prefix('buy')
                             ->group(function () {
@@ -30,17 +37,20 @@ Route::namespace('Public')
                                 Route::namespace('Apollopayment')
                                     ->prefix('apollopayment')
                                     ->group(function () {
-                                        Route::middleware(['auth'])->get('/payment-methods', 'ApollopaymentController@getPaymentsMethods');
                                         Route::middleware(['auth'])->post('/check', 'ApollopaymentController@check');
-                                        Route::middleware(['auth'])->post('/cancel-order', 'ApollopaymentController@cancelOrder');
                                         Route::post('/webhook/{account_uuid}', 'ApollopaymentController@webhook')->middleware([ApolloPaymentIp::class, ApolloPaymentSignature::class]);
+                                    });
+                                Route::namespace('MoonPay')
+                                    ->prefix('moonpay')
+                                    ->group(function () {
+                                        Route::post('/webhook', 'MoonPayController@webhook')->middleware([MoonPaySignature::class]);
                                     });
                             });
                     });
 
-                 /*
-                 * /billing/withdrawal/webhook
-                 */
+                /*
+                * /billing/withdrawal/webhook
+                */
                 Route::prefix('withdrawal')
                     ->group(function () {
                         Route::post('/webhook/{withdrawal_uuid}', 'WithdrawalController@webhook');

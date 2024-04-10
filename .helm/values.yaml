@@ -120,6 +120,17 @@ global:
       redirect_uri: "https://front.stage.techetf.org/auth/facebook"
       client_id: "934423128173330"
       client_secret: "b0a0d7c81f7edf8e2fab996558960b16"
+    moonpay:
+      public_key: "pk_test_FwP9FlHx7TPVExAqIp8iE8ydu36z35"
+      secret_key: "sk_test_KX5CzOh7HFJDCGmHn6CJNs3DGO8zh"
+      webhook_key: "wk_test_sHONx8KfzNCghKTd6IrKWRphuTyAwBS"
+      host: "https://buy-sandbox.moonpay.com"
+      currency_code: "utk"
+      currency_network: "ethereum_sepolia"
+      redirect_url: "https://app.front.stage.techetf.org/personal/analytics/performance"
+
+    global_wallets:
+      apollo_polygon_usdt_address: "0xe175e4f1c662b2BD03F361a430453723f86c8f41"
 
 otherServices:
   - name: queue

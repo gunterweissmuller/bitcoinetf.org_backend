@@ -73,4 +73,9 @@ final class AccountService
     {
         return $this->repository->countNewUsers($from, $to);
     }
+
+    public function allUserInfoByFiltersWithChunk(array $filters, int $count, callable $callback): void
+    {
+        $this->repository->allUserInfoByFiltersWithChunk($filters, $count, $callback);
+    }
 }

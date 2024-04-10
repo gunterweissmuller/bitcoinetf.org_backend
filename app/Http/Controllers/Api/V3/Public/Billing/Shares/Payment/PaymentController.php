@@ -35,7 +35,7 @@ final class PaymentController extends Controller
         $data = [];
         $accountUuid = $request->payload()->getUuid();
 
-        //moonpay
+        //moonpay @fixme-v move code to other action
         $replenishmentUuid = $request->input('replenishment_uuid');
         $replenishment = $this->replenishmentService->get([
             'uuid' => $replenishmentUuid,

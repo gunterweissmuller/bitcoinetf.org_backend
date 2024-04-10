@@ -37,14 +37,14 @@ Route::namespace('Public')
                                 Route::namespace('Apollopayment')
                                     ->prefix('apollopayment')
                                     ->group(function () {
-                                        Route::middleware(['auth'])->post('/check', 'ApollopaymentController@check');
                                         Route::post('/webhook/{account_uuid}', 'ApollopaymentController@webhook')->middleware([ApolloPaymentIp::class, ApolloPaymentSignature::class]);
                                     });
-                                Route::namespace('MoonPay')
-                                    ->prefix('moonpay')
-                                    ->group(function () {
-                                        Route::post('/webhook', 'MoonPayController@webhook')->middleware([MoonPaySignature::class]);
-                                    });
+                                // @fixme-v moonpay closed
+//                                Route::namespace('MoonPay')
+//                                    ->prefix('moonpay')
+//                                    ->group(function () {
+//                                        Route::post('/webhook', 'MoonPayController@webhook')->middleware([MoonPaySignature::class]);
+//                                    });
                             });
                     });
 
@@ -53,9 +53,8 @@ Route::namespace('Public')
                 */
                 Route::prefix('withdrawal')
                     ->group(function () {
-                        Route::post('/webhook/{withdrawal_uuid}', 'WithdrawalController@webhook');
-                        //Route::post('/webhook/{account_uuid}', 'WithdrawalController@webhook')->middleware([ApolloPaymentIp::class, ApolloPaymentSignature::class]);
-                        Route::get('/mock', 'WithdrawalController@mock');
+                        Route::post('/webhook/{withdrawal_uuid}', 'WithdrawalController@webhook')->middleware([ApolloPaymentIp::class, ApolloPaymentSignature::class]);
+                        Route::get('/mock', 'WithdrawalController@mock');// @fixme-v delete after test
                     });
 
             });

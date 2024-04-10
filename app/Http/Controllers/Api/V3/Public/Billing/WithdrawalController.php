@@ -30,11 +30,10 @@ final class WithdrawalController extends Controller
     {
         Log::info('apollo withdrawal webhook', $request->all());
 
-        if ($request->input('status') === ApolloPaymentWithdrawalStatusEnum::ERROR->value) {
-            return response()->json(['status' => ApolloPaymentWithdrawalStatusEnum::ERROR->value]);
+        if ($request->input('status') !== ApolloPaymentWithdrawalStatusEnum::PROCESSED->value) {
+            return response()->json(['status' => $request->input('status')]);
         }
 
-        if ($request->input('status') === ApolloPaymentWithdrawalStatusEnum::PROCESSED->value) {
             $withdrawal = $this->withdrawalService->get(['uuid' => request()->withdrawal_uuid]);
             $accountUuid = $withdrawal->getAccountUuid();
             //TODO WebhooksDto setting move to WebhookRequest
@@ -56,17 +55,15 @@ final class WithdrawalController extends Controller
             }
 
             return response()->__call('exception', [$e]);
-        }
-
-        return response()->json(['status' => 'unsupported webhook status',]);
     }
 
+    //@fixme-v open after test delete after test
     public function mock(WebhookRequest $request): JsonResponse
     {
         if ($request->header('API-Key') !== 'ac2136bf-95ae-40e0-ab61-3b6b1165ee32') {
             return response()->json(['error' => 'Invalid API key'], 401);
         }
-        
+
         // Execute command for bitcoin-apollo-polygon-usdt-withdrawal
         Artisan::call('billing:bitcoin-apollo-polygon-usdt-withdrawal');
         // You can return the output if needed

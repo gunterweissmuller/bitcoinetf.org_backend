@@ -2,17 +2,15 @@
 
 declare(strict_types=1);
 
-namespace app\Http\Requests\Api\V3\Public\Billing\Withdrawal\Apollopayment;
+namespace App\Http\Requests\Api\V3\Public\Billing\Withdrawal\Apollopayment;
 
 
 use App\Dto\Models\Billing\WithdrawalDto;
 use App\Dto\Models\Users\AccountDto;
 use App\Dto\Pipelines\Api\V1\Public\Billing\Shares\Buy\Blockchain\Tron\CallbackPipelineDto;
 use App\Dto\Pipelines\Api\V1\Public\Billing\Withdrawal\DividendPipelineDto;
-use App\Enums\Billing\Wallet\TypeEnum;
 use App\Enums\Billing\Withdrawal\MethodEnum;
 use App\Http\Requests\AbstractRequest;
-use App\Services\Api\V1\Settings\GlobalService;
 use App\Dto\Models\Apollopayment\WebhooksDto;
 use App\Enums\Billing\Payment\ApolloPaymentWebhookTypeEnum;
 use App\Enums\Billing\Withdrawal\StatusEnum;
@@ -33,7 +31,7 @@ class WebhookRequest extends AbstractRequest
     {
         return CallbackPipelineDto::fromArray([
             'account' => AccountDto::fromArray([
-                'uuid' => request()->account_uuid,//TODO add validation
+                'uuid' => request()->account_uuid,
             ]),
         ]);
     }

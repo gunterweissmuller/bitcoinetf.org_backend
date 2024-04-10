@@ -8,7 +8,6 @@ use App\Dto\Models\Billing\ReplenishmentDto;
 use App\Dto\Models\Users\AccountDto;
 use App\Dto\Pipelines\Api\V1\Public\Billing\Shares\Buy\Blockchain\Tron\CallbackPipelineDto;
 use App\Http\Requests\AbstractRequest;
-use App\Services\Api\V1\Settings\GlobalService;
 use App\Dto\Models\Apollopayment\WebhooksDto;
 use App\Enums\Billing\Payment\ApolloPaymentWebhookTypeEnum;
 
@@ -16,13 +15,7 @@ class WebhookRequest extends AbstractRequest
 {
     public function rules(): array
     {
-//        /** @var GlobalService $globalService */
-//        $globalService = app(GlobalService::class);
-
-        return [
-//            'account_uuid' => ['required', 'uuid', 'exists:App\Models\Users\Account,uuid'],
-//            'amount' => ['required', 'numeric', 'min:' . $globalService->getMinReplenishmentAmount()],
-        ];
+        return [];
     }
 
     public function messages(): array
@@ -34,7 +27,7 @@ class WebhookRequest extends AbstractRequest
     {
         return CallbackPipelineDto::fromArray([
             'account' => AccountDto::fromArray([
-                'uuid' => request()->account_uuid,//TODO add validation
+                'uuid' => request()->account_uuid,
             ]),
             'replenishment' => ReplenishmentDto::fromArray([
                 'real_amount' => (float)$this->get('amount'),
@@ -43,7 +36,7 @@ class WebhookRequest extends AbstractRequest
     }
 
     public function webhook(): WebhooksDto
-    {  
+    {
         return WebhooksDto::fromArray([
             'client_id' => request()->account_uuid,
             'webhook_id' => $this->get('webhookId'),
@@ -53,6 +46,6 @@ class WebhookRequest extends AbstractRequest
             'network' => $this->get('network'),
             'tx' => $this->get('tx'),
             'type' => ApolloPaymentWebhookTypeEnum::DEPOSIT->value,
-        ]);   
+        ]);
     }
 }

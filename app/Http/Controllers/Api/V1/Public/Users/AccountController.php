@@ -88,9 +88,8 @@ final class AccountController extends Controller
             } catch (Exception $e) {
                 throw new ApollopaymentUnavailableException($e->getMessage());
             }
-        } else {
-            $tron_wallet = $apolloClient->getTronAddr();
         }
+        $tron_wallet = $apolloClient->getTronAddr();
 
         return response()->json([
             'data' => [

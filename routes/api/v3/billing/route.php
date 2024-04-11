@@ -54,7 +54,7 @@ Route::namespace('Public')
                 Route::prefix('withdrawal')
                     ->group(function () {
                         Route::post('/webhook/{withdrawal_uuid}', 'WithdrawalController@webhook')->middleware([ApolloPaymentIp::class, ApolloPaymentSignature::class]);
-                        Route::get('/mock', 'WithdrawalController@mock');// @fixme-v delete after test
+//                        Route::get('/mock', 'WithdrawalController@mock');// @fixme-v delete after test
                     });
 
             });

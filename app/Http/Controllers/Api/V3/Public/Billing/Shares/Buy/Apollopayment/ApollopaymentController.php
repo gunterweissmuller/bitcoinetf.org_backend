@@ -27,13 +27,13 @@ class ApollopaymentController extends Controller
         Log::info('Apollo deposit webhook ', $request->all());
 
         //@fixme-v open after test
-//        $globalService = app(GlobalService::class);
-//
-//        if ($request->amount < $globalService->getMinReplenishmentAmount()) {
-//            Log::info('apollo deposit min amount required', [$request->amount]);
-//
-//            return response()->json([]);
-//        }
+        $globalService = app(GlobalService::class);
+
+        if ($request->amount < $globalService->getMinReplenishmentAmount()) {
+            Log::info('apollo deposit min amount required', [$request->amount]);
+
+            return response()->json([]);
+        }
 
         if ($request->input('status') !== ApolloPaymentDepositStatusEnum::PROCESSED->value) {
             return response()->json(['status' => $request->input('status')]);

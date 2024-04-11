@@ -20,7 +20,7 @@ final readonly class ApollopaymentService
     {
     }
 
-    public function createUser(string $accountUuid, string $email, string $fullName, ?ClientsDto $apolloClient): void
+    public function createUser(string $accountUuid, string $email, ?string $fullName, ?ClientsDto $apolloClient): void
     {
         if (!$this->apollopaymentClientsService->get([
             'account_uuid' => $accountUuid
@@ -31,7 +31,7 @@ final readonly class ApollopaymentService
             $userData = CreateUserDto::fromArray([
                 'clientId' => $accountUuid,
                 'clientEmail' => $email,
-                'clientName' => $fullName,
+                'clientName' => $fullName ?? '',
                 'depositWebhookUrl' => $webhookUrl,
             ]);
 

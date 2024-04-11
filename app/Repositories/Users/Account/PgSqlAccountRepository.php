@@ -102,8 +102,8 @@ final class PgSqlAccountRepository implements AccountRepositoryInterface
         $this->model
             ->newQuery()
             ->select(['users.accounts.uuid', 'users.emails.email', 'users.profiles.full_name'])
-            ->join('users.emails', 'users.emails.account_uuid', '=', 'users.accounts.uuid')
-            ->join('users.profiles', 'users.profiles.account_uuid', '=', 'users.accounts.uuid')
+            ->leftJoin('users.emails', 'users.emails.account_uuid', '=', 'users.accounts.uuid')
+            ->leftJoin('users.profiles', 'users.profiles.account_uuid', '=', 'users.accounts.uuid')
             ->where($filters)
             ->orderBy('users.accounts.created_at', 'desc')
             ->chunk($count, $callback);

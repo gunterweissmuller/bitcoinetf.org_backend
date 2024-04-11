@@ -48,6 +48,8 @@ final class MakeWalletsForOldUsersCommand extends Command
                     } catch (\Exception $e) {
                         $this->info("Make wallets for old users: Cannot create wallet for this user - " . $itemArray['uuid'] . ' Error Message: ' . $e->getMessage());
                     }
+                } else {
+                    echo '.';
                 }
             });
         };
@@ -57,7 +59,7 @@ final class MakeWalletsForOldUsersCommand extends Command
         $accountService->allUserInfoByFiltersWithChunk([
             ['users.accounts.status', '=', StatusEnum::Enabled->value],
         ], self::COUNT, $callback);
-        
+
         $this->info("Make wallets for old users: Process finished. Checked - $count, Updated - $updatedDataCount");
     }
 }

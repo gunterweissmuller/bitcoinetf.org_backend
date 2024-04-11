@@ -103,7 +103,7 @@ final class ApollopaymentApiService
      */
     private function post(string $url, array $data): ?array
     {
-        $nonce = Carbon::now()->timestamp;
+        $nonce = Carbon::now()->timestamp * 1000 + Carbon::now()->micro / 1000;
         $data['nonce'] = $nonce;
         $stringPayload = json_encode($data);
         $this->addHeaders($stringPayload);

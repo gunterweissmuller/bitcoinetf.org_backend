@@ -54,7 +54,7 @@ class ApollopaymentController extends Controller
 
     public function mockWebhook(WebhookRequest $request): JsonResponse
     {
-        dd(Str::uuid()->toString());
+//        dd(Str::uuid()->toString());
 /*        {
   "id": "2fa68ddf-2479-47cb-9e66-ae91139c3063",
   "addressId": "dcb1a9fe-4b8d-40f6-baf6-241dc88436d9",

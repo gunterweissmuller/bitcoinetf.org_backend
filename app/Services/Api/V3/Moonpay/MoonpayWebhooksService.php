@@ -44,20 +44,20 @@ final class MoonpayWebhooksService
     {
         $moon_pay_signature = $request->header('Moonpay-Signature-V2');
         $data = $request->all();
-        $dto = new WebhooksDto(
-            null,
-            $clientId = $data['externalCustomerId'],
-            $webhookId = $data['data']['id'],
-            $addressId = $data['data']['cardId'],
-            $amount = $data['data']['quoteCurrencyAmount'],
-            $cryptoCurrencyCode = $data['data']['currency']['code'],
-            env('MOONPAY_CURRENCY_NETWORK'),
-            $tx = $data['data']['cryptoTransactionId'],
-            $type = $data['data']['status'],
-            null,
-            null,
-            json_encode($moon_pay_signature . json_encode($data, JSON_UNESCAPED_SLASHES), JSON_UNESCAPED_SLASHES),
-        );
+        $data['data'] = json_decode($data['data'], true );
+
+        $dto = WebhooksDto::fromArray([
+            'client_id' => $data['externalCustomerId'],
+            'webhook_id' => $data['data']['id'],
+            'address_id' => $data['data']['cardId'],
+            'amount' => $data['data']['quoteCurrencyAmount'],
+            'currency' => $data['data']['currency']['code'],
+            'network' => env('MOONPAY_CURRENCY_NETWORK'),
+            'tx' => $data['data']['cryptoTransactionId'],
+            'type' => $data['data']['status'],
+            'payload' => json_encode($moon_pay_signature . json_encode($data, JSON_UNESCAPED_SLASHES), JSON_UNESCAPED_SLASHES),
+        ]);
+
         return $this->repository->create($dto);
     }
 

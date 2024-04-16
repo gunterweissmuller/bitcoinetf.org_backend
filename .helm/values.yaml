@@ -54,6 +54,9 @@ global:
     telegram_auth:
       bot_name: "BitcoinETF_loginbot"
       redirect_uri: "https://bitcoinetf.org/auth/telegram"
+    facebook_auth:
+      redirect_uri: "https://bitcoinetf.org/auth/facebook"
+      client_id: "977955910613433"
 
   stage:
     app:

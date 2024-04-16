@@ -121,14 +121,11 @@ global:
       basic_wallet_polygon_usdt_address: "0x96c6eD1500b46543373FF87F61e3c087eCDAC0c5"
       basic_wallet_polygon_usdt_address_id: "ab38b567-e206-42a2-9b8c-e200d7ce59dd"
       advanced_balance_id: "33e4c592-548b-411c-8463-2052dbb4220b"
-    # moonpay:
-    #   public_key: "pk_test_FwP9FlHx7TPVExAqIp8iE8ydu36z35"
-    #   secret_key: "sk_test_KX5CzOh7HFJDCGmHn6CJNs3DGO8zh"
-    #   webhook_key: "wk_test_sHONx8KfzNCghKTd6IrKWRphuTyAwBS"
-    #   host: "https://buy-sandbox.moonpay.com"
-    #   currency_code: "utk"
-    #   currency_network: "ethereum_sepolia"
-    #   redirect_url: "https://app.front.stage.techetf.org/personal/analytics/performance"
+    moonpay:
+      host: "https://buy-sandbox.moonpay.com"
+      currency_code: "utk"
+      currency_network: "ethereum_sepolia"
+      redirect_url: "https://app.front.stage.techetf.org/personal/analytics/performance"
 
 otherServices:
   - name: queue

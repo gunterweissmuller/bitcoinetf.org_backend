@@ -298,19 +298,28 @@ Create chart name and version as used by the chart label.
 - name: APOLLO_PAYMENT_ADVANCED_BALANCE_ID
   value: "{{ $globals.apollo_payment.advanced_balance_id }}"
 
-# - name: MOONPAY_PUBLIC_KEY
-#   value: "{{ $globals.moonpay.public_key }}"
-# - name: MOONPAY_SECRET
-#   value: "{{ $globals.moonpay.secret_key }}"
-# - name: MOONPAY_WEBHOOK
-#   value: "{{ $globals.moonpay.webhook_key }}"
-# - name: MOONPAY_HOST
-#   value: "{{ $globals.moonpay.host }}"
-# - name: MOONPAY_CURRENCY_CODE
-#   value: "{{ $globals.moonpay.currency_code }}"
-# - name: MOONPAY_CURRENCY_NETWORK
-#   value: "{{ $globals.moonpay.currency_network }}"
-# - name: MOONPAY_REDIRECT_URL
-#   value: "{{ $globals.moonpay.redirect_url }}"
+- name: MOONPAY_PUBLIC_KEY
+  valueFrom:
+    secretKeyRef:
+      name: secrets-backend
+      key: moonpayPublicKey
+- name: MOONPAY_SECRET
+  valueFrom:
+    secretKeyRef:
+      name: secrets-backend
+      key: moonpayPrivateKey
+- name: MOONPAY_WEBHOOK
+  valueFrom:
+    secretKeyRef:
+      name: secrets-backend
+      key: moonpayWebhookKey
+- name: MOONPAY_HOST
+  value: "{{ $globals.moonpay.host }}"
+- name: MOONPAY_CURRENCY_CODE
+  value: "{{ $globals.moonpay.currency_code }}"
+- name: MOONPAY_CURRENCY_NETWORK
+  value: "{{ $globals.moonpay.currency_network }}"
+- name: MOONPAY_REDIRECT_URL
+  value: "{{ $globals.moonpay.redirect_url }}"
 
 {{- end -}}

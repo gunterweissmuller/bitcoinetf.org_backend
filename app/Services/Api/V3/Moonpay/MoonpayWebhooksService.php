@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Api\V1\Apollopayment;
+namespace App\Services\Api\V3\Moonpay;
 
-
-use App\Dto\Models\Apollopayment\WebhooksDto;
-use App\Repositories\Apollopayment\Webhooks\WebhooksRepositoryInterface;
+use App\Dto\Models\Moonpay\WebhooksDto;
+use App\Repositories\Moonpay\Webhooks\WebhooksRepositoryInterface;
 use App\Http\Requests\Api\V3\Public\Billing\Shares\Buy\MoonPayWebhookRequest;
 
-final class ApollopaymentWebhooksService
+final class MoonpayWebhooksService
 {
     public function __construct(
         private readonly WebhooksRepositoryInterface $repository,
-    ) {
+    )
+    {
     }
 
     public function create(WebhooksDto $dto): WebhooksDto
@@ -36,6 +36,10 @@ final class ApollopaymentWebhooksService
         $this->repository->delete($condition);
     }
 
+    /**
+     * @param MoonPayWebhookRequest $request
+     * @return WebhooksDto
+     */
     public function createMoonPayWebhookRecord(MoonPayWebhookRequest $request): WebhooksDto
     {
         $moon_pay_signature = $request->header('Moonpay-Signature-V2');
@@ -52,7 +56,7 @@ final class ApollopaymentWebhooksService
             $type = $data['data']['status'],
             null,
             null,
-            json_encode( $moon_pay_signature.json_encode($data, JSON_UNESCAPED_SLASHES), JSON_UNESCAPED_SLASHES),
+            json_encode($moon_pay_signature . json_encode($data, JSON_UNESCAPED_SLASHES), JSON_UNESCAPED_SLASHES),
         );
         return $this->repository->create($dto);
     }

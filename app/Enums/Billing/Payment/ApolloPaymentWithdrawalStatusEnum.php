@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace app\Enums\Billing\Payment;
+namespace App\Enums\Billing\Payment;
 
 use App\Enums\InteractWithEnum;
 

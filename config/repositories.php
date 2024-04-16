@@ -210,4 +210,9 @@ return [
         'implementation' => \App\Repositories\Apollopayment\Webhooks\PgSqlWebhooksRepository::class,
     ],
 
+    //Moonpay
+    [
+        'interface' => \App\Repositories\Moonpay\Webhooks\WebhooksRepositoryInterface::class,
+        'implementation' => \App\Repositories\Moonpay\Webhooks\PgSqlWebhooksRepository::class,
+    ],
 ];

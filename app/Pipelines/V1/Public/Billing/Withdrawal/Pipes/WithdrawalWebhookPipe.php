@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace app\Pipelines\V1\Public\Billing\Withdrawal\Pipes;
+namespace App\Pipelines\V1\Public\Billing\Withdrawal\Pipes;
 
 use App\Dto\DtoInterface;
-use App\Dto\Models\Billing\WithdrawalDto;
 use App\Dto\Pipelines\Api\V1\Public\Billing\Withdrawal\DividendPipelineDto;
 use App\Dto\Pipelines\Api\V1\Public\Billing\Withdrawal\ReferralPipelineDto;
 use App\Enums\Billing\Withdrawal\StatusEnum;

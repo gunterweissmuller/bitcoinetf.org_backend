@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace app\Pipelines\V1\Public\Billing\Shares\Buy\Blockchain\Tron\Pipes\Callback;
+namespace App\Pipelines\V1\Public\Billing\Shares\Buy\Blockchain\Tron\Pipes\Callback;
 
 use App\Dto\DtoInterface;
 use App\Dto\Pipelines\Api\V1\Public\Billing\Shares\Buy\Blockchain\Tron\CallbackPipelineDto;

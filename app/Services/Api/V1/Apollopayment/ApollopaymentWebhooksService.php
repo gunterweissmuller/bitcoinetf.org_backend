@@ -36,34 +36,6 @@ final class ApollopaymentWebhooksService
         $this->repository->delete($condition);
     }
 
-    public function createWebhook(
-        string $client_id,
-        string $webhook_id,
-        string $address_id,
-        float $amount,
-        string $currency,
-        string $network,
-        string $tx,
-        string $type
-        ): WebhooksDto
-    {
-        $dto = new WebhooksDto(
-            null,
-            $client_id,
-            $webhook_id,
-            $address_id,
-            $amount,
-            $currency,
-            $network,
-            $tx,
-            $type,
-            null,
-            null,
-            null,
-        );
-        return $this->repository->create($dto);
-    }
-
     public function createMoonPayWebhookRecord(MoonPayWebhookRequest $request): WebhooksDto
     {
         $moon_pay_signature = $request->header('Moonpay-Signature-V2');
@@ -73,7 +45,7 @@ final class ApollopaymentWebhooksService
             $clientId = $data['externalCustomerId'],
             $webhookId = $data['data']['id'],
             $addressId = $data['data']['cardId'],
-            $ammount = $data['data']['quoteCurrencyAmount'],
+            $amount = $data['data']['quoteCurrencyAmount'],
             $cryptoCurrencyCode = $data['data']['currency']['code'],
             env('MOONPAY_CURRENCY_NETWORK'),
             $tx = $data['data']['cryptoTransactionId'],

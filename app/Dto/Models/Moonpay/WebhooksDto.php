@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Dto\Models\Apollopayment;
+namespace App\Dto\Models\Moonpay;
 
 use App\Dto\DtoInterface;
 

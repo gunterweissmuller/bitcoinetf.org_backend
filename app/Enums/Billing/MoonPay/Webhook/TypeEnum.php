@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace app\Enums\Billing\MoonPay\Webhook;
+namespace App\Enums\Billing\MoonPay\Webhook;
 
 use App\Enums\InteractWithEnum;
 

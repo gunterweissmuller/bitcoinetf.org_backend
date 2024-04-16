@@ -6,7 +6,7 @@ namespace App\Services\Api\V1\Apollopayment;
 
 
 use App\Dto\Models\Apollopayment\ClientsDto;
-use App\Repositories\Apollopaymnt\Clients\ClientsRepositoryInterface;
+use App\Repositories\Apollopayment\Clients\ClientsRepositoryInterface;
 
 final class ApollopaymentClientsService
 {
@@ -33,28 +33,5 @@ final class ApollopaymentClientsService
     public function delete(array $condition): void
     {
         $this->repository->delete($condition);
-    }
-
-    public function createClient(
-        string $account_uuid,
-        string $client_id,
-        string $webhook_url,
-        string $ethereum_addr,
-        string $tron_addr,
-        string $polygon_addr
-        ): ClientsDto
-    {
-        $dto = new ClientsDto(
-            null,
-            $account_uuid,
-            $client_id,
-            $webhook_url,
-            $ethereum_addr,
-            $tron_addr,
-            $polygon_addr,
-            null,
-            null,
-        );
-        return $this->repository->create($dto);
     }
 }

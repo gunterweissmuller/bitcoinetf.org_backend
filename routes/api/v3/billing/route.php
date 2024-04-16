@@ -41,11 +41,11 @@ Route::namespace('Public')
                                         Route::post('/mockWebhook/{account_uuid}', 'ApollopaymentController@mockWebhook');
                                     });
                                 // @fixme-v moonpay closed
-//                                Route::namespace('MoonPay')
-//                                    ->prefix('moonpay')
-//                                    ->group(function () {
-//                                        Route::post('/webhook', 'MoonPayController@webhook')->middleware([MoonPaySignature::class]);
-//                                    });
+                                Route::namespace('MoonPay')
+                                    ->prefix('moonpay')
+                                    ->group(function () {
+                                        Route::post('/webhook', 'MoonPayController@webhook')->middleware([MoonPaySignature::class]);
+                                    });
                             });
                     });
 

@@ -13,7 +13,7 @@ use App\Enums\Storage\File\ExtensionEnum;
 use App\Enums\Storage\File\StatusEnum;
 use App\Enums\Storage\File\TypeEnum as FileTypeEnum;
 use App\Jobs\Job;
-use App\Jobs\V1\Billing\Report\SendMonthlyStatementMailJob;
+use App\Jobs\V1\Billing\Report\SendMonthlyDividendStatementMailJob;
 use App\Services\Api\V1\Billing\PaymentService;
 use App\Services\Api\V1\Billing\WalletService;
 use App\Services\Api\V1\Statistic\DailyWalletService;
@@ -160,6 +160,6 @@ final class StatementJob extends Job
             'created_at' => Carbon::now()->toDateString(),
         ]));
 
-        dispatch(new SendMonthlyStatementMailJob($report->getAccountUuid(), $email->getEmail(), $report->getUuid()));
+        dispatch(new SendMonthlyDividendStatementMailJob($report->getAccountUuid(), $email->getEmail(), $report->getUuid()));
     }
 }

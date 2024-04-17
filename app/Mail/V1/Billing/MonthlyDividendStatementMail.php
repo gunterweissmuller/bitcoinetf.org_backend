@@ -12,10 +12,8 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Storage;
 
-final class MonthlyStatementMail extends Mailable
+final class MonthlyDividendStatementMail extends Mailable
 {
     use SerializesModels;
 
@@ -28,7 +26,7 @@ final class MonthlyStatementMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Monthly Statement is Ready',
+            subject: 'Monthly Dividend Statement is Ready',
         );
     }
 
@@ -47,9 +45,8 @@ final class MonthlyStatementMail extends Mailable
             'uuid' => $this->reportUuid
         ]);
         $file = $fileService->get(['uuid' => $report->getFileUuid()], true);
-        $downloadUrl = Storage::disk('s3')->temporaryUrl(
-            $file->getPath(), Carbon::now()->addDays(6)
-        );
+
+        $downloadUrl = env('APP_URL') . '/v1/public/statistic/monthly-dividends-report/' . $file->getUuid();
 
         return new Content(
             view: 'emails.v1.billing.monthly-statement',

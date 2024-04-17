@@ -10,5 +10,5 @@ enum DividendReportLifeTimeEnum: string
 {
     use InteractWithEnum;
 
-    case EVERY_TIME = '120'; // 1 day -> 86400, 6 day -> 518400
+    case EVERY_TIME = '86400'; // 1 day -> 86400, 6 day -> 518400
 }

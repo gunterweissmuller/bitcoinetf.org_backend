@@ -50,6 +50,7 @@ docker:
     - /entrypoint.sh
   CMD:
     - php-fpm
+  USER: www-data
 shell:
   beforeInstall:
     - mkdir /php-conf

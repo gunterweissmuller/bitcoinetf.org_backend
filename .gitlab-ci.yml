@@ -180,7 +180,7 @@ destroy:dev:
     exit 1
   fi
 
-  export APP_NAMESPACE=$( echo ${APP_NAMESPACE} | cut -c -52 | sed 's/\-$//' )\
+  export APP_NAMESPACE=$( echo ${APP_NAMESPACE} | cut -c -52 | sed 's/\-$//' )
 
   build_image() {
     werf version; pwd; set -x

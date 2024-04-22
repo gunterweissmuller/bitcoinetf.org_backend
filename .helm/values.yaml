@@ -59,10 +59,8 @@ global:
       client_id: "977955910613433"
     apollo_payment:
       host_name: "https://app.apollopayment.io"
-      public_key: "Io6cIl0+JEs3afcW6koAS18zhvl/uAxoR6MjoPx5GCB+KBomDEcq7OkP2auThC9hpkpuKa5AUyElMmq195JtKw=="
-      basic_wallet_polygon_usdt_address: ""
-      basic_wallet_polygon_usdt_address_id: ""
-      advanced_balance_id: "33e4c592-548b-411c-8463-2052dbb4220b"
+      basic_wallet_polygon_usdt_address_id: "" # after get-blockchain-address-id
+      advanced_balance_id: "2648befd-3b56-4a3b-a93f-2795a900f68c"
     moonpay: # TODO need edit for production
       host: "https://buy-sandbox.moonpay.com"
       currency_code: "usd"

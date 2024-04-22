@@ -143,6 +143,7 @@ destroy:dev:
     export WERF_REPO="${REGISTRY_NAME_DEV}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}"
     export REPOSITORY_NAME="${REPOSITORY_NAME_DEV}"
     export SECRET_VALUES_FILE="secret-values-dev.yaml"
+    export WERF_SECRET_KEY=$WERF_SECRET_KEY_DEVELOPMENT
   elif [ "${CI_COMMIT_REF_SLUG}" = "staging" ]; then
     export ENV_NAME="stage"
     export ENV_FULL_NAME="staging"
@@ -151,6 +152,7 @@ destroy:dev:
     export WERF_REPO="${REGISTRY_NAME_STAGE}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}"
     export REPOSITORY_NAME="${REPOSITORY_NAME_STAGE}"
     export SECRET_VALUES_FILE="secret-values-stage.yaml"
+    export WERF_SECRET_KEY=$WERF_SECRET_KEY_STAGING
   elif [ "${CI_COMMIT_REF_SLUG}" = "master" ]; then
     if [ "${PRODUCTION_DOMAIN}" == "" ]; then
       echo "PRODUCTION_DOMAIN not set!"
@@ -163,6 +165,7 @@ destroy:dev:
     export WERF_REPO="${REGISTRY_NAME_PROD}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}"
     export REPOSITORY_NAME="${REPOSITORY_NAME_PROD}"
     export SECRET_VALUES_FILE="secret-values-prod.yaml"
+    export WERF_SECRET_KEY=$WERF_SECRET_KEY_PRODUCTION
   elif [ "${CI_COMMIT_REF_SLUG}" = "staging-test" ]; then
     export ENV_NAME="stage"
     export ENV_FULL_NAME="staging"
@@ -171,6 +174,7 @@ destroy:dev:
     export WERF_REPO="${REGISTRY_NAME_STAGE}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}"
     export REPOSITORY_NAME="${REPOSITORY_NAME_STAGE}"
     export SECRET_VALUES_FILE="secret-values-stage.yaml"
+    export WERF_SECRET_KEY=$WERF_SECRET_KEY_STAGING
   else
     echo "Unknown environment: ${CI_COMMIT_REF_SLUG}"
     exit 1

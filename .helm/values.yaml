@@ -32,7 +32,7 @@ global:
       host: "centrifugo.etf-api-service.svc.cluster.local:9000/api"
     greenfield:
       host: "https://btc.techetf.org"
-    payment:
+    payment: # TODO remove
       host: "http://payments.etf-private-payment.svc.cluster.local:3000"
     mailchimp:
       server_prefix: "us10"
@@ -57,6 +57,15 @@ global:
     facebook_auth:
       redirect_uri: "https://bitcoinetf.org/auth/facebook"
       client_id: "977955910613433"
+    apollo_payment:
+      host_name: "https://app.apollopayment.io"
+      basic_wallet_polygon_usdt_address_id: "" # after get-blockchain-address-id
+      advanced_balance_id: "2648befd-3b56-4a3b-a93f-2795a900f68c"
+    moonpay: # TODO need edit for production
+      host: "https://buy-sandbox.moonpay.com"
+      currency_code: "usd"
+      currency_network: "ethereum"
+      redirect_url: "https://app.bitcoinetf.org/personal/analytics/performance"
 
   stage:
     app:
@@ -90,7 +99,7 @@ global:
       host: "centrifugo.etf-api-service-development.svc.cluster.local:9000/api"
     greenfield:
       host: "https://btc.stage.techetf.org"
-    payment:
+    payment: # TODO remove
       host: "payments.stage-etf-private-payment.svc.cluster.local:3000"
     mailchimp:
       server_prefix: "us10"
@@ -123,7 +132,7 @@ global:
       advanced_balance_id: "33e4c592-548b-411c-8463-2052dbb4220b"
     moonpay:
       host: "https://buy-sandbox.moonpay.com"
-      currency_code: "utk"
+      currency_code: "usd"
       currency_network: "ethereum_sepolia"
       redirect_url: "https://app.front.stage.techetf.org/personal/analytics/performance"
 

@@ -180,6 +180,7 @@ Create chart name and version as used by the chart label.
       name: secrets-backend
       key: greenfieldStoreId
 
+# TODO remove
 - name: PAYMENT_HOST
   value: "{{ $globals.payment.host }}"
 - name: PAYMENT_API_KEY

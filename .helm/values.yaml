@@ -59,7 +59,7 @@ global:
       client_id: "977955910613433"
     apollo_payment:
       host_name: "https://app.apollopayment.io"
-      basic_wallet_polygon_usdt_address_id: "" # after get-blockchain-address-id
+      basic_wallet_polygon_usdt_address_id: "ab717c9a-013c-4162-8780-90a040ca8e39"
       advanced_balance_id: "2648befd-3b56-4a3b-a93f-2795a900f68c"
     moonpay: # TODO need edit for production
       host: "https://buy-sandbox.moonpay.com"

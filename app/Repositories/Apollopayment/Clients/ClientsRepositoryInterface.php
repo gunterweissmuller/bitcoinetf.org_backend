@@ -15,4 +15,8 @@ interface ClientsRepositoryInterface
     public function update(array $condition, array $data): void;
 
     public function delete(array $condition): void;
+
+    public function allByFiltersWithChunk(array $filters, int $count, callable $callback): void;
+
+    public function deleteDuplicate(array $condition, string $uuid): void;
 }

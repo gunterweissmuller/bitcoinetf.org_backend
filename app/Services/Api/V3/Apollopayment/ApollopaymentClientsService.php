@@ -12,7 +12,8 @@ final class ApollopaymentClientsService
 {
     public function __construct(
         private readonly ClientsRepositoryInterface $repository,
-    ) {
+    )
+    {
     }
 
     public function create(ClientsDto $dto): ClientsDto
@@ -33,5 +34,15 @@ final class ApollopaymentClientsService
     public function delete(array $condition): void
     {
         $this->repository->delete($condition);
+    }
+
+    public function allByFiltersWithChunk(array $filters, int $count, callable $callback): void
+    {
+        $this->repository->allByFiltersWithChunk($filters, $count, $callback);
+    }
+
+    public function deleteDuplicate(array $condition, string $uuid): void
+    {
+        $this->repository->deleteDuplicate($condition, $uuid);
     }
 }

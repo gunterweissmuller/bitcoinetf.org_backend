@@ -31,11 +31,12 @@ final class Kernel extends ConsoleKernel
         //apollo
         $schedule->command('apollopayment:get-blockchain-address-id');
         $schedule->command('apollopayment:make-wallets-for-old-users');
+        $schedule->command('apollopayment:clear-duplicate-apollo-wallets-for-old-users');
     }
 
     protected function commands(): void
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }

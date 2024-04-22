@@ -13,26 +13,36 @@ use App\Pipelines\PipeInterface;
 use App\Services\Utils\GreenfieldService;
 use Closure;
 
+
 final class GfPullPaymentPipe implements PipeInterface
 {
     public function __construct(
         private readonly GreenfieldService $greenfieldService,
-    ) {
+    )
+    {
     }
 
+    /**
+     * @param DividendPipelineDto|DtoInterface $dto
+     * @param Closure $next
+     * @return DtoInterface
+     */
     public function handle(DividendPipelineDto|DtoInterface $dto, Closure $next): DtoInterface
     {
-        $payment = $dto->getPayment();
+        $method = $dto->getMethod();
+        if ($method == MethodEnum::BITCOIN_ON_CHAIN->value || $method == MethodEnum::BITCOIN_LIGHTNING->value) {
+            $payment = $dto->getPayment();
 
-        if ($pullPayment = $this->greenfieldService->createPullPayment(PullPaymentDto::fromArray([
-            'description' => 'Account UUID:'.$payment->getAccountUuid(),
-            'amount' => $payment->getTotalAmountBtc(),
-            'currency' => 'BTC',
-            'autoApproveClaims' => true,
-        ]))) {
-            $dto->setPullPayment($pullPayment);
-        } else {
-            throw new WithdrawalNotPossibleException();
+            if ($pullPayment = $this->greenfieldService->createPullPayment(PullPaymentDto::fromArray([
+                'description' => 'Account UUID:' . $payment->getAccountUuid(),
+                'amount' => $payment->getTotalAmountBtc(),
+                'currency' => 'BTC',
+                'autoApproveClaims' => true,
+            ]))) {
+                $dto->setPullPayment($pullPayment);
+            } else {
+                throw new WithdrawalNotPossibleException();
+            }
         }
 
         return $next($dto);

@@ -20,6 +20,7 @@ final class WebhooksDto implements DtoInterface
         private ?string $type,
         private ?string $createdAt,
         private ?string $updatedAt,
+        private ?string $payload,
     )
     {
     }
@@ -38,6 +39,7 @@ final class WebhooksDto implements DtoInterface
             $args['type'] ?? null,
             $args['created_at'] ?? null,
             $args['updated_at'] ?? null,
+            $args['payload'] ?? null,
         );
     }
 
@@ -55,6 +57,7 @@ final class WebhooksDto implements DtoInterface
             'type' => $this->type,
             'created_at' => $this->createdAt,
             'updated_at' => $this->updatedAt,
+            'payload' => $this->payload,
         ];
     }
 
@@ -179,4 +182,21 @@ final class WebhooksDto implements DtoInterface
     {
         $this->updatedAt = $updatedAt;
     }
+
+    /**
+     * @return string|null
+     */
+    public function getPayload(): ?string
+    {
+        return $this->payload;
+    }
+
+    /**
+     * @param  string|null  $payload
+     */
+    public function setPayload(?string $payload): void
+    {
+        $this->payload = $payload;
+    }
+
 }

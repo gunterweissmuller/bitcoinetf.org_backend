@@ -32,7 +32,7 @@ global:
       host: "centrifugo.etf-api-service.svc.cluster.local:9000/api"
     greenfield:
       host: "https://btc.techetf.org"
-    payment:
+    payment: # TODO remove
       host: "http://payments.etf-private-payment.svc.cluster.local:3000"
     mailchimp:
       server_prefix: "us10"
@@ -54,6 +54,18 @@ global:
     telegram_auth:
       bot_name: "BitcoinETF_loginbot"
       redirect_uri: "https://bitcoinetf.org/auth/telegram"
+    facebook_auth:
+      redirect_uri: "https://bitcoinetf.org/auth/facebook"
+      client_id: "977955910613433"
+    apollo_payment:
+      host_name: "https://app.apollopayment.io"
+      basic_wallet_polygon_usdt_address_id: "" # after get-blockchain-address-id
+      advanced_balance_id: "2648befd-3b56-4a3b-a93f-2795a900f68c"
+    moonpay: # TODO need edit for production
+      host: "https://buy-sandbox.moonpay.com"
+      currency_code: "usd"
+      currency_network: "ethereum"
+      redirect_url: "https://app.bitcoinetf.org/personal/analytics/performance"
 
   stage:
     app:
@@ -87,7 +99,7 @@ global:
       host: "centrifugo.etf-api-service-development.svc.cluster.local:9000/api"
     greenfield:
       host: "https://btc.stage.techetf.org"
-    payment:
+    payment: # TODO remove
       host: "payments.stage-etf-private-payment.svc.cluster.local:3000"
     mailchimp:
       server_prefix: "us10"
@@ -109,6 +121,20 @@ global:
     telegram_auth:
       bot_name: "BitcoinETFlogin_bot"
       redirect_uri: "https://front.stage.techetf.org/auth/telegram"
+    facebook_auth:
+      redirect_uri: "https://front.stage.techetf.org/auth/facebook"
+      client_id: "802740101917761"
+    apollo_payment:
+      host_name: "https://app.apollopayment.io"
+      public_key: "XomXtTdVL6I9JNAnAgl06KTISNfR1DhLSnXnLN+PtrTfkpRPdlRtiQR+b/zcw8tGV+Vo62fjpAxh6c5oPH8ALA=="
+      basic_wallet_polygon_usdt_address: "0x96c6eD1500b46543373FF87F61e3c087eCDAC0c5"
+      basic_wallet_polygon_usdt_address_id: "ab38b567-e206-42a2-9b8c-e200d7ce59dd"
+      advanced_balance_id: "33e4c592-548b-411c-8463-2052dbb4220b"
+    moonpay:
+      host: "https://buy-sandbox.moonpay.com"
+      currency_code: "usd"
+      currency_network: "ethereum_sepolia"
+      redirect_url: "https://app.front.stage.techetf.org/personal/analytics/performance"
 
 otherServices:
   - name: queue

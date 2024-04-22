@@ -10,7 +10,6 @@ return function (array $data): string {
     $date = $data['date'];
     $openingBalance = $data['opening_balance'];
     $withdrawals = $data['withdrawals'];
-    $bonus = $data['bonus'];
     $sumDividends = $data['total_dividends'];
     $referralPayments = $data['referral_payments'];
     $closingBalance = $data['closing_balance'];
@@ -369,21 +368,6 @@ return function (array $data): string {
                                                             style="font-size:0;padding:0;padding-bottom:16px;word-break:break-word">
                                                             <div style="font-family:DM Sans,sans-serif;font-size:10px;font-weight:500;line-height:1;text-align:left;color:#3f424e">
                                                                 $openingBalance
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align="left"
-                                                            style="font-size:0;padding:0;padding-bottom:4px;word-break:break-word">
-                                                            <div style="font-family:DM Sans,sans-serif;font-size:12px;font-weight:700;line-height:1;text-align:left;color:#22242b">
-                                                                Bonus
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align="left" style="font-size:0;padding:0;word-break:break-word">
-                                                            <div style="font-family:DM Sans,sans-serif;font-size:10px;font-weight:500;line-height:1;text-align:left;color:#3f424e">
-                                                                $bonus
                                                             </div>
                                                         </td>
                                                     </tr>

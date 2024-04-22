@@ -38,6 +38,10 @@ return [
         'interface' => \App\Repositories\Users\Telegram\TelegramRepositoryInterface::class,
         'implementation' => \App\Repositories\Users\Telegram\PgSqlTelegramRepository::class,
     ],
+    [
+        'interface' => \App\Repositories\Users\Facebook\FacebookRepositoryInterface::class,
+        'implementation' => \App\Repositories\Users\Facebook\PgSqlFacebookRepository::class,
+    ],
 
     // Fund
     [
@@ -203,7 +207,12 @@ return [
     ],
     [
         'interface' => \App\Repositories\Apollopayment\Webhooks\WebhooksRepositoryInterface::class,
-        'implementation' => \App\Repositories\Apollopayment\Webhooks\WebhooksRepository::class,
+        'implementation' => \App\Repositories\Apollopayment\Webhooks\PgSqlWebhooksRepository::class,
     ],
 
+    //Moonpay
+    [
+        'interface' => \App\Repositories\Moonpay\Webhooks\WebhooksRepositoryInterface::class,
+        'implementation' => \App\Repositories\Moonpay\Webhooks\PgSqlWebhooksRepository::class,
+    ],
 ];

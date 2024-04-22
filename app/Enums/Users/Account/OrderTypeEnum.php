@@ -13,4 +13,9 @@ enum OrderTypeEnum: string
     case BTC = 'btc';
 
     case USDT = 'usdt';
+
+    case InitBTC = 'init_btc';
+
+    case InitUSDT = 'init_usdt';
+
 }

@@ -12,6 +12,7 @@ use App\Enums\Statistic\Report\TypeEnum as ReportTypeEnum;
 use App\Enums\Storage\File\ExtensionEnum;
 use App\Enums\Storage\File\StatusEnum;
 use App\Enums\Storage\File\TypeEnum as FileTypeEnum;
+use App\Enums\Users\Account\OrderTypeEnum;
 use App\Jobs\Job;
 use App\Jobs\V1\Billing\Report\SendMonthlyDividendStatementMailJob;
 use App\Services\Api\V1\Billing\PaymentService;
@@ -59,13 +60,6 @@ final class StatementJob extends Job
             'account_uuid' => $account->getUuid(),
             'type' => \App\Enums\Billing\Wallet\TypeEnum::DIVIDENDS->value,
         ]);
-
-        $sumBonus = $paymentService->getSumColumnByPeriod(
-            'bonus_amount',
-            $this->accountUuid,
-            $this->periodFrom,
-            $this->periodTo,
-        );
 
         $sumDividends = $paymentService->getSumColumnByPeriod(
             'dividend_amount',
@@ -119,13 +113,18 @@ final class StatementJob extends Job
 
         $email = $emailService->get(['account_uuid' => $account->getUuid()]);
 
+        if($account->getOrderType() === OrderTypeEnum::USDT->value) {
+            $accountType = strtoupper(OrderTypeEnum::USDT->value);
+        } else {
+            $accountType = strtoupper(OrderTypeEnum::BTC->value);
+        }
+
         $data = [
             'account_name' => strtoupper($account->getUsername()),
-            'account_type' => strtoupper($walletDividend->getWithdrawalMethod()),
+            'account_type' => $accountType,
             'account_number' => str_pad((string) $account->getNumber(), 8, '0', STR_PAD_LEFT),
             'account_email' => $email->getEmail(),
             'date' => Carbon::now()->format('d/m/y'),
-            'bonus' => $sumBonus,
             'referral_payments' => $sumReferral,
             'withdrawals' => $withdrawals,
             'opening_balance' => $startDayTotalBalance + $sumPaymentsToFundToStartMonth,

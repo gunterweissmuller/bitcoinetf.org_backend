@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\V1\Auth;
 
+use App\Dto\Pipelines\Api\V1\Auth\AuthType\AuthTypeFacebookPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\AuthType\AuthTypeApplePipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\AuthType\AuthTypeTelegramPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Login\LoginGooglePipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\InitGooglePipelineDto;
 use App\Enums\Users\Email\StatusEnum as EmailStatusEnum;
 use App\Exceptions\Pipelines\V1\Auth\AuthorizationTokenExpiredException;
+use App\Http\Requests\Api\V1\Auth\AuthType\AuthTypeFacebookRequest;
 use App\Http\Requests\Api\V1\Auth\AuthType\AuthTypeAppleRequest;
 use App\Http\Requests\Api\V1\Auth\AuthType\AuthTypeTelegramRequest;
 use App\Http\Requests\Api\V1\Auth\Login\LoginGoogleRequest;
@@ -118,6 +120,26 @@ final class AuthController extends Controller
     {
         /** @var AuthTypeTelegramPipelineDto $dto */
         [$dto, $e] = $this->authTypePipeline->checkTelegram($request->dto());
+
+        if (!$e) {
+            return response()->json([
+                'data' => [
+                    'auth_type' => $dto->getAuthType(),
+                ]
+            ]);
+        }
+
+        return response()->__call('exception', [$e]);
+    }
+
+    /**
+     * @param AuthTypeFacebookRequest $request
+     * @return JsonResponse
+     */
+    public function getAuthTypeFacebook(AuthTypeFacebookRequest $request): JsonResponse
+    {
+        /** @var AuthTypeFacebookPipelineDto $dto */
+        [$dto, $e] = $this->authTypePipeline->checkFacebook($request->dto());
 
         if (!$e) {
             return response()->json([

@@ -23,30 +23,38 @@ final class GfPayoutPipe implements PipeInterface
     ) {
     }
 
+    /**
+     * @param DividendPipelineDto|DtoInterface $dto
+     * @param Closure $next
+     * @return DtoInterface
+     */
     public function handle(DividendPipelineDto|DtoInterface $dto, Closure $next): DtoInterface
     {
-        $wallet = $dto->getWallet();
+        $method = $dto->getMethod();
+        if ($method == MethodEnum::BITCOIN_ON_CHAIN->value || $method == MethodEnum::BITCOIN_LIGHTNING->value) {
+            $wallet = $dto->getWallet();
 
-        $payment = $dto->getPayment();
-        $pullPayment = $dto->getPullPayment();
-        $withdrawal = $dto->getWithdrawal();
+            $payment = $dto->getPayment();
+            $pullPayment = $dto->getPullPayment();
+            $withdrawal = $dto->getWithdrawal();
 
-        if ($payout = $this->greenfieldService->createPayouts($pullPayment->getId(), PayoutDto::fromArray([
-            'destination' => $wallet->getWithdrawalAddress(),
-            'amount' => $payment->getTotalAmountBtc(),
-            'paymentMethod' => ($dto->getMethod() == MethodEnum::BITCOIN_ON_CHAIN->value) ? 'BTC-OnChain' : 'BTC-LightningNetwork',
-        ]))) {
-            $dto->setPayout($payout);
-        } else {
-            throw new WithdrawalNotPossibleException();
+            if ($payout = $this->greenfieldService->createPayouts($pullPayment->getId(), PayoutDto::fromArray([
+                'destination' => $wallet->getWithdrawalAddress(),
+                'amount' => $payment->getTotalAmountBtc(),
+                'paymentMethod' => ($method == MethodEnum::BITCOIN_ON_CHAIN->value) ? 'BTC-OnChain' : 'BTC-LightningNetwork',
+            ]))) {
+                $dto->setPayout($payout);
+            } else {
+                throw new WithdrawalNotPossibleException();
+            }
+
+            $withdrawal->setStatus(StatusEnum::SUCCESS->value);
+            $this->withdrawalService->update([
+                'uuid' => $withdrawal->getUuid(),
+            ], [
+                'status' => $withdrawal->getStatus()
+            ]);
         }
-
-        $withdrawal->setStatus(StatusEnum::SUCCESS->value);
-        $this->withdrawalService->update([
-            'uuid' => $withdrawal->getUuid(),
-        ], [
-            'status' => $withdrawal->getStatus()
-        ]);
 
         return $next($dto);
     }

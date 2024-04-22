@@ -8,6 +8,8 @@ use App\Dto\Pipelines\Api\V1\Public\Billing\Withdrawal\DividendPipelineDto;
 use App\Dto\Pipelines\Api\V1\Public\Billing\Withdrawal\ReferralCallbackPipelineDto;
 use App\Dto\Pipelines\Api\V1\Public\Billing\Withdrawal\ReferralPipelineDto;
 use App\Pipelines\AbstractPipeline;
+use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\Dividends\ApollopaymentWithdrawalCommissionPipe as DividendsApollopaymentWithdrawalCommissionPipe;
+use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\Dividends\ApollopaymentWithdrawalPipe as DividendsApollopaymentWithdrawalPipe;
 use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\Dividends\KafkaPipe;
 use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\Dividends\GfPayoutPipe as DividendsGfPayoutPipe;
 use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\Dividends\GfPullPaymentPipe as DividendsGfPullPaymentPipe;
@@ -22,6 +24,7 @@ use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\ReferralsCallback\Withdrawa
 use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\UpdateCentrifugalPipe;
 use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\WalletPipe as WalletPipe;
 use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\WithdrawalPipe;
+use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\WithdrawalWebhookPipe;
 
 final class WithdrawalPipeline extends AbstractPipeline
 {
@@ -33,6 +36,8 @@ final class WithdrawalPipeline extends AbstractPipeline
             WithdrawalPipe::class,
             DividendsGfPullPaymentPipe::class,
             DividendsGfPayoutPipe::class,
+            DividendsApollopaymentWithdrawalCommissionPipe::class,
+            DividendsApollopaymentWithdrawalPipe::class,
             NewCentrifugalPipe::class,
             DividendsSendPaymentPipe::class,
             KafkaPipe::class,
@@ -53,6 +58,14 @@ final class WithdrawalPipeline extends AbstractPipeline
     public function dividendsCallback($dto): array
     {
         return $this->pipeline([
+            UpdateCentrifugalPipe::class,
+        ], $dto);
+    }
+
+    public function apolloWithdrawalWebhook(DividendPipelineDto $dto): array
+    {
+        return $this->pipeline([
+            WithdrawalWebhookPipe::class,
             UpdateCentrifugalPipe::class,
         ], $dto);
     }

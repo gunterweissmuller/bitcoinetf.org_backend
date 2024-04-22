@@ -137,7 +137,7 @@ final class StatementJob extends Job
         $fileName = hash('sha256', rand(10, 9999).$this->accountUuid).'.pdf';
         Storage::disk('local')->put('pdf/'.$fileName, $domPdfService->create($data));
         $directory = $fileService->getS3DirPath(FileTypeEnum::DividendsReport->value);
-dd('stop');
+
         $fileDto = FileDto::fromArray([
             'type' => FileTypeEnum::DividendsReport->value,
             'extension' => ExtensionEnum::PDF->value,

@@ -36,7 +36,7 @@ final class VerifyCodeMail extends Mailable
         $firstName = explode(' ', $profile['full_name'])[0] ?? $profile['full_name'];
 
         return new Content(
-            view: 'emails.v1.auth.verify-code',
+            view: 'emails.v1.auth.verify-email-link',
             with: [
                 'accountUuid' => $account['uuid'],
                 'username' => $account['username'],

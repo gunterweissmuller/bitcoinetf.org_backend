@@ -238,40 +238,6 @@
 @section('content')
     <tr>
         <td align="left">
-            <table class="indent" width=100% cellpadding=0 cellspacing=0 border=0
-                   style=mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px>
-                <tbody>
-                <tr>
-                    <td align=center>
-                        <table class=container align=left width=375 cellpadding=0 cellspacing=0 border=0
-                               style=mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px>
-                            <tbody>
-                            <tr>
-                                <td>
-                                    <table width=100% cellpadding=0 cellspacing=0 border=0
-                                           style=mso-table-lspace:0pt;mso-table-rspace:0pt>
-                                        <tbody>
-                                        <tr>
-                                            <td class=float-sm width=16>&nbsp;</td>
-                                            <td class=float-lg width=343 align=start valign=start>
-                                                <p style=Margin:0;height:32px;line-height:32px>
-                                                    &nbsp;
-                                                </p>
-                                            </td>
-                                            <td class=float-sm width=16>&nbsp;</td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </td>
-                            </tr>
-                            <tr>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
             <table width=100% cellpadding=0 cellspacing=0 border=0
                    style=mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px>
                 <tbody>

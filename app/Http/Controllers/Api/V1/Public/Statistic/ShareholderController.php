@@ -77,8 +77,8 @@ final class ShareholderController extends Controller
         $strategies = [
             ['name' => 'Tether', 'percent' => $percentUsd],
             ['name' => 'Bitcoin', 'percent' => $percentBtc],
-            ['name' => 'Tether', 'count' => $countUsd],
-            ['name' => 'Bitcoin', 'count' => $countBtc],
+            ['name' => 'CountTether', 'qty' => $countUsd], //@fixme-v remove after test
+            ['name' => 'CountBitcoin', 'qty' => $countBtc],//@fixme-v remove after test
         ];
         return response()->json($strategies);
     }

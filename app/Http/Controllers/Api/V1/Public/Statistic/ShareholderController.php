@@ -11,11 +11,15 @@ use App\Services\Api\V1\Fund\ShareholderService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
+use App\Services\Api\V1\Users\AccountService;
+use App\Enums\Users\Account\OrderTypeEnum;
+use Illuminate\Support\Facades\Cache;
 
 final class ShareholderController extends Controller
 {
     public function __construct(
-        private readonly ShareholderService $shareholderService
+        private readonly ShareholderService $shareholderService,
+        private readonly AccountService $accountService,
     ) {
     }
 
@@ -50,5 +54,32 @@ final class ShareholderController extends Controller
         return response()->json([
             'data' => $shareholdersTop,
         ]);
+    }
+
+    public function strategies(): JsonResponse
+    {
+        function customRound($num1, $num2):float|int {
+            $total = $num1 + $num2;
+            if($num1 > $num2) {
+                return floor($num1 * 100/ $total);
+            } else {
+                return ceil($num1 * 100/ $total);
+            }
+        }
+        $countUsd = Cache::rememberForever('countUsd', function () {
+           return $this->accountService->all(['order_type' => OrderTypeEnum::USDT->value])->count();
+        });
+        $countBtc = Cache::rememberForever('countBtc', function () {
+            return $this->accountService->all(['order_type' => OrderTypeEnum::BTC->value])->count();
+        });
+        $percentUsd = customRound($countUsd, $countBtc);
+        $percentBtc = customRound($countBtc, $countUsd);;
+        $strategies = [
+            ['name' => 'Tether', 'percent' => $percentUsd],
+            ['name' => 'Bitcoin', 'percent' => $percentBtc],
+            ['name' => 'Tether', 'count' => $countUsd],
+            ['name' => 'Bitcoin', 'count' => $countBtc],
+        ];
+        return response()->json($strategies);
     }
 }

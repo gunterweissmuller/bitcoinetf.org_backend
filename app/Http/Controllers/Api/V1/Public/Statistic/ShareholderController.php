@@ -66,13 +66,19 @@ final class ShareholderController extends Controller
                 return ceil($num1 * 100/ $total);
             }
         }
-        $countUsd = $this->accountService->all(['order_type' => OrderTypeEnum::USDT->value])->count();
-        $countBtc = $this->accountService->all(['order_type' => OrderTypeEnum::BTC->value])->count();
+        $countUsd = Cache::rememberForever('countUsd', function () {
+           return $this->accountService->all(['order_type' => OrderTypeEnum::USDT->value])->count();
+        });
+        $countBtc = Cache::rememberForever('countBtc', function () {
+            return $this->accountService->all(['order_type' => OrderTypeEnum::BTC->value])->count();
+        });
         $percentUsd = customRound($countUsd, $countBtc);
         $percentBtc = customRound($countBtc, $countUsd);;
         $strategies = [
             ['name' => 'Tether', 'percent' => $percentUsd],
-            ['name' => 'Bitcoin', 'percent' => $percentBtc]
+            ['name' => 'Bitcoin', 'percent' => $percentBtc],
+            ['name' => 'Tether', 'count' => $countUsd],
+            ['name' => 'Bitcoin', 'count' => $countBtc],
         ];
         return response()->json($strategies);
     }

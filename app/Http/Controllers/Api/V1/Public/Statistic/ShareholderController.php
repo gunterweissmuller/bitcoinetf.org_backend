@@ -75,10 +75,8 @@ final class ShareholderController extends Controller
         $percentUsd = customRound($countUsd, $countBtc);
         $percentBtc = customRound($countBtc, $countUsd);;
         $strategies = [
-            ['name' => 'Tether', 'percent' => $percentUsd],
-            ['name' => 'Bitcoin', 'percent' => $percentBtc],
-            ['name' => 'CountTether', 'qty' => $countUsd], //@fixme-v remove after test
-            ['name' => 'CountBitcoin', 'qty' => $countBtc],//@fixme-v remove after test
+            ['name' => 'Tether', 'percent' => $percentUsd, 'count' => $countUsd],//@fixme-v remove count after test
+            ['name' => 'Bitcoin', 'percent' => $percentBtc, 'count' => $countBtc],//@fixme-v remove count after test
         ];
         return response()->json($strategies);
     }

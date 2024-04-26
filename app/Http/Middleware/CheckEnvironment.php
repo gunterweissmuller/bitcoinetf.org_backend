@@ -15,10 +15,10 @@ class CheckEnvironment
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (env('APP_ENV') === 'staging' | env('APP_ENV') === 'local') {
+        if (env('APP_ENV') === 'staging') {
             return $next($request);
         }
 
-        return response()->json(['error' => 'wrong app_env', 'app_env' => env('APP_ENV')], 403); // @fixme-v delete app_env after test
+        return response()->json(['error' => 'wrong app_env'], 403);
     }
 }

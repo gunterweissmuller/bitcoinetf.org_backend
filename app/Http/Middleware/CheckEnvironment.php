@@ -15,7 +15,7 @@ class CheckEnvironment
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (env('APP_ENV') === 'stage' | env('APP_ENV') === 'local') {
+        if (env('APP_ENV') === 'staging' | env('APP_ENV') === 'local') {
             return $next($request);
         }
 

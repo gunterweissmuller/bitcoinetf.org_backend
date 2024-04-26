@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Pipelines\V1\Auth\Login\Pipes\LoginOneTimePass;
 
 use App\Dto\DtoInterface;
-use App\Dto\Pipelines\Api\V1\Auth\Login\LoginPipelineDto;
+use App\Dto\Pipelines\Api\V1\Auth\Login\LoginOneTimePasswordPipelineDto;
 use App\Enums\Auth\Code\TypeEnum;
 use App\Enums\Users\Account\StatusEnum;
 use \App\Enums\Auth\Code\StatusEnum as CodeStatusEnum;
@@ -25,18 +25,18 @@ final class AccountPipe implements PipeInterface
     }
 
     /**
-     * @param LoginPipelineDto|DtoInterface $dto
+     * @param LoginOneTimePasswordPipelineDto|DtoInterface $dto
      * @param Closure $next
      * @return DtoInterface
      */
-    public function handle(LoginPipelineDto|DtoInterface $dto, Closure $next): DtoInterface
+    public function handle(LoginOneTimePasswordPipelineDto|DtoInterface $dto, Closure $next): DtoInterface
     {
         if ($account = $this->accountService->get([
             'uuid' => $dto->getEmail()->getAccountUuid(),
             'status' => StatusEnum::Enabled->value,
         ])) {
             if (!$this->codeService->get([
-                'code' => $dto->getAccount()->getPassword(),
+                'code' => $dto->getCode()->getCode(),
                 'type' => TypeEnum::OneTimePassword->value,
                 'status' => CodeStatusEnum::Unused->value,
             ])) {

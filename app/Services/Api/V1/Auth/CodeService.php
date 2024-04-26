@@ -22,7 +22,7 @@ final class CodeService
     {
         $expiresTime = Carbon::now()->addMinutes(10)->format('Y-m-d H:i:s');
 
-        if ($dto->getType() == TypeEnum::PasswordRecovery->value) {
+        if ($dto->getType() == TypeEnum::PasswordRecovery->value || $dto->getType() == TypeEnum::OneTimePassword->value) {
             $dto->setCode(CodeHelper::generate(32, CodeHelper::TYPE_WEB3));
         } else {
             $dto->setCode(CodeHelper::generate(6));

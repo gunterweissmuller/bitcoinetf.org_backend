@@ -154,4 +154,26 @@ final class LoginController extends Controller
 
         return response()->__call('exception', [$e]);
     }
+
+    /**
+     * @param LoginRequest $request
+     * @return JsonResponse
+     */
+    public function loginOneTimePass(LoginRequest $request): JsonResponse
+    {
+        /** @var LoginPipelineDto $dto */
+        [$dto, $e] = $this->pipeline->loginOneTimePass($request->dto());
+
+        if (!$e) {
+            return response()->json([
+                'data' => [
+                    'access_token' => $dto->getJwtAccess()->getToken(),
+                    'refresh_token' => $dto->getJwtRefresh()->getToken(),
+                    'websocket_token' => $dto->getWebsocketToken(),
+                ]
+            ]);
+        }
+
+        return response()->__call('exception', [$e]);
+    }
 }

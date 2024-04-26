@@ -26,7 +26,7 @@ final class InitRequest extends AbstractRequest
     public function dto(): InitPipelineDto
     {
         return InitPipelineDto::fromArray([
-            EmailDto::fromArray([
+            'email' => EmailDto::fromArray([
                 'email' => strtolower($this->get('email')),
             ]),
         ]);

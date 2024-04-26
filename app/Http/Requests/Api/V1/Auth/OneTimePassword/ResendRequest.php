@@ -25,7 +25,7 @@ final class ResendRequest extends AbstractRequest
     public function dto(): ResendPipelineDto
     {
         return ResendPipelineDto::fromArray([
-            EmailDto::fromArray([
+            'email' => EmailDto::fromArray([
                 'email' => strtolower($this->get('email')),
             ]),
         ]);

@@ -11,7 +11,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-final class VerifyCodeMail extends Mailable
+final class OneTimePasswordLink extends Mailable
 {
     use SerializesModels;
 
@@ -25,7 +25,7 @@ final class VerifyCodeMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Verify Your Email',
+            subject: 'Your one-time link',
         );
     }
 
@@ -36,7 +36,7 @@ final class VerifyCodeMail extends Mailable
         $firstName = explode(' ', $profile['full_name'])[0] ?? $profile['full_name'];
 
         return new Content(
-            view: 'emails.v1.auth.verify-email-link',
+            view: 'emails.v1.auth.one-time-pass-link',
             with: [
                 'accountUuid' => $account['uuid'],
                 'username' => $account['username'],

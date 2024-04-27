@@ -13,4 +13,6 @@ enum TypeEnum: string
     case Registration = 'registration';
 
     case PasswordRecovery = 'password-recovery';
+
+    case OneTimePassword = 'one-time-password';
 }

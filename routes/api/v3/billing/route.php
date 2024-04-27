@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\MoonPaySignature;
 use App\Http\Middleware\ApolloPaymentIp;
 use App\Http\Middleware\ApolloPaymentSignature;
+use App\Http\Middleware\CheckEnvironment;
 
 Route::namespace('Public')
     ->prefix('public')
@@ -38,7 +39,7 @@ Route::namespace('Public')
                                     ->prefix('apollopayment')
                                     ->group(function () {
                                         Route::post('/webhook/{account_uuid}', 'ApollopaymentController@webhook')->middleware([ApolloPaymentIp::class, ApolloPaymentSignature::class]);
-//                                        Route::post('/mockWebhook/{account_uuid}', 'ApollopaymentController@mockWebhook'); // @fixme-v delete after test
+                                        Route::post('/mockWebhook/{account_uuid}', 'ApollopaymentController@mockWebhook')->middleware([CheckEnvironment::class]);
                                     });
                                 // @fixme-v moonpay closed
                                 Route::namespace('MoonPay')

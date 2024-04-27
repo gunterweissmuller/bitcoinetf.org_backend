@@ -8,6 +8,7 @@ use App\Dto\Pipelines\Api\V1\Auth\Login\LoginApplePipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Login\LoginFacebookPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Login\LoginGooglePipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Login\LoginMetamaskPipelineDto;
+use App\Dto\Pipelines\Api\V1\Auth\Login\LoginOneTimePasswordPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Login\LoginPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Login\LoginTelegramPipelineDto;
 use App\Pipelines\AbstractPipeline;
@@ -22,6 +23,8 @@ use App\Pipelines\V1\Auth\Login\Pipes\Login\JwtPipe as LoginJwtPipe;
 use App\Pipelines\V1\Auth\Login\Pipes\LoginMetamask\AccountPipe as LoginMetamaskAccountPipe;
 use App\Pipelines\V1\Auth\Login\Pipes\LoginApple\AccountPipe as LoginAppleAccountPipe;
 use App\Pipelines\V1\Auth\Login\Pipes\LoginMetamask\WalletPipe as LoginWalletPipe;
+use App\Pipelines\V1\Auth\Login\Pipes\LoginOneTimePass\AccountPipe as LoginOneTimePassAccountPipe;
+use App\Pipelines\V1\Auth\Login\Pipes\LoginOneTimePass\CodePipe as LoginOneTimePassCodePipe;
 use App\Pipelines\V1\Auth\Login\Pipes\LoginTelegram\AccountPipe as LoginTelegramAccountPipe;
 use App\Pipelines\V1\Auth\Login\Pipes\LoginTelegram\TelegramPipe as LoginTelegramPipe;
 
@@ -84,6 +87,16 @@ final class LoginPipeline extends AbstractPipeline
             LoginFacebookAccountPipe::class,
             LoginJwtPipe::class,
             LoginMetadataPipe::class,
+        ], $dto);
+    }
+
+    public function loginOneTimePass(LoginOneTimePasswordPipelineDto $dto): array
+    {
+        return $this->pipeline([
+            LoginEmailPipe::class,
+            LoginOneTimePassAccountPipe::class,
+            LoginOneTimePassCodePipe::class,
+            LoginJwtPipe::class,
         ], $dto);
     }
 }

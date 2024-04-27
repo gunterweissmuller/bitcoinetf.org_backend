@@ -9,19 +9,22 @@ use App\Dto\DtoInterface;
 use App\Dto\Models\Auth\CodeDto;
 use App\Dto\Models\Users\AccountDto;
 use App\Dto\Models\Users\EmailDto;
+use App\Dto\Models\Users\MetadataDto;
 
 final class ConfirmMetamaskPipelineDto implements DtoInterface
 {
     public function __construct(
-        private ?EmailDto $email,
-        private ?CodeDto $code,
-        private ?AccountDto $account,
-        private ?array $bonus = [],
-        private ?JwtDto $jwtAccess,
-        private ?JwtDto $jwtRefresh,
-        private ?string $websocketToken = null,
-        private ?bool $isFast
-    ) {
+        private ?EmailDto    $email,
+        private ?CodeDto     $code,
+        private ?AccountDto  $account,
+        private ?MetadataDto $metadata,
+        private ?array       $bonus = [],
+        private ?JwtDto      $jwtAccess,
+        private ?JwtDto      $jwtRefresh,
+        private ?string      $websocketToken = null,
+        private ?bool        $isFast
+    )
+    {
     }
 
     public static function fromArray(array $args): DtoInterface|self
@@ -30,6 +33,7 @@ final class ConfirmMetamaskPipelineDto implements DtoInterface
             $args['email'] ?? null,
             $args['code'] ?? null,
             $args['account'] ?? null,
+            $args['metadata'] ?? null,
             $args['bonus'] ?? null,
             $args['jwt_access'] ?? null,
             $args['jwt_refresh'] ?? null,
@@ -44,6 +48,7 @@ final class ConfirmMetamaskPipelineDto implements DtoInterface
             'email' => $this->email,
             'code' => $this->code,
             'account' => $this->account,
+            'metadata' => $this->metadata,
             'bonus' => $this->bonus,
             'jwt_access' => $this->jwtAccess,
             'jwt_refresh' => $this->jwtRefresh,
@@ -61,7 +66,7 @@ final class ConfirmMetamaskPipelineDto implements DtoInterface
     }
 
     /**
-     * @param  EmailDto|null  $email
+     * @param EmailDto|null $email
      */
     public function setEmail(?EmailDto $email): void
     {
@@ -77,7 +82,7 @@ final class ConfirmMetamaskPipelineDto implements DtoInterface
     }
 
     /**
-     * @param  CodeDto|null  $code
+     * @param CodeDto|null $code
      */
     public function setCode(?CodeDto $code): void
     {
@@ -93,11 +98,28 @@ final class ConfirmMetamaskPipelineDto implements DtoInterface
     }
 
     /**
-     * @param  AccountDto|null  $account
+     * @param AccountDto|null $account
      */
     public function setAccount(?AccountDto $account): void
     {
         $this->account = $account;
+    }
+
+    /**
+     * @return MetadataDto|null
+     */
+    public function getMetadata(): ?MetadataDto
+    {
+        return $this->metadata;
+    }
+
+    /**
+     * @param MetadataDto|null $metadata
+     * @return void
+     */
+    public function setMetadata(?MetadataDto $metadata): void
+    {
+        $this->metadata = $metadata;
     }
 
     /**
@@ -109,7 +131,7 @@ final class ConfirmMetamaskPipelineDto implements DtoInterface
     }
 
     /**
-     * @param  array|null  $bonus
+     * @param array|null $bonus
      */
     public function setBonus(?array $bonus): void
     {
@@ -125,7 +147,7 @@ final class ConfirmMetamaskPipelineDto implements DtoInterface
     }
 
     /**
-     * @param  JwtDto|null  $jwtAccess
+     * @param JwtDto|null $jwtAccess
      */
     public function setJwtAccess(?JwtDto $jwtAccess): void
     {
@@ -141,7 +163,7 @@ final class ConfirmMetamaskPipelineDto implements DtoInterface
     }
 
     /**
-     * @param  JwtDto|null  $jwtRefresh
+     * @param JwtDto|null $jwtRefresh
      */
     public function setJwtRefresh(?JwtDto $jwtRefresh): void
     {
@@ -157,7 +179,7 @@ final class ConfirmMetamaskPipelineDto implements DtoInterface
     }
 
     /**
-     * @param  string|null  $websocketToken
+     * @param string|null $websocketToken
      */
     public function setWebsocketToken(?string $websocketToken): void
     {

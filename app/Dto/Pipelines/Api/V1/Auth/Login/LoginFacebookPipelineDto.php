@@ -8,16 +8,19 @@ use App\Dto\Core\JwtDto;
 use App\Dto\DtoInterface;
 use App\Dto\Models\Users\AccountDto;
 use App\Dto\Models\Users\FacebookDto;
+use App\Dto\Models\Users\MetadataDto;
 
 final class LoginFacebookPipelineDto implements DtoInterface
 {
     public function __construct(
         private ?FacebookDto $facebook,
-        private ?AccountDto $account,
-        private ?JwtDto $jwtAccess,
-        private ?JwtDto $jwtRefresh,
-        private ?string $websocketToken = null,
-    ) {
+        private ?AccountDto  $account,
+        private ?MetadataDto $metadata,
+        private ?JwtDto      $jwtAccess,
+        private ?JwtDto      $jwtRefresh,
+        private ?string      $websocketToken = null,
+    )
+    {
     }
 
     public static function fromArray(array $args): DtoInterface|self
@@ -25,6 +28,7 @@ final class LoginFacebookPipelineDto implements DtoInterface
         return new self(
             $args['facebook'] ?? null,
             $args['account'] ?? null,
+            $args['metadata'] ?? null,
             $args['jwt_access'] ?? null,
             $args['jwt_refresh'] ?? null,
             $args['websocket_token'] ?? null,
@@ -36,6 +40,7 @@ final class LoginFacebookPipelineDto implements DtoInterface
         return [
             'facebook' => $this->facebook,
             'account' => $this->account,
+            'metadata' => $this->metadata,
             'jwt_access' => $this->jwtAccess,
             'jwt_refresh' => $this->jwtRefresh,
             'websocket_token' => $this->websocketToken,
@@ -78,11 +83,28 @@ final class LoginFacebookPipelineDto implements DtoInterface
     }
 
     /**
-     * @param  AccountDto|null  $account
+     * @param AccountDto|null $account
      */
     public function setAccount(?AccountDto $account): void
     {
         $this->account = $account;
+    }
+
+    /**
+     * @return MetadataDto|null
+     */
+    public function getMetadata(): ?MetadataDto
+    {
+        return $this->metadata;
+    }
+
+    /**
+     * @param MetadataDto|null $metadata
+     * @return void
+     */
+    public function setMetadata(?MetadataDto $metadata): void
+    {
+        $this->metadata = $metadata;
     }
 
     /**
@@ -94,7 +116,7 @@ final class LoginFacebookPipelineDto implements DtoInterface
     }
 
     /**
-     * @param  JwtDto|null  $jwtAccess
+     * @param JwtDto|null $jwtAccess
      */
     public function setJwtAccess(?JwtDto $jwtAccess): void
     {
@@ -110,7 +132,7 @@ final class LoginFacebookPipelineDto implements DtoInterface
     }
 
     /**
-     * @param  JwtDto|null  $jwtRefresh
+     * @param JwtDto|null $jwtRefresh
      */
     public function setJwtRefresh(?JwtDto $jwtRefresh): void
     {

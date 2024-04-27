@@ -7,6 +7,7 @@ namespace App\Http\Requests\Api\V1\Auth\Register;
 use App\Dto\Models\Auth\CodeDto;
 use App\Dto\Models\Users\AccountDto;
 use App\Dto\Models\Users\EmailDto;
+use App\Dto\Models\Users\MetadataDto;
 use App\Dto\Models\Users\TelegramDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmTelegramPipelineDto;
 use App\Http\Requests\AbstractRequest;
@@ -49,6 +50,10 @@ final class ConfirmTelegramRequest extends AbstractRequest
             'account' => AccountDto::fromArray([]),
             'telegram' => TelegramDto::fromArray([
                 'telegram_id' => $telegramData['id'],
+            ]),
+            'metadata' => MetadataDto::fromArray([
+                'ipv4_address' => request()->ip(),
+                'user_agent' => request()->userAgent(),
             ]),
         ]);
     }

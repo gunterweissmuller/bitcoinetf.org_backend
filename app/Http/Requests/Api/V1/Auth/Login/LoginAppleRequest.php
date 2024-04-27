@@ -6,6 +6,7 @@ namespace App\Http\Requests\Api\V1\Auth\Login;
 
 use App\Dto\Models\Users\AccountDto;
 use App\Dto\Models\Users\AppleAccountDto;
+use App\Dto\Models\Users\MetadataDto;
 use App\Dto\Pipelines\Api\V1\Auth\Login\LoginApplePipelineDto;
 use App\Http\Requests\AbstractRequest;
 use App\Services\Utils\AppleAuthJWTService;
@@ -35,6 +36,10 @@ final class LoginAppleRequest extends AbstractRequest
                 'account' => AccountDto::fromArray([]),
                 'apple_account' => AppleAccountDto::fromArray([
                     'apple_id' => strtolower($socialiteUser->getId()),
+                ]),
+                'metadata' => MetadataDto::fromArray([
+                    'ipv4_address' => request()->ip(),
+                    'user_agent' => request()->userAgent(),
                 ]),
             ]
         );

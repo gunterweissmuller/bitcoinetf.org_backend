@@ -8,6 +8,7 @@ use App\Dto\Models\Auth\CodeDto;
 use App\Dto\Models\Users\AccountDto;
 use App\Dto\Models\Users\EmailDto;
 use App\Dto\Models\Users\FacebookDto;
+use App\Dto\Models\Users\MetadataDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmFacebookPipelineDto;
 use App\Http\Requests\AbstractRequest;
 
@@ -39,6 +40,10 @@ final class ConfirmFacebookRequest extends AbstractRequest
             'account' => AccountDto::fromArray([]),
             'facebook' => FacebookDto::fromArray([
                 'facebook_id' => (int)$this->get('facebook_id'),
+            ]),
+            'metadata' => MetadataDto::fromArray([
+                'ipv4_address' => request()->ip(),
+                'user_agent' => request()->userAgent(),
             ]),
         ]);
     }

@@ -13,6 +13,7 @@ use App\Dto\Pipelines\Api\V1\Auth\Login\LoginPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Login\LoginTelegramPipelineDto;
 use App\Pipelines\AbstractPipeline;
 use App\Pipelines\V1\Auth\Login\Pipes\Login\AccountPipe as LoginAccountPipe;
+use App\Pipelines\V1\Auth\Login\Pipes\Login\MetadataPipe as LoginMetadataPipe;
 use App\Pipelines\V1\Auth\Login\Pipes\LoginFacebook\AccountPipe as LoginFacebookAccountPipe;
 use App\Pipelines\V1\Auth\Login\Pipes\LoginFacebook\FacebookPipe as LoginFacebookPipe;
 use App\Pipelines\V1\Auth\Login\Pipes\LoginApple\ApplePipe as LoginApplePipe;
@@ -35,6 +36,7 @@ final class LoginPipeline extends AbstractPipeline
             LoginEmailPipe::class,
             LoginAccountPipe::class,
             LoginJwtPipe::class,
+            LoginMetadataPipe::class,
         ], $dto);
     }
 
@@ -44,6 +46,7 @@ final class LoginPipeline extends AbstractPipeline
             LoginEmailPipe::class,
             LoginGoogleAccountPipe::class,
             LoginJwtPipe::class,
+            LoginMetadataPipe::class,
         ], $dto);
     }
 
@@ -53,6 +56,7 @@ final class LoginPipeline extends AbstractPipeline
             LoginWalletPipe::class,
             LoginMetamaskAccountPipe::class,
             LoginJwtPipe::class,
+            LoginMetadataPipe::class,
         ], $dto);
     }
 
@@ -62,6 +66,7 @@ final class LoginPipeline extends AbstractPipeline
             LoginApplePipe::class,
             LoginAppleAccountPipe::class,
             LoginJwtPipe::class,
+            LoginMetadataPipe::class,
         ], $dto);
     }
 
@@ -71,6 +76,7 @@ final class LoginPipeline extends AbstractPipeline
             LoginTelegramPipe::class,
             LoginTelegramAccountPipe::class,
             LoginJwtPipe::class,
+            LoginMetadataPipe::class,
         ], $dto);
     }
 
@@ -80,6 +86,7 @@ final class LoginPipeline extends AbstractPipeline
             LoginFacebookPipe::class,
             LoginFacebookAccountPipe::class,
             LoginJwtPipe::class,
+            LoginMetadataPipe::class,
         ], $dto);
     }
 
@@ -90,6 +97,7 @@ final class LoginPipeline extends AbstractPipeline
             LoginOneTimePassAccountPipe::class,
             LoginOneTimePassCodePipe::class,
             LoginJwtPipe::class,
+            LoginMetadataPipe::class,
         ], $dto);
     }
 }

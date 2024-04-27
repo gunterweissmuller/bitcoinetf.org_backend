@@ -6,6 +6,7 @@ namespace App\Http\Requests\Api\V1\Auth\Login;
 
 use App\Dto\Models\Auth\CodeDto;
 use App\Dto\Models\Users\EmailDto;
+use App\Dto\Models\Users\MetadataDto;
 use App\Dto\Pipelines\Api\V1\Auth\Login\LoginOneTimePasswordPipelineDto;
 use App\Http\Requests\AbstractRequest;
 
@@ -33,6 +34,10 @@ final class LoginOneTimePasswordRequest extends AbstractRequest
                 ]),
                 'code' => CodeDto::fromArray([
                     'code' => strval($this->get('password')),
+                ]),
+                'metadata' => MetadataDto::fromArray([
+                    'ipv4_address' => request()->ip(),
+                    'user_agent' => request()->userAgent(),
                 ]),
             ]
         );

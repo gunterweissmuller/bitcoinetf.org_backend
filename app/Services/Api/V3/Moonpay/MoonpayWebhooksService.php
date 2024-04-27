@@ -50,7 +50,7 @@ final class MoonpayWebhooksService
             'client_id' => $data['externalCustomerId'],
             'webhook_id' => $data['data']['id'],
             'address_id' => $data['data']['cardId'],
-            'amount' => $data['data']['quoteCurrencyAmount'],
+            'amount' => (float)$data['data']['quoteCurrencyAmount'],
             'currency' => $data['data']['currency']['code'],
             'network' => env('MOONPAY_CURRENCY_NETWORK'),
             'tx' => $data['data']['cryptoTransactionId'],

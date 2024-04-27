@@ -42,6 +42,10 @@ return [
         'interface' => \App\Repositories\Users\Facebook\FacebookRepositoryInterface::class,
         'implementation' => \App\Repositories\Users\Facebook\PgSqlFacebookRepository::class,
     ],
+    [
+        'interface' => App\Repositories\Users\Metadata\MetadataRepositoryInterface::class,
+        'implementation' => \App\Repositories\Users\Metadata\PgSqlMetadataRepository::class,
+    ],
 
     // Fund
     [

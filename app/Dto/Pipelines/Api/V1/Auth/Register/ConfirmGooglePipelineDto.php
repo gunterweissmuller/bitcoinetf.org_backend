@@ -9,6 +9,7 @@ use App\Dto\DtoInterface;
 use App\Dto\Models\Apollopayment\ClientsDto;
 use App\Dto\Models\Users\AccountDto;
 use App\Dto\Models\Users\EmailDto;
+use App\Dto\Models\Users\MetadataDto;
 use App\Dto\Models\Users\ProfileDto;
 use App\Enums\Users\Account\ProviderTypeEnum;
 
@@ -17,6 +18,7 @@ final class ConfirmGooglePipelineDto implements DtoInterface
     public function __construct(
         private ?EmailDto         $email,
         private ?AccountDto       $account,
+        private ?MetadataDto      $metadata,
         private ?ProfileDto       $profile,
         private ?JwtDto           $jwtAccess,
         private ?JwtDto           $jwtRefresh,
@@ -33,6 +35,7 @@ final class ConfirmGooglePipelineDto implements DtoInterface
         return new self(
             $args['email'] ?? null,
             $args['account'] ?? null,
+            $args['metadata'] ?? null,
             $args['profile'] ?? null,
             $args['jwt_access'] ?? null,
             $args['jwt_refresh'] ?? null,
@@ -48,6 +51,7 @@ final class ConfirmGooglePipelineDto implements DtoInterface
         return [
             'email' => $this->email,
             'account' => $this->account,
+            'metadata' => $this->metadata,
             'profile' => $this->profile,
             'jwt_access' => $this->jwtAccess,
             'jwt_refresh' => $this->jwtRefresh,
@@ -88,6 +92,23 @@ final class ConfirmGooglePipelineDto implements DtoInterface
     public function setAccount(?AccountDto $account): void
     {
         $this->account = $account;
+    }
+
+    /**
+     * @return MetadataDto|null
+     */
+    public function getMetadata(): ?MetadataDto
+    {
+        return $this->metadata;
+    }
+
+    /**
+     * @param MetadataDto|null $metadata
+     * @return void
+     */
+    public function setMetadata(?MetadataDto $metadata): void
+    {
+        $this->metadata = $metadata;
     }
 
     /**

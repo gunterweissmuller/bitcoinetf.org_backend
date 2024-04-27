@@ -24,6 +24,7 @@ use App\Pipelines\V1\Auth\Register\Pipes\Confirm\CodePipe as ConfirmCodePipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Confirm\EmailPipe as ConfirmEmailPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Confirm\JwtPipe as ConfirmJwtPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Confirm\MailPipe as ConfirmMailPipe;
+use App\Pipelines\V1\Auth\Register\Pipes\Confirm\MetadataPipe as ConfirmMetadataPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Confirm\UpdateUsersInfoPipe as ConfirmUpdateUsersInfoPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Confirm\ValidatePipe as ConfirmValidatePipe;
 use App\Pipelines\V1\Auth\Register\Pipes\ConfirmFacebookAuth\AccountPipe as ConfirmFacebookAccountPipe;
@@ -84,6 +85,7 @@ final class RegisterPipeline extends AbstractPipeline
             ConfirmJwtPipe::class,
             ConfirmMailPipe::class,
             ConfirmUpdateUsersInfoPipe::class,
+            ConfirmMetadataPipe::class,
         ], $dto);
     }
 
@@ -114,6 +116,7 @@ final class RegisterPipeline extends AbstractPipeline
             ConfirmJwtPipe::class,
             ConfirmMailPipe::class,
             ConfirmUpdateUsersInfoPipe::class,
+            ConfirmMetadataPipe::class,
         ], $dto);
     }
 
@@ -146,6 +149,7 @@ final class RegisterPipeline extends AbstractPipeline
             ConfirmJwtPipe::class,
             ConfirmMailPipe::class,
             ConfirmUpdateUsersInfoPipe::class,
+            ConfirmMetadataPipe::class,
         ], $dto);
     }
 
@@ -179,6 +183,7 @@ final class RegisterPipeline extends AbstractPipeline
             ConfirmJwtPipe::class,
             ConfirmMailPipe::class,
             ConfirmUpdateUsersInfoPipe::class,
+            ConfirmMetadataPipe::class,
         ], $dto);
     }
 
@@ -212,6 +217,7 @@ final class RegisterPipeline extends AbstractPipeline
             ConfirmJwtPipe::class,
             ConfirmMailPipe::class,
             ConfirmUpdateUsersInfoPipe::class,
+            ConfirmMetadataPipe::class,
         ], $dto);
     }
 
@@ -245,6 +251,7 @@ final class RegisterPipeline extends AbstractPipeline
             ConfirmJwtPipe::class,
             ConfirmMailPipe::class,
             ConfirmUpdateUsersInfoPipe::class,
+            ConfirmMetadataPipe::class,
         ], $dto);
     }
 }

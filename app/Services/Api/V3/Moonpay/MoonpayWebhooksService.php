@@ -44,7 +44,7 @@ final class MoonpayWebhooksService
     {
         $moon_pay_signature = $request->header('Moonpay-Signature-V2');
         $data = $request->all();
-        $data['data'] = json_decode($data['data'], true );
+        //$data['data'] = json_decode($data['data'], true );
 
         $dto = WebhooksDto::fromArray([
             'client_id' => $data['externalCustomerId'],

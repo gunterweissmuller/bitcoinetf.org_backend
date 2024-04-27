@@ -6,6 +6,7 @@ namespace App\Http\Requests\Api\V1\Auth\Login;
 
 use App\Dto\Models\Users\AccountDto;
 use App\Dto\Models\Users\EmailDto;
+use App\Dto\Models\Users\MetadataDto;
 use App\Dto\Pipelines\Api\V1\Auth\Login\LoginPipelineDto;
 use App\Http\Requests\AbstractRequest;
 
@@ -27,15 +28,17 @@ final class LoginRequest extends AbstractRequest
 
     public function dto(): LoginPipelineDto
     {
-        return new LoginPipelineDto(
-            EmailDto::fromArray([
+        return LoginPipelineDto::fromArray([
+            'email' => EmailDto::fromArray([
                 'email' => strtolower($this->get('email')),
             ]),
-            AccountDto::fromArray([
+            'account' => AccountDto::fromArray([
                 'password' => $this->get('password'),
             ]),
-            null,
-            null,
-        );
+            'metadata' => MetadataDto::fromArray([
+                'ipv4_address' => request()->ip(),
+                'user_agent' => request()->userAgent(),
+            ]),
+        ]);
     }
 }

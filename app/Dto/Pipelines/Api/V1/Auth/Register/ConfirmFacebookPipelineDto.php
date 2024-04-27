@@ -10,20 +10,23 @@ use App\Dto\Models\Auth\CodeDto;
 use App\Dto\Models\Users\AccountDto;
 use App\Dto\Models\Users\EmailDto;
 use App\Dto\Models\Users\FacebookDto;
+use App\Dto\Models\Users\MetadataDto;
 
 final class ConfirmFacebookPipelineDto implements DtoInterface
 {
     public function __construct(
         private ?FacebookDto $facebook,
-        private ?EmailDto $email,
-        private ?CodeDto $code,
-        private ?AccountDto $account,
-        private ?array $bonus = [],
-        private ?JwtDto $jwtAccess,
-        private ?JwtDto $jwtRefresh,
-        private ?string $websocketToken = null,
-        private ?bool $isFast
-    ) {
+        private ?EmailDto    $email,
+        private ?CodeDto     $code,
+        private ?AccountDto  $account,
+        private ?array       $bonus = [],
+        private ?JwtDto      $jwtAccess,
+        private ?JwtDto      $jwtRefresh,
+        private ?string      $websocketToken = null,
+        private ?bool        $isFast,
+        private ?MetadataDto $metadata
+    )
+    {
     }
 
     public static function fromArray(array $args): DtoInterface|self
@@ -38,6 +41,7 @@ final class ConfirmFacebookPipelineDto implements DtoInterface
             $args['jwt_refresh'] ?? null,
             $args['websocket_token'] ?? null,
             $args['is_fast'] ?? false,
+            $args['metadata'] ?? null,
         );
     }
 
@@ -53,6 +57,7 @@ final class ConfirmFacebookPipelineDto implements DtoInterface
             'jwt_refresh' => $this->jwtRefresh,
             'websocket_token' => $this->websocketToken,
             'is_fast' => $this->isFast,
+            'metadata' => $this->metadata,
         ];
     }
 
@@ -82,7 +87,7 @@ final class ConfirmFacebookPipelineDto implements DtoInterface
     }
 
     /**
-     * @param  EmailDto|null  $email
+     * @param EmailDto|null $email
      */
     public function setEmail(?EmailDto $email): void
     {
@@ -98,7 +103,7 @@ final class ConfirmFacebookPipelineDto implements DtoInterface
     }
 
     /**
-     * @param  CodeDto|null  $code
+     * @param CodeDto|null $code
      */
     public function setCode(?CodeDto $code): void
     {
@@ -114,7 +119,7 @@ final class ConfirmFacebookPipelineDto implements DtoInterface
     }
 
     /**
-     * @param  AccountDto|null  $account
+     * @param AccountDto|null $account
      */
     public function setAccount(?AccountDto $account): void
     {
@@ -130,7 +135,7 @@ final class ConfirmFacebookPipelineDto implements DtoInterface
     }
 
     /**
-     * @param  array|null  $bonus
+     * @param array|null $bonus
      */
     public function setBonus(?array $bonus): void
     {
@@ -146,7 +151,7 @@ final class ConfirmFacebookPipelineDto implements DtoInterface
     }
 
     /**
-     * @param  JwtDto|null  $jwtAccess
+     * @param JwtDto|null $jwtAccess
      */
     public function setJwtAccess(?JwtDto $jwtAccess): void
     {
@@ -162,7 +167,7 @@ final class ConfirmFacebookPipelineDto implements DtoInterface
     }
 
     /**
-     * @param  JwtDto|null  $jwtRefresh
+     * @param JwtDto|null $jwtRefresh
      */
     public function setJwtRefresh(?JwtDto $jwtRefresh): void
     {
@@ -178,7 +183,7 @@ final class ConfirmFacebookPipelineDto implements DtoInterface
     }
 
     /**
-     * @param  string|null  $websocketToken
+     * @param string|null $websocketToken
      */
     public function setWebsocketToken(?string $websocketToken): void
     {
@@ -193,5 +198,22 @@ final class ConfirmFacebookPipelineDto implements DtoInterface
     public function setIsFast(?bool $isFast): void
     {
         $this->isFast = $isFast;
+    }
+
+    /**
+     * @return MetadataDto|null
+     */
+    public function getMetadata(): ?MetadataDto
+    {
+        return $this->metadata;
+    }
+
+    /**
+     * @param MetadataDto|null $metadata
+     * @return void
+     */
+    public function setMetadata(?MetadataDto $metadata): void
+    {
+        $this->metadata = $metadata;
     }
 }

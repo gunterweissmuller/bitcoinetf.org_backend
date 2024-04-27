@@ -9,16 +9,18 @@ use App\Dto\DtoInterface;
 use App\Dto\Models\Auth\CodeDto;
 use App\Dto\Models\Users\AccountDto;
 use App\Dto\Models\Users\EmailDto;
+use App\Dto\Models\Users\MetadataDto;
 
 final class LoginOneTimePasswordPipelineDto implements DtoInterface
 {
     public function __construct(
-        private ?EmailDto   $email,
-        private ?AccountDto $account,
-        private ?CodeDto    $code,
-        private ?JwtDto     $jwtAccess,
-        private ?JwtDto     $jwtRefresh,
-        private ?string     $websocketToken = null,
+        private ?EmailDto    $email,
+        private ?AccountDto  $account,
+        private ?MetadataDto $metadata,
+        private ?CodeDto     $code,
+        private ?JwtDto      $jwtAccess,
+        private ?JwtDto      $jwtRefresh,
+        private ?string      $websocketToken = null,
     )
     {
     }
@@ -28,6 +30,7 @@ final class LoginOneTimePasswordPipelineDto implements DtoInterface
         return new self(
             $args['email'] ?? null,
             $args['account'] ?? null,
+            $args['metadata'] ?? null,
             $args['code'] ?? null,
             $args['jwt_access'] ?? null,
             $args['jwt_refresh'] ?? null,
@@ -40,6 +43,7 @@ final class LoginOneTimePasswordPipelineDto implements DtoInterface
         return [
             'email' => $this->email,
             'account' => $this->account,
+            'metadata' => $this->metadata,
             'code' => $this->code,
             'jwt_access' => $this->jwtAccess,
             'jwt_refresh' => $this->jwtRefresh,
@@ -87,6 +91,23 @@ final class LoginOneTimePasswordPipelineDto implements DtoInterface
     public function setAccount(?AccountDto $account): void
     {
         $this->account = $account;
+    }
+
+    /**
+     * @return MetadataDto|null
+     */
+    public function getMetadata(): ?MetadataDto
+    {
+        return $this->metadata;
+    }
+
+    /**
+     * @param MetadataDto|null $metadata
+     * @return void
+     */
+    public function setMetadata(?MetadataDto $metadata): void
+    {
+        $this->metadata = $metadata;
     }
 
     /**

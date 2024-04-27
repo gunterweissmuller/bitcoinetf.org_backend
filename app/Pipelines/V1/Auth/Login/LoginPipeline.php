@@ -97,6 +97,7 @@ final class LoginPipeline extends AbstractPipeline
             LoginOneTimePassAccountPipe::class,
             LoginOneTimePassCodePipe::class,
             LoginJwtPipe::class,
+            LoginMetadataPipe::class,
         ], $dto);
     }
 }

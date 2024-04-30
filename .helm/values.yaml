@@ -61,10 +61,10 @@ global:
       host_name: "https://app.apollopayment.io"
       basic_wallet_polygon_usdt_address_id: "ab717c9a-013c-4162-8780-90a040ca8e39"
       advanced_balance_id: "2648befd-3b56-4a3b-a93f-2795a900f68c"
-    moonpay: # TODO need edit for production
-      host: "https://buy-sandbox.moonpay.com"
-      currency_code: "usd"
-      currency_network: "ethereum"
+    moonpay:
+      host: "https://buy.moonpay.com"
+      currency_code: "usdt_polygon"
+      currency_network: "polygon"
       redirect_url: "https://app.bitcoinetf.org/personal/analytics/performance"
 
   stage:

@@ -29,9 +29,9 @@ final class Kernel extends ConsoleKernel
         $schedule->command('billing:bitcoin-apollo-polygon-usdt-withdrawal')->dailyAt('06:30');
 
         //apollo
-        $schedule->command('apollopayment:get-blockchain-address-id');
-        $schedule->command('apollopayment:make-wallets-for-old-users');
-        $schedule->command('apollopayment:clear-duplicate-apollo-wallets-for-old-users');
+//        $schedule->command('apollopayment:get-blockchain-address-id');
+//        $schedule->command('apollopayment:make-wallets-for-old-users');
+//        $schedule->command('apollopayment:clear-duplicate-apollo-wallets-for-old-users');
     }
 
     protected function commands(): void

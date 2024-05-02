@@ -25,6 +25,7 @@ Route::namespace('Public')
                         Route::get('/count', 'ShareholderController@count');
                         Route::get('/top', 'ShareholderController@top');
                         Route::get('/strategies', 'ShareholderController@strategies');
+                        Route::get('/growth', 'ShareholderController@growth');
                     });
 
                 Route::prefix('report')

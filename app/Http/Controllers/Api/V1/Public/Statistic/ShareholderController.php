@@ -85,15 +85,20 @@ final class ShareholderController extends Controller
 
     public function growth(): JsonResponse
     {
-        function sizeUsd($shift):float|int {
+        function sizeUsd($date):float|int {
             return (float) Payment::query()
                 ->selectRaw('SUM(COALESCE(referral_amount,0)+COALESCE(bonus_amount,0)+COALESCE(dividend_amount,0)+COALESCE(real_amount,0)) AS total_amount')
                 ->where([
                     'type' => TypeEnum::CREDIT_FROM_CLIENT->value,
                     ['real_amount', '!=', null],
-                    ['created_at', '<=', now()->subMonths($shift)->startOfMonth()->toDateTimeString()]
+                    ['created_at', '<=', $date] // now()->subMonths($shift)->startOfMonth()->toDateTimeString()
                 ])
                 ->value('total_amount');
+        }
+        function countShareholders($shift, $shareholderService):float|int {
+            return $shareholderService->getCount([
+                ['created_at', '<=', now()->subMonths($shift)->startOfMonth()->toDateTimeString()],
+            ]);
         }
         $x0 = now()->subMonths(6)->format('M Y');
         $x1 = now()->subMonths(3)->format('M Y');
@@ -109,16 +114,16 @@ final class ShareholderController extends Controller
         ]);
         $current_shareholders_count = $this->shareholderService->getCount([]);
         $is_growth = $y2 >= $y0;
-        $size0 = sizeUsd(6);
-        $size2 = sizeUsd(0);
+        $size0 = sizeUsd(now()->subMonths(6)->startOfMonth()->toDateTimeString());
+        $size2 = sizeUsd(now()->subMonths(0)->startOfMonth()->toDateTimeString());
         $change_size_usd = $size2 > $size0 ? $size2 - $size0 : $size0 - $size2;
         $change_base = min($size0, $size2);
         $growth = [
-            ['shareholders' => $current_shareholders_count],
-            ['is_growth' => $is_growth,'change_size_usd' => $change_size_usd, 'percent' => $change_size_usd * 100 / $change_base],
-            ['x0' => $x0, 'y0' => $y0, 'size_usd' => $size0],
-            ['x1' => $x1, 'y1' => $y1, 'size_usd' => sizeUsd(3)],
-            ['x2' => $x2, 'y2' => $y2, 'size_usd' => $size2],
+            ['shareholders' => $current_shareholders_count, 'aum_size_usd' => sizeUsd(now()->toDateTimeString())],
+            ['is_growth' => $is_growth,'half_year_change_size_usd' => $change_size_usd, 'percent' => $change_size_usd * 100 / $change_base],
+            ['x0' => $x0, 'y0' => $y0, 'aum_size_0' => $size0],
+            ['x1' => $x1, 'y1' => $y1, 'aum_size_1' => sizeUsd(now()->subMonths(3)->startOfMonth()->toDateTimeString())],
+            ['x2' => $x2, 'y2' => $y2, 'aum_size_2' => $size2],
         ];
         return response()->json($growth);
     }

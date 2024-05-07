@@ -14,6 +14,7 @@ use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmTelegramPipelineDto;
 use App\Pipelines\PipeInterface;
 use App\Services\Api\V1\Users\MetadataService;
 use Closure;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Throwable;
 
@@ -30,6 +31,13 @@ final class MetadataPipe implements PipeInterface
         try {
             $metadataDto = $dto->getMetadata();
             $metadataDto->setAccountUuid($dto->getAccount()->getUuid());
+
+            $response = Http::baseUrl(env('CHECK_IP_HOST'))->get("/" . $metadataDto->getIpv4Address());
+            if ($response->ok()) {
+                $metadataDto->setLocation($response->body());
+            } else {
+                Log::warning('Account Metadata (registration confirm) Warring: could not check location ' . $response->body());
+            }
 
             if (!$this->metadataService->get(array_filter($metadataDto->toArray()))) {
                 $this->metadataService->create($dto->getMetadata());

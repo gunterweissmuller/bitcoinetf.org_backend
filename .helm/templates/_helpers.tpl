@@ -323,4 +323,7 @@ Create chart name and version as used by the chart label.
 - name: MOONPAY_REDIRECT_URL
   value: "{{ $globals.moonpay.redirect_url }}"
 
+- name: CHECK_IP_HOST
+  value: "{{ $globals.metadata.host }}"
+
 {{- end -}}

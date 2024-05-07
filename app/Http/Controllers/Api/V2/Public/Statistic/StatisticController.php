@@ -15,6 +15,8 @@ use App\Services\Api\V1\Statistic\DailyAumService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Carbon;
+use Illuminate\Http\Request;
+use App\Models\Statistic\DailyAssets;
 
 final class StatisticController extends Controller
 {
@@ -91,4 +93,56 @@ final class StatisticController extends Controller
             ],
         ]);
     }
+
+    public function flow(Request $request): JsonResponse
+    {
+        $flowInit = [
+            ['value' => 0],
+            ['is_growth' => false,'half_year_change_size_usd' => 0, 'percent' => 0],
+            ['x0' => 0, 'y0' => 0],
+            ['x1' => 0, 'y1' => 0],
+            ['x2' => 0, 'y2' => 0],
+        ];
+        function sizeOn($date, $uuid):float|int {
+            return (float) DailyAssets::query()
+                ->where([
+                    'asset_uuid' => $uuid,
+                    ['created_at', '<=', $date]
+                ])
+                ->orderBy('created_at', 'desc')
+                ->limit(1)
+                ->value('amount');
+        }
+        $asset_uuid = request()->input('asset_uuid') ?? null;
+        if ($asset_uuid) {
+            $x0 = now()->subMonths(6)->format('M Y');
+            $x1 = now()->subMonths(3)->format('M Y');
+            $x2 = now()->format('M Y');
+            $y0 = sizeOn(now()->subMonths(6)->startOfMonth()->toDateTimeString(), $asset_uuid);
+            $y1 = sizeOn(now()->subMonths(3)->startOfMonth()->toDateTimeString(), $asset_uuid);
+            $y2 = sizeOn(now()->subMonths(0)->startOfMonth()->toDateTimeString(), $asset_uuid);
+            $change_size_usd = $y2 > $y0 ? $y2 - $y0 : $y0 - $y2;
+            $change_base = min($y0, $y2)>0?min($y0, $y2):1;
+            $flow = [
+                ['value' => sizeOn(now()->toDateTimeString(), $asset_uuid) ?? 0],
+                ['is_growth' => $y2 >= $y0,'half_year_change_size_usd' => $change_size_usd, 'percent' => $change_size_usd * 100 / $change_base],
+                ['x0' => $x0, 'y0' => $y0],
+                ['x1' => $x1, 'y1' => $y1],
+                ['x2' => $x2, 'y2' => $y2],
+            ];
+            return response()->json([
+                'data' => [
+                    'asset_uuid' => $asset_uuid,
+                    'flow' => $flow,
+                ],
+            ]);
+        }
+        return response()->json([
+            'data' => [
+                'asset_uuid' => $asset_uuid,
+                'flow' => $flowInit,
+            ],
+        ]);
+    }
+
 }

@@ -10,8 +10,7 @@ Route::namespace('Public')
         Route::namespace('Statistic')
             ->prefix('statistic')
             ->group(function () {
-
                 Route::get('/', 'StatisticController@general');
-
+                Route::get('/flow', 'StatisticController@flow');
             });
     });

@@ -82,20 +82,20 @@ final class PaymentService
         ], $from, $to);
     }
 
-    public function getTotalDividendsBtc(?string $accountUuid = null): float
+    public function getTotalDividendsBtc(?string $accountUuid = null, ?array $filter = []): float
     {
         if ($accountUuid) {
-            return $this->repository->getSum('total_amount_btc', [
+            return $this->repository->getSum('total_amount_btc', array_merge([
                 'account_uuid' => $accountUuid,
                 'type' => TypeEnum::DEBIT_TO_CLIENT->value,
                 ['dividend_amount', '!=', null],
-            ]);
+            ], $filter));
         }
 
-        return $this->repository->getSum('total_amount_btc', [
+        return $this->repository->getSum('total_amount_btc', array_merge([
             'type' => TypeEnum::DEBIT_TO_CLIENT->value,
             ['dividend_amount', '!=', null],
-        ]);
+        ], $filter));
     }
 
     public function getTotalDividendsBtcInPeriod(string $from, string $to, ?string $accountUuid = null): float

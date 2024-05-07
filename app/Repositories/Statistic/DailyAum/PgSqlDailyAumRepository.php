@@ -14,7 +14,8 @@ final class PgSqlDailyAumRepository implements DailyAumRepositoryInterface
 {
     public function __construct(
         private readonly DailyAum $model,
-    ) {
+    )
+    {
     }
 
     public function create(DailyAumDto $dto): DailyAumDto

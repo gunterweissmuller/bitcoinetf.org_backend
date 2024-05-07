@@ -15,7 +15,7 @@ final class Payment extends Model
 
     protected $primaryKey = 'uuid';
 
-    protected $dates = [
+    protected array $dates = [
         'created_at',
         'updated_at',
         'payday',

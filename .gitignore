@@ -18,7 +18,8 @@ yarn-error.log
 /.idea
 /.vscode
 package-lock.json
+composer.lock
 
 # temp
 Dockerfile
-docker-compose.yml
+docker-compose.ymlinstal

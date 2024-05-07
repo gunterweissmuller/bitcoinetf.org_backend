@@ -67,7 +67,7 @@ global:
       currency_network: "polygon"
       redirect_url: "https://app.bitcoinetf.org/personal/analytics/performance"
     metadata:
-      host: "http://rest-geoip.stage-etf-private-rest-geoip.svc.cluster.local/api/geoip"
+      host: "http://rest-geoip.etf-private-rest-geoip.svc.cluster.local/api/geoip"
 
   stage:
     app:

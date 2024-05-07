@@ -22,4 +22,4 @@ composer.lock
 
 # temp
 Dockerfile
-docker-compose.ymlinstal
+docker-compose.yml

@@ -66,6 +66,8 @@ global:
       currency_code: "usdt_polygon"
       currency_network: "polygon"
       redirect_url: "https://app.bitcoinetf.org/personal/analytics/performance"
+    metadata:
+      host: "http://rest-geoip.stage-etf-private-rest-geoip.svc.cluster.local/api/geoip"
 
   stage:
     app:
@@ -135,6 +137,8 @@ global:
       currency_code: "utk"
       currency_network: "ethereum_sepolia"
       redirect_url: "https://app.front.stage.techetf.org/personal/analytics/performance"
+    metadata:
+      host: "http://rest-geoip.stage-etf-private-rest-geoip.svc.cluster.local/api/geoip"
 
 otherServices:
   - name: queue

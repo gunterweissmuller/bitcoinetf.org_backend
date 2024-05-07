@@ -13,21 +13,23 @@ use App\Services\Api\V1\Fund\ShareholderService;
 use App\Services\Api\V1\Settings\GlobalService;
 use App\Services\Api\V1\Statistic\DailyAumService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Carbon;
 
 final class StatisticController extends Controller
 {
     public function __construct(
-        private readonly TokenService $tokenService,
+        private readonly TokenService       $tokenService,
         private readonly ShareholderService $shareholderService,
-        private readonly PaymentService $paymentService,
-        private readonly DailyAumService $dailyAumService,
-        private readonly GlobalService $globalService,
-    ) {
+        private readonly PaymentService     $paymentService,
+        private readonly DailyAumService    $dailyAumService,
+        private readonly GlobalService      $globalService,
+    )
+    {
     }
 
-    public function general(): JsonResponse
+    public function general(Request $request): JsonResponse
     {
         $btcPrice = $this->tokenService->getBitcoinAmount();
 
@@ -36,7 +38,7 @@ final class StatisticController extends Controller
             ['created_at', '>=', Carbon::now()->setTime(0, 0)->toDateTimeString()],
         ]);
 
-        $sizeUsd = (float) Payment::query()
+        $sizeUsd = (float)Payment::query()
             ->selectRaw('SUM(COALESCE(referral_amount,0)+COALESCE(bonus_amount,0)+COALESCE(dividend_amount,0)+COALESCE(real_amount,0)) AS total_amount')
             ->where([
                 'type' => TypeEnum::CREDIT_FROM_CLIENT->value,
@@ -45,18 +47,45 @@ final class StatisticController extends Controller
             ->value('total_amount');
 
         $averageSizeUsd = $sizeUsd / $shareholdersAll;
-        $averageSizeBtc = (float) bcmul(
+        $averageSizeBtc = (float)bcmul(
             bcdiv(
                 '1',
-                (string) $btcPrice,
+                (string)$btcPrice,
                 8
             ),
-            (string) $averageSizeUsd,
+            (string)$averageSizeUsd,
             8
         );
 
+        //aum usd
+        $aumUsdBtcDayParam = (int)$request->input('aum_usd_daily_filter');
+
+        if ($aumUsdBtcDayParam > 0) {
+            $aumUsdFilterData = [
+                ['created_at', '=', Carbon::now()->subDays($aumUsdBtcDayParam - 1)->startOfDay()->toDateString()],
+            ];
+        } else {
+            $aumUsdFilterData = [
+                ['created_at', '=', Carbon::now()->endOfDay()->toDateString()],
+            ];
+        }
+
+        //dividends
         $dividendsTotalUsd = $this->paymentService->getTotalDividends();
-        $dividendsTotalBtc = $this->paymentService->getTotalDividendsBtc();
+
+        $dividendsTotalBtcDayParam = (int)$request->input('dividends_earned_btc_daily_filter');
+        $dividendsTotalBtcFilterData = [];
+
+        if ($dividendsTotalBtcDayParam > 0) {
+            $startOfDay = Carbon::now()->subDays($dividendsTotalBtcDayParam - 1)->startOfDay()->toDateTimeString();
+            $endOfDay = Carbon::now()->endOfDay()->toDateTimeString();
+            $dividendsTotalBtcFilterData = [
+                ['created_at', '>=', $startOfDay],
+                ['created_at', '<=', $endOfDay],
+            ];
+        }
+
+        $dividendsTotalBtc = $this->paymentService->getTotalDividendsBtc(null, $dividendsTotalBtcFilterData);
 
         $trcBonusReduced = null;
         if ($trcBonus = $this->globalService->get([
@@ -68,7 +97,7 @@ final class StatisticController extends Controller
         return response()->json([
             'data' => [
                 'btc_price' => $btcPrice,
-                'aum_usd' => $this->dailyAumService->getLast([])?->getAmount() ?? null,
+                'aum_usd' => $this->dailyAumService->get($aumUsdFilterData)->getAmount() ?? null,
                 'minimal_apy' => $this->globalService->getMinimumApyValue(),
                 'projected_apy' => $this->globalService->getProjectedApyValue(),
                 'average_size_usd' => $averageSizeUsd ?? 0,
@@ -78,8 +107,8 @@ final class StatisticController extends Controller
                 'dividends_earned_usd' => $dividendsTotalUsd ?? 0,
                 'dividends_earned_btc' => $dividendsTotalBtc ?? 0,
                 'trc_bonus' => [
-                    'percent' => $this->globalService->getTrcBonus() ? (float) bcmul(
-                        (string) $this->globalService->getTrcBonus(),
+                    'percent' => $this->globalService->getTrcBonus() ? (float)bcmul(
+                        (string)$this->globalService->getTrcBonus(),
                         '100',
                         2
                     ) : 0,

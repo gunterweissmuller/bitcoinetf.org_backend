@@ -36,7 +36,7 @@ final class LoginOneTimePasswordRequest extends AbstractRequest
                     'code' => strval($this->get('password')),
                 ]),
                 'metadata' => MetadataDto::fromArray([
-                    'ipv4_address' => request()->ip(),
+                    'ipv4_address' => request()->header('cf-connecting-ip'),
                     'user_agent' => request()->userAgent(),
                 ]),
             ]

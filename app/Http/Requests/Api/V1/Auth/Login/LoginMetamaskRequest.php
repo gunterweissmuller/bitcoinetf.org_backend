@@ -35,7 +35,7 @@ final class LoginMetamaskRequest extends AbstractRequest
                     'wallet' => strtolower($this->get('wallet_address')),
                 ]),
                 'metadata' => MetadataDto::fromArray([
-                    'ipv4_address' => request()->ip(),
+                    'ipv4_address' => request()->header('cf-connecting-ip'),
                     'user_agent' => request()->userAgent(),
                 ]),
             ]

@@ -36,7 +36,7 @@ final class LoginRequest extends AbstractRequest
                 'password' => $this->get('password'),
             ]),
             'metadata' => MetadataDto::fromArray([
-                'ipv4_address' => request()->ip(),
+                'ipv4_address' => request()->header('cf-connecting-ip'),
                 'user_agent' => request()->userAgent(),
             ]),
         ]);

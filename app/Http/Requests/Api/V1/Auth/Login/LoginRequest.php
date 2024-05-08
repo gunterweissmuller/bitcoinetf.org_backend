@@ -28,6 +28,8 @@ final class LoginRequest extends AbstractRequest
 
     public function dto(): LoginPipelineDto
     {
+        //@fixme-v test
+        dd(request()->header('cf-connecting-ip'));
         return LoginPipelineDto::fromArray([
             'email' => EmailDto::fromArray([
                 'email' => strtolower($this->get('email')),
@@ -36,7 +38,7 @@ final class LoginRequest extends AbstractRequest
                 'password' => $this->get('password'),
             ]),
             'metadata' => MetadataDto::fromArray([
-                'ipv4_address' => request()->ip(),
+                'ipv4_address' => request()->header('cf-connecting-ip'),
                 'user_agent' => request()->userAgent(),
             ]),
         ]);

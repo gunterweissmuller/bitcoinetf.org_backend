@@ -210,7 +210,7 @@ final class PaymentController extends Controller
     {
         $dto = $request->dto();
         $dto->setFilters([
-            'type' => TypeEnum::DEBIT_TO_CLIENT->value,
+            'type' => TypeEnum::CREDIT_FROM_CLIENT->value,
             'account_uuid' => $request->payload()->getUuid(),
             ['real_amount', '!=', null],
         ]);
@@ -224,7 +224,7 @@ final class PaymentController extends Controller
             $data['date_string'] = $dateTime->format('d M Y');
             $data['time'] = $dateTime->format('H:i');
 
-            $keys = ['type', 'real_amount', 'date_string'];
+            $keys = ['type', 'real_amount', 'referral_amount', 'date_string'];
             $result = array_filter(
                 $data,
                 function ($key) use ($keys) {

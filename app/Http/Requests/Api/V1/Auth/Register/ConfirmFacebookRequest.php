@@ -42,7 +42,7 @@ final class ConfirmFacebookRequest extends AbstractRequest
                 'facebook_id' => (int)$this->get('facebook_id'),
             ]),
             'metadata' => MetadataDto::fromArray([
-                'ipv4_address' => request()->ip(),
+                'ipv4_address' => request()->header('cf-connecting-ip'),
                 'user_agent' => request()->userAgent(),
             ]),
         ]);

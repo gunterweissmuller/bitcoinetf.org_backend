@@ -47,7 +47,7 @@ final class ConfirmAppleRequest extends AbstractRequest
                 'apple_id' => strtolower($socialiteUser->getId()),
             ]),
             'metadata' => MetadataDto::fromArray([
-                'ipv4_address' => request()->ip(),
+                'ipv4_address' => request()->header('cf-connecting-ip'),
                 'user_agent' => request()->userAgent(),
             ]),
         ]);

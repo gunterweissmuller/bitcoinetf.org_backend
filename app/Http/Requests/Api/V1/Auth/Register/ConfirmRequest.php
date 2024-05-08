@@ -50,7 +50,7 @@ final class ConfirmRequest extends AbstractRequest
             ]),
             'is_fast' => $this->has(self::FAST_KEY),
             'metadata' => MetadataDto::fromArray([
-                'ipv4_address' => request()->ip(),
+                'ipv4_address' => request()->header('cf-connecting-ip'),
                 'user_agent' => request()->userAgent(),
             ]),
         ]);

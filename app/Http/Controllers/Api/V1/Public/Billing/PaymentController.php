@@ -224,7 +224,7 @@ final class PaymentController extends Controller
             $data['date_string'] = $dateTime->format('d M Y');
             $data['time'] = $dateTime->format('H:i');
 
-            $keys = ['type', 'real_amount', 'referral_amount', 'date_string'];
+            $keys = ['type', 'real_amount', 'referral_amount', 'date_string', 'time'];
             $result = array_filter(
                 $data,
                 function ($key) use ($keys) {

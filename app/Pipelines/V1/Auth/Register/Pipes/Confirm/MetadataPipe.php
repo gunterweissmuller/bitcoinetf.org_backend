@@ -30,17 +30,25 @@ final class MetadataPipe implements PipeInterface
     {
         try {
             $metadataDto = $dto->getMetadata();
-            $metadataDto->setAccountUuid($dto->getAccount()->getUuid());
 
-            $response = Http::baseUrl(env('CHECK_IP_HOST'))->get("/" . $metadataDto->getIpv4Address());
-            if ($response->ok()) {
-                $metadataDto->setLocation($response->body());
-            } else {
-                Log::warning('Account Metadata (registration confirm) Warring: could not check location ' . $response->body());
-            }
+            if ($metadataDto->getIpv4Address()) {
+                $metadataDto->setAccountUuid($dto->getAccount()->getUuid());
 
-            if (!$this->metadataService->get(array_filter($metadataDto->toArray()))) {
-                $this->metadataService->create($dto->getMetadata());
+                $response = Http::baseUrl(env('CHECK_IP_HOST'))->get("/" . $metadataDto->getIpv4Address());
+                if ($response->ok()) {
+                    $body = $response->json();
+                    $userInfo = json_encode([
+                        'Country' => $body['Country']['ISOCode'],
+                        'City' => $body['City']['Names']['en'],
+                    ]);
+                    $metadataDto->setLocation($userInfo);
+                } else {
+                    Log::warning('Account Metadata (registration confirm) Warring: could not check location ' . $response->body());
+                }
+
+                if (!$this->metadataService->get(array_filter($metadataDto->toArray()))) {
+                    $this->metadataService->create($dto->getMetadata());
+                }
             }
         } catch (Throwable $e) {
             Log::warning('Account Metadata (registration confirm) Warring: could not create data ' . $e->getMessage());

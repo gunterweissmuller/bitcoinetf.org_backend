@@ -205,4 +205,37 @@ final class PaymentController extends Controller
 
         return response()->json(['data' => $rows]);
     }
+
+    public function personalShares(ListRequest $request): JsonResponse
+    {
+        $dto = $request->dto();
+        $dto->setFilters([
+            'type' => TypeEnum::DEBIT_TO_CLIENT->value,
+            'account_uuid' => $request->payload()->getUuid(),
+            ['real_amount', '!=', null],
+        ]);
+
+        $rows = $this->service->allByFilters($dto);
+
+        $rows->through(function (Payment $value) {
+            $data = $value->toArray();
+            $dateTime = Carbon::createFromDate($data['created_at']);
+
+            $data['date_string'] = $dateTime->format('d M Y');
+            $data['time'] = $dateTime->format('H:i');
+
+            $keys = ['type', 'real_amount', 'date_string'];
+            $result = array_filter(
+                $data,
+                function ($key) use ($keys) {
+                    return in_array($key, $keys);
+                },
+                ARRAY_FILTER_USE_KEY
+            );
+
+            return $result;
+        });
+
+        return response()->json(['data' => $rows]);
+    }
 }

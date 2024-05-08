@@ -16,9 +16,9 @@ final class CheckPaymentForUsersCommand extends Command
 {
     private const COUNT = 400;
 
-    protected $signature = 'order-type:deviation-by-payments';
+    protected $signature = 'order-type:correct-by-payments';
 
-    protected $description = 'Check users with order_type by payments sum';
+    protected $description = 'Check users order_type by payments';
 
     public function handle(
         AccountService              $accountService,
@@ -32,35 +32,58 @@ final class CheckPaymentForUsersCommand extends Command
         $countUsdtWithPayments = 0;
         $updatedDataCount = 0;
 
-        $callback = function (Collection $items) use ($paymentService, &$count, &$countBtc, &$countUsdt, &$countBtcWithPayments, &$countUsdtWithPayments, &$updatedDataCount) {
-            $items->map(function (Account $item) use ($paymentService, &$count, &$countBtc, &$countUsdt, &$countBtcWithPayments, &$countUsdtWithPayments, &$updatedDataCount) {
+        $callback = function (Collection $items) use ($accountService, $paymentService, &$count, &$countBtc, &$countUsdt, &$countBtcWithPayments, &$countUsdtWithPayments, &$updatedDataCount) {
+            $items->map(function (Account $item) use ($accountService, $paymentService, &$count, &$countBtc, &$countUsdt, &$countBtcWithPayments, &$countUsdtWithPayments, &$updatedDataCount) {
                 $count++;
                 $itemArray = $item->toArray();
                 if ($itemArray['order_type'] === 'btc') {
                     $countBtc++;
-                    $result = $paymentService->getSumPayments($itemArray['uuid']);
-                    if ($result > 0) {
+                    $result = $paymentService->getLastUserPayment($itemArray['uuid']);
+                    if ($result) {
                         $countBtcWithPayments++;
+                    } else {
+                        $accountService->update([
+                            'uuid' => $itemArray['uuid'],
+                        ], [
+                            'order_type' => null,
+                        ]);
+                        $updatedDataCount++;
                     }
                 } else if ($itemArray['order_type'] === 'usdt'){
                     $countUsdt++;
-                    $result = $paymentService->getSumPayments($itemArray['uuid']);
-                    if ($result > 0) {
+                    $result = $paymentService->getLastUserPayment($itemArray['uuid']);
+                    if ($result) {
                         $countUsdtWithPayments++;
+                    } else {
+                        $accountService->update([
+                            'uuid' => $itemArray['uuid'],
+                        ], [
+                            'order_type' => null,
+                        ]);
+                        $updatedDataCount++;
                     }
                 } else {
+                    $result = $paymentService->getLastUserPayment($itemArray['uuid']);
+                    if ($result) {
+                        $accountService->update([
+                            'uuid' => $itemArray['uuid'],
+                        ], [
+                            'order_type' => 'btc',
+                        ]);
+                        $updatedDataCount++;
+                    }
                     echo '.';
                 }
             });
         };
 
-        $this->info("Check users with order_type by payments sum: Process started ...");
+        $this->info("Check users order_type by payments: Process started ...");
 
         $accountService->allByFiltersWithChunk([
             ['users.accounts.status', '=', StatusEnum::Enabled->value],
         ], self::COUNT, $callback);
 
-        $this->info("Check users with order_type by payments sum: Process finished. Checked - $count, Updated - $updatedDataCount");
+        $this->info("Check users order_type by payments: Process finished. Checked - $count, Updated - $updatedDataCount");
         $this->info("CountBtc - $countBtc, CountBtcWithPayments - $countBtcWithPayments, CountUsdt - $countUsdt, CountUsdtWithPayments - $countUsdtWithPayments");
         $deviationBtc = $countBtc - $countBtcWithPayments;
         $deviationUsdt = $countUsdt - $countUsdtWithPayments;

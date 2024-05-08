@@ -220,10 +220,8 @@ final class PaymentController extends Controller
         $rows->through(function (Payment $value) {
             $data = $value->toArray();
             $dateTime = Carbon::createFromDate($data['created_at']);
-
             $data['date_string'] = $dateTime->format('d M Y');
             $data['time'] = $dateTime->format('H:i');
-
             $keys = ['type', 'real_amount', 'referral_amount', 'date_string', 'time'];
             $result = array_filter(
                 $data,
@@ -232,7 +230,6 @@ final class PaymentController extends Controller
                 },
                 ARRAY_FILTER_USE_KEY
             );
-
             return $result;
         });
 

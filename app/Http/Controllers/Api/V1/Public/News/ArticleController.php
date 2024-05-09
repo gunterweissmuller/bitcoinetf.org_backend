@@ -112,10 +112,11 @@ final class ArticleController extends Controller
             }
         }
 
+        $filters['uuid'] = $filters['tag_uuids'];
         unset($filters['tag_uuids']);
         $dto->setFilters($filters);
 
-        $rows = $this->service->allByFilters($request->dto(), function ($query) use ($articleUuids) {
+        $rows = $this->service->allByFilters($dto, function ($query) use ($articleUuids) {
             return $articleUuids ? $query->whereIn('uuid', array_unique($articleUuids)) : $query;
         });
 

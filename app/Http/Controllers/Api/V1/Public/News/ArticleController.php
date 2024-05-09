@@ -112,10 +112,7 @@ final class ArticleController extends Controller
             }
         }
 
-        if (array_key_exists('tag_uuids', $filters)) {
-            $filters['uuid'] = $filters['tag_uuids'];
-            unset($filters['tag_uuids']);
-        }
+        unset($filters['tag_uuids']);
         $dto->setFilters($filters);
 
         $rows = $this->service->allByFilters($dto, function ($query) use ($articleUuids) {

@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Api\V2\Public\Statistic;
 
 use App\Enums\Billing\Payment\TypeEnum;
 use App\Enums\Settings\Global\SymbolEnum;
+use App\Http\Requests\Api\EmptyRequest;
 use App\Models\Billing\Payment;
 use App\Services\Api\V1\Billing\PaymentService;
 use App\Services\Api\V1\Billing\TokenService;
@@ -30,7 +31,7 @@ final class StatisticController extends Controller
     {
     }
 
-    public function general(Request $request): JsonResponse
+    public function general(EmptyRequest $request): JsonResponse
     {
         $btcPrice = $this->tokenService->getBitcoinAmount();
 

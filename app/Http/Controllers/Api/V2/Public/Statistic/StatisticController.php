@@ -86,7 +86,12 @@ final class StatisticController extends Controller
             ];
         }
 
-        $dividendsTotalBtc = $this->paymentService->getTotalDividendsBtc(null, $dividendsTotalBtcFilterData);
+        $accountUuid = null;
+        if (!!$request->input('current_user_info')) {
+            $accountUuid = $request->payload()->getUuid();
+        }
+
+        $dividendsTotalBtc = $this->paymentService->getTotalDividendsBtc($accountUuid, $dividendsTotalBtcFilterData);
 
         $trcBonusReduced = null;
         if ($trcBonus = $this->globalService->get([

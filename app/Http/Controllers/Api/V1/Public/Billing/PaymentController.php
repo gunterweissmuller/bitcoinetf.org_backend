@@ -17,6 +17,7 @@ use App\Services\Api\V1\Users\AccountService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Cache;
 
 final class PaymentController extends Controller
 {
@@ -234,5 +235,41 @@ final class PaymentController extends Controller
         });
 
         return response()->json(['data' => $rows]);
+    }
+
+    public function personalDividendsByPeriod(ListRequest $request): JsonResponse
+    {
+        $dividendsOldest = Cache::rememberForever('dividendsOldest', function () {
+            return Payment::query()
+                ->where([
+                    'type' => TypeEnum::DEBIT_TO_CLIENT->value,
+                    ['dividend_wallet_uuid', '!=', null],
+                ])
+                ->oldest('created_at')->first();
+        });
+        $maxDays = $dividendsOldest['created_at']->diffInDays(now());
+        $filterDays =  (int) $request->get('days');
+        if ($filterDays > 0 && $filterDays <= $maxDays) {
+            $sumDividends = $this->service->getTotalDividendsInPeriod(
+                now()->subDays($filterDays)->startOfDay()->toDateTimeString(),
+                now()->toDateTimeString(),
+                $request->payload()->getUuid()
+            );
+            $fromDaysAgo = $filterDays;
+        } else {
+            $sumDividends = $this->service->getTotalDividendsInPeriod(
+                now()->subDays($maxDays + 1)->startOfDay()->toDateTimeString(),
+                now()->toDateTimeString(),
+                $request->payload()->getUuid()
+            );
+            $fromDaysAgo = $maxDays + 1;
+        }
+
+        return response()->json([
+            'data' => [
+                'sum_dividends' => $sumDividends,
+                'from_days_ago' => $fromDaysAgo,
+            ]
+        ]);
     }
 }

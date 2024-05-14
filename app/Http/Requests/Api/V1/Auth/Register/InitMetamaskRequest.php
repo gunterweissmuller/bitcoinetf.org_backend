@@ -36,6 +36,9 @@ final class InitMetamaskRequest extends AbstractRequest
         return [];
     }
 
+    /**
+     * @return InitMetamaskPipelineDto
+     */
     public function dto(): InitMetamaskPipelineDto
     {
         return InitMetamaskPipelineDto::fromArray([

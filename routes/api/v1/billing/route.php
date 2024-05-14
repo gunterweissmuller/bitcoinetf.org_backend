@@ -101,6 +101,9 @@ Route::namespace('Public')
                         Route::get('/last', 'PaymentController@last');
                         Route::get('/statistic', 'PaymentController@statistic');
                         Route::get('/dividends/personal', 'PaymentController@personalDividends');
+                        Route::get('/shares/personal', 'PaymentController@personalShares');
+                        Route::get('/dividends/personal/period', 'PaymentController@personalDividendsByPeriod');
+                        Route::get('/referrals/personal/period', 'PaymentController@personalReferralsByPeriod');
                     });
 
                 Route::prefix('replenishment')

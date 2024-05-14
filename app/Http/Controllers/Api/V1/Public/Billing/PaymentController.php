@@ -18,6 +18,8 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
+use App\Services\Api\V1\Referrals\CodeService;
+use App\Models\Referrals\Invite;
 
 final class PaymentController extends Controller
 {
@@ -273,8 +275,21 @@ final class PaymentController extends Controller
         ]);
     }
 
-    public function personalReferralsByPeriod(ListRequest $request): JsonResponse
+    public function personalReferralsByPeriod(ListRequest $request, CodeService $codeService): JsonResponse
     {
+        $invitedInvestorsCount = 0;
+        $acceptedInvitation = 0;
+        $code = $codeService->get(['account_uuid' => $request->payload()->getUuid()]);
+        if ($code) {
+            $invitedInvestors = Invite::query()->where([['code_uuid','=',$code->getUuid()]])->get();
+            $invitedInvestorsCount = $invitedInvestors->count();
+            foreach ($invitedInvestors as $investor) {
+                $hasPayment = $this->service->getLastUserPayment($investor->account_uuid);
+                if ($hasPayment) {
+                    $acceptedInvitation++;
+                }
+            }
+        }
         $referralsOldest = Cache::rememberForever('referralsOldest', function () {
             return Payment::query()
                 ->where([
@@ -307,6 +322,8 @@ final class PaymentController extends Controller
             'data' => [
                 'sum_referrals' => $sumReferrals,
                 'from_days_ago' => $fromDaysAgo,
+                'invited_investors' => $invitedInvestorsCount,
+                'accepted_invitation' => $acceptedInvitation,
             ]
         ]);
     }

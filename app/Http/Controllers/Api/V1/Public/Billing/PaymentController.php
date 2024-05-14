@@ -272,4 +272,42 @@ final class PaymentController extends Controller
             ]
         ]);
     }
+
+    public function personalReferralsByPeriod(ListRequest $request): JsonResponse
+    {
+        $referralsOldest = Cache::rememberForever('referralsOldest', function () {
+            return Payment::query()
+                ->where([
+                    'type' => TypeEnum::DEBIT_TO_CLIENT->value,
+                    ['referral_amount', '>', 0],
+                ])
+                ->oldest('created_at')->first();
+        });
+        $maxDays = $referralsOldest['created_at']->diffInDays(now());
+        $filterDays =  (int) $request->get('days');
+        if ($filterDays > 0 && $filterDays <= $maxDays) {
+            $sumReferrals = $this->service->getSumColumnByPeriod(
+                'referral_amount',
+                $request->payload()->getUuid(),
+                now()->subDays($filterDays)->startOfDay()->toDateTimeString(),
+                now()->toDateTimeString(),
+            );
+            $fromDaysAgo = $filterDays;
+        } else {
+            $sumReferrals = $this->service->getSumColumnByPeriod(
+                'referral_amount',
+                $request->payload()->getUuid(),
+                now()->subDays($maxDays + 1)->startOfDay()->toDateTimeString(),
+                now()->toDateTimeString(),
+            );
+            $fromDaysAgo = $maxDays + 1;
+        }
+
+        return response()->json([
+            'data' => [
+                'sum_referrals' => $sumReferrals,
+                'from_days_ago' => $fromDaysAgo,
+            ]
+        ]);
+    }
 }

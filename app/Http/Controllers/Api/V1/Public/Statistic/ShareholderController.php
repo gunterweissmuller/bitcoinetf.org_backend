@@ -69,12 +69,10 @@ final class ShareholderController extends Controller
             }
         }
         $countUsd = Cache::rememberForever('countUsd', function () {
-            $result = $this->accountService->all(['order_type' => OrderTypeEnum::USDT->value]);
-            if ($result) { return $result->count(); } else { return 0; }
+            return $this->accountService->all(['order_type' => OrderTypeEnum::USDT->value])?->count() ?? 0;
         });
         $countBtc = Cache::rememberForever('countBtc', function () {
-            $result = $this->accountService->all(['order_type' => OrderTypeEnum::BTC->value]);
-            if ($result) { return $result->count(); } else { return 0; }
+            return $this->accountService->all(['order_type' => OrderTypeEnum::BTC->value])?->count() ?? 0;
         });
         $percentUsd = customRound($countUsd, $countBtc);
         $percentBtc = customRound($countBtc, $countUsd);

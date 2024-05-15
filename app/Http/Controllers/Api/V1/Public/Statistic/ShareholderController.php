@@ -61,7 +61,7 @@ final class ShareholderController extends Controller
     public function strategies(): JsonResponse
     {
         function customRound($num1, $num2):float|int {
-            $total = $num1 + $num2;
+            $total = $num1 + $num2 > 0 ? $num1 + $num2 : 1;
             if($num1 > $num2) {
                 return floor($num1 * 100/ $total);
             } else {
@@ -69,10 +69,12 @@ final class ShareholderController extends Controller
             }
         }
         $countUsd = Cache::rememberForever('countUsd', function () {
-           return $this->accountService->all(['order_type' => OrderTypeEnum::USDT->value])?->count() ?? 0;
+            $result = $this->accountService->all(['order_type' => OrderTypeEnum::USDT->value]);
+            if ($result) { return $result->count(); } else { return 0; }
         });
         $countBtc = Cache::rememberForever('countBtc', function () {
-            return $this->accountService->all(['order_type' => OrderTypeEnum::BTC->value])?->count() ?? 0;
+            $result = $this->accountService->all(['order_type' => OrderTypeEnum::BTC->value]);
+            if ($result) { return $result->count(); } else { return 0; }
         });
         $percentUsd = customRound($countUsd, $countBtc);
         $percentBtc = customRound($countBtc, $countUsd);

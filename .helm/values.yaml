@@ -75,7 +75,7 @@ global:
     db:
       host: "postgresql-ha-pgpool.postgresql.svc.cluster.local"
       port: "5432"
-      database: "rebase-php-backend"
+      database: "php-backend"
       user: "team-worker"
     redis:
       host: "redis.etf-api-service-development.svc.cluster.local"

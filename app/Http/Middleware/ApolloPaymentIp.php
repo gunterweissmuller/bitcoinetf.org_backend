@@ -11,8 +11,8 @@ use Symfony\Component\HttpFoundation\Response;
 class ApolloPaymentIp
 {
     protected $ipRanges = [
-        '188.42.242.220',
-        '188.42.242.228',
+        '94.242.240.228',
+        '188.42.242.132',
     ];
 
     /**

@@ -114,13 +114,17 @@ final class ShareholderController extends Controller
         ]);
         $current_shareholders_count = $this->shareholderService->getCount([]);
         $is_growth = $y2 >= $y0;
+        $change_size_usd = $y2 > $y0 ? $y2 - $y0 : $y0 - $y2;
+        $change_base = min($y0, $y2);
         $size0 = sizeUsd(now()->subMonths(6)->startOfMonth()->toDateTimeString());
         $size2 = sizeUsd(now()->subMonths(0)->startOfMonth()->toDateTimeString());
-        $change_size_usd = $size2 > $size0 ? $size2 - $size0 : $size0 - $size2;
-        $change_base = min($size0, $size2);
+        $is_growth_aum = $size2 >= $size0;
+        $change_size_usd_aum = $size2 > $size0 ? $size2 - $size0 : $size0 - $size2;
+        $change_base_aum = min($size0, $size2);
         $growth = [
             ['shareholders' => $current_shareholders_count, 'aum_size_usd' => sizeUsd(now()->toDateTimeString())],
             ['is_growth' => $is_growth,'half_year_change_size_usd' => $change_size_usd, 'percent' => $change_size_usd * 100 / $change_base],
+            ['is_growth_aum' => $is_growth_aum,'half_year_change_size_usd_aum' => $change_size_usd_aum, 'percent_aum' => $change_size_usd_aum * 100 / $change_base_aum],
             ['x0' => $x0, 'y0' => $y0, 'aum_size_0' => $size0],
             ['x1' => $x1, 'y1' => $y1, 'aum_size_1' => sizeUsd(now()->subMonths(3)->startOfMonth()->toDateTimeString())],
             ['x2' => $x2, 'y2' => $y2, 'aum_size_2' => $size2],

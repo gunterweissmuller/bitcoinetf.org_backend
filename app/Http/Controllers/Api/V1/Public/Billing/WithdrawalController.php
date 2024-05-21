@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\V1\Public\Billing;
 
-use App\Enums\Billing\Wallet\TypeEnum;
 use App\Enums\Billing\Wallet\WithdrawalMethodEnum;
 use App\Http\Requests\Api\V1\Public\Billing\Withdrawal\DividendRequest;
 use App\Http\Requests\Api\V1\Public\Billing\Withdrawal\ListRequest;
@@ -33,16 +32,16 @@ final class WithdrawalController extends Controller
         ]);
     }
 
+    /**
+     * @param MethodRequest $request
+     * @return JsonResponse
+     */
     public function method(MethodRequest $request): JsonResponse
     {
         $dto = $request->dto();
 
-        if ($dto->getType() == TypeEnum::DIVIDENDS->value && $dto->getWithdrawalMethod() == WithdrawalMethodEnum::NONE->value) {
+        if ($dto->getWithdrawalMethod() == WithdrawalMethodEnum::NONE->value) {
             $dto->setWithdrawalAddress(null);
-        }
-
-        if ($dto->getType() == TypeEnum::REFERRAL->value) {
-            $dto->setWithdrawalMethod(WithdrawalMethodEnum::MANUAL->value);
         }
 
         $this->walletService->update([

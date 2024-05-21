@@ -75,8 +75,8 @@ Route::namespace('Public')
 //                            ->post('/dividends', 'WithdrawalController@dividends');
                         Route::middleware(['auth:admin'])
                             ->post('/dividends/callback', 'WithdrawalController@dividendsCallback');
-                        Route::middleware(['auth'])
-                            ->post('/referrals', 'WithdrawalController@referrals');
+//                        Route::middleware(['auth'])
+//                            ->post('/referrals', 'WithdrawalController@referrals');
                         Route::middleware(['auth:admin'])
                             ->post('/referrals/callback', 'WithdrawalController@referralsCallback');
                     });

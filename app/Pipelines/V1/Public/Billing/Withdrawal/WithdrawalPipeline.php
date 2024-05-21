@@ -16,6 +16,8 @@ use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\Dividends\GfPullPaymentPipe
 use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\Dividends\PaymentPipe as DividendsPaymentPipe;
 use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\Dividends\SendPaymentPipe as DividendsSendPaymentPipe;
 use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\NewCentrifugalPipe;
+use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\Referrals\ApollopaymentWithdrawalCommissionPipe as ReferralsApollopaymentWithdrawalCommissionPipe;
+use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\Referrals\ApollopaymentWithdrawalPipe as ReferralsApollopaymentWithdrawalPipe;
 use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\Referrals\PaymentPipe as ReferralsPaymentPipe;
 use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\Referrals\SendPaymentPipe as ReferralsSendPaymentPipe;
 use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\ReferralsCallback\FailurePipe as ReferralsCallbackFailurePipe;
@@ -44,12 +46,18 @@ final class WithdrawalPipeline extends AbstractPipeline
         ], $dto);
     }
 
+    /**
+     * @param ReferralPipelineDto $dto
+     * @return array
+     */
     public function referrals(ReferralPipelineDto $dto): array
     {
         return $this->pipeline([
             WalletPipe::class,
             ReferralsPaymentPipe::class,
             WithdrawalPipe::class,
+            ReferralsApollopaymentWithdrawalCommissionPipe::class,
+            ReferralsApollopaymentWithdrawalPipe::class,
             ReferralsSendPaymentPipe::class,
             NewCentrifugalPipe::class,
         ], $dto);
@@ -62,7 +70,11 @@ final class WithdrawalPipeline extends AbstractPipeline
         ], $dto);
     }
 
-    public function apolloWithdrawalWebhook(DividendPipelineDto $dto): array
+    /**
+     * @param DividendPipelineDto|ReferralPipelineDto $dto
+     * @return array
+     */
+    public function apolloWithdrawalWebhook(DividendPipelineDto|ReferralPipelineDto $dto): array
     {
         return $this->pipeline([
             WithdrawalWebhookPipe::class,

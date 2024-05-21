@@ -223,4 +223,12 @@ final class PaymentService
 
         return (float) bcdiv((string) $sum, (string) $count, 8);
     }
+
+    public function getSumRealPayments(string $accountUuid): float
+    {
+        return $this->repository->getSum('real_amount', [
+            'account_uuid' => $accountUuid,
+            'type' => TypeEnum::CREDIT_FROM_CLIENT->value,
+        ]);
+    }
 }

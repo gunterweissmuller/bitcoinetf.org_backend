@@ -223,4 +223,52 @@ final class PaymentService
 
         return (float) bcdiv((string) $sum, (string) $count, 8);
     }
+
+    public function getSumRealPayments(string $accountUuid): float
+    {
+        return $this->repository->getSum('real_amount', [
+            'account_uuid' => $accountUuid,
+            'type' => TypeEnum::CREDIT_FROM_CLIENT->value,
+        ]);
+    }
+
+    public function getDataForValuateSell(string $accountUuid): array
+    {
+        $type = TypeEnum::CREDIT_FROM_CLIENT->value;
+
+        $referralAmount = $this->repository->getSum('referral_amount', [
+            'account_uuid' => $accountUuid,
+            'type' => $type,
+        ]);
+
+        $bonusAmount = $this->repository->getSum('bonus_amount', [
+            'account_uuid' => $accountUuid,
+            'type' => $type,
+        ]);
+
+        $dividendAmount = $this->repository->getSum('dividend_amount', [
+            'account_uuid' => $accountUuid,
+            'type' => $type,
+        ]);
+
+        $realAmount = $this->repository->getSum('real_amount', [
+            'account_uuid' => $accountUuid,
+            'type' => $type,
+        ]);
+
+        $totalAmount = ($referralAmount + $bonusAmount + $dividendAmount + $realAmount);
+
+        $dividendAmountDebit = $this->repository->getSum('dividend_amount', [
+            'account_uuid' => $accountUuid,
+            'type' => TypeEnum::DEBIT_TO_CLIENT->value,
+            ['dividend_amount', '!=', null],
+        ]);
+
+        $lastPayment = $this->repository->getLastPayment(PaymentDto::fromArray([
+            'account_uuid' => $accountUuid,
+            'type' => $type,
+        ]));
+
+        return [$realAmount, $totalAmount, $dividendAmountDebit, $lastPayment];
+    }
 }

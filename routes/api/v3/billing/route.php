@@ -48,6 +48,12 @@ Route::namespace('Public')
                                         Route::post('/webhook', 'MoonPayController@webhook')->middleware([MoonPaySignature::class]);
                                     });
                             });
+                        Route::namespace('Sell')
+                            ->prefix('sell')
+                            ->group(function () {
+                                Route::middleware(['auth'])->post('/init', 'SellController@init');
+                                Route::middleware(['auth'])->post('/valuate', 'SellController@valuate');
+                            });
                     });
 
                 /*

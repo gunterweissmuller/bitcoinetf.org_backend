@@ -51,8 +51,8 @@ Route::namespace('Public')
                         Route::namespace('Sell')
                             ->prefix('sell')
                             ->group(function () {
-                                Route::middleware(['auth'])->post('/init', 'SellController@init');
-                                Route::middleware(['auth'])->post('/valuate', 'SellController@valuate');
+                                Route::middleware(['auth'])->get('/init', 'SellController@init');
+                                Route::middleware(['auth'])->get('/valuate', 'SellController@valuate');
                                 Route::middleware(['auth'])->post('/confirm', 'SellController@confirm');
                             });
                     });

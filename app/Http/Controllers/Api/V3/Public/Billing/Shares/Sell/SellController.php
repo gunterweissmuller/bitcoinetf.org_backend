@@ -130,4 +130,22 @@ final class SellController extends Controller
             ],
         ]);
     }
+
+    public function confirm(InitSellRequest $request, ApollopaymentApiService $service): JsonResponse
+    {
+        $accountUuid = $request->payload()->getUuid();
+        $amount = $request->get("amount") ?? 0;
+        $destination = $request->get("destination") ?? '0x';
+        $acceptEarlyTerminationFee = $request->get("accept_early_termination_fee") ?? false;
+
+        return response()->json([
+            'data' => [
+                'uuid' => $accountUuid,
+                'success' => true,
+                "amount" => $amount,
+                'destination' => $destination,
+                'accept_early_termination_fee' => $acceptEarlyTerminationFee,
+            ],
+        ]);
+    }
 }

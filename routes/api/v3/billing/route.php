@@ -53,6 +53,7 @@ Route::namespace('Public')
                             ->group(function () {
                                 Route::middleware(['auth'])->post('/init', 'SellController@init');
                                 Route::middleware(['auth'])->post('/valuate', 'SellController@valuate');
+                                Route::middleware(['auth'])->post('/confirm', 'SellController@confirm');
                             });
                     });
 

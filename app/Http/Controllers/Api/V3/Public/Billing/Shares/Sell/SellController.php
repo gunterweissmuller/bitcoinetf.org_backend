@@ -85,34 +85,33 @@ final class SellController extends Controller
         }
         $accountUuid = $request->payload()->getUuid();
         [$sumUserRealPayments, $sumUserPayments, $sumUserDividends, $lastUserPayment] = $this->service->getDataForValuateSell($accountUuid);
-        $amount = $request->get("amount");
+        $amount = $sumUserPayments;
         $for = 0;
         $earlyTerminationFee = 0;
         $transactionFee = 0;
         $dividendsReturn = 0;
         $apolloService = [];
-        if ($amount > 0 && $amount <= $sumUserPayments) {
-            $amountPercent = ($amount * 100) / $sumUserPayments;
+        if ($amount > 0) {
             $now = Carbon::now();
             $days = $now->diffInDays($lastUserPayment?->getCreatedAt());
             if ($days == 0) {
-                $for = ($sumUserRealPayments / 100) * $amountPercent;
+                $for = $sumUserRealPayments;
                 $apolloService = getFees($for, $service);
                 $transactionFee = $apolloService['response']['blockchainFeeUSD'] + $apolloService['response']['serviceFeeUSD'];
             } elseif ($days >= 1 && $days < 32) {
-                $for = ($sumUserRealPayments / 100) * $amountPercent;
+                $for = $sumUserRealPayments;
                 $earlyTerminationFee =  ($for * 10) / 100;
                 $apolloService = getFees($for, $service);
                 $transactionFee = $apolloService['response']['blockchainFeeUSD'] + $apolloService['response']['serviceFeeUSD'];
-                $dividendsReturn = ($sumUserDividends / 100) * $amountPercent;
+                $dividendsReturn = $sumUserDividends;
             } elseif ($days >= 32 && $days < 1095) {
-                $for = ($sumUserRealPayments / 100) * $amountPercent;
+                $for = $sumUserRealPayments;
                 $earlyTerminationFee =  ($for * 20) / 100;
                 $apolloService = getFees($for, $service);
                 $transactionFee = $apolloService['response']['blockchainFeeUSD'] + $apolloService['response']['serviceFeeUSD'];
-                $dividendsReturn = ($sumUserDividends / 100) * $amountPercent;
+                $dividendsReturn = $sumUserDividends;
             } elseif ($days >= 1095) {
-                $for = ($sumUserPayments / 100) * $amountPercent;
+                $for = $sumUserPayments;
                 $apolloService = getFees($for, $service);
                 $transactionFee = $apolloService['response']['blockchainFeeUSD'] + $apolloService['response']['serviceFeeUSD'];
             }
@@ -122,11 +121,30 @@ final class SellController extends Controller
         return response()->json([
             'data' => [
                 'uuid' => $accountUuid,
-                "amount" => $request->get("amount"),
+                "amount" => $amount,
                 'for' => $for,
                 'early_termination_fee' => $earlyTerminationFee,
                 'transaction_fee' => $transactionFee,
-                'response' => $apolloService,
+                'apollo_payment_commissions' => $apolloService,
+            ],
+        ]);
+    }
+
+    public function confirm(InitSellRequest $request, ApollopaymentApiService $service): JsonResponse
+    {
+        $accountUuid = $request->payload()->getUuid();
+        [$sumUserRealPayments, $sumUserPayments, $sumUserDividends, $lastUserPayment] = $this->service->getDataForValuateSell($accountUuid);
+        $amount = $sumUserPayments;
+        $destination = $request->get("destination") ?? '0x';
+        $acceptEarlyTerminationFee = $request->get("accept_early_termination_fee") ?? false;
+
+        return response()->json([
+            'data' => [
+                'success' => true,
+                'uuid' => $accountUuid,
+                "amount" => $amount,
+                'destination' => $destination,
+                'accept_early_termination_fee' => $acceptEarlyTerminationFee,
             ],
         ]);
     }

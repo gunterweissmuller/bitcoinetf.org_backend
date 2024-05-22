@@ -27,6 +27,7 @@ final class Kernel extends ConsoleKernel
         $schedule->command('billing:bitcoin-lightning-withdrawal')->dailyAt('06:30'); // 00:05
         $schedule->command('billing:bitcoin-on-chain-withdrawal')->dailyAt('06:30'); // 00:06
         $schedule->command('billing:bitcoin-apollo-polygon-usdt-withdrawal')->dailyAt('06:30');
+        $schedule->command('billing:apollo-polygon-usdt-withdrawal-referral')->dailyAt('06:30');
 
         //apollo
 //        $schedule->command('apollopayment:get-blockchain-address-id');

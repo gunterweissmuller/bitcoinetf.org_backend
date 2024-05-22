@@ -28,7 +28,7 @@ final class LoginApplePipelineDto implements DtoInterface
         return new self(
             $args['apple_account'] ?? null,
             $args['account'] ?? null,
-            $args['account'] ?? null,
+            $args['metadata'] ?? null,
             $args['jwt_access'] ?? null,
             $args['jwt_refresh'] ?? null,
             $args['websocket_token'] ?? null,

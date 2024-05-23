@@ -45,20 +45,25 @@ final class ValidatePipe implements PipeInterface
             if ($account = $this->accountService->get([
                 'uuid' => $email->getAccountUuid(),
             ])) {
-                if ($account->getFastReg()) {
-                    if (
-                        ($email->getStatus() == StatusEnum::Enabled->value
-                            || $email->getStatus() == StatusEnum::Disabled->value)
-                        && $account->getFastPayment()
-                    ) {
-                        throw new EmailAlreadyUseException();
-                    }
-                } else {
-                    if ($email->getStatus() == StatusEnum::Enabled->value
-                        || $email->getStatus() == StatusEnum::Disabled->value) {
-                        throw new EmailAlreadyUseException();
-                    }
+                if ($email->getStatus() == StatusEnum::Enabled->value
+                    || $email->getStatus() == StatusEnum::Disabled->value) {
+                    throw new EmailAlreadyUseException();
                 }
+
+                /*                if ($account->getFastReg()) {
+                                    if (
+                                        ($email->getStatus() == StatusEnum::Enabled->value
+                                            || $email->getStatus() == StatusEnum::Disabled->value)
+                                        && $account->getFastPayment()
+                                    ) {
+                                        throw new EmailAlreadyUseException();
+                                    }
+                                } else {
+                                    if ($email->getStatus() == StatusEnum::Enabled->value
+                                        || $email->getStatus() == StatusEnum::Disabled->value) {
+                                        throw new EmailAlreadyUseException();
+                                    }
+                                }*/
             }
 
             $dto->setEmail($email);

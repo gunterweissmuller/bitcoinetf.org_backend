@@ -20,11 +20,13 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 use App\Services\Api\V1\Referrals\CodeService;
 use App\Models\Referrals\Invite;
+use App\Services\Api\V1\Billing\WalletService;
 
 final class PaymentController extends Controller
 {
     public function __construct(
-        private readonly PaymentService $service
+        private readonly PaymentService $service,
+        //private readonly WalletService $serviceWallet,
     ) {
     }
 
@@ -209,7 +211,7 @@ final class PaymentController extends Controller
         return response()->json(['data' => $rows]);
     }
 
-    public function personalShares(ListRequest $request): JsonResponse
+    public function personalShares(ListRequest $request, WalletService $serviceWallet): JsonResponse
     {
         $dto = $request->dto();
         $dto->setFilters([
@@ -218,6 +220,8 @@ final class PaymentController extends Controller
             ['real_amount', '!=', null],
         ]);
 
+        $bonusWalletBalance = $serviceWallet->getUserBonusBalance($request->payload()->getUuid());
+
         $rows = $this->service->allByFilters($dto);
 
         $rows->through(function (Payment $value) {
@@ -225,7 +229,7 @@ final class PaymentController extends Controller
             $dateTime = Carbon::createFromDate($data['created_at']);
             $data['date_string'] = $dateTime->format('d M Y');
             $data['time'] = $dateTime->format('H:i');
-            $keys = ['type', 'real_amount', 'referral_amount', 'date_string', 'time'];
+            $keys = ['type', 'real_amount', 'referral_amount', 'bonus_amount', 'dividend_amount','date_string', 'time'];
             $result = array_filter(
                 $data,
                 function ($key) use ($keys) {
@@ -236,7 +240,10 @@ final class PaymentController extends Controller
             return $result;
         });
 
-        return response()->json(['data' => $rows]);
+        return response()->json([
+            'data' => $rows,
+            'bonus_wallet' => $bonusWalletBalance
+            ]);
     }
 
     public function personalDividendsByPeriod(ListRequest $request): JsonResponse

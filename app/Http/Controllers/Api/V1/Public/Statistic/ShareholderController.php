@@ -115,12 +115,12 @@ final class ShareholderController extends Controller
         $current_shareholders_count = $this->shareholderService->getCount([]);
         $is_growth = $y2 >= $y0;
         $change_size_usd = $y2 > $y0 ? $y2 - $y0 : $y0 - $y2;
-        $change_base = min($y0, $y2);
+        $change_base = min($y0, $y2) > 0 ? min($y0, $y2) : 1;
         $size0 = sizeUsd(now()->subMonths(6)->startOfMonth()->toDateTimeString());
         $size2 = sizeUsd(now()->subMonths(0)->startOfMonth()->toDateTimeString());
         $is_growth_aum = $size2 >= $size0;
         $change_size_usd_aum = $size2 > $size0 ? $size2 - $size0 : $size0 - $size2;
-        $change_base_aum = min($size0, $size2);
+        $change_base_aum = min($size0, $size2) > 0 ? min($size0, $size2) : 1;
         $growth = [
             ['shareholders' => $current_shareholders_count, 'aum_size_usd' => sizeUsd(now()->toDateTimeString())],
             ['is_growth' => $is_growth,'half_year_change_size_usd' => $change_size_usd, 'percent' => $change_size_usd * 100 / $change_base],

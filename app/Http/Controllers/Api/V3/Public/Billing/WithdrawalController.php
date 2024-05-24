@@ -99,6 +99,7 @@ final class WithdrawalController extends Controller
             'network' => $request->input('network'),
             'tx' => $request->input('tx'),
             'type' => ApolloPaymentWebhookTypeEnum::WITHDRAW->value,
+            'payload' => json_encode($request->all(), JSON_UNESCAPED_SLASHES),
         ]));
 
         [$dto, $e] = $this->pipeline->apolloWithdrawalWebhook($request->referralPipelineDto());

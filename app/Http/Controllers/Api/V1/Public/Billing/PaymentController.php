@@ -26,7 +26,6 @@ final class PaymentController extends Controller
 {
     public function __construct(
         private readonly PaymentService $service,
-        //private readonly WalletService $serviceWallet,
     ) {
     }
 

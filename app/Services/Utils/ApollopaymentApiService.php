@@ -97,6 +97,16 @@ final class ApollopaymentApiService
     }
 
     /**
+     * @param string $address
+     * @param string $blockchain
+     * @return array
+     */
+    public function checkBlockchainAddress(string $address, string $blockchain): array
+    {
+        return $this->post('/api-gateway/utils/validate-address', ['address' => $address, 'network' => $blockchain]);
+    }
+
+    /**
      * @param string $url
      * @param array $data
      * @return array|null

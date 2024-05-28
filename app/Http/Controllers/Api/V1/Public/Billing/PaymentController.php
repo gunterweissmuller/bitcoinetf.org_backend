@@ -36,11 +36,12 @@ final class PaymentController extends Controller
         $accountUuid = $request->payload()->getUuid();
         $lastUserPayment = $this->service->getLastUserPayment($accountUuid);
         $sumUserPayments = $this->service->getSumPayments($accountUuid);
+        $sumUserSells = $this->service->getSumPayments($accountUuid, TypeEnum::SELL->value);
 
         $result = [];
         if ($lastUserPayment) {
             $result = [
-                'total_balance_usd' => $sumUserPayments,
+                'total_balance_usd' => $sumUserPayments - $sumUserSells,
                 'btc_price' => $tokenService->getBitcoinAmount(),
                 'created_at' => $lastUserPayment?->getCreatedAt(),
             ];
@@ -214,9 +215,10 @@ final class PaymentController extends Controller
     {
         $dto = $request->dto();
         $dto->setFilters([
-            'type' => TypeEnum::CREDIT_FROM_CLIENT->value,
             'account_uuid' => $request->payload()->getUuid(),
             ['real_amount', '!=', null],
+            ['type', '!=', TypeEnum::DEBIT_TO_CLIENT->value],
+            ['type', '!=', TypeEnum::WITHDRAWAL->value],
         ]);
 
         $bonusWalletBalance = $serviceWallet->getUserBonusBalance($request->payload()->getUuid());
@@ -228,7 +230,7 @@ final class PaymentController extends Controller
             $dateTime = Carbon::createFromDate($data['created_at']);
             $data['date_string'] = $dateTime->format('d M Y');
             $data['time'] = $dateTime->format('H:i');
-            $keys = ['type', 'real_amount', 'referral_amount', 'bonus_amount', 'dividend_amount','date_string', 'time'];
+            $keys = ['type', 'real_amount', 'referral_amount', 'bonus_amount', 'dividend_amount', 'date_string', 'time'];
             $result = array_filter(
                 $data,
                 function ($key) use ($keys) {

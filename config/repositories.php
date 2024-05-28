@@ -78,6 +78,10 @@ return [
         'interface' => \App\Repositories\Billing\CreditCardRequest\CreditCardRequestRepositoryInterface::class,
         'implementation' => \App\Repositories\Billing\CreditCardRequest\PgSqlCreditCardRequestRepository::class,
     ],
+    [
+        'interface' => \App\Repositories\Billing\Sell\SellRepositoryInterface::class,
+        'implementation' => \App\Repositories\Billing\Sell\PgSqlSellRepository::class,
+    ],
 
     // News
     [

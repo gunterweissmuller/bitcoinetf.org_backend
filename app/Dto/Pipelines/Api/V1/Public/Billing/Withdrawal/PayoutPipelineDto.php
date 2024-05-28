@@ -45,7 +45,7 @@ final class PayoutPipelineDto implements DtoInterface
      */
     public function setSell(?SellDto $sell): void
     {
-        $this->sell = Ssell;
+        $this->sell = $sell;
     }
 
     /**

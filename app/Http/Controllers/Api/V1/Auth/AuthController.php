@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Api\V1\Auth;
 use App\Dto\Pipelines\Api\V1\Auth\AuthType\AuthTypeFacebookPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\AuthType\AuthTypeApplePipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\AuthType\AuthTypeTelegramPipelineDto;
+use App\Dto\Pipelines\Api\V1\Auth\AuthType\AuthTypeWalletConnectPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Login\LoginGooglePipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\InitGooglePipelineDto;
 use App\Enums\Users\Email\StatusEnum as EmailStatusEnum;
@@ -14,6 +15,7 @@ use App\Exceptions\Pipelines\V1\Auth\AuthorizationTokenExpiredException;
 use App\Http\Requests\Api\V1\Auth\AuthType\AuthTypeFacebookRequest;
 use App\Http\Requests\Api\V1\Auth\AuthType\AuthTypeAppleRequest;
 use App\Http\Requests\Api\V1\Auth\AuthType\AuthTypeTelegramRequest;
+use App\Http\Requests\Api\V1\Auth\AuthType\AuthTypeWalletConnectRequest;
 use App\Http\Requests\Api\V1\Auth\Login\LoginGoogleRequest;
 use App\Http\Requests\Api\V1\Auth\Register\ConfirmGoogleRequest;
 use App\Http\Requests\Api\V1\Auth\Register\InitGoogleRequest;
@@ -195,6 +197,26 @@ final class AuthController extends Controller
                     'access_token' => $dto->getJwtAccess()->getToken(),
                     'refresh_token' => $dto->getJwtRefresh()->getToken(),
                     'websocket_token' => $dto->getWebsocketToken(),
+                ]
+            ]);
+        }
+
+        return response()->__call('exception', [$e]);
+    }
+
+    /**
+     * @param AuthTypeWalletConnectRequest $request
+     * @return JsonResponse
+     */
+    public function getAuthTypeWalletConnect(AuthTypeWalletConnectRequest $request): JsonResponse
+    {
+        /** @var AuthTypeWalletConnectPipelineDto $dto */
+        [$dto, $e] = $this->authTypePipeline->checkWalletConnect($request->dto());
+
+        if (!$e) {
+            return response()->json([
+                'data' => [
+                    'auth_type' => $dto->getAuthType(),
                 ]
             ]);
         }

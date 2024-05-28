@@ -10,6 +10,7 @@ use App\Dto\Pipelines\Api\V1\Auth\Register\InitFacebookPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\InitMetamaskPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\InitPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\InitTelegramPipelineDto;
+use App\Dto\Pipelines\Api\V1\Auth\Register\InitWalletConnectPipelineDto;
 use App\Enums\Users\Email\StatusEnum;
 use App\Exceptions\Pipelines\V1\Auth\EmailAlreadyUseException;
 use App\Exceptions\Pipelines\V1\Auth\UserAlreadyExistException;
@@ -19,23 +20,25 @@ use App\Services\Api\V1\Users\AppleAccountService;
 use App\Services\Api\V1\Users\EmailService;
 use App\Services\Api\V1\Users\FacebookService;
 use App\Services\Api\V1\Users\TelegramService;
+use App\Services\Api\V1\Users\WalletConnectService;
 use App\Services\Api\V1\Users\WalletService;
 use Closure;
 
 final class ValidatePipe implements PipeInterface
 {
     public function __construct(
-        private readonly EmailService        $emailService,
-        private readonly AccountService      $accountService,
-        private readonly WalletService       $walletService,
-        private readonly AppleAccountService $appleAccountService,
-        private readonly TelegramService     $telegramService,
-        private readonly FacebookService     $facebookService,
+        private readonly EmailService         $emailService,
+        private readonly AccountService       $accountService,
+        private readonly WalletService        $walletService,
+        private readonly AppleAccountService  $appleAccountService,
+        private readonly TelegramService      $telegramService,
+        private readonly FacebookService      $facebookService,
+        private readonly WalletConnectService $walletConnectService,
     )
     {
     }
 
-    public function handle(InitPipelineDto|InitMetamaskPipelineDto|InitApplePipelineDto|InitTelegramPipelineDto|InitFacebookPipelineDto|DtoInterface $dto, Closure $next): DtoInterface
+    public function handle(InitPipelineDto|InitMetamaskPipelineDto|InitApplePipelineDto|InitTelegramPipelineDto|InitFacebookPipelineDto|InitWalletConnectPipelineDto|DtoInterface $dto, Closure $next): DtoInterface
     {
         $isExist = false;
 
@@ -135,6 +138,23 @@ final class ValidatePipe implements PipeInterface
             }
 
             $dto->setFacebook($facebook);
+            $dto->setAccount($account);
+            $isExist = true;
+        }
+
+        if (($dto instanceof InitWalletConnectPipelineDto) && $walletConnect = $this->walletConnectService->get([
+                'address' => $dto->getWalletConnect()->getAddress(),
+            ])) {
+            if ($account = $this->accountService->get([
+                'uuid' => $walletConnect->getAccountUuid(),
+            ])) {
+                if ($account->getStatus() == StatusEnum::Enabled->value
+                    || $account->getStatus() == StatusEnum::Disabled->value) {
+                    throw new UserAlreadyExistException();
+                }
+            }
+
+            $dto->setWalletConnect($walletConnect);
             $dto->setAccount($account);
             $isExist = true;
         }

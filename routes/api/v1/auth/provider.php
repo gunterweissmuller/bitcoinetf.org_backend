@@ -28,4 +28,9 @@ Route::prefix('provider')
         Route::post('/facebook/init', 'RegisterController@initFacebook');
         Route::post('/facebook/confirm', 'RegisterController@confirmFacebook');
         Route::post('/facebook/login', 'LoginController@loginFacebook');
+        Route::get('/wallet-connect/credentials', 'RegisterController@getCredentialsWalletConnect');
+        Route::post('/wallet-connect/init', 'RegisterController@initWalletConnect');
+        Route::post('/wallet-connect/confirm', 'RegisterController@confirmWalletConnect');
+        Route::post('/wallet-connect/get-auth-type', 'AuthController@getAuthTypeWalletConnect');
+        Route::post('/wallet-connect/login', 'LoginController@loginWalletConnect');
     });

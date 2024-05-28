@@ -46,6 +46,10 @@ return [
         'interface' => App\Repositories\Users\Metadata\MetadataRepositoryInterface::class,
         'implementation' => \App\Repositories\Users\Metadata\PgSqlMetadataRepository::class,
     ],
+    [
+        'interface' => App\Repositories\Users\WalletConnect\WalletConnectRepositoryInterface::class,
+        'implementation' => \App\Repositories\Users\WalletConnect\PgSqlWalletConnectRepository::class,
+    ],
 
     // Fund
     [

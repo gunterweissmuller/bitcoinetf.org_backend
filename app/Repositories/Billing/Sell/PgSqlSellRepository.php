@@ -74,4 +74,14 @@ final class PgSqlSellRepository implements SellRepositoryInterface
             ->orderBy('created_at', 'desc')
             ->paginate($dto->getPerPage(), ['*'], 'page', $dto->getPage());
     }
+
+    public function allByFiltersWithChunk(array $filters, int $count, callable $callback): void
+    {
+        $this->model
+            ->newQuery()
+            ->where($filters)
+            ->orderBy('created_at', 'desc')
+            ->chunk($count, $callback);
+    }
+
 }

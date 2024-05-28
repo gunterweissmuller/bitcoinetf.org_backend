@@ -51,4 +51,9 @@ final class SellService
         return $this->repository->allByFilters($dto);
     }
 
+    public function allByFiltersWithChunk(array $filters, int $count, callable $callback): void
+    {
+        $this->repository->allByFiltersWithChunk($filters, $count, $callback);
+    }
+
 }

@@ -22,4 +22,6 @@ interface SellRepositoryInterface
     public function delete(array $condition): void;
 
     public function allByFilters(PaginationFilterDto $dto): LengthAwarePaginator;
+
+    public function allByFiltersWithChunk(array $filters, int $count, callable $callback): void;
 }

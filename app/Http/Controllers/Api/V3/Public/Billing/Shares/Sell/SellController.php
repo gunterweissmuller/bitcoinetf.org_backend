@@ -18,7 +18,6 @@ use App\Services\Api\V1\Billing\PaymentService;
 use App\Enums\Billing\Sell\SellPeriodEnum;
 use Carbon\Carbon;
 use App\Services\Api\V1\Billing\WalletService;
-use App\Repositories\Billing\Payment\PaymentRepositoryInterface;
 use App\Services\Api\V1\Billing\TokenService;
 use App\Enums\Billing\Withdrawal\MethodEnum  as WithdrawalMethodEnum;
 use App\Enums\Billing\Withdrawal\StatusEnum  as WithdrawalStatusEnum;
@@ -29,7 +28,6 @@ final class SellController extends Controller
     public function __construct(
         private readonly PaymentService $service,
         private readonly WalletService $walletService,
-        private readonly PaymentRepositoryInterface $repository,
         private readonly TokenService $tokenService,
         private readonly SellService $sellService,
     ) {

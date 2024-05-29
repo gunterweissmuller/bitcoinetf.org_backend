@@ -7,6 +7,7 @@ namespace App\Pipelines\V1\Public\Billing\Withdrawal;
 use App\Dto\Pipelines\Api\V1\Public\Billing\Withdrawal\DividendPipelineDto;
 use App\Dto\Pipelines\Api\V1\Public\Billing\Withdrawal\ReferralCallbackPipelineDto;
 use App\Dto\Pipelines\Api\V1\Public\Billing\Withdrawal\ReferralPipelineDto;
+use App\Dto\Pipelines\Api\V1\Public\Billing\Withdrawal\PayoutPipelineDto;
 use App\Pipelines\AbstractPipeline;
 use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\Dividends\ApollopaymentWithdrawalCommissionPipe as DividendsApollopaymentWithdrawalCommissionPipe;
 use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\Dividends\ApollopaymentWithdrawalPipe as DividendsApollopaymentWithdrawalPipe;
@@ -60,6 +61,23 @@ final class WithdrawalPipeline extends AbstractPipeline
             ReferralsApollopaymentWithdrawalPipe::class,
             ReferralsSendPaymentPipe::class,
             NewCentrifugalPipe::class,
+        ], $dto);
+    }
+
+    /**
+     * @param PayoutPipelineDto $dto
+     * @return array
+     */
+    public function payout(PayoutPipelineDto $dto): array
+    {
+        return $this->pipeline([
+            //WalletPipe::class,
+            //ReferralsPaymentPipe::class,
+            //WithdrawalPipe::class,
+            //ReferralsApollopaymentWithdrawalCommissionPipe::class,
+            //ReferralsApollopaymentWithdrawalPipe::class,
+            //ReferralsSendPaymentPipe::class,
+            //NewCentrifugalPipe::class,
         ], $dto);
     }
 

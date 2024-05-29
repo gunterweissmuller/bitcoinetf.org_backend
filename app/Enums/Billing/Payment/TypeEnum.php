@@ -15,4 +15,6 @@ enum TypeEnum: string
     case CREDIT_FROM_CLIENT = 'credit_from_client'; // Любые списывания
 
     case WITHDRAWAL = 'withdrawal'; // Вывод
+
+    case SELL = 'sell'; // Продажа
 }

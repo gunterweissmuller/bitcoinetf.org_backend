@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Api\V1\Auth;
 use App\Dto\Pipelines\Api\V1\Auth\Login\LoginFacebookPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Login\LoginOneTimePasswordPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Login\LoginTelegramPipelineDto;
+use App\Dto\Pipelines\Api\V1\Auth\Login\LoginWalletConnectPipelineDto;
 use App\Exceptions\Pipelines\V1\Auth\AuthorizationTokenExpiredException;
 use App\Exceptions\Pipelines\V1\Auth\InvalidSignatureMetamaskException;
 use App\Http\Requests\Api\V1\Auth\Login\LoginAppleRequest;
@@ -16,6 +17,7 @@ use App\Dto\Pipelines\Api\V1\Auth\Login\LoginPipelineDto;
 use App\Http\Requests\Api\V1\Auth\Login\LoginOneTimePasswordRequest;
 use App\Http\Requests\Api\V1\Auth\Login\LoginRequest;
 use App\Http\Requests\Api\V1\Auth\Login\LoginTelegramRequest;
+use App\Http\Requests\Api\V1\Auth\Login\LoginWalletConnectRequest;
 use App\Pipelines\V1\Auth\Login\LoginPipeline;
 use App\Services\Utils\AppleAuthJWTService;
 use GuzzleHttp\Exception\ClientException;
@@ -165,6 +167,28 @@ final class LoginController extends Controller
     {
         /** @var LoginOneTimePasswordPipelineDto $dto */
         [$dto, $e] = $this->pipeline->loginOneTimePass($request->dto());
+
+        if (!$e) {
+            return response()->json([
+                'data' => [
+                    'access_token' => $dto->getJwtAccess()->getToken(),
+                    'refresh_token' => $dto->getJwtRefresh()->getToken(),
+                    'websocket_token' => $dto->getWebsocketToken(),
+                ]
+            ]);
+        }
+
+        return response()->__call('exception', [$e]);
+    }
+
+    /**
+     * @param LoginWalletConnectRequest $request
+     * @return JsonResponse
+     */
+    public function loginWalletConnect(LoginWalletConnectRequest $request): JsonResponse
+    {
+        /** @var LoginWalletConnectPipelineDto $dto */
+        [$dto, $e] = $this->pipeline->loginWalletConnect($request->dto());
 
         if (!$e) {
             return response()->json([

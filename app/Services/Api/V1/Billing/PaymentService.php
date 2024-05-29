@@ -232,11 +232,27 @@ final class PaymentService
         ]);
     }
 
+    public function getSumRealSells(string $accountUuid): float
+    {
+        return $this->repository->getSum('real_amount', [
+            'account_uuid' => $accountUuid,
+            'type' => TypeEnum::SELL->value,
+        ]);
+    }
+
     function getSumReferral(string $accountUuid): float
     {
         return $this->repository->getSum('referral_amount', [
             'account_uuid' => $accountUuid,
             'type' => TypeEnum::CREDIT_FROM_CLIENT->value,
+        ]);
+    }
+
+    function getSumReferralSell(string $accountUuid): float
+    {
+        return $this->repository->getSum('referral_amount', [
+            'account_uuid' => $accountUuid,
+            'type' => TypeEnum::SELL->value,
         ]);
     }
 
@@ -248,11 +264,27 @@ final class PaymentService
         ]);
     }
 
+    function getSumBonusSell(string $accountUuid): float
+    {
+        return $this->repository->getSum('bonus_amount', [
+            'account_uuid' => $accountUuid,
+            'type' => TypeEnum::SELL->value,
+        ]);
+    }
+
     function getSumDividends(string $accountUuid): float
     {
         return $this->repository->getSum('dividend_amount', [
             'account_uuid' => $accountUuid,
             'type' => TypeEnum::CREDIT_FROM_CLIENT->value,
+        ]);
+    }
+
+    function getSumDividendsSell(string $accountUuid): float
+    {
+        return $this->repository->getSum('dividend_amount', [
+            'account_uuid' => $accountUuid,
+            'type' => TypeEnum::SELL->value,
         ]);
     }
 
@@ -272,8 +304,10 @@ final class PaymentService
             'account_uuid' => $accountUuid,
             'type' =>  TypeEnum::CREDIT_FROM_CLIENT->value,
         ]));
+        $sumUserSells = $this->getSumPayments($accountUuid, TypeEnum::SELL->value);
+        $realAmountSell = $this-> getSumRealSells($accountUuid);
 
-        return [$realAmount, $totalAmount, $allPaidDividends, $lastPayment];
+        return [$realAmount, $totalAmount, $allPaidDividends, $lastPayment, $sumUserSells, $realAmountSell];
     }
 
     public function getDataForConfirmSell(string $accountUuid): array
@@ -292,8 +326,33 @@ final class PaymentService
             'account_uuid' => $accountUuid,
             'type' =>  TypeEnum::CREDIT_FROM_CLIENT->value,
         ]));
+        $sumUserSells = $this->getSumPayments($accountUuid, TypeEnum::SELL->value);
+        $referralAmountSell = $this-> getSumReferralSell($accountUuid);
+        $bonusAmountSell = $this-> getSumBonusSell($accountUuid);
+        $dividendsAmountSell = $this-> getSumDividendsSell($accountUuid);
+        $realAmountSell = $this-> getSumRealSells($accountUuid);
 
-        return [$referralAmount, $bonusAmount, $dividendsAmount, $realAmount, $totalAmount, $allPaidDividends, $lastPayment];
+        return [
+            $referralAmount,
+            $bonusAmount,
+            $dividendsAmount,
+            $realAmount,
+            $totalAmount,
+            $allPaidDividends,
+            $lastPayment,
+            $sumUserSells,
+            $realAmountSell,
+            $referralAmountSell,
+            $bonusAmountSell,
+            $dividendsAmountSell,
+            ];
 
+    }
+
+    public function checkBalance(string $accountUuid): bool
+    {
+        $sumUserPayments = $this->getSumPayments($accountUuid);
+        $sumUserSells = $this->getSumPayments($accountUuid, TypeEnum::SELL->value);
+        return $sumUserPayments > $sumUserSells;
     }
 }

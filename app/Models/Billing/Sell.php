@@ -27,6 +27,8 @@ final class Sell extends Model
         'termination_fee',
         'transaction_fee',
         'return_all_paid',
+        'exchange_rate_deduction',
+        'total_amount',
     ];
 
     protected $casts = [
@@ -35,5 +37,7 @@ final class Sell extends Model
         'termination_fee' => 'float',
         'transaction_fee' => 'float',
         'return_all_paid' => 'float',
+        'exchange_rate_deduction' => 'float',
+        'total_amount' => 'float',
     ];
 }

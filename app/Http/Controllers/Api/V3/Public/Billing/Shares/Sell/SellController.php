@@ -54,7 +54,6 @@ final class SellController extends Controller
                 ],
             ]);
         }
-
     }
 
     function getFees($amount, $service): array {
@@ -75,29 +74,36 @@ final class SellController extends Controller
         }
     }
 
-    function calculateValues($sumUserRealPayments, $sumUserPayments, $sumUserDividends, $lastUserPayment, $sumUserSells, $realAmountSell, $service): array {
+    function calculateValues(
+        $sumUserRealPayments,
+        $sumUserPayments,
+        $sumUserDividends,
+        $lastUserPayment,
+        $sumUserSells,
+        $realAmountSell,
+        $service,
+        $btcPrice,
+        $btcPriceLastUserPayment
+    ): array {
         $amount = $sumUserPayments - $sumUserSells;
         $for = 0;
         $earlyTerminationFee = 0;
         $transactionFee = 0;
         $allPaid = 0;
+        $exchangeRateDeduction = 0;
         $apolloService = [];
         if ($amount > 0) {
             $now = Carbon::now();
             $days = $now->diffInDays($lastUserPayment?->getCreatedAt());
+            $for = $sumUserRealPayments - $realAmountSell;
+            if ($btcPrice < $btcPriceLastUserPayment) {
+                $exchangeRateDeduction = $for * (1 - ($btcPrice / $btcPriceLastUserPayment));
+            }
             if ($days == 0) {
-                $for = $sumUserRealPayments - $realAmountSell;
                 $apolloService = $this->getFees($for, $service);
                 $transactionFee = $apolloService['response']['blockchainFeeUSD'] + $apolloService['response']['serviceFeeUSD'];
-            } elseif ($days >= 1 && $days < 32) {
-                $for = $sumUserRealPayments - $realAmountSell;
-                $earlyTerminationFee = ($for * 10) / 100;
-                $apolloService = $this->getFees($for, $service);
-                $transactionFee = $apolloService['response']['blockchainFeeUSD'] + $apolloService['response']['serviceFeeUSD'];
-                $allPaid = $sumUserDividends;
-            } elseif ($days >= 32 && $days < 1095) {
-                $for = $sumUserRealPayments - $realAmountSell;
-                $earlyTerminationFee = ($for * 20) / 100;
+            } elseif ($days >= 1 && $days < 1095) {
+                $earlyTerminationFee = (($for * 30) / 100) + $exchangeRateDeduction;
                 $apolloService = $this->getFees($for, $service);
                 $transactionFee = $apolloService['response']['blockchainFeeUSD'] + $apolloService['response']['serviceFeeUSD'];
                 $allPaid = $sumUserDividends;
@@ -107,9 +113,9 @@ final class SellController extends Controller
                 $transactionFee = $apolloService['response']['blockchainFeeUSD'] + $apolloService['response']['serviceFeeUSD'];
             }
             $for -= ($earlyTerminationFee + $transactionFee + $allPaid);
-            return [$amount, $for, $earlyTerminationFee, $transactionFee, $allPaid, $apolloService];
+            return [$amount, $for, $earlyTerminationFee, $transactionFee, $allPaid, $apolloService, $exchangeRateDeduction];
         } else {
-            return [$amount, $for, $earlyTerminationFee, $transactionFee, $allPaid, $apolloService];
+            return [$amount, $for, $earlyTerminationFee, $transactionFee, $allPaid, $apolloService, $exchangeRateDeduction];
         }
     }
 
@@ -134,7 +140,26 @@ final class SellController extends Controller
         $accountUuid = $request->payload()->getUuid();
         $btcPrice = $this->tokenService->getBitcoinAmount();
         [$sumUserRealPayments, $sumUserPayments, $sumUserDividends, $lastUserPayment, $sumUserSells, $realAmountSell] = $this->service->getDataForValuateSell($accountUuid);
-        [$amount, $for, $earlyTerminationFee, $transactionFee, $allPaid, $apolloService] = $this->calculateValues($sumUserRealPayments, $sumUserPayments, $sumUserDividends, $lastUserPayment, $sumUserSells, $realAmountSell, $service);
+        $btcPriceLastUserPayment = $lastUserPayment?->getBtcPrice();
+        [
+            $amount,
+            $for,
+            $earlyTerminationFee,
+            $transactionFee,
+            $allPaid,
+            $apolloService,
+            $exchangeRateDeduction
+        ] = $this->calculateValues(
+            $sumUserRealPayments,
+            $sumUserPayments,
+            $sumUserDividends,
+            $lastUserPayment,
+            $sumUserSells,
+            $realAmountSell,
+            $service,
+            $btcPrice,
+            $btcPriceLastUserPayment
+        );
         $period = $this->getPeriod($lastUserPayment);
         return response()->json([
             'data' => [
@@ -145,7 +170,8 @@ final class SellController extends Controller
                 'for' => $for,
                 'real_amount' => $sumUserRealPayments - $realAmountSell,
                 'btc_price_now' => $btcPrice,
-                'btc_price_last_payment' => $amount > 0 ? $lastUserPayment?->getBtcPrice() : null,
+                'btc_price_last_payment' => $amount > 0 ? $btcPriceLastUserPayment : null,
+                'exchange_rate_deduction' => $exchangeRateDeduction,
                 'early_termination_fee' => $earlyTerminationFee,
                 'transaction_fee' => $transactionFee,
                 'all_paid'  => $allPaid,
@@ -162,6 +188,7 @@ final class SellController extends Controller
         $acceptEarlyTerminationFee = $request->get("accept_early_termination_fee");
         $checkBalance = $this->service->checkBalance($accountUuid);
         if ($isDestinationValid && $isDestinationValid['response']['isValid'] && $acceptEarlyTerminationFee && $checkBalance) {
+            $btcPrice = $this->tokenService->getBitcoinAmount();
             [
                 $referralAmount,
                 $bonusAmount,
@@ -176,7 +203,26 @@ final class SellController extends Controller
                 $bonusAmountSell,
                 $dividendsAmountSell,
             ] = $this->service->getDataForConfirmSell($accountUuid);
-            [$amount, $for, $earlyTerminationFee, $transactionFee, $allPaid, $apolloService] = $this->calculateValues($sumUserRealPayments, $sumUserPayments, $sumUserDividends, $lastUserPayment, $sumUserSells, $realAmountSell, $service);
+            $btcPriceLastUserPayment = $lastUserPayment?->getBtcPrice();
+            [
+                $amount,
+                $for,
+                $earlyTerminationFee,
+                $transactionFee,
+                $allPaid,
+                $apolloService,
+                $exchangeRateDeduction
+            ] = $this->calculateValues(
+                $sumUserRealPayments,
+                $sumUserPayments,
+                $sumUserDividends,
+                $lastUserPayment,
+                $sumUserSells,
+                $realAmountSell,
+                $service,
+                $btcPrice,
+                $btcPriceLastUserPayment
+            );
             $period = $this->getPeriod($lastUserPayment);
             $bonusWallet = $this->walletService->get([
                 'account_uuid' => $accountUuid,
@@ -217,6 +263,8 @@ final class SellController extends Controller
                 'termination_fee' => $earlyTerminationFee,
                 'transaction_fee' => $transactionFee,
                 'return_all_paid' => $allPaid,
+                'exchange_rate_deduction' => $exchangeRateDeduction,
+                'total_amount' => $amount,
             ]));
             return response()->json([
                 'data' => [

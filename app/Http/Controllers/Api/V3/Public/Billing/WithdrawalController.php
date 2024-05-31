@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Artisan;
+use App\Services\Api\V3\Billing\SellService;
 
 final class WithdrawalController extends Controller
 {
@@ -22,6 +23,7 @@ final class WithdrawalController extends Controller
         private readonly ApollopaymentWebhooksService $apollopaymentWebhooksService,
         private readonly WithdrawalPipeline           $pipeline,
         private readonly WithdrawalService            $withdrawalService,
+        private readonly SellService                  $sellService,
     )
     {
     }
@@ -153,5 +155,42 @@ final class WithdrawalController extends Controller
             'status' => 'ok',
             'output' => Artisan::output()
         ]);
+    }
+
+    /**
+     * @param WebhookRequest $request
+     * @return JsonResponse
+     */
+    public function webhookPayout(WebhookRequest $request): JsonResponse
+    {
+        Log::info('apollo payout sell webhook', $request->all());
+
+        if ($request->input('status') !== ApolloPaymentWithdrawalStatusEnum::PROCESSED->value) {
+            return response()->json(['status' => $request->input('status')]);
+        }
+
+        $sell = $this->sellService->get(['uuid' => request()->sell_uuid]);
+        $accountUuid = $sell->getAccountUuid();
+
+        //TODO WebhooksDto setting move to WebhookRequest
+        $this->apollopaymentWebhooksService->create(WebhooksDto::fromArray([
+            'client_id' => $accountUuid,
+            'webhook_id' => $request->input('webhookId'),
+            'address_id' => $request->input('addressId'),
+            'amount' => (float)$request->input('amount'),
+            'currency' => $request->input('currency'),
+            'network' => $request->input('network'),
+            'tx' => $request->input('tx'),
+            'type' => ApolloPaymentWebhookTypeEnum::PAYOUT->value,
+            'payload' => json_encode($request->all(), JSON_UNESCAPED_SLASHES),
+        ]));
+
+        [$dto, $e] = $this->pipeline->apolloPayoutWebhook($request->payoutPipelineDto());
+
+        if (!$e) {
+            return response()->json();
+        }
+
+        return response()->__call('exception', [$e]);
     }
 }

@@ -28,6 +28,13 @@ use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\UpdateCentrifugalPipe;
 use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\WalletPipe as WalletPipe;
 use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\WithdrawalPipe;
 use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\WithdrawalWebhookPipe;
+use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\Payout\PayoutPipe;
+use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\Payout\ApollopaymentWithdrawalCommissionPipe as PayoutApollopaymentWithdrawalCommissionPipe;
+use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\Payout\ApollopaymentWithdrawalPipe as PayoutApollopaymentWithdrawalPipe;
+use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\Payout\NewCentrifugalPipe as PayoutNewCentrifugalPipe;
+use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\Payout\PayoutWebhookPipe;
+use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\Payout\UpdateCentrifugalPipe as PayoutUpdateCentrifugalPipe;
+use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\Payout\KafkaPipe  as PayoutKafkaPipe;
 
 final class WithdrawalPipeline extends AbstractPipeline
 {
@@ -71,13 +78,10 @@ final class WithdrawalPipeline extends AbstractPipeline
     public function payout(PayoutPipelineDto $dto): array
     {
         return $this->pipeline([
-            //WalletPipe::class,
-            //ReferralsPaymentPipe::class,
-            //WithdrawalPipe::class,
-            //ReferralsApollopaymentWithdrawalCommissionPipe::class,
-            //ReferralsApollopaymentWithdrawalPipe::class,
-            //ReferralsSendPaymentPipe::class,
-            //NewCentrifugalPipe::class,
+            //PayoutApollopaymentWithdrawalCommissionPipe::class,
+            //PayoutApollopaymentWithdrawalPipe::class,
+            PayoutPipe::class,
+            //PayoutNewCentrifugalPipe::class,
         ], $dto);
     }
 
@@ -109,4 +113,18 @@ final class WithdrawalPipeline extends AbstractPipeline
             UpdateCentrifugalPipe::class,
         ], $dto);
     }
+
+    /**
+     * @param PayoutPipelineDto $dto
+     * @return array
+     */
+    public function apolloPayoutWebhook(PayoutPipelineDto $dto): array
+    {
+        return $this->pipeline([
+            PayoutWebhookPipe::class,
+            PayoutKafkaPipe::class,
+            PayoutUpdateCentrifugalPipe::class,
+        ], $dto);
+    }
+
 }

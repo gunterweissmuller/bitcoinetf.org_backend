@@ -346,7 +346,6 @@ final class PaymentService
             $bonusAmountSell,
             $dividendsAmountSell,
             ];
-
     }
 
     public function checkBalance(string $accountUuid): bool

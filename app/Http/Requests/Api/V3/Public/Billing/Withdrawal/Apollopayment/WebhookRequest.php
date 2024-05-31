@@ -15,6 +15,8 @@ use App\Http\Requests\AbstractRequest;
 use App\Dto\Models\Apollopayment\WebhooksDto;
 use App\Enums\Billing\Payment\ApolloPaymentWebhookTypeEnum;
 use App\Enums\Billing\Withdrawal\StatusEnum;
+use App\Dto\Pipelines\Api\V1\Public\Billing\Withdrawal\PayoutPipelineDto;
+use App\Dto\Models\Billing\SellDto;
 
 class WebhookRequest extends AbstractRequest
 {
@@ -77,6 +79,21 @@ class WebhookRequest extends AbstractRequest
                 'total_amount' => (float)$this->get('amount'),
                 'wallet_address' => $this->get('addressTo'),
                 'status' => StatusEnum::SUCCESS->value,
+            ]),
+        ]);
+    }
+
+    /**
+     * @return PayoutPipelineDto
+     */
+    public function payoutPipelineDto(): PayoutPipelineDto
+    {
+        return PayoutPipelineDto::fromArray([
+            'sell' => SellDto::fromArray([
+                'uuid' => request()->sell_uuid,
+                'status' => StatusEnum::SUCCESS->value,
+                'destination' => $this->get('addressTo'),
+                'value' => (float)$this->get('amount'),
             ]),
         ]);
     }

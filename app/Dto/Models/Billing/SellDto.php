@@ -23,6 +23,8 @@ final class SellDto implements DtoInterface
         private ?float $returnAllPaid,
         private ?string $createdAt,
         private ?string $updatedAt,
+        private ?float $exchangeRateDeduction,
+        private ?float $totalAmount,
     ) {
     }
 
@@ -43,6 +45,8 @@ final class SellDto implements DtoInterface
             $args['return_all_paid'] ?? null,
             $args['created_at'] ?? null,
             $args['updated_at'] ?? null,
+            $args['exchange_rate_deduction'] ?? null,
+            $args['total_amount'] ?? null,
         );
     }
 
@@ -63,6 +67,8 @@ final class SellDto implements DtoInterface
             'return_all_paid' => $this->returnAllPaid,
             'created_at' => $this->createdAt,
             'updated_at' => $this->updatedAt,
+            'exchange_rate_deduction' => $this->exchangeRateDeduction,
+            'total_amount' => $this->totalAmount,
         ];
 
         if ($without) {
@@ -297,4 +303,37 @@ final class SellDto implements DtoInterface
     {
         $this->updatedAt = $updatedAt;
     }
+
+    /**
+     * @return float|null
+     */
+    public function getExchangeRateDeduction(): ?float
+    {
+        return $this->exchangeRateDeduction;
+    }
+
+    /**
+     * @param  float|null  $exchangeRateDeduction
+     */
+    public function setExchangeRateDeduction(?float $exchangeRateDeduction): void
+    {
+        $this->exchangeRateDeduction = $exchangeRateDeduction;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getTotalAmount(): ?float
+    {
+        return $this->totalAmount;
+    }
+
+    /**
+     * @param  float|null  $totalAmount
+     */
+    public function setTotalAmount(?float $totalAmount): void
+    {
+        $this->totalAmount = $totalAmount;
+    }
+    
 }

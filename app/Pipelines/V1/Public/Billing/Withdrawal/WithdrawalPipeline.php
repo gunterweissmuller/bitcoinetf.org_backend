@@ -78,10 +78,10 @@ final class WithdrawalPipeline extends AbstractPipeline
     public function payout(PayoutPipelineDto $dto): array
     {
         return $this->pipeline([
-            //PayoutApollopaymentWithdrawalCommissionPipe::class,
-            //PayoutApollopaymentWithdrawalPipe::class,
+            PayoutApollopaymentWithdrawalCommissionPipe::class,
+            PayoutApollopaymentWithdrawalPipe::class,
             PayoutPipe::class,
-            //PayoutNewCentrifugalPipe::class,
+            PayoutNewCentrifugalPipe::class,
         ], $dto);
     }
 

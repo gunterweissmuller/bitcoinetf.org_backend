@@ -21,7 +21,7 @@ final readonly class PayoutPipe implements PipeInterface
 {
     public function __construct(
         private TokenService $tokenService,
-        private PaymentService $paymentService,
+        //private PaymentService $paymentService, //TODO remove
         private SellService $sellService,
     ) {
     }
@@ -35,15 +35,6 @@ final readonly class PayoutPipe implements PipeInterface
         ], [
             'status' => StatusEnum::INIT->value
         ]);
-
-        if (!$sell->getTotalAmount()) {
-            $payment = $this->paymentService->get(['uuid' => $dto->getSell()->getPaymentUuid(),]);
-            $this->sellService->update([
-                'uuid' => $sell->getUuid(),
-            ], [
-                'total_amount' => $payment->getRealAmount() + $payment->getBonusAmount() + $payment->getReferralAmount() + $payment->getDividendAmount(),
-            ]);
-        }
 
         return $next($dto);
     }

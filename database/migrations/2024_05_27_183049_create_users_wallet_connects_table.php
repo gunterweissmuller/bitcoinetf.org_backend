@@ -14,7 +14,7 @@ return new class extends Migration {
         Schema::create('users.wallet_connects', function (Blueprint $table) {
             $table->uuid()->unique()->primary();
             $table->uuid('account_uuid')->unsigned();
-            $table->bigInteger('address')->nullable();
+            $table->string('address')->nullable();
             $table->enum('status', StatusEnum::values())->default(StatusEnum::AwaitConfirm->value);
             $table->timestamps();
 

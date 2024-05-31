@@ -72,7 +72,7 @@ if (!function_exists('checkWalletConnectAuthorizationValidator')) {
                     if (strtolower($recoveredAddress) !== strtolower($data['address'])) {
                         $validator->errors()->add('wallet_connect_data', 'Signature is not correct');
                     }
-                } catch (Exception $e) {
+                } catch (Throwable $e) {
                     $validator->errors()->add('wallet_connect_data', 'Invalid signature');
                 }
             } else {

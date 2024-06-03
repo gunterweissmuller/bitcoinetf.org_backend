@@ -97,8 +97,8 @@ final class StatementJob extends Job
 
         $payments = $paymentService->all([
             'account_uuid' => $this->accountUuid,
-            ['created_at', '>=', $this->periodFrom.' 00:00:00']
-        ])?->map(function (PaymentDto $payment) {
+            ['created_at', '>=', $this->periodFrom . ' 00:00:00'],
+        ], ['bonus_wallet_uuid'])?->map(function (PaymentDto $payment) {
             return [
                 'date' => Carbon::createFromDate($payment->getCreatedAt())->format('d M Y'),
                 'message' => (function () use ($payment) {

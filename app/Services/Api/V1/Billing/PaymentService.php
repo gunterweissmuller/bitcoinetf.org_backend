@@ -33,9 +33,9 @@ final class PaymentService
         $this->repository->update($condition, $data);
     }
 
-    public function all(array $filters): ?Collection
+    public function all(array $filters, ?array $nullableFields = null): ?Collection
     {
-        return $this->repository->all($filters);
+        return $this->repository->all($filters, $nullableFields);
     }
 
     public function delete(array $condition): void

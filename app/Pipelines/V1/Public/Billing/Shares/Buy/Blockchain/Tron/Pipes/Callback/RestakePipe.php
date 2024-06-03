@@ -25,6 +25,7 @@ use App\Services\Utils\CentrifugalService;
 use App\Services\Utils\KafkaProducerService;
 use Closure;
 use Illuminate\Support\Carbon;
+use App\Models\Billing\Replenishment;
 
 final readonly class RestakePipe implements PipeInterface
 {
@@ -118,6 +119,17 @@ final readonly class RestakePipe implements PipeInterface
                 'total_amount' => $replenishment->getTotalAmount(),
                 'total_amount_btc' => $replenishment->getTotalAmountBtc(),
             ]);
+        } else {
+            $lastOrderType = Replenishment::query()
+                ->where(
+                    ['account_uuid' => $accountUuid],
+                    ['order_type', '!=', null]
+                )
+                ->orderBy('created_at', 'desc')
+                ->first()
+                ->value('order_type');
+            $replenishment->setOrderType($lastOrderType);
+            $this->replenishmentService->create($replenishment);
         }
 
         $payment = $this->paymentService->create(PaymentDto::fromArray([

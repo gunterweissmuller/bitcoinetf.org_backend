@@ -129,6 +129,7 @@ final readonly class RestakePipe implements PipeInterface
                 ->first()
                 ->value('order_type');
             $replenishment->setOrderType($lastOrderType);
+            $replenishment->setAddedAmount(ceil($replenishment->getBonusAmount() + $replenishment->getAddedAmount()));
             $this->replenishmentService->create($replenishment);
         }
 

@@ -18,8 +18,8 @@ final class InitRequest extends AbstractRequest
     public function rules(): array
     {
         return [
-            'first_name' => ['required', 'string', 'regex:/^[a-zA-Z]+$/i'],
-            'last_name' => ['required', 'string', 'regex:/^[a-zA-Z]+$/i'],
+            'first_name' => ['required', 'string', 'regex:/^.*/'],
+            'last_name' => ['required', 'string', 'regex:/^.*/'],
             'email' => ['required', 'email'],
             'ref_code' => ['nullable', 'string'],
             'phone_number' => ['string'],

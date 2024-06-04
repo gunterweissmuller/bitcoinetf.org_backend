@@ -50,7 +50,8 @@ final class ScreenCurrentPipe implements PipeInterface
             'current_screen_uuid' => $currentScreen?->getUuid(),
         ]);
 
-        if (is_null($currentScreen)) {
+        //KYC bonus
+        /*if (is_null($currentScreen)) {
             $btcPrice = $this->tokenService->getBitcoinAmount();
             $kycBonus = $this->globalService->getKycBonusValue();
 
@@ -82,7 +83,7 @@ final class ScreenCurrentPipe implements PipeInterface
                 'btc_price' => $btcPrice,
                 'desc_type' => DescTypeEnum::KYC_BONUS->value,
             ]));
-        }
+        }*/
 
         return $next($dto);
     }

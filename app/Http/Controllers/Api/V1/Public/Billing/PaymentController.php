@@ -265,9 +265,19 @@ final class PaymentController extends Controller
                 now()->toDateTimeString(),
                 $request->payload()->getUuid()
             );
+            $sumDividendsBtc = $this->service->getTotalDividendsBtcInPeriod(
+            now()->subDays($filterDays)->startOfDay()->toDateTimeString(),
+            now()->toDateTimeString(),
+                $request->payload()->getUuid()
+            );
             $fromDaysAgo = $filterDays;
         } else {
             $sumDividends = $this->service->getTotalDividendsInPeriod(
+                now()->subDays($maxDays + 1)->startOfDay()->toDateTimeString(),
+                now()->toDateTimeString(),
+                $request->payload()->getUuid()
+            );
+            $sumDividendsBtc = $this->service->getTotalDividendsBtcInPeriod(
                 now()->subDays($maxDays + 1)->startOfDay()->toDateTimeString(),
                 now()->toDateTimeString(),
                 $request->payload()->getUuid()
@@ -278,6 +288,7 @@ final class PaymentController extends Controller
         return response()->json([
             'data' => [
                 'sum_dividends' => $sumDividends,
+                'sum_dividends_btc' => $sumDividendsBtc,
                 'from_days_ago' => $fromDaysAgo,
             ]
         ]);

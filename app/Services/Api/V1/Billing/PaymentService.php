@@ -104,11 +104,13 @@ final class PaymentService
             return $this->repository->getSumInPeriod('total_amount_btc', [
                 'account_uuid' => $accountUuid,
                 'type' => TypeEnum::DEBIT_TO_CLIENT->value,
+                ['dividend_amount', '!=', null],
             ], $from, $to);
         }
 
         return $this->repository->getSumInPeriod('total_amount_btc', [
             'type' => TypeEnum::DEBIT_TO_CLIENT->value,
+            ['dividend_amount', '!=', null],
         ], $from, $to);
     }
 

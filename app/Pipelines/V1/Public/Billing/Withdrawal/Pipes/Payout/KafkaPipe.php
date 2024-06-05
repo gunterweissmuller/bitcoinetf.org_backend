@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\Payout;
 
 use App\Dto\DtoInterface;
-use App\Dto\Pipelines\Api\V1\Public\Billing\Withdrawal\DividendPipelineDto;
 use App\Enums\Kafka\ProducerEnum;
 use App\Pipelines\PipeInterface;
 use App\Services\Utils\KafkaProducerService;
@@ -20,7 +19,7 @@ final readonly class KafkaPipe implements PipeInterface
 
         KafkaProducerService::handle(
             ProducerEnum::BILLING_SHARES_CLOSE,
-            'user sold success',
+            'user close the fund',
             [
                 'entity' => 'close of the fund',
                 'record' => [

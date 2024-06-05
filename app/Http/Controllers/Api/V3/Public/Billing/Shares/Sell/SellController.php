@@ -8,6 +8,7 @@ use App\Dto\Models\Billing\SellDto;
 use App\Dto\Models\Billing\PaymentDto;
 use App\Enums\Billing\Payment\TypeEnum as PaymentTypeEnum;
 use App\Enums\Billing\Wallet\TypeEnum as WalletTypeEnum;
+use App\Enums\Kafka\ProducerEnum;
 use App\Exceptions\Pipelines\V1\Billing\WithdrawalNotPossibleException;
 use App\Http\Requests\Api\V3\Public\Billing\Shares\Sell\InitSellRequest;
 use App\Services\Utils\ApollopaymentApiService;
@@ -22,6 +23,7 @@ use App\Services\Api\V1\Billing\TokenService;
 use App\Enums\Billing\Withdrawal\MethodEnum  as WithdrawalMethodEnum;
 use App\Enums\Billing\Withdrawal\StatusEnum  as WithdrawalStatusEnum;
 use App\Services\Api\V3\Billing\SellService;
+use App\Services\Utils\KafkaProducerService;
 
 final class SellController extends Controller
 {
@@ -266,6 +268,16 @@ final class SellController extends Controller
                 'exchange_rate_deduction' => $exchangeRateDeduction,
                 'total_amount' => $amount,
             ]));
+            KafkaProducerService::handle(
+                ProducerEnum::BILLING_SHARES_CLOSE,
+                'user close the fund',
+                [
+                    'entity' => 'close of the fund',
+                    'record' => [
+                        'account_uuid' => $accountUuid
+                    ],
+                ],
+            );
             return response()->json([
                 'data' => [
                     'success' => true,

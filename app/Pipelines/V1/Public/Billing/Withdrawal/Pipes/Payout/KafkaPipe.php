@@ -19,14 +19,12 @@ final readonly class KafkaPipe implements PipeInterface
         $sell = $dto->getSell();
 
         KafkaProducerService::handle(
-            ProducerEnum::BILLING_SHARES_BUY,
-            'user sold payout success',
+            ProducerEnum::BILLING_SHARES_CLOSE,
+            'user sold success',
             [
-                'entity' => 'sell of the fund',
+                'entity' => 'close of the fund',
                 'record' => [
-                    'account_uuid' => $sell->getAccountUuid(),
-                    'payment_uuid' => $sell->getPaymentUuid(),
-                    'amount' => $sell->getTotalAmount(),
+                    'account_uuid' => $sell->getAccountUuid()
                 ],
             ],
         );

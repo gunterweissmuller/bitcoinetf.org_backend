@@ -33,7 +33,7 @@ final readonly class PayoutPipe implements PipeInterface
         $this->sellService->update([
             'uuid' => $sell->getUuid(),
         ], [
-            'status' => StatusEnum::INIT->value
+            'status' => StatusEnum::PENDING->value
         ]);
 
         return $next($dto);

@@ -34,7 +34,6 @@ use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\Payout\ApollopaymentWithdra
 use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\Payout\NewCentrifugalPipe as PayoutNewCentrifugalPipe;
 use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\Payout\PayoutWebhookPipe;
 use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\Payout\UpdateCentrifugalPipe as PayoutUpdateCentrifugalPipe;
-use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\Payout\KafkaPipe  as PayoutKafkaPipe;
 
 final class WithdrawalPipeline extends AbstractPipeline
 {
@@ -82,7 +81,6 @@ final class WithdrawalPipeline extends AbstractPipeline
             PayoutApollopaymentWithdrawalPipe::class,
             PayoutPipe::class,
             PayoutNewCentrifugalPipe::class,
-            PayoutKafkaPipe::class,
         ], $dto);
     }
 

@@ -62,29 +62,29 @@ final readonly class SessionResultPipe implements PipeInterface
                 $this->profileService->create($profile);
             }
 
-            if ($profile->getCountry() === 'russia') {
-                $btcPrice = $this->tokenService->getBitcoinAmount();
-                $russiaBonus = $this->globalService->getRussiaBonusValue();
-                $wallet = $this->walletService->get([
-                    'account_uuid' => $session->getAccountUuid(),
-                    'type' => WalletTypeEnum::BONUS->value
-                ]);
-                $wallet->setAmount($wallet->getAmount() + $russiaBonus);
-                $this->walletService->update([
-                    'uuid' => $wallet->getUuid(),
-                ], [
-                    'amount' => $wallet->getAmount(),
-                ]);
-                $this->paymentService->create(PaymentDto::fromArray([
-                    'account_uuid' => $session->getAccountUuid(),
-                    'bonus_wallet_uuid' => $wallet->getUuid(),
-                    'bonus_amount' => $russiaBonus,
-                    'type' => TypeEnum::DEBIT_TO_CLIENT->value,
-                    'total_amount_btc' => 1 / $btcPrice * $russiaBonus,
-                    'btc_price' => $btcPrice,
-                    'desc_type' => DescTypeEnum::RUSSIA_BONUS->value,
-                ]));
-            }
+//            if ($profile->getCountry() === 'russia') {
+//                $btcPrice = $this->tokenService->getBitcoinAmount();
+//                $russiaBonus = $this->globalService->getRussiaBonusValue();
+//                $wallet = $this->walletService->get([
+//                    'account_uuid' => $session->getAccountUuid(),
+//                    'type' => WalletTypeEnum::BONUS->value
+//                ]);
+//                $wallet->setAmount($wallet->getAmount() + $russiaBonus);
+//                $this->walletService->update([
+//                    'uuid' => $wallet->getUuid(),
+//                ], [
+//                    'amount' => $wallet->getAmount(),
+//                ]);
+//                $this->paymentService->create(PaymentDto::fromArray([
+//                    'account_uuid' => $session->getAccountUuid(),
+//                    'bonus_wallet_uuid' => $wallet->getUuid(),
+//                    'bonus_amount' => $russiaBonus,
+//                    'type' => TypeEnum::DEBIT_TO_CLIENT->value,
+//                    'total_amount_btc' => 1 / $btcPrice * $russiaBonus,
+//                    'btc_price' => $btcPrice,
+//                    'desc_type' => DescTypeEnum::RUSSIA_BONUS->value,
+//                ]));
+//            }
         }
 
         $sessionResultDto->setData(json_encode($sessionResultDto->getData()));

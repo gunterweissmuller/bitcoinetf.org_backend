@@ -21,11 +21,12 @@ use Closure;
 final class BonusPipe implements PipeInterface
 {
     public function __construct(
-        private readonly WalletService $walletService,
+        private readonly WalletService  $walletService,
         private readonly PaymentService $paymentService,
-        private readonly GlobalService $globalService,
-        private readonly TokenService $tokenService,
-    ) {
+        private readonly GlobalService  $globalService,
+        private readonly TokenService   $tokenService,
+    )
+    {
     }
 
     public function handle(InitPipelineDto|DtoInterface $dto, Closure $next): DtoInterface
@@ -52,33 +53,7 @@ final class BonusPipe implements PipeInterface
             ]);
         }
 
-        if ($invite) {
-            $welcomeRefBonus = $this->globalService->get(['symbol' => SymbolEnum::WELCOME_REF_BONUS->value])->getValue();
-            if ($welcomeRefBonus > 0) {
-                $btcAmount = $this->tokenService->getBitcoinAmount();
-
-                $this->paymentService->create(PaymentDto::fromArray([
-                    'account_uuid' => $account->getUuid(),
-                    'bonus_wallet_uuid' => $walletBonus->getUuid(),
-                    'bonus_amount' => $welcomeRefBonus,
-                    'type' => TypeEnum::DEBIT_TO_CLIENT->value,
-                    'real_amount' => $welcomeRefBonus,
-                    'total_amount_btc' => 1 / $btcAmount * $welcomeRefBonus,
-                    'btc_price' => $btcAmount,
-                    'desc_type' => DescTypeEnum::WELCOME_BONUS_REF->value,
-                ]));
-
-                $this->walletService->update([
-                    'account_uuid' => $account->getUuid(),
-                    'type' => WalletTypeEnum::BONUS->value,
-                ], [
-                    'amount' => $welcomeRefBonus,
-                ]);
-            }
-        }
-
-        // @todo-v bonus logic welcome and referral
-/*        $descType = DescTypeEnum::WELCOME_BONUS->value;
+        $descType = DescTypeEnum::WELCOME_BONUS->value;
         $bonusAmount = $this->globalService->get(['symbol' => SymbolEnum::WELCOME_BONUS->value])->getValue();
 
         if ($invite) {
@@ -108,7 +83,7 @@ final class BonusPipe implements PipeInterface
             'type' => WalletTypeEnum::BONUS->value,
         ], [
             'amount' => $bonusAmount,
-        ]);*/
+        ]);
 
         return $next($dto);
     }

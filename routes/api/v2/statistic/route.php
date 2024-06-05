@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Middleware\CheckEnvironment;
 use Illuminate\Support\Facades\Route;
 
 Route::namespace('Public')
@@ -12,5 +13,6 @@ Route::namespace('Public')
             ->group(function () {
                 Route::get('/', 'StatisticController@general');
                 Route::get('/flow', 'StatisticController@flow');
+                Route::get('/mock-create-monthly-report-command', 'StatisticController@mockCreateMonthlyReportCommand')->middleware([CheckEnvironment::class]);
             });
     });

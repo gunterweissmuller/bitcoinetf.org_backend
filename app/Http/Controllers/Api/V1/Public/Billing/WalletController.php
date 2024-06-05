@@ -96,32 +96,36 @@ final class WalletController extends Controller
             $lastPayment = null;
 
             $sumToClient = Payment::query()
-                ->select(DB::raw('sum(total_amount_btc)'))
+                //->select(DB::raw('sum(total_amount_btc)'))
                 ->where([
                     'account_uuid' => $wallet->getAccountUuid(),
                     'type' => PaymentTypeEnum::DEBIT_TO_CLIENT->value,
                     ['dividend_wallet_uuid', '!=', null]
                 ])
-                ->first();
+                //->first();
+                ->sum('total_amount_btc');
 
             $withdrawal = Payment::query()
-                ->select(DB::raw('sum(total_amount_btc)'))
+                //->select(DB::raw('sum(total_amount_btc)'))
                 ->where([
                     'account_uuid' => $wallet->getAccountUuid(),
                     'type' => PaymentTypeEnum::WITHDRAWAL->value,
                     ['dividend_wallet_uuid', '!=', null]
                 ])
-                ->first();
+                //->first();
+                ->sum('total_amount_btc');
 
             $reinvesting = Payment::query()
-                ->select(DB::raw('sum(total_amount_btc)'))
+                //->select(DB::raw('sum(total_amount_btc)'))
                 ->where([
                     'account_uuid' => $wallet->getAccountUuid(),
                     'type' => PaymentTypeEnum::CREDIT_FROM_CLIENT->value,
                     ['dividend_wallet_uuid', '!=', null]
                 ])
-                ->first();
+                //->first();
+                ->sum('total_amount_btc');
 
+            $btcDividendsBalance = $sumToClient - $withdrawal - $reinvesting;
             $btcAmountAdded = Payment::query()
                 ->where([
                     'account_uuid' => $wallet->getAccountUuid(),
@@ -145,6 +149,7 @@ final class WalletController extends Controller
 
             $account = $this->accountService->get(['uuid' => $wallet->getAccountUuid()]);
             if ($account->getOrderType() != OrderTypeEnum::USDT->value) {
+                $btcAmount = $btcDividendsBalance;
                 $data = [
                     ...$data,
                     'usd_amount' => (float) bcmul(
@@ -160,6 +165,7 @@ final class WalletController extends Controller
                 'btc_amount' => number_format((float)$wallet->getBtcAmount(), 8, '.', ''),
                 'btc_amount_added' => number_format((float) $btcAmountAdded, 8, '.', ''),
                 'difference' => $difference,
+                'btc_dividends_balance' => number_format((float)$btcDividendsBalance, 8, '.', ''),
             ];
         }
 

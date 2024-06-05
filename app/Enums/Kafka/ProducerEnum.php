@@ -10,5 +10,5 @@ enum ProducerEnum: string
 
     case BILLING_WALLETS_WITHDRAWAL = 'billing.wallets.withdrawal';
 
-    case BILLING_SHARES_SELL = 'billing.shares.sell';
+    case BILLING_SHARES_CLOSE = 'billing.shares.close';
 }

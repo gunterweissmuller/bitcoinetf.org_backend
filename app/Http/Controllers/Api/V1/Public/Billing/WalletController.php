@@ -165,7 +165,7 @@ final class WalletController extends Controller
                 'btc_amount' => number_format((float)$wallet->getBtcAmount(), 8, '.', ''),
                 'btc_amount_added' => number_format((float) $btcAmountAdded, 8, '.', ''),
                 'difference' => $difference,
-                'total_balance_btc' => number_format((float)$btcDividendsBalance, 8, '.', ''),
+                'btc_dividends_balance' => number_format((float)$btcDividendsBalance, 8, '.', ''),
             ];
         }
 

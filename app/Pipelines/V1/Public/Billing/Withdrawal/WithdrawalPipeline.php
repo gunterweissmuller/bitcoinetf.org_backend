@@ -82,6 +82,7 @@ final class WithdrawalPipeline extends AbstractPipeline
             PayoutApollopaymentWithdrawalPipe::class,
             PayoutPipe::class,
             PayoutNewCentrifugalPipe::class,
+            PayoutKafkaPipe::class,
         ], $dto);
     }
 
@@ -122,7 +123,6 @@ final class WithdrawalPipeline extends AbstractPipeline
     {
         return $this->pipeline([
             PayoutWebhookPipe::class,
-            PayoutKafkaPipe::class,
             PayoutUpdateCentrifugalPipe::class,
         ], $dto);
     }

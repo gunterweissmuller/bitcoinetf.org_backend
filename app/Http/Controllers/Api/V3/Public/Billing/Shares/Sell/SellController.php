@@ -24,6 +24,8 @@ use App\Enums\Billing\Withdrawal\MethodEnum  as WithdrawalMethodEnum;
 use App\Enums\Billing\Withdrawal\StatusEnum  as WithdrawalStatusEnum;
 use App\Services\Api\V3\Billing\SellService;
 use App\Services\Utils\KafkaProducerService;
+use App\Pipelines\V1\Public\Billing\Withdrawal\WithdrawalPipeline;
+use App\Dto\Pipelines\Api\V1\Public\Billing\Withdrawal\PayoutPipelineDto;
 
 final class SellController extends Controller
 {
@@ -32,6 +34,7 @@ final class SellController extends Controller
         private readonly WalletService $walletService,
         private readonly TokenService $tokenService,
         private readonly SellService $sellService,
+        private readonly WithdrawalPipeline $pipeline,
     ) {
     }
 
@@ -268,27 +271,25 @@ final class SellController extends Controller
                 'exchange_rate_deduction' => $exchangeRateDeduction,
                 'total_amount' => $amount,
             ]));
-            KafkaProducerService::handle(
-                ProducerEnum::BILLING_SHARES_CLOSE,
-                'user close the fund',
-                [
-                    'entity' => 'close of the fund',
-                    'record' => [
-                        'account_uuid' => $accountUuid
+            [$dto, $e] = $this->pipeline->closeSharesToKafka(PayoutPipelineDto::fromArray([
+                'sell' => SellDto::fromArray([
+                    'account_uuid' => $accountUuid,
+                ])
+            ]));
+            if (!$e) {
+                return response()->json([
+                    'data' => [
+                        'success' => true,
+                        'uuid' => $accountUuid,
+                        "amount" => $for,
+                        'destination' => $destination,
+                        'accept_early_termination_fee' => $acceptEarlyTerminationFee,
+                        'is_destination_valid' => $isDestinationValid,
+                        'check_balance' => true,
                     ],
-                ],
-            );
-            return response()->json([
-                'data' => [
-                    'success' => true,
-                    'uuid' => $accountUuid,
-                    "amount" => $for,
-                    'destination' => $destination,
-                    'accept_early_termination_fee' => $acceptEarlyTerminationFee,
-                    'is_destination_valid' => $isDestinationValid,
-                    'check_balance' => true,
-                ],
-            ]);
+                ]);
+            }
+            return response()->__call('exception', [$e]);
         } else {
             return response()->json([
                 'data' => [

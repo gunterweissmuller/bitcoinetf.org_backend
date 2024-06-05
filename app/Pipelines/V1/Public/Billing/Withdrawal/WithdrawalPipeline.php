@@ -34,6 +34,7 @@ use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\Payout\ApollopaymentWithdra
 use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\Payout\NewCentrifugalPipe as PayoutNewCentrifugalPipe;
 use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\Payout\PayoutWebhookPipe;
 use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\Payout\UpdateCentrifugalPipe as PayoutUpdateCentrifugalPipe;
+use App\Pipelines\V1\Public\Billing\Withdrawal\Pipes\Payout\KafkaPipe as PayoutKafkaPipe;
 
 final class WithdrawalPipeline extends AbstractPipeline
 {
@@ -122,6 +123,17 @@ final class WithdrawalPipeline extends AbstractPipeline
         return $this->pipeline([
             PayoutWebhookPipe::class,
             PayoutUpdateCentrifugalPipe::class,
+        ], $dto);
+    }
+
+    /**
+     * @param PayoutPipelineDto $dto
+     * @return array
+     */
+    public function closeSharesToKafka(PayoutPipelineDto $dto): array
+    {
+        return $this->pipeline([
+            PayoutKafkaPipe::class,
         ], $dto);
     }
 

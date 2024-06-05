@@ -135,7 +135,6 @@ final readonly class RestakePipe implements PipeInterface
             ], [
                 'added_amount' => ceil($replenishment->getBonusAmount() + $replenishment->getAddedAmount()),
             ]);
-
         }
 
         $payment = $this->paymentService->create(PaymentDto::fromArray([

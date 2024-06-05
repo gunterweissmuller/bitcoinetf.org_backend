@@ -14,6 +14,7 @@ return function (array $data): string {
     $referralPayments = $data['referral_payments'];
     $closingBalance = $data['closing_balance'];
     $qrCode = $data['qr_code'];
+    $address = $data['address'];
 
     $rowsTransactions = '';
     foreach ($data['payments'] as $row) {
@@ -198,7 +199,7 @@ return function (array $data): string {
                                         <tr>
                                             <td align="left" style="font-size:0;padding:0;padding-bottom:2px;word-break:break-word">
                                                 <div style="font-family:DM Sans,sans-serif;font-size:10px;font-weight:500;line-height:1;text-align:left;color:#3f424e">
-                                                    Moscow, Russia
+                                                    $address
                                                 </div>
                                             </td>
                                         </tr>

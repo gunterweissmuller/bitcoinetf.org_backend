@@ -6,8 +6,10 @@ namespace App\Http\Controllers\Api\V1\Auth;
 
 use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmFacebookPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmTelegramPipelineDto;
+use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmWalletConnectPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\InitFacebookPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\InitTelegramPipelineDto;
+use App\Dto\Pipelines\Api\V1\Auth\Register\InitWalletConnectPipelineDto;
 use App\Exceptions\Pipelines\V1\Auth\AuthorizationTokenExpiredException;
 use App\Exceptions\Pipelines\V1\Auth\InvalidSignatureMetamaskException;
 use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmApplePipelineDto;
@@ -16,6 +18,7 @@ use App\Dto\Pipelines\Api\V1\Auth\Register\InitPipelineDto;
 use App\Http\Requests\Api\V1\Auth\Register\ConfirmAppleRequest;
 use App\Http\Requests\Api\V1\Auth\Register\ConfirmFacebookRequest;
 use App\Http\Requests\Api\V1\Auth\Register\ConfirmRequest;
+use App\Http\Requests\Api\V1\Auth\Register\ConfirmWalletConnectRequest;
 use App\Http\Requests\Api\V1\Auth\Register\InitAppleRequest;
 use App\Http\Requests\Api\V1\Auth\Register\ConfirmTelegramRequest;
 use App\Http\Requests\Api\V1\Auth\Register\InitFacebookRequest;
@@ -25,6 +28,7 @@ use App\Dto\Pipelines\Api\V1\Auth\Register\InitMetamaskPipelineDto;
 use App\Http\Requests\Api\V1\Auth\Register\ConfirmMetamaskRequest;
 use App\Http\Requests\Api\V1\Auth\Register\InitMetamaskRequest;
 use App\Http\Requests\Api\V1\Auth\Register\InitTelegramRequest;
+use App\Http\Requests\Api\V1\Auth\Register\InitWalletConnectRequest;
 use App\Pipelines\V1\Auth\Register\RegisterPipeline;
 use App\Services\Utils\AppleAuthJWTService;
 use GuzzleHttp\Exception\ClientException;
@@ -300,6 +304,57 @@ final class RegisterController extends Controller
     {
         /** @var ConfirmFacebookPipelineDto $dto */
         [$dto, $e] = $this->pipeline->confirmFacebookAuth($request->dto());
+
+        if (!$e) {
+            return response()->json([
+                'data' => [
+                    'access_token' => $dto->getJwtAccess()->getToken(),
+                    'refresh_token' => $dto->getJwtRefresh()->getToken(),
+                    'websocket_token' => $dto->getWebsocketToken(),
+                    'bonus' => $dto->getBonus(),
+                ]
+            ]);
+        }
+
+        return response()->__call('exception', [$e]);
+    }
+
+    /**
+     * @return JsonResponse
+     */
+    public function getCredentialsWalletConnect(): JsonResponse
+    {
+        return response()->json([
+            'data' => [
+                'message' => WALLET_CONNECT_MSG,
+            ]
+        ]);
+    }
+
+    /**
+     * @param InitWalletConnectRequest $request
+     * @return JsonResponse
+     */
+    public function initWalletConnect(InitWalletConnectRequest $request): JsonResponse
+    {
+        /** @var InitWalletConnectPipelineDto $dto */
+        [$dto, $e] = $this->pipeline->initWalletConnectAuth($request->dto());
+
+        if (!$e) {
+            return response()->json();
+        }
+
+        return response()->__call('exception', [$e]);
+    }
+
+    /**
+     * @param ConfirmWalletConnectRequest $request
+     * @return JsonResponse
+     */
+    public function confirmWalletConnect(ConfirmWalletConnectRequest $request): JsonResponse
+    {
+        /** @var ConfirmWalletConnectPipelineDto $dto */
+        [$dto, $e] = $this->pipeline->confirmWalletConnectAuth($request->dto());
 
         if (!$e) {
             return response()->json([

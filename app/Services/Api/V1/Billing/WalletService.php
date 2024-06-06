@@ -75,6 +75,16 @@ final class WalletService
         return (float)($bonus + $dividends + $referral + $vault);
     }
 
+    public function getUserBonusBalance(string $accountUuid): float
+    {
+        $bonus = $this->repository->get([
+            'account_uuid' => $accountUuid,
+            'type' => TypeEnum::BONUS->value,
+        ])?->getAmount();
+
+        return (float)$bonus;
+    }
+
     public function allByFiltersWithChunk(array $filters, int $count, callable $callback): void
     {
         $this->repository->allByFiltersWithChunk($filters, $count, $callback);

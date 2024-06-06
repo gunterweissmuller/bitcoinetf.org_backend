@@ -46,6 +46,10 @@ return [
         'interface' => App\Repositories\Users\Metadata\MetadataRepositoryInterface::class,
         'implementation' => \App\Repositories\Users\Metadata\PgSqlMetadataRepository::class,
     ],
+    [
+        'interface' => App\Repositories\Users\WalletConnect\WalletConnectRepositoryInterface::class,
+        'implementation' => \App\Repositories\Users\WalletConnect\PgSqlWalletConnectRepository::class,
+    ],
 
     // Fund
     [
@@ -77,6 +81,10 @@ return [
     [
         'interface' => \App\Repositories\Billing\CreditCardRequest\CreditCardRequestRepositoryInterface::class,
         'implementation' => \App\Repositories\Billing\CreditCardRequest\PgSqlCreditCardRequestRepository::class,
+    ],
+    [
+        'interface' => \App\Repositories\Billing\Sell\SellRepositoryInterface::class,
+        'implementation' => \App\Repositories\Billing\Sell\PgSqlSellRepository::class,
     ],
 
     // News

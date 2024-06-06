@@ -51,7 +51,9 @@ Route::namespace('Public')
                         Route::namespace('Sell')
                             ->prefix('sell')
                             ->group(function () {
-                                Route::middleware(['auth'])->post('/init', 'SellController@init');
+                                //Route::middleware(['auth'])->get('/init', 'SellController@init');//@fixme-v sell open after test
+                                //Route::middleware(['auth'])->get('/valuate', 'SellController@valuate');// @fixme-v sell open after test
+                                //Route::middleware(['auth'])->post('/confirm', 'SellController@confirm');// @fixme-v sell open after test
                             });
                     });
 
@@ -61,7 +63,14 @@ Route::namespace('Public')
                 Route::prefix('withdrawal')
                     ->group(function () {
                         Route::post('/webhook/{withdrawal_uuid}', 'WithdrawalController@webhook')->middleware([ApolloPaymentIp::class, ApolloPaymentSignature::class]);
-                        Route::get('/mock', 'WithdrawalController@mock')->middleware([CheckEnvironment::class]);// @fixme-v after staging test
+                        Route::get('/mock', 'WithdrawalController@mock')->middleware([CheckEnvironment::class]);
+
+                        Route::post('/webhook-referral/{withdrawal_uuid}', 'WithdrawalController@webhookReferral')->middleware([ApolloPaymentIp::class, ApolloPaymentSignature::class]);
+                        Route::get('/mock-referral-command', 'WithdrawalController@mockReferralCommand')->middleware([CheckEnvironment::class]);
+                        Route::post('/mock-referral/{withdrawal_uuid}', 'WithdrawalController@mockWebhookReferral')->middleware([CheckEnvironment::class]);
+
+                        Route::post('/webhook-payout/{sell_uuid}', 'WithdrawalController@webhookPayout')->middleware([ApolloPaymentIp::class, ApolloPaymentSignature::class]);
+                        Route::post('/mock-payout/{sell_uuid}', 'WithdrawalController@mockWebhookPayout')->middleware([CheckEnvironment::class]);
                     });
 
             });

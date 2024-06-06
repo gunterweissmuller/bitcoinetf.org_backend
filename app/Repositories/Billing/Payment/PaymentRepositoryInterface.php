@@ -17,7 +17,7 @@ interface PaymentRepositoryInterface
 
     public function update(array $condition, array $data): void;
 
-    public function all(array $filters): ?Collection;
+    public function all(array $filters, ?array $nullableFields): ?Collection;
 
     public function delete(array $condition): void;
 

@@ -9,6 +9,7 @@ use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmFacebookPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmGooglePipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmMetamaskPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmPipelineDto;
+use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmWalletConnectPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\InitApplePipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmTelegramPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\InitFacebookPipelineDto;
@@ -16,6 +17,7 @@ use App\Dto\Pipelines\Api\V1\Auth\Register\InitGooglePipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\InitMetamaskPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\InitPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\InitTelegramPipelineDto;
+use App\Dto\Pipelines\Api\V1\Auth\Register\InitWalletConnectPipelineDto;
 use App\Pipelines\AbstractPipeline;
 use App\Pipelines\V1\Auth\Register\Pipes\Confirm\AccountPipe as ConfirmAccountPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Confirm\ApolloClientPipe as ConfirmApolloClientPipe;
@@ -39,6 +41,9 @@ use App\Pipelines\V1\Auth\Register\Pipes\ConfirmAppleAuth\AccountPipe as Confirm
 use App\Pipelines\V1\Auth\Register\Pipes\ConfirmTelegramAuth\AccountPipe as ConfirmTelegramAccountPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\ConfirmTelegramAuth\TelegramPipe as ConfirmTelegramPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\ConfirmTelegramAuth\ValidatePipe as ConfirmTelegramValidatePipe;
+use App\Pipelines\V1\Auth\Register\Pipes\ConfirmWalletConnectAuth\AccountPipe as ConfirmWalletConnectAccountPipe;
+use App\Pipelines\V1\Auth\Register\Pipes\ConfirmWalletConnectAuth\ValidatePipe as ConfirmWalletConnectValidatePipe;
+use App\Pipelines\V1\Auth\Register\Pipes\ConfirmWalletConnectAuth\WalletConnectPipe as ConfirmWalletConnectPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\AccountPipe as InitAccountPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\AppleAccountPipe as InitAppleAuthAppleAccountPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\BonusPipe as InitBonusPipe;
@@ -52,6 +57,7 @@ use App\Pipelines\V1\Auth\Register\Pipes\Init\TelegramPipe as InitTelegramPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\UserEventPipe as InitUserEventPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\UserWalletPipe as InitMetamaskWalletPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\ValidatePipe as InitValidatePipe;
+use App\Pipelines\V1\Auth\Register\Pipes\Init\WalletConnectPipe as InitWalletConnectPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\WalletPipe as InitWalletPipe;
 
 
@@ -67,7 +73,7 @@ final class RegisterPipeline extends AbstractPipeline
             InitWalletPipe::class,
             InitInvitePipe::class,
             InitNewCodePipe::class,
-            InitBonusPipe::class,
+//            InitBonusPipe::class,
             InitKafkaEventPipe::class,
             InitUserEventPipe::class,
         ], $dto);
@@ -81,7 +87,7 @@ final class RegisterPipeline extends AbstractPipeline
             ConfirmCodePipe::class,
             ConfirmAccountPipe::class,
             ConfirmApolloClientPipe::class,
-            ConfirmBonusPipe::class,
+//            ConfirmBonusPipe::class,
             ConfirmJwtPipe::class,
             ConfirmMailPipe::class,
             ConfirmUpdateUsersInfoPipe::class,
@@ -99,7 +105,7 @@ final class RegisterPipeline extends AbstractPipeline
             InitWalletPipe::class,
             InitInvitePipe::class,
             InitNewCodePipe::class,
-            InitBonusPipe::class,
+//            InitBonusPipe::class,
             InitKafkaEventPipe::class,
         ], $dto);
     }
@@ -111,7 +117,7 @@ final class RegisterPipeline extends AbstractPipeline
             ConfirmEmailPipe::class,
             ConfirmGoogleAuthAccountPipe::class,
             ConfirmGoogleAuthProfilePipe::class,
-            ConfirmBonusPipe::class,
+//            ConfirmBonusPipe::class,
             ConfirmApolloClientPipe::class,
             ConfirmJwtPipe::class,
             ConfirmMailPipe::class,
@@ -131,7 +137,7 @@ final class RegisterPipeline extends AbstractPipeline
             InitWalletPipe::class,
             InitInvitePipe::class,
             InitNewCodePipe::class,
-            InitBonusPipe::class,
+//            InitBonusPipe::class,
             InitKafkaEventPipe::class,
             InitUserEventPipe::class,
         ], $dto);
@@ -144,7 +150,7 @@ final class RegisterPipeline extends AbstractPipeline
             ConfirmEmailPipe::class,
             ConfirmCodePipe::class,
             ConfirmMetamaskAccountPipe::class,
-            ConfirmBonusPipe::class,
+//            ConfirmBonusPipe::class,
             ConfirmApolloClientPipe::class,
             ConfirmJwtPipe::class,
             ConfirmMailPipe::class,
@@ -164,7 +170,7 @@ final class RegisterPipeline extends AbstractPipeline
             InitWalletPipe::class,
             InitInvitePipe::class,
             InitNewCodePipe::class,
-            InitBonusPipe::class,
+//            InitBonusPipe::class,
             InitKafkaEventPipe::class,
             InitUserEventPipe::class,
         ], $dto);
@@ -178,7 +184,7 @@ final class RegisterPipeline extends AbstractPipeline
             ConfirmCodePipe::class,
             ConfirmAppleAuthAccountPipe::class,
             ConfirmAppleAuthApplePipe::class,
-            ConfirmBonusPipe::class,
+//            ConfirmBonusPipe::class,
             ConfirmApolloClientPipe::class,
             ConfirmJwtPipe::class,
             ConfirmMailPipe::class,
@@ -198,7 +204,7 @@ final class RegisterPipeline extends AbstractPipeline
             InitWalletPipe::class,
             InitInvitePipe::class,
             InitNewCodePipe::class,
-            InitBonusPipe::class,
+//            InitBonusPipe::class,
             InitKafkaEventPipe::class,
             InitUserEventPipe::class,
         ], $dto);
@@ -212,7 +218,7 @@ final class RegisterPipeline extends AbstractPipeline
             ConfirmCodePipe::class,
             ConfirmTelegramAccountPipe::class,
             ConfirmTelegramPipe::class,
-            ConfirmBonusPipe::class,
+//            ConfirmBonusPipe::class,
             ConfirmApolloClientPipe::class,
             ConfirmJwtPipe::class,
             ConfirmMailPipe::class,
@@ -232,7 +238,7 @@ final class RegisterPipeline extends AbstractPipeline
             InitWalletPipe::class,
             InitInvitePipe::class,
             InitNewCodePipe::class,
-            InitBonusPipe::class,
+//            InitBonusPipe::class,
             InitKafkaEventPipe::class,
             InitUserEventPipe::class,
         ], $dto);
@@ -246,7 +252,49 @@ final class RegisterPipeline extends AbstractPipeline
             ConfirmCodePipe::class,
             ConfirmFacebookAccountPipe::class,
             ConfirmFacebookPipe::class,
-            ConfirmBonusPipe::class,
+//            ConfirmBonusPipe::class,
+            ConfirmApolloClientPipe::class,
+            ConfirmJwtPipe::class,
+            ConfirmMailPipe::class,
+            ConfirmUpdateUsersInfoPipe::class,
+            ConfirmMetadataPipe::class,
+        ], $dto);
+    }
+
+    /**
+     * @param InitWalletConnectPipelineDto $dto
+     * @return array
+     */
+    public function initWalletConnectAuth(InitWalletConnectPipelineDto $dto): array
+    {
+        return $this->pipeline([
+            InitValidatePipe::class,
+            InitAccountPipe::class,
+            InitEmailPipe::class,
+            InitProfilePipe::class,
+            InitWalletConnectPipe::class,
+            InitWalletPipe::class,
+            InitInvitePipe::class,
+            InitNewCodePipe::class,
+//            InitBonusPipe::class,
+            InitKafkaEventPipe::class,
+            InitUserEventPipe::class,
+        ], $dto);
+    }
+
+    /**
+     * @param ConfirmWalletConnectPipelineDto $dto
+     * @return array
+     */
+    public function confirmWalletConnectAuth(ConfirmWalletConnectPipelineDto $dto): array
+    {
+        return $this->pipeline([
+            ConfirmWalletConnectValidatePipe::class,
+            ConfirmEmailPipe::class,
+            ConfirmCodePipe::class,
+            ConfirmWalletConnectAccountPipe::class,
+            ConfirmWalletConnectPipe::class,
+//            ConfirmBonusPipe::class,
             ConfirmApolloClientPipe::class,
             ConfirmJwtPipe::class,
             ConfirmMailPipe::class,

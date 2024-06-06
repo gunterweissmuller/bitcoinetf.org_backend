@@ -11,6 +11,7 @@ use App\Dto\Pipelines\Api\V1\Auth\Login\LoginGooglePipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Login\LoginMetamaskPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Login\LoginPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Login\LoginTelegramPipelineDto;
+use App\Dto\Pipelines\Api\V1\Auth\Login\LoginWalletConnectPipelineDto;
 use App\Pipelines\PipeInterface;
 use App\Services\Api\V1\Users\MetadataService;
 use Closure;
@@ -20,13 +21,21 @@ use Throwable;
 
 final class MetadataPipe implements PipeInterface
 {
+    /**
+     * @param MetadataService $metadataService
+     */
     public function __construct(
         private readonly MetadataService $metadataService,
     )
     {
     }
 
-    public function handle(LoginPipelineDto|LoginGooglePipelineDto|LoginMetamaskPipelineDto|LoginApplePipelineDto|LoginTelegramPipelineDto|LoginFacebookPipelineDto|DtoInterface $dto, Closure $next): DtoInterface
+    /**
+     * @param LoginPipelineDto|LoginGooglePipelineDto|LoginMetamaskPipelineDto|LoginApplePipelineDto|LoginTelegramPipelineDto|LoginFacebookPipelineDto|LoginWalletConnectPipelineDto|DtoInterface $dto
+     * @param Closure $next
+     * @return DtoInterface
+     */
+    public function handle(LoginPipelineDto|LoginGooglePipelineDto|LoginMetamaskPipelineDto|LoginApplePipelineDto|LoginTelegramPipelineDto|LoginFacebookPipelineDto|LoginWalletConnectPipelineDto|DtoInterface $dto, Closure $next): DtoInterface
     {
         try {
             $metadataDto = $dto->getMetadata();

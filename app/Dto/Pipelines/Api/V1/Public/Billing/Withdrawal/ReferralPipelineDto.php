@@ -12,10 +12,12 @@ use App\Dto\Models\Billing\WithdrawalDto;
 final class ReferralPipelineDto implements DtoInterface
 {
     public function __construct(
-        private ?WalletDto $wallet,
-        private ?PaymentDto $payment,
+        private ?WalletDto     $wallet,
+        private ?PaymentDto    $payment,
         private ?WithdrawalDto $withdrawal,
-    ) {
+        private ?string        $apollopaymentWithdrawalFeeToken,
+    )
+    {
     }
 
     public static function fromArray(array $args): self
@@ -24,6 +26,7 @@ final class ReferralPipelineDto implements DtoInterface
             $args['wallet'] ?? null,
             $args['payment'] ?? null,
             $args['withdrawal'] ?? null,
+            $args['apollopaymentWithdrawalFeeToken'] ?? null,
         );
     }
 
@@ -33,6 +36,7 @@ final class ReferralPipelineDto implements DtoInterface
             'wallet' => $this->wallet,
             'payment' => $this->payment,
             'withdrawal' => $this->withdrawal,
+            'apollopaymentWithdrawalFeeToken' => $this->apollopaymentWithdrawalFeeToken,
         ];
     }
 
@@ -45,7 +49,7 @@ final class ReferralPipelineDto implements DtoInterface
     }
 
     /**
-     * @param  WalletDto|null  $wallet
+     * @param WalletDto|null $wallet
      */
     public function setWallet(?WalletDto $wallet): void
     {
@@ -61,7 +65,7 @@ final class ReferralPipelineDto implements DtoInterface
     }
 
     /**
-     * @param  PaymentDto|null  $payment
+     * @param PaymentDto|null $payment
      */
     public function setPayment(?PaymentDto $payment): void
     {
@@ -77,10 +81,27 @@ final class ReferralPipelineDto implements DtoInterface
     }
 
     /**
-     * @param  WithdrawalDto|null  $withdrawal
+     * @param WithdrawalDto|null $withdrawal
      */
     public function setWithdrawal(?WithdrawalDto $withdrawal): void
     {
         $this->withdrawal = $withdrawal;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getApollopaymentWithdrawalFeeToken(): ?string
+    {
+        return $this->apollopaymentWithdrawalFeeToken;
+    }
+
+    /**
+     * @param string|null $apollopaymentWithdrawalFeeToken
+     * @return void
+     */
+    public function setApollopaymentWithdrawalFeeToken(?string $apollopaymentWithdrawalFeeToken): void
+    {
+        $this->apollopaymentWithdrawalFeeToken = $apollopaymentWithdrawalFeeToken;
     }
 }

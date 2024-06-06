@@ -59,6 +59,7 @@ final readonly class ReplenishmentPipe implements PipeInterface
 
             $replenishment->setAccountUuid($accountUuid);
             $replenishment->setBtcPrice($btcPrice);
+            $replenishment->setRealAmount($dto->getReplenishment()->getRealAmount());
             $replenishment->setTotalAmount(
                 $replenishment->getReferralAmount() +
                 $replenishment->getBonusAmount() +

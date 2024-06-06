@@ -18,6 +18,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Carbon;
 use App\Models\Statistic\DailyAssets;
+use Illuminate\Support\Facades\Artisan;
 
 final class StatisticController extends Controller
 {
@@ -176,6 +177,24 @@ final class StatisticController extends Controller
                 'asset_uuid' => $asset_uuid,
                 'flow' => $flowInit,
             ],
+        ]);
+    }
+
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function mockCreateMonthlyReportCommand(Request $request): JsonResponse
+    {
+        if ($request->header('API-Key') !== 'ac2136bf-95ae-40e0-ab61-3b6b1165ee32') {
+            return response()->json(['error' => 'Invalid API key'], 401);
+        }
+
+        Artisan::call('statistic:create-monthly-report');
+        return response()->json([
+            'status' => 'ok',
+            'output' => Artisan::output()
         ]);
     }
 

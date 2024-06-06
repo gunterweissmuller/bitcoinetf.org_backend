@@ -44,11 +44,19 @@ final class PgSqlPaymentRepository implements PaymentRepositoryInterface
             ->update($data);
     }
 
-    public function all(array $filters): ?Collection
+    public function all(array $filters, ?array $nullableFields): ?Collection
     {
-        $rows = $this->model
+        $model = $this->model
             ->newQuery()
-            ->where($filters)
+            ->where($filters);
+
+        if ($nullableFields) {
+            foreach ($nullableFields as $value) {
+                $model->whereNull($value);
+            }
+        }
+
+        $rows = $model
             ->orderBy('created_at', 'desc')
             ->get()
             ->toArray();

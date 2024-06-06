@@ -11,6 +11,7 @@ use App\Dto\Pipelines\Api\V1\Auth\Login\LoginMetamaskPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Login\LoginOneTimePasswordPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Login\LoginPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Login\LoginTelegramPipelineDto;
+use App\Dto\Pipelines\Api\V1\Auth\Login\LoginWalletConnectPipelineDto;
 use App\Pipelines\AbstractPipeline;
 use App\Pipelines\V1\Auth\Login\Pipes\Login\AccountPipe as LoginAccountPipe;
 use App\Pipelines\V1\Auth\Login\Pipes\Login\MetadataPipe as LoginMetadataPipe;
@@ -27,6 +28,8 @@ use App\Pipelines\V1\Auth\Login\Pipes\LoginOneTimePass\AccountPipe as LoginOneTi
 use App\Pipelines\V1\Auth\Login\Pipes\LoginOneTimePass\CodePipe as LoginOneTimePassCodePipe;
 use App\Pipelines\V1\Auth\Login\Pipes\LoginTelegram\AccountPipe as LoginTelegramAccountPipe;
 use App\Pipelines\V1\Auth\Login\Pipes\LoginTelegram\TelegramPipe as LoginTelegramPipe;
+use App\Pipelines\V1\Auth\Login\Pipes\LoginWalletConnect\AccountPipe as LoginWalletConnectAccountPipe;
+use App\Pipelines\V1\Auth\Login\Pipes\LoginWalletConnect\WalletConnectPipe as LoginWalletConnectPipe;
 
 final class LoginPipeline extends AbstractPipeline
 {
@@ -96,6 +99,20 @@ final class LoginPipeline extends AbstractPipeline
             LoginEmailPipe::class,
             LoginOneTimePassAccountPipe::class,
             LoginOneTimePassCodePipe::class,
+            LoginJwtPipe::class,
+            LoginMetadataPipe::class,
+        ], $dto);
+    }
+
+    /**
+     * @param LoginWalletConnectPipelineDto $dto
+     * @return array
+     */
+    public function loginWalletConnect(LoginWalletConnectPipelineDto $dto): array
+    {
+        return $this->pipeline([
+            LoginWalletConnectPipe::class,
+            LoginWalletConnectAccountPipe::class,
             LoginJwtPipe::class,
             LoginMetadataPipe::class,
         ], $dto);

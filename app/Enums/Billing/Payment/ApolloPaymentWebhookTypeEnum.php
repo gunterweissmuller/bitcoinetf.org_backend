@@ -13,4 +13,6 @@ enum ApolloPaymentWebhookTypeEnum: string
     case DEPOSIT = 'deposit';
 
     case WITHDRAW = 'withdraw';
+
+    case PAYOUT = 'payout';
 }

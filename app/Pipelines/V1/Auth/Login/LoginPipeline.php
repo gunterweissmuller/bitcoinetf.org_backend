@@ -13,6 +13,7 @@ use App\Dto\Pipelines\Api\V1\Auth\Login\LoginPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Login\LoginTelegramPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Login\LoginWalletConnectPipelineDto;
 use App\Pipelines\AbstractPipeline;
+use App\Pipelines\V1\Auth\Login\Pipes\Login\AccountDemoPipe as LoginAccountDemoPipe;
 use App\Pipelines\V1\Auth\Login\Pipes\Login\AccountPipe as LoginAccountPipe;
 use App\Pipelines\V1\Auth\Login\Pipes\Login\MetadataPipe as LoginMetadataPipe;
 use App\Pipelines\V1\Auth\Login\Pipes\LoginFacebook\AccountPipe as LoginFacebookAccountPipe;
@@ -38,6 +39,15 @@ final class LoginPipeline extends AbstractPipeline
         return $this->pipeline([
             LoginEmailPipe::class,
             LoginAccountPipe::class,
+            LoginJwtPipe::class,
+            LoginMetadataPipe::class,
+        ], $dto);
+    }
+
+    public function loginDemo(LoginPipelineDto $dto): array
+    {
+        return $this->pipeline([
+            LoginAccountDemoPipe::class,
             LoginJwtPipe::class,
             LoginMetadataPipe::class,
         ], $dto);

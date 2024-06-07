@@ -32,7 +32,7 @@ global:
       host: "centrifugo.etf-api-service.svc.cluster.local:9000/api"
     greenfield:
       host: "https://btc.techetf.org"
-    payment:
+    payment: # TODO remove
       host: "http://payments.etf-private-payment.svc.cluster.local:3000"
     mailchimp:
       server_prefix: "us10"
@@ -48,13 +48,26 @@ global:
       client_id: "981820521247-mee663n9a5i3qhg1eftd0un5ku1r9en7.apps.googleusercontent.com"
       redirect_uri: "https://bitcoinetf.org/auth/google"
     apple_auth:
-      client_id: "org.BitcoinETF.signin"
-      client_secret: "secret" # doc process restore
-      login_uri: "https://bitcoinetf.org/auth/google"
-      redirect_uri: "https://bitcoinetf.org/auth/google"
+      redirect_uri: "https://bitcoinetf.org/auth/apple"
+      secret_key_file_path: "app/apple/auth/"
+      secret_key_file_name: "private.pem"
     telegram_auth:
       bot_name: "BitcoinETF_loginbot"
       redirect_uri: "https://bitcoinetf.org/auth/telegram"
+    facebook_auth:
+      redirect_uri: "https://bitcoinetf.org/auth/facebook"
+      client_id: "977955910613433"
+    apollo_payment:
+      host_name: "https://app.apollopayment.io"
+      basic_wallet_polygon_usdt_address_id: "ab717c9a-013c-4162-8780-90a040ca8e39"
+      advanced_balance_id: "2648befd-3b56-4a3b-a93f-2795a900f68c"
+    moonpay:
+      host: "https://buy.moonpay.com"
+      currency_code: "usdt_polygon"
+      currency_network: "polygon"
+      redirect_url: "https://app.bitcoinetf.org/personal/analytics/performance"
+    metadata:
+      host: "http://rest-geoip.etf-private-rest-geoip.svc.cluster.local/api/geoip"
 
   stage:
     app:
@@ -62,7 +75,7 @@ global:
     db:
       host: "postgresql-ha-pgpool.postgresql.svc.cluster.local"
       port: "5432"
-      database: "php-backend"
+      database: "rebase-php-backend"
       user: "team-worker"
     redis:
       host: "redis.etf-api-service-development.svc.cluster.local"
@@ -88,7 +101,7 @@ global:
       host: "centrifugo.etf-api-service-development.svc.cluster.local:9000/api"
     greenfield:
       host: "https://btc.stage.techetf.org"
-    payment:
+    payment: # TODO remove
       host: "payments.stage-etf-private-payment.svc.cluster.local:3000"
     mailchimp:
       server_prefix: "us10"
@@ -104,38 +117,42 @@ global:
       client_id: "745955834530-cp4m04pm6sv2emqkll922blijde5o1u2.apps.googleusercontent.com"
       redirect_uri: "https://front.stage.techetf.org/auth/google"
     apple_auth:
-      client_id: "org.BitcoinETF.signin"
-      client_secret: "secret"
-      login_uri: "https://front.stage.techetf.org/auth/google"
-      redirect_uri: "https://front.stage.techetf.org/auth/google"
+      redirect_uri: "https://front.stage.techetf.org/auth/apple"
+      secret_key_file_path: "app/apple/auth/"
+      secret_key_file_name: "private.pem"
     telegram_auth:
       bot_name: "BitcoinETFlogin_bot"
       redirect_uri: "https://front.stage.techetf.org/auth/telegram"
+    facebook_auth:
+      redirect_uri: "https://front.stage.techetf.org/auth/facebook"
+      client_id: "802740101917761"
+    apollo_payment:
+      host_name: "https://app.apollopayment.io"
+      public_key: "XomXtTdVL6I9JNAnAgl06KTISNfR1DhLSnXnLN+PtrTfkpRPdlRtiQR+b/zcw8tGV+Vo62fjpAxh6c5oPH8ALA=="
+      basic_wallet_polygon_usdt_address: "0x96c6eD1500b46543373FF87F61e3c087eCDAC0c5"
+      basic_wallet_polygon_usdt_address_id: "ab38b567-e206-42a2-9b8c-e200d7ce59dd"
+      advanced_balance_id: "33e4c592-548b-411c-8463-2052dbb4220b"
     moonpay:
-      public_key: "pk_test_FwP9FlHx7TPVExAqIp8iE8ydu36z35"
-      secret_key: "sk_test_KX5CzOh7HFJDCGmHn6CJNs3DGO8zh"
-      webhook_key: "wk_test_sHONx8KfzNCghKTd6IrKWRphuTyAwBS"
       host: "https://buy-sandbox.moonpay.com"
       currency_code: "utk"
       currency_network: "ethereum_sepolia"
       redirect_url: "https://app.front.stage.techetf.org/personal/analytics/performance"
-
-    global_wallets:
-      apollo_polygon_usdt_address: "0xe175e4f1c662b2BD03F361a430453723f86c8f41"
+    metadata:
+      host: "http://rest-geoip.stage-etf-private-rest-geoip.svc.cluster.local/api/geoip"
 
 otherServices:
-- name: queue
-  cmd: sh
-  args:
-  - -c
-  - php artisan queue:work
-- name: schedule
-  cmd: sh
-  args:
-  - -c
-  - php artisan schedule:work
-- name: statistic-report-monthly-account-report
-  cmd: sh
-  args:
-  - -c
-  - php artisan queue:work --tries=12 --queue=statistic.report.monthly_account_report
+  - name: queue
+    cmd: sh
+    args:
+      - -c
+      - php artisan queue:work
+  - name: schedule
+    cmd: sh
+    args:
+      - -c
+      - php artisan schedule:work
+  - name: statistic-report-monthly-account-report
+    cmd: sh
+    args:
+      - -c
+      - php artisan queue:work --tries=12 --queue=statistic.report.monthly_account_report

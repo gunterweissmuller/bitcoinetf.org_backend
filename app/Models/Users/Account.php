@@ -6,6 +6,7 @@ namespace App\Models\Users;
 
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * Class Account
@@ -19,6 +20,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $tron_wallet
  * @property bool $fast_reg
  * @property bool $fast_payment
+ * @property string provider_type
+ * @property string order_type
  * @property string $created_at
  * @property string $updated_at
  *
@@ -27,6 +30,16 @@ use Illuminate\Database\Eloquent\Model;
 final class Account extends Model
 {
     use HasUuids;
+    protected static function booted(): void
+    {
+        Account::updated(function ($model) {
+            $model->getChanges();
+            if ($model->wasChanged('order_type')) {
+                Cache::forget('countUsd');
+                Cache::forget('countBtc');
+            }
+        });
+    }
 
     protected $table = 'users.accounts';
 
@@ -43,6 +56,7 @@ final class Account extends Model
         'fast_reg',
         'fast_payment',
         'provider_type',
+        'order_type',
     ];
 
     public $casts = [

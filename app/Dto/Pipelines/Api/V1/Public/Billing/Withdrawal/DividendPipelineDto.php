@@ -16,15 +16,17 @@ use App\Dto\Pipelines\Utils\Greenfield\PullPaymentDto;
 final class DividendPipelineDto implements DtoInterface
 {
     public function __construct(
-        private ?WalletDto $wallet,
-        private ?PaymentDto $payment,
-        private ?WithdrawalDto $withdrawal,
-        private ?PullPaymentDto $pullPayment,
-        private ?PayoutDto $payout,
-        private ?LightningInvoiceDto $lightningInvoice,
+        private ?WalletDto              $wallet,
+        private ?PaymentDto             $payment,
+        private ?WithdrawalDto          $withdrawal,
+        private ?PullPaymentDto         $pullPayment,
+        private ?PayoutDto              $payout,
+        private ?LightningInvoiceDto    $lightningInvoice,
         private ?PayLightningInvoiceDto $payLightningInvoice,
-        private readonly string $method,
-    ) {
+        private readonly string         $method,
+        private ?string                 $apollopaymentWithdrawalFeeToken,
+    )
+    {
     }
 
     public static function fromArray(array $args): self
@@ -38,6 +40,7 @@ final class DividendPipelineDto implements DtoInterface
             $args['lightning_invoice'] ?? null,
             $args['pay_lightning_invoice'] ?? null,
             $args['method'] ?? null,
+            $args['apollopaymentWithdrawalFeeToken'] ?? null,
         );
     }
 
@@ -52,6 +55,7 @@ final class DividendPipelineDto implements DtoInterface
             'lightning_invoice' => $this->lightningInvoice,
             'pay_lightning_invoice' => $this->payLightningInvoice,
             'method' => $this->method,
+            'apollopaymentWithdrawalFeeToken' => $this->apollopaymentWithdrawalFeeToken,
         ];
     }
 
@@ -64,7 +68,7 @@ final class DividendPipelineDto implements DtoInterface
     }
 
     /**
-     * @param  WalletDto|null  $wallet
+     * @param WalletDto|null $wallet
      */
     public function setWallet(?WalletDto $wallet): void
     {
@@ -80,7 +84,7 @@ final class DividendPipelineDto implements DtoInterface
     }
 
     /**
-     * @param  PaymentDto|null  $payment
+     * @param PaymentDto|null $payment
      */
     public function setPayment(?PaymentDto $payment): void
     {
@@ -96,7 +100,7 @@ final class DividendPipelineDto implements DtoInterface
     }
 
     /**
-     * @param  WithdrawalDto|null  $withdrawal
+     * @param WithdrawalDto|null $withdrawal
      */
     public function setWithdrawal(?WithdrawalDto $withdrawal): void
     {
@@ -112,7 +116,7 @@ final class DividendPipelineDto implements DtoInterface
     }
 
     /**
-     * @param  PullPaymentDto|null  $pullPayment
+     * @param PullPaymentDto|null $pullPayment
      */
     public function setPullPayment(?PullPaymentDto $pullPayment): void
     {
@@ -128,7 +132,7 @@ final class DividendPipelineDto implements DtoInterface
     }
 
     /**
-     * @param  PayoutDto|null  $payout
+     * @param PayoutDto|null $payout
      */
     public function setPayout(?PayoutDto $payout): void
     {
@@ -144,7 +148,7 @@ final class DividendPipelineDto implements DtoInterface
     }
 
     /**
-     * @param  LightningInvoiceDto|null  $lightningInvoice
+     * @param LightningInvoiceDto|null $lightningInvoice
      */
     public function setLightningInvoice(?LightningInvoiceDto $lightningInvoice): void
     {
@@ -160,7 +164,7 @@ final class DividendPipelineDto implements DtoInterface
     }
 
     /**
-     * @param  PayLightningInvoiceDto|null  $payLightningInvoice
+     * @param PayLightningInvoiceDto|null $payLightningInvoice
      */
     public function setPayLightningInvoice(?PayLightningInvoiceDto $payLightningInvoice): void
     {
@@ -173,5 +177,22 @@ final class DividendPipelineDto implements DtoInterface
     public function getMethod(): string
     {
         return $this->method;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getApollopaymentWithdrawalFeeToken(): ?string
+    {
+        return $this->apollopaymentWithdrawalFeeToken;
+    }
+
+    /**
+     * @param string|null $apollopaymentWithdrawalFeeToken
+     * @return void
+     */
+    public function setApollopaymentWithdrawalFeeToken(?string $apollopaymentWithdrawalFeeToken): void
+    {
+        $this->apollopaymentWithdrawalFeeToken = $apollopaymentWithdrawalFeeToken;
     }
 }

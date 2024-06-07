@@ -26,6 +26,12 @@ final class CreateMonthlyReportCommand extends Command
         $start = (new Carbon('first day of last month'))->toDateString();
         $end = (new Carbon('last day of last month'))->toDateString();
 
+        //this code written for custom run command for test cases
+        if (Carbon::now()->day !== 1) {
+            $start = Carbon::now()->startOfMonth()->toDateString();
+            $end = Carbon::now()->toDateString();
+        }
+
         $callback = function (Collection $items) use ($start, $end) {
             $items->map(function (Account $item) use ($start, $end) {
                 $account = AccountDto::fromArray($item->toArray());

@@ -19,4 +19,8 @@ enum ProviderTypeEnum: string
     case Apple = 'apple';
 
     case Telegram = 'telegram';
+
+    case Facebook = 'facebook';
+
+    case WalletConnect = 'wallet_connect';
 }

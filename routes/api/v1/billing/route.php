@@ -75,8 +75,8 @@ Route::namespace('Public')
 //                            ->post('/dividends', 'WithdrawalController@dividends');
                         Route::middleware(['auth:admin'])
                             ->post('/dividends/callback', 'WithdrawalController@dividendsCallback');
-                        Route::middleware(['auth'])
-                            ->post('/referrals', 'WithdrawalController@referrals');
+//                        Route::middleware(['auth'])
+//                            ->post('/referrals', 'WithdrawalController@referrals');
                         Route::middleware(['auth:admin'])
                             ->post('/referrals/callback', 'WithdrawalController@referralsCallback');
                     });
@@ -101,6 +101,9 @@ Route::namespace('Public')
                         Route::get('/last', 'PaymentController@last');
                         Route::get('/statistic', 'PaymentController@statistic');
                         Route::get('/dividends/personal', 'PaymentController@personalDividends');
+                        Route::get('/shares/personal', 'PaymentController@personalShares');
+                        Route::get('/dividends/personal/period', 'PaymentController@personalDividendsByPeriod');
+                        Route::get('/referrals/personal/period', 'PaymentController@personalReferralsByPeriod');
                     });
 
                 Route::prefix('replenishment')

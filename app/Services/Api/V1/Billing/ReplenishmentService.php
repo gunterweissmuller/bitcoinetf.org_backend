@@ -14,8 +14,9 @@ use Illuminate\Support\Collection;
 final class ReplenishmentService
 {
     public function __construct(
-        private readonly ReplenishmentRepositoryInterface $repository
-    ) {
+        private readonly ReplenishmentRepositoryInterface $repository,
+    )
+    {
     }
 
     public function create(ReplenishmentDto $dto): ReplenishmentDto

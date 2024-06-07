@@ -8,14 +8,20 @@ use App\Enums\Billing\Payment\TypeEnum;
 use App\Http\Requests\Api\V1\Public\Statistic\Shareholder\ListRequest;
 use App\Models\Fund\Shareholder;
 use App\Services\Api\V1\Fund\ShareholderService;
+use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
+use App\Services\Api\V1\Users\AccountService;
+use App\Enums\Users\Account\OrderTypeEnum;
+use Illuminate\Support\Facades\Cache;
+use App\Models\Billing\Payment;
 
 final class ShareholderController extends Controller
 {
     public function __construct(
-        private readonly ShareholderService $shareholderService
+        private readonly ShareholderService $shareholderService,
+        private readonly AccountService $accountService,
     ) {
     }
 
@@ -50,5 +56,79 @@ final class ShareholderController extends Controller
         return response()->json([
             'data' => $shareholdersTop,
         ]);
+    }
+
+    public function strategies(): JsonResponse
+    {
+        function customRound($num1, $num2):float|int {
+            $total = $num1 + $num2 > 0 ? $num1 + $num2 : 1;
+            if($num1 > $num2) {
+                return floor($num1 * 100/ $total);
+            } else {
+                return ceil($num1 * 100/ $total);
+            }
+        }
+        $countUsd = Cache::rememberForever('countUsd', function () {
+            return $this->accountService->all(['order_type' => OrderTypeEnum::USDT->value])?->count() ?? 0;
+        });
+        $countBtc = Cache::rememberForever('countBtc', function () {
+            return $this->accountService->all(['order_type' => OrderTypeEnum::BTC->value])?->count() ?? 0;
+        });
+        $percentUsd = customRound($countUsd, $countBtc);
+        $percentBtc = customRound($countBtc, $countUsd);
+        $strategies = [
+            ['name' => 'Tether', 'percent' => $percentUsd, 'count' => $countUsd],
+            ['name' => 'Bitcoin', 'percent' => $percentBtc, 'count' => $countBtc],
+        ];
+        return response()->json($strategies);
+    }
+
+    public function growth(): JsonResponse
+    {
+        function sizeUsd($date):float|int {
+            return (float) Payment::query()
+                ->selectRaw('SUM(COALESCE(referral_amount,0)+COALESCE(bonus_amount,0)+COALESCE(dividend_amount,0)+COALESCE(real_amount,0)) AS total_amount')
+                ->where([
+                    'type' => TypeEnum::CREDIT_FROM_CLIENT->value,
+                    ['real_amount', '!=', null],
+                    ['created_at', '<=', $date] // now()->subMonths($shift)->startOfMonth()->toDateTimeString()
+                ])
+                ->value('total_amount');
+        }
+        function countShareholders($shift, $shareholderService):float|int {
+            return $shareholderService->getCount([
+                ['created_at', '<=', now()->subMonths($shift)->startOfMonth()->toDateTimeString()],
+            ]);
+        }
+        $x0 = now()->subMonths(6)->format('M Y');
+        $x1 = now()->subMonths(3)->format('M Y');
+        $x2 = now()->format('M Y');
+        $y0 = $this->shareholderService->getCount([
+            ['created_at', '<=', now()->subMonths(6)->startOfMonth()->toDateTimeString()],
+        ]);
+        $y1 = $this->shareholderService->getCount([
+            ['created_at', '<=', now()->subMonths(3)->startOfMonth()->toDateTimeString()],
+        ]);
+        $y2 = $this->shareholderService->getCount([
+            ['created_at', '<=', now()->subMonths(0)->startOfMonth()->toDateTimeString()],
+        ]);
+        $current_shareholders_count = $this->shareholderService->getCount([]);
+        $is_growth = $y2 >= $y0;
+        $change_size_usd = $y2 > $y0 ? $y2 - $y0 : $y0 - $y2;
+        $change_base = min($y0, $y2) > 0 ? min($y0, $y2) : 1;
+        $size0 = sizeUsd(now()->subMonths(6)->startOfMonth()->toDateTimeString());
+        $size2 = sizeUsd(now()->subMonths(0)->startOfMonth()->toDateTimeString());
+        $is_growth_aum = $size2 >= $size0;
+        $change_size_usd_aum = $size2 > $size0 ? $size2 - $size0 : $size0 - $size2;
+        $change_base_aum = min($size0, $size2) > 0 ? min($size0, $size2) : 1;
+        $growth = [
+            ['shareholders' => $current_shareholders_count, 'aum_size_usd' => sizeUsd(now()->toDateTimeString())],
+            ['is_growth' => $is_growth,'half_year_change_size_usd' => $change_size_usd, 'percent' => $change_size_usd * 100 / $change_base],
+            ['is_growth_aum' => $is_growth_aum,'half_year_change_size_usd_aum' => $change_size_usd_aum, 'percent_aum' => $change_size_usd_aum * 100 / $change_base_aum],
+            ['x0' => $x0, 'y0' => $y0, 'aum_size_0' => $size0],
+            ['x1' => $x1, 'y1' => $y1, 'aum_size_1' => sizeUsd(now()->subMonths(3)->startOfMonth()->toDateTimeString())],
+            ['x2' => $x2, 'y2' => $y2, 'aum_size_2' => $size2],
+        ];
+        return response()->json($growth);
     }
 }

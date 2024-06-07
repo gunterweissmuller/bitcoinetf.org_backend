@@ -13,7 +13,9 @@ use App\Repositories\Billing\Wallet\WalletRepositoryInterface;
 
 final class WalletService
 {
-    public function __construct(private readonly WalletRepositoryInterface $repository) {}
+    public function __construct(private readonly WalletRepositoryInterface $repository)
+    {
+    }
 
     public function create(WalletDto $dto): WalletDto
     {
@@ -71,6 +73,16 @@ final class WalletService
         ])?->getAmount();
 
         return (float)($bonus + $dividends + $referral + $vault);
+    }
+
+    public function getUserBonusBalance(string $accountUuid): float
+    {
+        $bonus = $this->repository->get([
+            'account_uuid' => $accountUuid,
+            'type' => TypeEnum::BONUS->value,
+        ])?->getAmount();
+
+        return (float)$bonus;
     }
 
     public function allByFiltersWithChunk(array $filters, int $count, callable $callback): void

@@ -7,11 +7,13 @@ namespace App\Http\Controllers\Api\V1\Public\Billing;
 use App\Dto\Models\Billing\WalletDto;
 use App\Enums\Billing\Payment\TypeEnum as PaymentTypeEnum;
 use App\Enums\Billing\Wallet\TypeEnum;
+use App\Enums\Users\Account\OrderTypeEnum;
 use App\Http\Requests\Api\EmptyRequest;
 use App\Models\Billing\Payment;
 use App\Services\Api\V1\Billing\PaymentService;
 use App\Services\Api\V1\Billing\TokenService;
 use App\Services\Api\V1\Billing\WalletService;
+use App\Services\Api\V1\Users\AccountService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
@@ -22,6 +24,7 @@ final class WalletController extends Controller
         private readonly WalletService $walletService,
         private readonly PaymentService $paymentService,
         private readonly TokenService $tokenService,
+        private readonly AccountService $accountService,
     ) {
     }
 
@@ -93,32 +96,36 @@ final class WalletController extends Controller
             $lastPayment = null;
 
             $sumToClient = Payment::query()
-                ->select(DB::raw('sum(total_amount_btc)'))
+                //->select(DB::raw('sum(total_amount_btc)'))
                 ->where([
                     'account_uuid' => $wallet->getAccountUuid(),
                     'type' => PaymentTypeEnum::DEBIT_TO_CLIENT->value,
                     ['dividend_wallet_uuid', '!=', null]
                 ])
-                ->first();
+                //->first();
+                ->sum('total_amount_btc');
 
             $withdrawal = Payment::query()
-                ->select(DB::raw('sum(total_amount_btc)'))
+                //->select(DB::raw('sum(total_amount_btc)'))
                 ->where([
                     'account_uuid' => $wallet->getAccountUuid(),
                     'type' => PaymentTypeEnum::WITHDRAWAL->value,
                     ['dividend_wallet_uuid', '!=', null]
                 ])
-                ->first();
+                //->first();
+                ->sum('total_amount_btc');
 
             $reinvesting = Payment::query()
-                ->select(DB::raw('sum(total_amount_btc)'))
+                //->select(DB::raw('sum(total_amount_btc)'))
                 ->where([
                     'account_uuid' => $wallet->getAccountUuid(),
                     'type' => PaymentTypeEnum::CREDIT_FROM_CLIENT->value,
                     ['dividend_wallet_uuid', '!=', null]
                 ])
-                ->first();
+                //->first();
+                ->sum('total_amount_btc');
 
+            $btcDividendsBalance = $sumToClient - $withdrawal - $reinvesting;
             $btcAmountAdded = Payment::query()
                 ->where([
                     'account_uuid' => $wallet->getAccountUuid(),
@@ -140,16 +147,25 @@ final class WalletController extends Controller
                 $difference = ((((float) $btcAmount + $lastPayment['total_amount_btc']) - (float) $btcAmount) / (float) $btcAmount) * 100;
             }
 
+            $account = $this->accountService->get(['uuid' => $wallet->getAccountUuid()]);
+            if ($account->getOrderType() != OrderTypeEnum::USDT->value) {
+                $btcAmount = $btcDividendsBalance;
+                $data = [
+                    ...$data,
+                    'usd_amount' => (float) bcmul(
+                        number_format($btcAmount, 8, '.', ''),
+                        number_format($this->tokenService->getBitcoinAmount(), 8, '.', ''),
+                        8
+                    ),
+                ];
+            }
+
             $data = [
                 ...$data,
-                'usd_amount' => (float) bcmul(
-                    number_format($btcAmount, 8, '.', ''),
-                    number_format($this->tokenService->getBitcoinAmount(), 8, '.', ''),
-                    8
-                ),
                 'btc_amount' => number_format((float)$wallet->getBtcAmount(), 8, '.', ''),
                 'btc_amount_added' => number_format((float) $btcAmountAdded, 8, '.', ''),
                 'difference' => $difference,
+                'btc_dividends_balance' => number_format((float)$btcDividendsBalance, 8, '.', ''),
             ];
         }
 

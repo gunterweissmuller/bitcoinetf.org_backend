@@ -9,20 +9,29 @@ use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmPipelineDto;
 use App\Enums\Users\Account\ProviderTypeEnum;
 use App\Pipelines\PipeInterface;
 use App\Services\Api\V1\Users\AppleAccountService;
+use App\Services\Api\V1\Users\FacebookService;
 use App\Services\Api\V1\Users\TelegramService;
+use App\Services\Api\V1\Users\WalletConnectService;
 use App\Services\Api\V1\Users\WalletService;
 use Closure;
 
 final class UpdateUsersInfoPipe implements PipeInterface
 {
     public function __construct(
-        private readonly WalletService       $walletService,
-        private readonly AppleAccountService $appleAccountService,
-        private readonly TelegramService     $telegramService,
+        private readonly WalletService        $walletService,
+        private readonly AppleAccountService  $appleAccountService,
+        private readonly TelegramService      $telegramService,
+        private readonly FacebookService      $facebookService,
+        private readonly WalletConnectService $walletConnectService,
     )
     {
     }
 
+    /**
+     * @param ConfirmPipelineDto|DtoInterface $dto
+     * @param Closure $next
+     * @return DtoInterface
+     */
     public function handle(ConfirmPipelineDto|DtoInterface $dto, Closure $next): DtoInterface
     {
         if ($accountUuid = $dto->getAccount()->getUuid()) {
@@ -37,6 +46,14 @@ final class UpdateUsersInfoPipe implements PipeInterface
 
             if ($dto->getAccount()->getProviderType() !== ProviderTypeEnum::Telegram->value) {
                 $this->telegramService->delete(['account_uuid' => $accountUuid]);
+            }
+
+            if ($dto->getAccount()->getProviderType() !== ProviderTypeEnum::Facebook->value) {
+                $this->facebookService->delete(['account_uuid' => $accountUuid]);
+            }
+
+            if ($dto->getAccount()->getProviderType() !== ProviderTypeEnum::WalletConnect->value) {
+                $this->walletConnectService->delete(['account_uuid' => $accountUuid]);
             }
         }
 

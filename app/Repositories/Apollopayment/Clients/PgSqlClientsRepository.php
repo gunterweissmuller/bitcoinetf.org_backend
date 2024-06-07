@@ -11,7 +11,8 @@ final class PgSqlClientsRepository implements ClientsRepositoryInterface
 {
     public function __construct(
         private readonly Clients $model,
-    ) {
+    )
+    {
     }
 
     public function create(ClientsDto $dto): ClientsDto
@@ -46,6 +47,24 @@ final class PgSqlClientsRepository implements ClientsRepositoryInterface
         $this->model
             ->newQuery()
             ->where($condition)
+            ->delete();
+    }
+
+    public function allByFiltersWithChunk(array $filters, int $count, callable $callback): void
+    {
+        $this->model
+            ->newQuery()
+            ->where($filters)
+            ->orderBy('created_at', 'desc')
+            ->chunk($count, $callback);
+    }
+
+    public function deleteDuplicate(array $condition, string $uuid): void
+    {
+        $this->model
+            ->newQuery()
+            ->where($condition)
+            ->where('uuid', '!=', $uuid)
             ->delete();
     }
 }

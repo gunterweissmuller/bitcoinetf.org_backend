@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Api\V1\Auth\Register;
 
+use App\Dto\Models\Apollopayment\ClientsDto;
 use App\Dto\Models\Referrals\CodeDto;
 use App\Dto\Models\Users\AccountDto;
 use App\Dto\Models\Users\EmailDto;
@@ -35,6 +36,9 @@ final class InitMetamaskRequest extends AbstractRequest
         return [];
     }
 
+    /**
+     * @return InitMetamaskPipelineDto
+     */
     public function dto(): InitMetamaskPipelineDto
     {
         return InitMetamaskPipelineDto::fromArray([
@@ -53,6 +57,7 @@ final class InitMetamaskRequest extends AbstractRequest
             'wallet' => WalletDto::fromArray([
                 'wallet' => strtolower($this->get('wallet_address')),
             ]),
+            'apolloClient' => ClientsDto::fromArray([]),
         ]);
     }
 }

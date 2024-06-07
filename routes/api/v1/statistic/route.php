@@ -13,6 +13,8 @@ Route::namespace('Public')
 
                 Route::get('/dividends', 'DividendController@get');
 
+                Route::get('/monthly-dividends-report/{file_uuid}', 'DividendController@monthlyDividendsReport');
+
                 Route::get('/', 'MainController@main');
 
                 Route::get('/funds', 'FundController@main');
@@ -22,6 +24,8 @@ Route::namespace('Public')
                     ->group(function () {
                         Route::get('/count', 'ShareholderController@count');
                         Route::get('/top', 'ShareholderController@top');
+                        Route::get('/strategies', 'ShareholderController@strategies');
+                        Route::get('/growth', 'ShareholderController@growth');
                     });
 
                 Route::prefix('report')

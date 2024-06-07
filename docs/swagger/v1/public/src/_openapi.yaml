@@ -182,6 +182,7 @@ x-tagGroups:
       - Статистика
       - Список статистики активов по дням
       - Акционеры
+      - Shareholders
       - Report
   - name: Billing
     tags:

@@ -24,6 +24,7 @@ final class AppleAccountPipe implements PipeInterface
             $appleAccount = $dto->getAppleAccount();
             $appleAccount->setAccountUuid($dto->getAccount()->getUuid());
             $appleAccount->setStatus(StatusEnum::AwaitConfirm->value);
+            $appleAccount->setAppleId($dto->getAppleAccount()->getAppleId());
 
             $appleAccount = $this->appleAccountService->create($appleAccount);
         }

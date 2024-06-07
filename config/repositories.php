@@ -38,6 +38,18 @@ return [
         'interface' => \App\Repositories\Users\Telegram\TelegramRepositoryInterface::class,
         'implementation' => \App\Repositories\Users\Telegram\PgSqlTelegramRepository::class,
     ],
+    [
+        'interface' => \App\Repositories\Users\Facebook\FacebookRepositoryInterface::class,
+        'implementation' => \App\Repositories\Users\Facebook\PgSqlFacebookRepository::class,
+    ],
+    [
+        'interface' => App\Repositories\Users\Metadata\MetadataRepositoryInterface::class,
+        'implementation' => \App\Repositories\Users\Metadata\PgSqlMetadataRepository::class,
+    ],
+    [
+        'interface' => App\Repositories\Users\WalletConnect\WalletConnectRepositoryInterface::class,
+        'implementation' => \App\Repositories\Users\WalletConnect\PgSqlWalletConnectRepository::class,
+    ],
 
     // Fund
     [
@@ -69,6 +81,10 @@ return [
     [
         'interface' => \App\Repositories\Billing\CreditCardRequest\CreditCardRequestRepositoryInterface::class,
         'implementation' => \App\Repositories\Billing\CreditCardRequest\PgSqlCreditCardRequestRepository::class,
+    ],
+    [
+        'interface' => \App\Repositories\Billing\Sell\SellRepositoryInterface::class,
+        'implementation' => \App\Repositories\Billing\Sell\PgSqlSellRepository::class,
     ],
 
     // News
@@ -206,4 +222,9 @@ return [
         'implementation' => \App\Repositories\Apollopayment\Webhooks\PgSqlWebhooksRepository::class,
     ],
 
+    //Moonpay
+    [
+        'interface' => \App\Repositories\Moonpay\Webhooks\WebhooksRepositoryInterface::class,
+        'implementation' => \App\Repositories\Moonpay\Webhooks\PgSqlWebhooksRepository::class,
+    ],
 ];

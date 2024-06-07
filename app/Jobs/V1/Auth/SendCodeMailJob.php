@@ -28,7 +28,7 @@ final class SendCodeMailJob extends Job
                 'uuid' => $code->getUuid(),
             ], [
                 'status' => StatusEnum::Unused->value,
-                'expires_at' => Carbon::now()->addMinutes(10)->format('Y-m-d H:i:s'),
+                'expires_at' => Carbon::now()->addMinutes(60)->format('Y-m-d H:i:s'),
             ]);
         }
     }

@@ -4,23 +4,34 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\V1\Auth;
 
+use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmFacebookPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmTelegramPipelineDto;
+use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmWalletConnectPipelineDto;
+use App\Dto\Pipelines\Api\V1\Auth\Register\InitFacebookPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\InitTelegramPipelineDto;
+use App\Dto\Pipelines\Api\V1\Auth\Register\InitWalletConnectPipelineDto;
+use App\Exceptions\Pipelines\V1\Auth\AuthorizationTokenExpiredException;
 use App\Exceptions\Pipelines\V1\Auth\InvalidSignatureMetamaskException;
 use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmApplePipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\InitPipelineDto;
 use App\Http\Requests\Api\V1\Auth\Register\ConfirmAppleRequest;
+use App\Http\Requests\Api\V1\Auth\Register\ConfirmFacebookRequest;
 use App\Http\Requests\Api\V1\Auth\Register\ConfirmRequest;
+use App\Http\Requests\Api\V1\Auth\Register\ConfirmWalletConnectRequest;
 use App\Http\Requests\Api\V1\Auth\Register\InitAppleRequest;
 use App\Http\Requests\Api\V1\Auth\Register\ConfirmTelegramRequest;
+use App\Http\Requests\Api\V1\Auth\Register\InitFacebookRequest;
 use App\Http\Requests\Api\V1\Auth\Register\InitRequest;
 use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmMetamaskPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\InitMetamaskPipelineDto;
 use App\Http\Requests\Api\V1\Auth\Register\ConfirmMetamaskRequest;
 use App\Http\Requests\Api\V1\Auth\Register\InitMetamaskRequest;
 use App\Http\Requests\Api\V1\Auth\Register\InitTelegramRequest;
+use App\Http\Requests\Api\V1\Auth\Register\InitWalletConnectRequest;
 use App\Pipelines\V1\Auth\Register\RegisterPipeline;
+use App\Services\Utils\AppleAuthJWTService;
+use GuzzleHttp\Exception\ClientException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Str;
@@ -35,6 +46,10 @@ final class RegisterController extends Controller
     {
     }
 
+    /**
+     * @param InitRequest $request
+     * @return JsonResponse
+     */
     public function init(InitRequest $request): JsonResponse
     {
         /** @var InitPipelineDto $dto */
@@ -47,6 +62,10 @@ final class RegisterController extends Controller
         return response()->__call('exception', [$e]);
     }
 
+    /**
+     * @param ConfirmRequest $request
+     * @return JsonResponse
+     */
     public function confirm(ConfirmRequest $request): JsonResponse
     {
         /** @var ConfirmPipelineDto $dto */
@@ -73,6 +92,10 @@ final class RegisterController extends Controller
         ], 200);
     }
 
+    /**
+     * @param InitMetamaskRequest $request
+     * @return JsonResponse
+     */
     public function metamaskInit(InitMetamaskRequest $request): JsonResponse
     {
         $walletAddress = Str::lower($request->wallet_address);
@@ -95,6 +118,10 @@ final class RegisterController extends Controller
 
     }
 
+    /**
+     * @param ConfirmMetamaskRequest $request
+     * @return JsonResponse
+     */
     public function metamaskConfirm(ConfirmMetamaskRequest $request): JsonResponse
     {
         /** @var ConfirmMetamaskPipelineDto $dto */
@@ -119,23 +146,32 @@ final class RegisterController extends Controller
      */
     public function redirectUrlToAppleAuth(): JsonResponse
     {
-        return response()->json([
-            'url' => Socialite::driver('sign-in-with-apple')
-                ->stateless()
-                ->redirect()
-                ->getTargetUrl(),
-        ]);
+        try {
+            config()->set('services.apple.client_secret', AppleAuthJWTService::getInstance()->getSecretKey());
+
+            return response()->json([
+                'url' => Socialite::driver('apple')
+                    ->stateless()
+                    ->redirect()
+                    ->getTargetUrl(),
+            ]);
+        } catch (\Exception $e) {
+            return response()->__call('exception', [new AuthorizationTokenExpiredException]);
+        }
     }
 
+    /**
+     * @param InitAppleRequest $request
+     * @return JsonResponse
+     */
     public function initApple(InitAppleRequest $request): JsonResponse
     {
-        //@fixme-v
-//        try {
-//            /** @var SocialiteUser $socialiteUser */
-//            $socialiteUser = Socialite::driver('sign-in-with-apple')->stateless()->user();
-//        } catch (ClientException $e) {
-//            return response()->__call('exception', [new AuthorizationTokenExpiredException]);
-//        }
+        try {
+            config()->set('services.apple.client_secret', AppleAuthJWTService::getInstance()->getSecretKey());
+            Socialite::driver('apple')->stateless()->userByIdentityToken($request->apple_token);
+        } catch (ClientException $e) {
+            return response()->__call('exception', [new AuthorizationTokenExpiredException]);
+        }
 
         /** @var InitAppleRequest $dto */
         [$dto, $e] = $this->pipeline->initAppleAuth($request->dto());
@@ -145,11 +181,21 @@ final class RegisterController extends Controller
         }
 
         return response()->__call('exception', [$e]);
-
     }
 
+    /**
+     * @param ConfirmAppleRequest $request
+     * @return JsonResponse
+     */
     public function confirmApple(ConfirmAppleRequest $request): JsonResponse
     {
+        try {
+            config()->set('services.apple.client_secret', AppleAuthJWTService::getInstance()->getSecretKey());
+            Socialite::driver('apple')->stateless()->userByIdentityToken($request->apple_token);
+        } catch (ClientException $e) {
+            return response()->__call('exception', [new AuthorizationTokenExpiredException]);
+        }
+
         /** @var ConfirmApplePipelineDto $dto */
         [$dto, $e] = $this->pipeline->confirmAppleAuth($request->dto());
 
@@ -166,6 +212,7 @@ final class RegisterController extends Controller
 
         return response()->__call('exception', [$e]);
     }
+
     /**
      * @return JsonResponse
      */
@@ -204,6 +251,110 @@ final class RegisterController extends Controller
     {
         /** @var ConfirmTelegramPipelineDto $dto */
         [$dto, $e] = $this->pipeline->confirmTelegramAuth($request->dto());
+
+        if (!$e) {
+            return response()->json([
+                'data' => [
+                    'access_token' => $dto->getJwtAccess()->getToken(),
+                    'refresh_token' => $dto->getJwtRefresh()->getToken(),
+                    'websocket_token' => $dto->getWebsocketToken(),
+                    'bonus' => $dto->getBonus(),
+                ]
+            ]);
+        }
+
+        return response()->__call('exception', [$e]);
+    }
+
+    /**
+     * @return JsonResponse
+     */
+    public function getCredentialsFacebook(): JsonResponse
+    {
+        return response()->json([
+            'data' => [
+                'client_id' => env('FACEBOOK_CLIENT_ID'),
+                'client_secret' => env('FACEBOOK_CLIENT_SECRET'),
+                'redirect_uri' => env('FACEBOOK_REDIRECT_URI'),
+            ]
+        ]);
+    }
+
+    /**
+     * @param InitFacebookRequest $request
+     * @return JsonResponse
+     */
+    public function initFacebook(InitFacebookRequest $request): JsonResponse
+    {
+        /** @var InitFacebookPipelineDto $dto */
+        [$dto, $e] = $this->pipeline->initFacebookAuth($request->dto());
+
+        if (!$e) {
+            return response()->json();
+        }
+
+        return response()->__call('exception', [$e]);
+    }
+
+    /**
+     * @param ConfirmFacebookRequest $request
+     * @return JsonResponse
+     */
+    public function confirmFacebook(ConfirmFacebookRequest $request): JsonResponse
+    {
+        /** @var ConfirmFacebookPipelineDto $dto */
+        [$dto, $e] = $this->pipeline->confirmFacebookAuth($request->dto());
+
+        if (!$e) {
+            return response()->json([
+                'data' => [
+                    'access_token' => $dto->getJwtAccess()->getToken(),
+                    'refresh_token' => $dto->getJwtRefresh()->getToken(),
+                    'websocket_token' => $dto->getWebsocketToken(),
+                    'bonus' => $dto->getBonus(),
+                ]
+            ]);
+        }
+
+        return response()->__call('exception', [$e]);
+    }
+
+    /**
+     * @return JsonResponse
+     */
+    public function getCredentialsWalletConnect(): JsonResponse
+    {
+        return response()->json([
+            'data' => [
+                'message' => WALLET_CONNECT_MSG,
+            ]
+        ]);
+    }
+
+    /**
+     * @param InitWalletConnectRequest $request
+     * @return JsonResponse
+     */
+    public function initWalletConnect(InitWalletConnectRequest $request): JsonResponse
+    {
+        /** @var InitWalletConnectPipelineDto $dto */
+        [$dto, $e] = $this->pipeline->initWalletConnectAuth($request->dto());
+
+        if (!$e) {
+            return response()->json();
+        }
+
+        return response()->__call('exception', [$e]);
+    }
+
+    /**
+     * @param ConfirmWalletConnectRequest $request
+     * @return JsonResponse
+     */
+    public function confirmWalletConnect(ConfirmWalletConnectRequest $request): JsonResponse
+    {
+        /** @var ConfirmWalletConnectPipelineDto $dto */
+        [$dto, $e] = $this->pipeline->confirmWalletConnectAuth($request->dto());
 
         if (!$e) {
             return response()->json([

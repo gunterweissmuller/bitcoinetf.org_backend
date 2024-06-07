@@ -2,8 +2,10 @@
 
 declare(strict_types=1);
 
+use Elliptic\EC;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Contracts\Validation\Validator;
+use kornrunner\Keccak;
 
 if (!function_exists('transaction')) {
     function transaction(Closure $callback, int $attempts = 1): mixed
@@ -22,7 +24,7 @@ if (!function_exists('checkTelegramAuthorizationValidator')) {
         if (!!$reqData) {
             $data = json_decode($reqData, true);
             $token = env('TELEGRAM_CLIENT_SECRET');
-            if(!!$data) {
+            if (!!$data) {
                 $checkHash = $data['hash'];
                 unset($data['hash']);
                 $dataCheckArr = [];
@@ -43,6 +45,38 @@ if (!function_exists('checkTelegramAuthorizationValidator')) {
                 }
             } else {
                 $validator->errors()->add('telegram_data', 'Telegram data is empty');
+            }
+        }
+    }
+}
+
+if (!function_exists('checkWalletConnectAuthorizationValidator')) {
+    function checkWalletConnectAuthorizationValidator(Validator $validator, ?string $reqData): void
+    {
+        if (!!$reqData) {
+            $data = json_decode($reqData, true);
+
+            if (!!$data) {
+                try {
+                    $msgHash = Keccak::hash("\x19Ethereum Signed Message:\n" . strlen($data['message']) . $data['message'], 256);
+                    $sig = [
+                        'r' => substr($data['signature'], 2, 64),
+                        's' => substr($data['signature'], 66, 64),
+                        'v' => substr($data['signature'], 130, 2),
+                    ];
+
+                    $ec = new EC('secp256k1');
+                    $pubKey = $ec->recoverPubKey($msgHash, $sig, hexdec($sig['v']) - 27);
+                    $recoveredAddress = '0x' . substr(Keccak::hash(substr(hex2bin($pubKey->encode('hex')), 1), 256), 24);
+
+                    if (strtolower($recoveredAddress) !== strtolower($data['address'])) {
+                        $validator->errors()->add('wallet_connect_data', 'Signature is not correct');
+                    }
+                } catch (Throwable $e) {
+                    $validator->errors()->add('wallet_connect_data', 'Invalid signature');
+                }
+            } else {
+                $validator->errors()->add('wallet_connect_data', 'WalletConnect data is empty');
             }
         }
     }

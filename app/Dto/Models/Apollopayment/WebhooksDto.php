@@ -184,17 +184,17 @@ final class WebhooksDto implements DtoInterface
     }
 
     /**
-     * @return json|null
+     * @return string|null
      */
-    public function getPayload(): ?json
+    public function getPayload(): ?string
     {
         return $this->payload;
     }
 
     /**
-     * @param  json|null  $payload
+     * @param  string|null  $payload
      */
-    public function setPayload(?json $payload): void
+    public function setPayload(?string $payload): void
     {
         $this->payload = $payload;
     }

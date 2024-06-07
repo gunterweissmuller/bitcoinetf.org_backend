@@ -19,4 +19,5 @@ enum DescTypeEnum: string
     case KYC_BONUS = 'kyc_bonus';
 
     case RUSSIA_BONUS = 'russia_bonus';
+
 }

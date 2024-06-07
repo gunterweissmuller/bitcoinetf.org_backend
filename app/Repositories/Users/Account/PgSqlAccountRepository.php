@@ -96,4 +96,16 @@ final class PgSqlAccountRepository implements AccountRepositoryInterface
             ->where('created_at', '<=', $to)
             ->count();
     }
+
+    public function allUserInfoByFiltersWithChunk(array $filters, int $count, callable $callback): void
+    {
+        $this->model
+            ->newQuery()
+            ->select(['users.accounts.uuid', 'users.emails.email', 'users.profiles.full_name'])
+            ->leftJoin('users.emails', 'users.emails.account_uuid', '=', 'users.accounts.uuid')
+            ->leftJoin('users.profiles', 'users.profiles.account_uuid', '=', 'users.accounts.uuid')
+            ->where($filters)
+            ->orderBy('users.accounts.created_at', 'desc')
+            ->chunk($count, $callback);
+    }
 }

@@ -21,11 +21,12 @@ use Closure;
 final class BonusPipe implements PipeInterface
 {
     public function __construct(
-        private readonly WalletService $walletService,
+        private readonly WalletService  $walletService,
         private readonly PaymentService $paymentService,
-        private readonly GlobalService $globalService,
-        private readonly TokenService $tokenService,
-    ) {
+        private readonly GlobalService  $globalService,
+        private readonly TokenService   $tokenService,
+    )
+    {
     }
 
     public function handle(InitPipelineDto|DtoInterface $dto, Closure $next): DtoInterface

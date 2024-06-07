@@ -180,6 +180,7 @@ Create chart name and version as used by the chart label.
       name: secrets-backend
       key: greenfieldStoreId
 
+# TODO remove
 - name: PAYMENT_HOST
   value: "{{ $globals.payment.host }}"
 - name: PAYMENT_API_KEY
@@ -235,14 +236,32 @@ Create chart name and version as used by the chart label.
 - name: GOOGLE_REDIRECT_URI
   value: "{{ $globals.google_auth.redirect_uri }}"
 
-- name: SIGN_IN_WITH_APPLE_LOGIN
-  value: "{{ $globals.apple_auth.login_uri }}"
-- name: SIGN_IN_WITH_APPLE_REDIRECT
+- name: APPLE_REDIRECT_URI
   value: "{{ $globals.apple_auth.redirect_uri }}"
-- name: SIGN_IN_WITH_APPLE_CLIENT_ID
-  value: "{{ $globals.apple_auth.client_id }}"
-- name: SIGN_IN_WITH_APPLE_CLIENT_SECRET
-  value: "{{ $globals.apple_auth.client_secret }}"
+- name: APPLE_PRIVATE_KEY
+  valueFrom:
+    secretKeyRef:
+      name: secrets-backend
+      key: applePrivateKey
+- name: APPLE_TEAM_ID
+  valueFrom:
+    secretKeyRef:
+      name: secrets-backend
+      key: appleTeamId
+- name: APPLE_SERVICE_ID
+  valueFrom:
+    secretKeyRef:
+      name: secrets-backend
+      key: appleServiceId
+- name: APPLE_KEY_ID
+  valueFrom:
+    secretKeyRef:
+      name: secrets-backend
+      key: appleKeyId
+- name: APPLE_SECRET_KEY_FILE_PATH
+  value: "{{ $globals.apple_auth.secret_key_file_path }}"
+- name: APPLE_SECRET_KEY_FILE_NAME
+  value: "{{ $globals.apple_auth.secret_key_file_name }}"
 
 - name: TELEGRAM_BOT_NAME
   value: "{{ $globals.telegram_auth.bot_name }}"
@@ -254,12 +273,47 @@ Create chart name and version as used by the chart label.
 - name: TELEGRAM_REDIRECT_URI
   value: "{{ $globals.telegram_auth.redirect_uri }}"
 
+- name: FACEBOOK_CLIENT_ID
+  value: "{{ $globals.facebook_auth.client_id }}"
+- name: FACEBOOK_CLIENT_SECRET
+  valueFrom:
+    secretKeyRef:
+      name: secrets-backend
+      key: facebookSecret
+- name: FACEBOOK_REDIRECT_URI
+  value: "{{ $globals.facebook_auth.redirect_uri }}"
+
+- name: APOLLO_PAYMENT_HOST
+  value: "{{ $globals.apollo_payment.host_name }}"
+- name: APOLLO_PAYMENT_PUBLIC_KEY
+  value: "{{ $globals.apollo_payment.public_key }}"
+- name: APOLLO_PAYMENT_PRIVATE_KEY
+  valueFrom:
+    secretKeyRef:
+      name: secrets-backend
+      key: apolloPrivateKey
+- name: APOLLO_PAYMENT_BASIC_WALLET_POLYGON_USDT_ADDRESS
+  value: "{{ $globals.apollo_payment.basic_wallet_polygon_usdt_address }}"
+- name: APOLLO_PAYMENT_BASIC_WALLET_POLYGON_USDT_ADDRESS_ID
+  value: "{{ $globals.apollo_payment.basic_wallet_polygon_usdt_address_id }}"
+- name: APOLLO_PAYMENT_ADVANCED_BALANCE_ID
+  value: "{{ $globals.apollo_payment.advanced_balance_id }}"
+
 - name: MOONPAY_PUBLIC_KEY
-  value: "{{ $globals.moonpay.public_key }}"
+  valueFrom:
+    secretKeyRef:
+      name: secrets-backend
+      key: moonpayPublicKey
 - name: MOONPAY_SECRET
-  value: "{{ $globals.moonpay.secret_key }}"
+  valueFrom:
+    secretKeyRef:
+      name: secrets-backend
+      key: moonpayPrivateKey
 - name: MOONPAY_WEBHOOK
-  value: "{{ $globals.moonpay.webhook_key }}"
+  valueFrom:
+    secretKeyRef:
+      name: secrets-backend
+      key: moonpayWebhookKey
 - name: MOONPAY_HOST
   value: "{{ $globals.moonpay.host }}"
 - name: MOONPAY_CURRENCY_CODE
@@ -269,7 +323,7 @@ Create chart name and version as used by the chart label.
 - name: MOONPAY_REDIRECT_URL
   value: "{{ $globals.moonpay.redirect_url }}"
 
-- name: BASIC_APOLLO_WALLET_POLYGON_USDT_ADDRESS
-  value: "{{ $globals.global_wallets.apollo_polygon_usdt_address }}"
+- name: CHECK_IP_HOST
+  value: "{{ $globals.metadata.host }}"
 
 {{- end -}}

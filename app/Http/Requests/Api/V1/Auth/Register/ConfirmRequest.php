@@ -7,6 +7,7 @@ namespace App\Http\Requests\Api\V1\Auth\Register;
 use App\Dto\Models\Auth\CodeDto;
 use App\Dto\Models\Users\AccountDto;
 use App\Dto\Models\Users\EmailDto;
+use App\Dto\Models\Users\MetadataDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmPipelineDto;
 use App\Http\Requests\AbstractRequest;
 
@@ -48,6 +49,10 @@ final class ConfirmRequest extends AbstractRequest
                 'password' => $this->get('password'),
             ]),
             'is_fast' => $this->has(self::FAST_KEY),
+            'metadata' => MetadataDto::fromArray([
+                'ipv4_address' => request()->header('cf-connecting-ip'),
+                'user_agent' => request()->userAgent(),
+            ]),
         ]);
     }
 }

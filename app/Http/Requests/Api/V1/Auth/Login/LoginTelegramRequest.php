@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Requests\Api\V1\Auth\Login;
 
 use App\Dto\Models\Users\AccountDto;
+use App\Dto\Models\Users\MetadataDto;
 use App\Dto\Models\Users\TelegramDto;
 use App\Dto\Pipelines\Api\V1\Auth\Login\LoginTelegramPipelineDto;
 use App\Http\Requests\AbstractRequest;
@@ -37,6 +38,10 @@ final class LoginTelegramRequest extends AbstractRequest
             'account' => AccountDto::fromArray([]),
             'telegram' => TelegramDto::fromArray([
                 'telegram_id' => $telegramData['id'],
+            ]),
+            'metadata' => MetadataDto::fromArray([
+                'ipv4_address' => request()->header('cf-connecting-ip'),
+                'user_agent' => request()->userAgent(),
             ]),
         ]);
     }

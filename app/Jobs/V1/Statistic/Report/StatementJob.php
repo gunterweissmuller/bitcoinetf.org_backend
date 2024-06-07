@@ -149,7 +149,7 @@ final class StatementJob extends Job
             'payments' => $payments ? $payments->toArray() : [],
             'total_dividends' => $sumDividends,
             'qr_code' => (new QRCode())->render('https://site.ru?email='.$email->getEmail().'&amount='.$sumDividends),
-            'address' => $profile->getCity() ? $profile->getCity() . ', ' . $profile->getCountry() : '',
+            'address' => $profile?->getCity() ? $profile->getCity() . ', ' . $profile->getCountry() : '',
         ];
 
         $fileName = hash('sha256', rand(10, 9999).$this->accountUuid).'.pdf';

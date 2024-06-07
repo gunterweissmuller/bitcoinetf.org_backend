@@ -28,7 +28,7 @@ final class SetBtcPurchaseRate extends Command
     ): void
     {
         $count = 0;
-        
+
         $callback = function (Collection $items) use ($accountService, $paymentService, &$count) {
             $items->map(function (Account $item) use ($accountService, $paymentService, &$count) {
                 $count++;

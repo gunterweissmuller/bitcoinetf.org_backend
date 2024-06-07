@@ -16,6 +16,7 @@ use App\Http\Requests\Api\V1\Auth\Login\LoginMetamaskRequest;
 use App\Dto\Pipelines\Api\V1\Auth\Login\LoginPipelineDto;
 use App\Http\Requests\Api\V1\Auth\Login\LoginOneTimePasswordRequest;
 use App\Http\Requests\Api\V1\Auth\Login\LoginRequest;
+use App\Http\Requests\Api\V1\Auth\Login\LoginDemoRequest;
 use App\Http\Requests\Api\V1\Auth\Login\LoginTelegramRequest;
 use App\Http\Requests\Api\V1\Auth\Login\LoginWalletConnectRequest;
 use App\Pipelines\V1\Auth\Login\LoginPipeline;
@@ -50,6 +51,29 @@ final class LoginController extends Controller
                     'access_token' => $dto->getJwtAccess()->getToken(),
                     'refresh_token' => $dto->getJwtRefresh()->getToken(),
                     'websocket_token' => $dto->getWebsocketToken(),
+                ]
+            ]);
+        }
+
+        return response()->__call('exception', [$e]);
+    }
+
+    /**
+     * @param LoginRequest $request
+     * @return JsonResponse
+     */
+    public function loginDemo(LoginDemoRequest $request): JsonResponse
+    {
+        /** @var LoginPipelineDto $dto */
+        [$dto, $e] = $this->pipeline->loginDemo($request->dto());
+
+        if (!$e) {
+            return response()->json([
+                'data' => [
+                    'access_token' => $dto->getJwtAccess()->getToken(),
+                    'refresh_token' => $dto->getJwtRefresh()->getToken(),
+                    'websocket_token' => $dto->getWebsocketToken(),
+                    'mode' => 'readonly',
                 ]
             ]);
         }

@@ -14,6 +14,7 @@ use App\Services\Api\V1\Referrals\InviteService;
 use App\Services\Api\V1\Users\AccountService;
 use App\Services\Api\V1\Users\ProfileService;
 use App\Enums\Users\Account\OrderTypeEnum;
+use App\Services\Api\V3\Apollopayment\readonly;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use App\Services\Api\V3\Apollopayment\ApollopaymentClientsService;
@@ -70,8 +71,11 @@ final class AccountController extends Controller
 
         $apolloClient = $this->apollopaymentClientsService->get(['account_uuid' => $request->payload()->getUuid()]);
 
+        $demoUserUuid = env('DEMO_ACCOUNT_UUID', '9c1c257f-2ea5-4da1-a12b-f0a5b980edae');
+
         return response()->json([
             'data' => [
+                'readonly' => $account->getUuid() === $demoUserUuid,
                 'account' => [
                     'uuid' => $account->getUuid(),
                     'number' => $account->getNumber(),

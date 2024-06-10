@@ -24,6 +24,7 @@ final class AccountDto implements DtoInterface
         private ?string $updatedAt,
         private ?string $providerType,
         private ?string $orderType,
+        private ?bool $readonly,
     )
     {
     }
@@ -46,6 +47,7 @@ final class AccountDto implements DtoInterface
             $args['updated_at'] ?? null,
             $args['provider_type'] ?? null,
             $args['order_type'] ?? null,
+                $args['readonly'] ?? null,
         );
     }
 
@@ -67,6 +69,7 @@ final class AccountDto implements DtoInterface
             'updated_at' => $this->updatedAt,
             'provider_type' => $this->providerType,
             'order_type' => $this->orderType,
+            'readonly' => $this->readonly,
         ];
     }
 
@@ -213,6 +216,11 @@ final class AccountDto implements DtoInterface
     public function getOrderType(): ?string
     {
         return $this->orderType;
+    }
+
+    public function getReadonly(): ?string
+    {
+        return $this->readonly;
     }
 
     public function setOrderType(?string $orderType): void

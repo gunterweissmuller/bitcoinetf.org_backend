@@ -23,6 +23,8 @@ interface PaymentRepositoryInterface
 
     public function allByFilters(PaginationFilterDto $dto): LengthAwarePaginator;
 
+    public function allByFiltersWithChunk(array $filters, int $count, callable $callback): void;
+
     public function getSum(string $column, array $filters): float;
 
     public function getCount(array $filters): float;

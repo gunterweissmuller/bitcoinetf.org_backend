@@ -86,6 +86,10 @@ return [
         'interface' => \App\Repositories\Billing\Sell\SellRepositoryInterface::class,
         'implementation' => \App\Repositories\Billing\Sell\PgSqlSellRepository::class,
     ],
+    [
+        'interface' => \App\Repositories\Billing\BtcPurchase\BtcPurchaseRepositoryInterface::class,
+        'implementation' => \App\Repositories\Billing\BtcPurchase\PgSqlBtcPurchaseRepository::class,
+    ],
 
     // News
     [

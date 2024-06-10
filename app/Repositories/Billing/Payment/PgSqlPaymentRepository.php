@@ -83,6 +83,15 @@ final class PgSqlPaymentRepository implements PaymentRepositoryInterface
             ->paginate($dto->getPerPage(), ['*'], 'page', $dto->getPage());
     }
 
+    public function allByFiltersWithChunk(array $filters, int $count, callable $callback): void
+    {
+        $this->model
+            ->newQuery()
+            ->where($filters)
+            ->orderBy('created_at', 'desc')
+            ->chunk($count, $callback);
+    }
+
     public function getSum(string $column, array $filters): float
     {
         return (float) $this->model

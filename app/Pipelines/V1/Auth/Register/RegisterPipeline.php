@@ -302,4 +302,45 @@ final class RegisterPipeline extends AbstractPipeline
             ConfirmMetadataPipe::class,
         ], $dto);
     }
+
+    /**
+     * @param InitPipelineDto $dto
+     * @return array
+     */
+    public function initDemoUser(InitPipelineDto $dto): array
+    {
+        return $this->pipeline([
+            InitValidatePipe::class,
+            InitAccountPipe::class,
+            InitProfilePipe::class,
+            InitEmailPipe::class,
+            InitWalletPipe::class,
+//            InitInvitePipe::class,
+//            InitNewCodePipe::class,
+//            InitBonusPipe::class,
+//            InitKafkaEventPipe::class,
+//            InitUserEventPipe::class,
+        ], $dto);
+    }
+
+    /**
+     * @param ConfirmPipelineDto $dto
+     * @return array
+     */
+    public function confirmDemoUser(ConfirmPipelineDto $dto): array
+    {
+        return $this->pipeline([
+            ConfirmValidatePipe::class,
+            ConfirmEmailPipe::class,
+            ConfirmCodePipe::class,
+            ConfirmAccountPipe::class,
+//            ConfirmApolloClientPipe::class,
+//            ConfirmBonusPipe::class,
+//            ConfirmJwtPipe::class,
+//            ConfirmMailPipe::class,
+            ConfirmUpdateUsersInfoPipe::class,
+//            ConfirmMetadataPipe::class,
+        ], $dto);
+    }
+
 }

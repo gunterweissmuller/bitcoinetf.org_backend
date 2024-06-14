@@ -9,6 +9,7 @@ use App\Dto\Pipelines\Api\V1\Auth\Recovery\InitPipelineDto;
 use App\Pipelines\AbstractPipeline;
 use App\Pipelines\V1\Auth\Recovery\Pipes\Confirm\AccountPipe as ConfirmAccountPipe;
 use App\Pipelines\V1\Auth\Recovery\Pipes\Confirm\CodePipe as ConfirmCodePipe;
+use App\Pipelines\V1\Auth\Recovery\Pipes\Confirm\JwtPipe as ConfirmJwtPipe;
 use App\Pipelines\V1\Auth\Recovery\Pipes\Init\EmailPipe as InitEmailPipe;
 use App\Pipelines\V1\Auth\Recovery\Pipes\Init\EventsPipe as InitEventsPipe;
 
@@ -21,12 +22,13 @@ final class RecoveryPipeline extends AbstractPipeline
             InitEventsPipe::class
         ], $dto);
     }
-    
+
     public function confirm(ConfirmPipelineDto $dto): array
     {
         return $this->pipeline([
             ConfirmCodePipe::class,
             ConfirmAccountPipe::class,
+            ConfirmJwtPipe::class,
         ], $dto);
     }
 }

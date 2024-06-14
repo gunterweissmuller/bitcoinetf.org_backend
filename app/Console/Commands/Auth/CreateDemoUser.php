@@ -33,7 +33,10 @@ final class CreateDemoUser extends Command
             $password = 'DemoUser123#';
 
             $InitDTO = InitPipelineDto::fromArray([
-                'account' => AccountDto::fromArray([]),
+                'account' => AccountDto::fromArray([
+                    'send_mail' => 'N',
+                    'allowed_withdrawal' => false,
+                ]),
                 'profile' => ProfileDto::fromArray([
                     'full_name' => "demo user",
                     'phone_number' => '123456789',

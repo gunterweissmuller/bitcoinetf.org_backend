@@ -32,6 +32,10 @@ final class SaveDailyWalletCommand extends Command
             $items->map(function (Wallet $item) use ($dailyWalletService, $today) {
                 $wallet = WalletDto::fromArray($item->toArray());
 
+                if (env('DEMO_ACCOUNT_UUID') === $wallet->getAccountUuid()) {
+                    return;
+                }
+
                 $dailyWalletService->create(DailyWalletDto::fromArray([
                     'account_uuid' => $wallet->getAccountUuid(),
                     'type' => $wallet->getType(),

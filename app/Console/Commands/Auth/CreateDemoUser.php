@@ -29,7 +29,7 @@ final class CreateDemoUser extends Command
 
         try {
 
-            $email = 'demoUser' . rand() . '@bitcoinetf.org';
+            $email = strtolower('demouser' . rand() . '@bitcoinetf.org');
             $password = 'DemoUser123#';
 
             $InitDTO = InitPipelineDto::fromArray([

@@ -22,7 +22,7 @@ cleanup:
         last: 2
 ---
 image: nginx
-from: nginx:stable-alpine
+from: nginx:mainline-alpine
 git:
   - add: /public
     to: /var/www/html/public

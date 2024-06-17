@@ -20,10 +20,12 @@ final class AccountDto implements DtoInterface
         private ?string $tronWallet,
         private ?bool   $fastReg,
         private ?bool   $fastPayment,
+        private ?bool   $allowedWithdrawal,
         private ?string $createdAt,
         private ?string $updatedAt,
         private ?string $providerType,
         private ?string $orderType,
+        private ?string $sendMail,
     )
     {
     }
@@ -42,10 +44,12 @@ final class AccountDto implements DtoInterface
             $args['tron_wallet'] ?? null,
             $args['fast_reg'] ?? null,
             $args['fast_payment'] ?? null,
+            $args['allowed_withdrawal'] ?? null,
             $args['created_at'] ?? null,
             $args['updated_at'] ?? null,
             $args['provider_type'] ?? null,
             $args['order_type'] ?? null,
+            $args['send_mail'] ?? null,
         );
     }
 
@@ -63,10 +67,12 @@ final class AccountDto implements DtoInterface
             'tron_wallet' => $this->tronWallet,
             'fast_reg' => $this->fastReg,
             'fast_payment' => $this->fastPayment,
+            'allowed_withdrawal' => $this->allowedWithdrawal,
             'created_at' => $this->createdAt,
             'updated_at' => $this->updatedAt,
             'provider_type' => $this->providerType,
             'order_type' => $this->orderType,
+            'send_mail' => $this->sendMail,
         ];
     }
 
@@ -180,6 +186,16 @@ final class AccountDto implements DtoInterface
         $this->fastPayment = $fastPayment;
     }
 
+    public function getAllowedWithdrawal(): ?bool
+    {
+        return $this->allowedWithdrawal;
+    }
+
+    public function setAllowedWithdrawal(?bool $allowedWithdrawal): void
+    {
+        $this->allowedWithdrawal = $allowedWithdrawal;
+    }
+
     public function getCreatedAt(): ?string
     {
         return $this->createdAt;
@@ -218,5 +234,15 @@ final class AccountDto implements DtoInterface
     public function setOrderType(?string $orderType): void
     {
         $this->orderType = $orderType;
+    }
+
+    public function getSendMail(): ?string
+    {
+        return $this->sendMail;
+    }
+
+    public function setSendMail(?string $sendMail): void
+    {
+        $this->sendMail = $sendMail;
     }
 }

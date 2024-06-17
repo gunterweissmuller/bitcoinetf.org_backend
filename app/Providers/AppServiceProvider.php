@@ -28,7 +28,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Gate::define('readonly', function ($user) {
-            return $user->uuid !== env('DEMO_ACCOUNT_UUID', '9c1c257f-2ea5-4da1-a12b-f0a5b980edae');
+            return $user->uuid !== env('DEMO_ACCOUNT_UUID');
         });
     }
 }

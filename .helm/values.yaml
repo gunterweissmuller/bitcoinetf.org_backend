@@ -68,6 +68,8 @@ global:
       redirect_url: "https://app.bitcoinetf.org/personal/analytics/performance"
     metadata:
       host: "http://rest-geoip.etf-private-rest-geoip.svc.cluster.local/api/geoip"
+    demo_account:
+      uuid: ""
 
   stage:
     app:
@@ -139,6 +141,8 @@ global:
       redirect_url: "https://app.front.stage.techetf.org/personal/analytics/performance"
     metadata:
       host: "http://rest-geoip.stage-etf-private-rest-geoip.svc.cluster.local/api/geoip"
+    demo_account:
+      uuid: "9c48d2e4-000a-438a-845e-6d201c77f84b"
 
 otherServices:
   - name: queue

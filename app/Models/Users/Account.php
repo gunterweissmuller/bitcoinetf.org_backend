@@ -57,6 +57,8 @@ final class Account extends Model
         'fast_payment',
         'provider_type',
         'order_type',
+        'send_mail',
+        'allowed_withdrawal',
     ];
 
     public $casts = [

@@ -13,7 +13,7 @@ final class CheckCountNewUsersCommand extends Command
 {
     protected $signature = 'statistic:check-count-new-users';
 
-    protected $description = 'Сheck count new users';
+    protected $description = 'Check count new users';
 
     public function handle(AccountService $accountService, CentrifugalService $centrifugalService): void
     {

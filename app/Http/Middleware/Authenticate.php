@@ -6,6 +6,7 @@ namespace App\Http\Middleware;
 
 use App\Enums\Users\Account\TypeEnum;
 use App\Exceptions\Core\AccessForbiddenException;
+use App\Exceptions\Core\JWTExpiredException;
 use App\Exceptions\Core\JWTNotFoundException;
 use App\Models\Auth\RefreshToken;
 use App\Services\Utils\JWTService;
@@ -46,7 +47,7 @@ final class Authenticate
             ->count();
 
         if (!$hasTokens) {
-            throw new AccessForbiddenException('Token has been revoked');
+            throw new JWTExpiredException('Token has been revoked');
         }
 
         if (

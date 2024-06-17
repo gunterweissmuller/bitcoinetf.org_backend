@@ -18,8 +18,8 @@ class CheckDemoUser
     public function handle(Request $request, Closure $next): Response
     {
         $accountUuid = JwtPayloadDto::fromArray($request->get('jwt_payload') ?? [])->toArray();
-        
-        if ($accountUuid == env('DEMO_ACCOUNT_UUID')) {
+
+        if ($accountUuid['uuid'] == env('DEMO_ACCOUNT_UUID')) {
             throw new NotFoundHttpException();
         }
 

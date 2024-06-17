@@ -8,6 +8,7 @@ use App\Dto\Pipelines\Api\V1\Auth\Recovery\ConfirmPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Recovery\InitPipelineDto;
 use App\Pipelines\AbstractPipeline;
 use App\Pipelines\V1\Auth\Recovery\Pipes\Confirm\AccountPipe as ConfirmAccountPipe;
+use App\Pipelines\V1\Auth\Recovery\Pipes\Confirm\ClearSessionsPipe;
 use App\Pipelines\V1\Auth\Recovery\Pipes\Confirm\CodePipe as ConfirmCodePipe;
 use App\Pipelines\V1\Auth\Recovery\Pipes\Confirm\JwtPipe as ConfirmJwtPipe;
 use App\Pipelines\V1\Auth\Recovery\Pipes\Init\EmailPipe as InitEmailPipe;
@@ -29,6 +30,7 @@ final class RecoveryPipeline extends AbstractPipeline
             ConfirmCodePipe::class,
             ConfirmAccountPipe::class,
             ConfirmJwtPipe::class,
+            ClearSessionsPipe::class,
         ], $dto);
     }
 }

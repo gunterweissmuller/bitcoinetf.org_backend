@@ -7,6 +7,7 @@ namespace App\Http\Middleware;
 use App\Enums\Users\Account\TypeEnum;
 use App\Exceptions\Core\AccessForbiddenException;
 use App\Exceptions\Core\JWTNotFoundException;
+use App\Models\Auth\RefreshToken;
 use App\Services\Utils\JWTService;
 use Closure;
 use Illuminate\Http\JsonResponse;
@@ -39,6 +40,14 @@ final class Authenticate
 
         $accessToken = explode(' ', $accessToken)[1];
         $payload = $jwtService->getPayload($accessToken);
+
+        $hasTokens = (bool) RefreshToken::whereAccountUuid($payload['account']['uuid'])
+            ->whereNull('revoked_at')
+            ->count();
+
+        if (!$hasTokens) {
+            throw new AccessForbiddenException('Token has been revoked');
+        }
 
         if (
             $type == 'editor'

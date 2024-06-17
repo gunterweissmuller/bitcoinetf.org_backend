@@ -25,7 +25,7 @@ final class AccountDemoPipe implements PipeInterface
     public function handle(LoginPipelineDto|DtoInterface $dto, Closure $next): DtoInterface
     {
         if ($account = $this->accountService->get([
-            'uuid' => env('DEMO_ACCOUNT_UUID', '9c1c257f-2ea5-4da1-a12b-f0a5b980edae'),
+            'uuid' => env('DEMO_ACCOUNT_UUID'),
             'status' => StatusEnum::Enabled->value,
         ])) {
             $dto->setAccount($account);

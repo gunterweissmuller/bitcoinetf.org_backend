@@ -326,4 +326,7 @@ Create chart name and version as used by the chart label.
 - name: CHECK_IP_HOST
   value: "{{ $globals.metadata.host }}"
 
+- name: DEMO_ACCOUNT_UUID
+  value: "{{ $globals.demo_account.uuid }}"
+
 {{- end -}}

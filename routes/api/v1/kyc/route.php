@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
+use App\Http\Middleware\CheckDemoUser;
 use Illuminate\Support\Facades\Route;
 
 Route::namespace('Public')
     ->prefix('public')
-    ->middleware(['auth'])
+    ->middleware(['auth', CheckDemoUser::class])
     ->group(function () {
         Route::namespace('Kyc')
             ->prefix('kyc')

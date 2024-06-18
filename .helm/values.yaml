@@ -3,6 +3,7 @@ global:
   prod:
     app:
       debug: "false"
+      website_url: "https://bitcoinetf.org"
     db:
       host: "postgresql-ha-pgpool.postgresql.svc.cluster.local"
       port: "5432"
@@ -74,6 +75,7 @@ global:
   stage:
     app:
       debug: "true"
+      website_url: "https://front.stage.techetf.org"
     db:
       host: "postgresql-ha-pgpool.postgresql.svc.cluster.local"
       port: "5432"

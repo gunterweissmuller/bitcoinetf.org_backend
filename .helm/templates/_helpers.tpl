@@ -329,4 +329,7 @@ Create chart name and version as used by the chart label.
 - name: DEMO_ACCOUNT_UUID
   value: "{{ $globals.demo_account.uuid }}"
 
+- name: APP_WEBSITE_URL
+  value: "{{ $globals.app.website_url }}"
+
 {{- end -}}

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace app\Services\Api\V3\Billing;
+namespace App\Services\Api\V3\Billing;
 
 use App\Dto\Core\PaginationFilterDto;
 use App\Dto\Models\Billing\BtcPurchaseDto;

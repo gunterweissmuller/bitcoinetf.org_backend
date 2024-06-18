@@ -28,7 +28,6 @@ final class RecoveryPipeline extends AbstractPipeline
         return $this->pipeline([
             ConfirmCodePipe::class,
             ConfirmAccountPipe::class,
-            ConfirmJwtPipe::class,
             ClearSessionsPipe::class,
         ], $dto);
     }

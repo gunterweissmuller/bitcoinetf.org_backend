@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Middleware\CheckDemoUser;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\MoonPaySignature;
 use App\Http\Middleware\ApolloPaymentIp;
@@ -34,7 +35,7 @@ Route::namespace('Public')
                         Route::namespace('Buy')
                             ->prefix('buy')
                             ->group(function () {
-                                Route::middleware(['auth'])->post('/init', 'BuyController@init');
+                                Route::middleware(['auth', CheckDemoUser::class])->post('/init', 'BuyController@init');
                                 Route::namespace('Apollopayment')
                                     ->prefix('apollopayment')
                                     ->group(function () {
@@ -51,9 +52,9 @@ Route::namespace('Public')
                         Route::namespace('Sell')
                             ->prefix('sell')
                             ->group(function () {
-                                Route::middleware(['auth'])->get('/init', 'SellController@init');//@fixme-v sell open after test
-                                Route::middleware(['auth'])->get('/valuate', 'SellController@valuate');// @fixme-v sell open after test
-                                Route::middleware(['auth'])->post('/confirm', 'SellController@confirm');// @fixme-v sell open after test
+//                                Route::middleware(['auth'])->get('/init', 'SellController@init');//@fixme-v sell open after test
+//                                Route::middleware(['auth'])->get('/valuate', 'SellController@valuate');// @fixme-v sell open after test
+//                                Route::middleware(['auth'])->post('/confirm', 'SellController@confirm');// @fixme-v sell open after test
                             });
                     });
 

@@ -260,7 +260,7 @@
                                                     valign=middle>
                                                     <p
                                                         style="width: 100%;display:inline-block;color:#fff;font-family:'DM sans',Arial,sans-serif;font-size:16px;font-weight:700;line-height:normal;margin:0;text-decoration:none;text-transform:none;mso-padding-alt:0px;border-radius:200px">
-                                                        <a href="https://bitcoinetf.org/personal/login-one-time?email={{ $email }}&code={{$code}}"
+                                                        <a href="{{env('APP_WEBSITE_URL')}}/personal/login-one-time?email={{ $email }}&code={{$code}}"
                                                            target=_blank
                                                            style="display:inline-block;padding:18px 0;width:100%;color:#fff;font-weight:700!important;font-size:16px!important;text-decoration:none"> <span
                                                                 style=color:#fff;text-decoration:none>

@@ -349,7 +349,7 @@
                                         <tbody>
                                         <tr>
                                             <td width="100%" align="start" style="font-size:0px; padding: 16px; background-color: #FFFFFF; border-radius: 8px">
-                                                <img class="img-fluid"
+                                                <img
                                                 src="https://bitcoinetf.org/img/emails/1main.png"  height="72" width="72">
                                                 <p style="Margin:0;height:8px;line-height:8px">
                                                     &nbsp;
@@ -421,7 +421,7 @@
                                         <tbody>
                                         <tr>
                                             <td width="100%" align="start" style="font-size:0px; padding: 16px; background-color: #FFFFFF; border-radius: 8px">
-                                                <img class="img-fluid"
+                                                <img
                                                 src="https://bitcoinetf.org/img/emails/2main.png" height="72" width="72">
                                                 <p style="Margin:0;height:8px;line-height:8px">
                                                     &nbsp;

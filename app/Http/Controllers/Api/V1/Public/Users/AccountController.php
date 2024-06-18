@@ -70,8 +70,11 @@ final class AccountController extends Controller
 
         $apolloClient = $this->apollopaymentClientsService->get(['account_uuid' => $request->payload()->getUuid()]);
 
+        $demoUserUuid = env('DEMO_ACCOUNT_UUID');
+
         return response()->json([
             'data' => [
+                'readonly' => $account->getUuid() === $demoUserUuid,
                 'account' => [
                     'uuid' => $account->getUuid(),
                     'number' => $account->getNumber(),

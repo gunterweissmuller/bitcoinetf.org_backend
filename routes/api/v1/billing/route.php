@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Middleware\CheckDemoUser;
 use Illuminate\Support\Facades\Route;
 
 Route::namespace('Public')
@@ -68,7 +69,7 @@ Route::namespace('Public')
                     ->group(function () {
                         Route::middleware(['auth'])
                             ->get('/', 'WithdrawalController@list');
-                        Route::middleware(['auth'])
+                        Route::middleware(['auth', CheckDemoUser::class])
                             ->post('/method', 'WithdrawalController@method');
                         // TODO: Отключен, но возможно в будущем понадобиться (логику не удалял)
 //                        Route::middleware(['auth'])

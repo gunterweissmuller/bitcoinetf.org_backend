@@ -70,7 +70,7 @@ global:
     metadata:
       host: "http://rest-geoip.etf-private-rest-geoip.svc.cluster.local/api/geoip"
     demo_account:
-      uuid: ""
+      uuid: "9c51963f-d320-4b11-aba2-0a148067b632"
 
   stage:
     app:

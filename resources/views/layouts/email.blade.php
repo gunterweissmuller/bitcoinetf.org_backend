@@ -90,11 +90,12 @@
                                                         <tr>
                                                             <td>
                                                                 <a target=_blank
-                                                                   href="/" style=font-size:0px;text-decoration:none;>
-                                                                    <img class=logo__img
+                                                                   href="{{env('APP_WEBSITE_URL')}}"
+                                                                   style=font-size:0px;text-decoration:none;>
+                                                                <img class=logo__img
                                                                          style="padding-top: 4px; padding-bottom: 4px"
                                                                          src="https://bitcoinetf.org/img/emails/btclogobyemail.png"
-                                                                         width=140 height="32">
+                                                                         >
                                                                 </a>
                                                             </td>
                                                         </tr>
@@ -582,8 +583,9 @@
                                                         &nbsp;
                                                     </p>
                                                     <a target=_blank
-                                                       href="/" style=font-size:0px;text-decoration:none>
-                                                        <img class=logo__img
+                                                       href="{{env('APP_WEBSITE_URL')}}"
+                                                       style=font-size:0px;text-decoration:none>
+                                                    <img class=logo__img
                                                              src="https://bitcoinetf.org/img/emails/btclogobyemail.png"
                                                              width=140 height="24">
                                                     </a>

@@ -202,7 +202,7 @@
         <tbody>
         <tr>
             <td align="center">
-                <table class="container" align="center" width="375" cellpadding="0" cellspacing="0" border="0" bgcolor="#FFFFFF" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:#fff">
+                <table class="container" align="center" width="375" cellpadding="0" cellspacing="0" border="0" bgcolor="#FFFFFF" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:#fff;margin-bottom:40px;">
                     <tbody>
                     <tr>
                         <td>

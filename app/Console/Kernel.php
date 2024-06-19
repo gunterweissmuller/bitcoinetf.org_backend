@@ -33,6 +33,9 @@ final class Kernel extends ConsoleKernel
 //        $schedule->command('apollopayment:get-blockchain-address-id');
 //        $schedule->command('apollopayment:make-wallets-for-old-users');
 //        $schedule->command('apollopayment:clear-duplicate-apollo-wallets-for-old-users');
+
+        //newsLetter
+        $schedule->command('newsletter:send-emails-to-subscribers')->everyMinute();
     }
 
     protected function commands(): void

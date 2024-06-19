@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Api\V1\Public\Newsletter\Subscription;
 
-use App\Dto\Models\Users\EmailDto;
+use App\Dto\Models\Newsletter\SubscriptionDto;
+use App\Dto\Pipelines\Api\V1\Public\Newsletter\SubscribePipelineDto;
 use App\Http\Requests\AbstractRequest;
 
 final class SubscribeRequest extends AbstractRequest
 {
+    /**
+     * @return array[]
+     */
     public function rules(): array
     {
         return [
@@ -16,15 +20,23 @@ final class SubscribeRequest extends AbstractRequest
         ];
     }
 
+    /**
+     * @return array
+     */
     public function messages(): array
     {
         return [];
     }
 
-    public function dto(): ?EmailDto
+    /**
+     * @return SubscribePipelineDto
+     */
+    public function dto(): SubscribePipelineDto
     {
-        return EmailDto::fromArray([
-            'email' => $this->get('email'),
+        return SubscribePipelineDto::fromArray([
+            'subscription' => SubscriptionDto::fromArray([
+                'email' => $this->get('email'),
+            ]),
         ]);
     }
 }

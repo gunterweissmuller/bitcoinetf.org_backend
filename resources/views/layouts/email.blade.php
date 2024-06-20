@@ -104,29 +104,31 @@
 
                                                     </table>
 
+                                                    @if($username !== '')
 
-                                                    <table width=auto cellpadding=4 cellspacing=0 border=0
-                                                           style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:right;padding:4px;background-color:rgba(34, 36, 43, 0.50);border-radius:32px;"
-                                                    >
-                                                        <tbody>
-                                                        <tr>
-                                                            <td align="left"
-                                                                valign="middle">
-                                                                <img style="margin-right:12px; border-radius: 200px"
-                                                                     src="https://icons.bitcoinetf.org/{{ $accountUuid }}"
-                                                                     width=24 height="24"
-                                                                >
-                                                            </td>
-                                                            <td valign="middle"
-                                                                align="right">
+                                                        <table width=auto cellpadding=4 cellspacing=0 border=0
+                                                               style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:right;padding:4px;background-color:rgba(34, 36, 43, 0.50);border-radius:32px;"
+                                                        >
+                                                            <tbody>
+                                                            <tr>
+                                                                <td align="left"
+                                                                    valign="middle">
+                                                                    <img style="margin-right:12px; border-radius: 200px"
+                                                                         src="https://icons.bitcoinetf.org/{{ $accountUuid }}"
+                                                                         width=24 height="24"
+                                                                    >
+                                                                </td>
+                                                                <td valign="middle"
+                                                                    align="right">
                                 <span
                                     style="font-family:'DM Sans', Arial;font-size:14px; line-height: normal; font-weight: 700; color: #F1F2F4; padding-right: 4px">{{ $username }}</span>
-                                                            </td>
+                                                                </td>
 
-                                                        </tr>
-                                                        </tbody>
-                                                    </table>
+                                                            </tr>
+                                                            </tbody>
+                                                        </table>
 
+                                                    @endif
 
                                                 </td>
                                                 <td class=float-sm width=16>&nbsp;</td>

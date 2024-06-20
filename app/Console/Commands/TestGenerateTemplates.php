@@ -26,7 +26,7 @@ final class TestGenerateTemplates extends Command
             'password' => 'password',
         ];
 
-        $html = View::make('emails.v1.users.welcome', $data)->render();
+        $html = View::make('emails.v1.newsletter.subscription', $data)->render();
         $directory = public_path('generated-html');
         $filePath = $directory . '/example.html';
 

@@ -231,4 +231,10 @@ return [
         'interface' => \App\Repositories\Moonpay\Webhooks\WebhooksRepositoryInterface::class,
         'implementation' => \App\Repositories\Moonpay\Webhooks\PgSqlWebhooksRepository::class,
     ],
+
+    // Newsletter
+    [
+        'interface' => \App\Repositories\Newsletter\Subscription\SubscriptionRepositoryInterface::class,
+        'implementation' => \App\Repositories\Newsletter\Subscription\PgSqlSubscriptionRepository::class,
+    ],
 ];

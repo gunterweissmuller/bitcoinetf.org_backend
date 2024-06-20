@@ -321,14 +321,15 @@
                                                                          height="64" width="64"
                                                                          style="margin-left: 16px; margin-right: 24px"/>
                                                                 </td>
-                                                                <td align="center" valign="middle">
+                                                                <td align="center" valign="middle" style="padding-right: 20px;">
                                                                     <p style="Margin:0;font-family:'DM Sans', Arial;font-size:18px;line-height:normal;color:#06F;font-weight:700;text-align:start; text-decoration: none">
                                                                         How to buy Bitcoin ETF Shares</p>
                                                                 </td>
                                                                 <td align="right" valign="middle" style="padding-right: 16px;">
-                                                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="#00000" xmlns="http://www.w3.org/2000/svg">
-                                                                        <path d="M16 12C16 12.3 15.9 12.5 15.7 12.7L9.7 18.7C9.3 19.1 8.7 19.1 8.3 18.7C7.9 18.3 7.9 17.7 8.3 17.3L13.6 12L8.3 6.7C7.9 6.3 7.9 5.7 8.3 5.3C8.7 4.9 9.3 4.9 9.7 5.3L15.7 11.3C15.9 11.5 16 11.7 16 12Z" fill="#00000"/>
-                                                                    </svg>
+                                                                    <img alt=""
+                                                                         src="https://files.bitcoinetf.org/etf/public/email/arrow-right-v1.png"
+                                                                          height="10"
+                                                                    />
                                                                 </td>
                                                             </tr>
                                                             </tbody>
@@ -412,14 +413,15 @@
                                                                          height="64" width="64"
                                                                          style="margin-left: 16px; margin-right: 24px"/>
                                                                 </td>
-                                                                <td align="center" valign="middle">
+                                                                <td align="center" valign="middle" style="padding-right: 20px;">
                                                                     <p style="Margin:0;font-family:'DM Sans', Arial;font-size:18px;line-height:normal;color:#06F;font-weight:700;text-align:start; text-decoration: none">
                                                                         Learn more about your earnings</p>
                                                                 </td>
                                                                 <td align="right" valign="middle" style="padding-right: 16px;">
-                                                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="#00000" xmlns="http://www.w3.org/2000/svg">
-                                                                        <path d="M16 12C16 12.3 15.9 12.5 15.7 12.7L9.7 18.7C9.3 19.1 8.7 19.1 8.3 18.7C7.9 18.3 7.9 17.7 8.3 17.3L13.6 12L8.3 6.7C7.9 6.3 7.9 5.7 8.3 5.3C8.7 4.9 9.3 4.9 9.7 5.3L15.7 11.3C15.9 11.5 16 11.7 16 12Z" fill="#00000"/>
-                                                                    </svg>
+                                                                    <img alt=""
+                                                                         src="https://files.bitcoinetf.org/etf/public/email/arrow-right-v1.png"
+                                                                          height="10"
+                                                                         />
                                                                 </td>
                                                             </tr>
                                                             </tbody>
@@ -561,9 +563,9 @@
                                                                 <a target=_blank
                                                                    href="https://damus.io/npub1wtr2vx2z90dfque30k9j7kk9etqlectmk2nt9q438gemsz8awt8q6z4mfl"
                                                                    style=font-size:0px;text-decoration:none>
-                                                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                        <path d="M19.9988 8.72336V19.2097C19.9988 19.6039 19.6794 19.9233 19.2852 19.9233H10.713C10.3188 19.9233 9.9994 19.6039 9.9994 19.2097V17.2571C10.0392 14.8621 10.2923 12.5696 10.8238 11.527C11.1433 10.9002 11.6676 10.5579 12.2714 10.3759C13.4117 10.0336 15.4125 10.2674 16.2623 10.2276C16.2623 10.2276 18.8284 10.3301 18.8284 8.87644C18.8284 7.70727 17.6822 7.79887 17.6822 7.79887C16.4178 7.83142 15.4559 7.74584 14.8316 7.49995C13.7865 7.08894 13.7528 6.33561 13.748 6.08369C13.6973 3.17283 9.40517 2.82448 5.62406 3.54527C1.49099 4.33235 5.66986 10.2565 5.66986 18.1659V19.2218C5.66263 19.6099 5.34804 19.9233 4.95872 19.9233H0.713554C0.319412 19.9233 0 19.6039 0 19.2097V1.07435C0 0.680207 0.319412 0.360795 0.713554 0.360795H4.70439C5.09854 0.360795 5.41795 0.680207 5.41795 1.07435C5.41795 1.66014 6.07606 1.98678 6.55216 1.64567C7.98771 0.61753 9.82945 0.0703125 11.8906 0.0703125C16.5082 0.0703125 20 2.76181 20 8.72456L19.9988 8.72336ZM12.3341 6.59475C12.3341 5.75102 11.6507 5.0676 10.807 5.0676C9.96324 5.0676 9.27982 5.75223 9.27982 6.59475C9.27982 7.43727 9.96324 8.12311 10.807 8.12311C11.6507 8.12311 12.3341 7.43848 12.3341 6.59475Z" fill="white"/>
-                                                                    </svg>
+                                                                    <img
+                                                                        src="https://files.bitcoinetf.org/etf/public/email/nostr-v1.png"
+                                                                        width=24 height=24>
                                                                 </a>
                                                             </td>
                                                             <td width=24>&nbsp;</td>
@@ -571,9 +573,9 @@
                                                                 <a target=_blank
                                                                    href="https://medium.com/@BitcoinETF_org"
                                                                    style=font-size:0px;text-decoration:none>
-                                                                    <svg width="24" height="14" viewBox="0 0 24 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                        <path d="M6.76884 0.15625C10.5072 0.15625 13.5374 3.20768 13.5374 6.97154C13.5374 10.7354 10.5069 13.7866 6.76884 13.7866C3.03073 13.7866 0 10.7354 0 6.97154C0 3.20768 3.0305 0.15625 6.76884 0.15625ZM17.5782 0.555472C19.4474 0.555472 20.9626 3.42775 20.9626 6.97154H20.9628C20.9628 10.5144 19.4476 13.3876 17.5784 13.3876C15.7092 13.3876 14.194 10.5144 14.194 6.97154C14.194 3.42867 15.709 0.555472 17.5782 0.555472ZM22.8097 1.22375C23.4669 1.22375 24 3.79708 24 6.97154C24 10.1451 23.4672 12.7193 22.8097 12.7193C22.1522 12.7193 21.6196 10.1458 21.6196 6.97154C21.6196 3.79731 22.1524 1.22375 22.8097 1.22375Z" fill="white"/>
-                                                                    </svg>
+                                                                    <img
+                                                                        src="https://files.bitcoinetf.org/etf/public/email/mono-v1.png"
+                                                                        width=24 height=24>
                                                                 </a>
                                                             </td>
                                                         </tr>

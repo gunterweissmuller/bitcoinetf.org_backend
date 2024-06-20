@@ -156,7 +156,7 @@ otherServices:
     args:
       - -c
       - php artisan queue:work --tries=12 --queue=statistic.report.monthly_account_report
-  - name: newsletter.subscription
+  - name: newsletter-subscription
     cmd: sh
     args:
       - -c

@@ -18,11 +18,13 @@ use App\Dto\Pipelines\Api\V1\Auth\Register\InitMetamaskPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\InitPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\InitTelegramPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\InitWalletConnectPipelineDto;
+use App\Dto\Pipelines\Api\V1\Auth\Register\ResendPasswordPipelineDto;
 use App\Pipelines\AbstractPipeline;
 use App\Pipelines\V1\Auth\Register\Pipes\Confirm\AccountPipe as ConfirmAccountPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Confirm\ApolloClientPipe as ConfirmApolloClientPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Confirm\BonusPipe as ConfirmBonusPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Confirm\CodePipe as ConfirmCodePipe;
+use App\Pipelines\V1\Auth\Register\Pipes\Confirm\DemoUserAccountPipe as ConfirmDemoUserAccountPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Confirm\EmailPipe as ConfirmEmailPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Confirm\JwtPipe as ConfirmJwtPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Confirm\MailPipe as ConfirmMailPipe;
@@ -55,10 +57,14 @@ use App\Pipelines\V1\Auth\Register\Pipes\Init\NewCodePipe as InitNewCodePipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\ProfilePipe as InitProfilePipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\TelegramPipe as InitTelegramPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\UserEventPipe as InitUserEventPipe;
+use App\Pipelines\V1\Auth\Register\Pipes\Init\UserPasswordMailEventPipe as InitUserPasswordMailEventPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\UserWalletPipe as InitMetamaskWalletPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\ValidatePipe as InitValidatePipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\WalletConnectPipe as InitWalletConnectPipe;
 use App\Pipelines\V1\Auth\Register\Pipes\Init\WalletPipe as InitWalletPipe;
+use App\Pipelines\V1\Auth\Register\Pipes\ResendPassword\AccountPipe as ResendPasswordAccountPipe;
+use App\Pipelines\V1\Auth\Register\Pipes\ResendPassword\EmailPipe as ResendPasswordEmailPipe;
+use App\Pipelines\V1\Auth\Register\Pipes\ResendPassword\EventsPipe as ResendPasswordEventsPipe;
 
 
 final class RegisterPipeline extends AbstractPipeline
@@ -75,16 +81,17 @@ final class RegisterPipeline extends AbstractPipeline
             InitNewCodePipe::class,
 //            InitBonusPipe::class,
             InitKafkaEventPipe::class,
-            InitUserEventPipe::class,
+            InitUserPasswordMailEventPipe::class,
         ], $dto);
     }
 
     public function confirm(ConfirmPipelineDto $dto): array
     {
+
         return $this->pipeline([
             ConfirmValidatePipe::class,
             ConfirmEmailPipe::class,
-            ConfirmCodePipe::class,
+//            ConfirmCodePipe::class,
             ConfirmAccountPipe::class,
             ConfirmApolloClientPipe::class,
 //            ConfirmBonusPipe::class,
@@ -92,6 +99,19 @@ final class RegisterPipeline extends AbstractPipeline
             ConfirmMailPipe::class,
             ConfirmUpdateUsersInfoPipe::class,
             ConfirmMetadataPipe::class,
+        ], $dto);
+    }
+
+    /**
+     * @param ResendPasswordPipelineDto $dto
+     * @return array
+     */
+    public function resendPassword(ResendPasswordPipelineDto $dto): array
+    {
+        return $this->pipeline([
+            ResendPasswordEmailPipe::class,
+            ResendPasswordAccountPipe::class,
+            ResendPasswordEventsPipe::class,
         ], $dto);
     }
 
@@ -332,8 +352,8 @@ final class RegisterPipeline extends AbstractPipeline
         return $this->pipeline([
             ConfirmValidatePipe::class,
             ConfirmEmailPipe::class,
-            ConfirmCodePipe::class,
-            ConfirmAccountPipe::class,
+//            ConfirmCodePipe::class,
+            ConfirmDemoUserAccountPipe::class,
 //            ConfirmApolloClientPipe::class,
 //            ConfirmBonusPipe::class,
 //            ConfirmJwtPipe::class,

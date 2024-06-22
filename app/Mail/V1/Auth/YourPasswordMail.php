@@ -36,7 +36,7 @@ final class YourPasswordMail extends Mailable
         $firstName = explode(' ', $profile['full_name'])[0] ?? $profile['full_name'];
 
         return new Content(
-            view: 'emails.v1.auth.your-password',
+            view: 'emails.v1.auth.your-password-v2',
             with: [
                 'accountUuid' => $account['uuid'],
                 'username' => $account['username'],

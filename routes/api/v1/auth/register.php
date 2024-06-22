@@ -8,4 +8,5 @@ Route::prefix('register')
     ->group(function () {
         Route::post('/init', 'RegisterController@init');
         Route::post('/confirm', 'RegisterController@confirm');
+        Route::post('/resend-pass', 'RegisterController@resendPassword');
     });

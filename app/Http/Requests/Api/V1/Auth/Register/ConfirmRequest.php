@@ -20,12 +20,12 @@ final class ConfirmRequest extends AbstractRequest
         if ($this->has(self::FAST_KEY)) {
             return [
                 'email' => ['required', 'email'],
-                'code' => ['required', 'string'],
+//                'code' => ['required', 'string'],
             ];
         } else {
             return [
                 'email' => ['required', 'email'],
-                'code' => ['required', 'string'],
+//                'code' => ['required', 'string'],
                 'password' => ['required', 'string'],
             ];
         }
@@ -42,9 +42,9 @@ final class ConfirmRequest extends AbstractRequest
             'email' => EmailDto::fromArray([
                 'email' => strtolower($this->get('email')),
             ]),
-            'code' => CodeDto::fromArray([
-                'code' => strval($this->get('code')),
-            ]),
+//            'code' => CodeDto::fromArray([
+//                'code' => strval($this->get('code')),
+//            ]),
             'account' => AccountDto::fromArray([
                 'password' => $this->get('password'),
             ]),

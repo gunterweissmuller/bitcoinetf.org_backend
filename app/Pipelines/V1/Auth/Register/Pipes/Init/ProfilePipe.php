@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Pipelines\V1\Auth\Register\Pipes\Init;
 
 use App\Dto\DtoInterface;
-use App\Dto\Models\Users\ProfileDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\InitPipelineDto;
 use App\Pipelines\PipeInterface;
 use App\Services\Api\V1\Users\ProfileService;

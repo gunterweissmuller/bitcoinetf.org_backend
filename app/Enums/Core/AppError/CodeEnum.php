@@ -42,6 +42,8 @@ enum CodeEnum: string
 
     case C011011 = '011011'; // user already exist
 
+    case C011012 = '011012'; // incorrect password
+
     case C020002 = '020002'; // global symbol setup not found
 
     case C030001 = '030001'; // form not found

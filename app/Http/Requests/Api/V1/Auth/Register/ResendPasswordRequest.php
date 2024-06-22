@@ -10,6 +10,9 @@ use App\Http\Requests\AbstractRequest;
 
 final class ResendPasswordRequest extends AbstractRequest
 {
+    /**
+     * @return array[]
+     */
     public function rules(): array
     {
         return [
@@ -17,18 +20,23 @@ final class ResendPasswordRequest extends AbstractRequest
         ];
     }
 
+    /**
+     * @return array
+     */
     public function messages(): array
     {
         return [];
     }
 
+    /**
+     * @return ResendPasswordPipelineDto
+     */
     public function dto(): ResendPasswordPipelineDto
     {
-        return new ResendPasswordPipelineDto(
-            EmailDto::fromArray([
+        return ResendPasswordPipelineDto::fromArray([
+            'email' => EmailDto::fromArray([
                 'email' => strtolower($this->get('email')),
             ]),
-            null,
-        );
+        ]);
     }
 }

@@ -9,12 +9,10 @@ use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmPipelineDto;
 use App\Enums\Users\Account\ProviderTypeEnum;
 use App\Enums\Users\Account\StatusEnum;
 use App\Exceptions\Pipelines\V1\Auth\IncorrectPasswordException;
-use App\Jobs\V1\Auth\SendPasswordMailJob;
 use App\Pipelines\PipeInterface;
 use App\Services\Api\V1\Users\AccountService;
 use Closure;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 
 final class AccountPipe implements PipeInterface
 {
@@ -30,25 +28,21 @@ final class AccountPipe implements PipeInterface
             $account->setStatus(StatusEnum::Enabled->value);
 
             if ($dto->isFast()) {
-//                $randomPassword = Str::random();
-//                $account->setPassword(Hash::make($randomPassword));
                 $account->setFastReg(true);
-//                dispatch(new SendPasswordMailJob($account->getUuid(), $dto->getEmail()->getEmail(), $randomPassword));
             } else {
-                if (!Hash::check($dto->getAccount()->getPassword(), $account->getPassword())) {
-                    throw new IncorrectPasswordException();
-                }
-
                 $account->setFastReg(false);
-//                $account->setPassword($passwordHash);
             }
+
+            if (!Hash::check($dto->getAccount()->getPassword(), $account->getPassword())) {
+                throw new IncorrectPasswordException();
+            }
+
             $account->setProviderType(ProviderTypeEnum::Email->value);
 
             $this->accountService->update([
                 'uuid' => $account->getUuid(),
             ], [
                 'status' => $account->getStatus(),
-//                'password' => $account->getPassword(),
                 'fast_reg' => $account->getFastReg(),
                 'provider_type' => $account->getProviderType(),
             ]);

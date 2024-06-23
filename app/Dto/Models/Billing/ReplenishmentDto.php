@@ -14,24 +14,26 @@ final class ReplenishmentDto implements DtoInterface
         private ?string $referralWalletUuid,
         private ?string $bonusWalletUuid,
         private ?string $dividendWalletUuid,
-        private ?float $referralAmount,
-        private ?float $bonusAmount,
-        private ?float $dividendAmount,
-        private ?float $dividendBtcAmount,
-        private ?float $dividendUsdtAmount,
-        private ?float $dividendRespAmount,
-        private ?float $selectedAmount,
-        private ?float $realAmount,
-        private ?float $addedAmount,
-        private ?float $totalAmount,
-        private ?float $totalAmountBtc,
-        private ?float $btcPrice,
+        private ?float  $referralAmount,
+        private ?float  $bonusAmount,
+        private ?float  $dividendAmount,
+        private ?float  $dividendBtcAmount,
+        private ?float  $dividendUsdtAmount,
+        private ?float  $dividendRespAmount,
+        private ?float  $selectedAmount,
+        private ?float  $realAmount,
+        private ?float  $addedAmount,
+        private ?float  $totalAmount,
+        private ?float  $totalAmountBtc,
+        private ?float  $btcPrice,
         private ?string $status,
         private ?string $merchant001Id,
         private ?string $createdAt,
         private ?string $updatedAt,
         private ?string $orderType,
-    ) {
+        private ?bool   $checkDiscount,
+    )
+    {
     }
 
     public static function fromArray(array $args): DtoInterface|self
@@ -59,6 +61,7 @@ final class ReplenishmentDto implements DtoInterface
             $args['created_at'] ?? null,
             $args['updated_at'] ?? null,
             $args['order_type'] ?? null,
+            $args['check_discount'] ?? null,
         );
     }
 
@@ -87,6 +90,7 @@ final class ReplenishmentDto implements DtoInterface
             'created_at' => $this->createdAt,
             'updated_at' => $this->updatedAt,
             'order_type' => $this->orderType,
+            'check_discount' => $this->checkDiscount,
         ];
     }
 
@@ -309,5 +313,15 @@ final class ReplenishmentDto implements DtoInterface
     {
         $this->orderType = $orderType;
     }
-    
+
+    public function getCheckDiscount(): ?bool
+    {
+        return $this->checkDiscount;
+    }
+
+    public function setCheckDiscount(?bool $checkDiscount): void
+    {
+        $this->checkDiscount = $checkDiscount;
+    }
+
 }

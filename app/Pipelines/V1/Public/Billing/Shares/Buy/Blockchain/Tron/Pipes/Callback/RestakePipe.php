@@ -52,7 +52,7 @@ final readonly class RestakePipe implements PipeInterface
         $realAmount = number_format($replenishment->getRealAmount(), 8, '.', '');
         $trcBonus = number_format($this->globalService->getTrcBonus(), 8, '.', '');
         $respAmount = null;
-        if ($trcBonus > 0) {
+        if ($replenishment->getCheckDiscount() && $trcBonus > 0) {
             $percent100 = number_format(100, 8, '.', '');
             $percent = bcsub(
                 $percent100,

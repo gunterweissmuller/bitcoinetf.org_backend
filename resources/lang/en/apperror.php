@@ -24,6 +24,7 @@ return [
     CodeEnum::C011009->value => 'authorization token expired',
     CodeEnum::C011010->value => 'invalid signature',
     CodeEnum::C011011->value => 'user already exist',
+    CodeEnum::C011012->value => 'incorrect password',
     CodeEnum::C020002->value => 'global symbol setup not found',
     CodeEnum::C030001->value => 'form not found',
     CodeEnum::C030002->value => 'screen not found',

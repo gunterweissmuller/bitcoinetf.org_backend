@@ -7,7 +7,6 @@ namespace App\Pipelines\V1\Auth\Register\Pipes\Init;
 use App\Dto\DtoInterface;
 use App\Dto\Pipelines\Api\V1\Auth\Register\InitPipelineDto;
 use App\Enums\Kafka\ProducerEnum;
-use App\Events\V1\Users\NewUserEvent;
 use App\Pipelines\PipeInterface;
 use App\Services\Utils\KafkaProducerService;
 use Closure;

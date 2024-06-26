@@ -34,6 +34,7 @@ final class Replenishment extends Model
         'status',
         'merchant001_id',
         'order_type',
+        'check_discount',
     ];
 
     protected $casts = [

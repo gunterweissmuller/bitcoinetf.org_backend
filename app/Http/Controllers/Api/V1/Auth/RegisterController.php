@@ -10,6 +10,7 @@ use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmWalletConnectPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\InitFacebookPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\InitTelegramPipelineDto;
 use App\Dto\Pipelines\Api\V1\Auth\Register\InitWalletConnectPipelineDto;
+use App\Dto\Pipelines\Api\V1\Auth\Register\ResendPasswordPipelineDto;
 use App\Exceptions\Pipelines\V1\Auth\AuthorizationTokenExpiredException;
 use App\Exceptions\Pipelines\V1\Auth\InvalidSignatureMetamaskException;
 use App\Dto\Pipelines\Api\V1\Auth\Register\ConfirmApplePipelineDto;
@@ -29,6 +30,7 @@ use App\Http\Requests\Api\V1\Auth\Register\ConfirmMetamaskRequest;
 use App\Http\Requests\Api\V1\Auth\Register\InitMetamaskRequest;
 use App\Http\Requests\Api\V1\Auth\Register\InitTelegramRequest;
 use App\Http\Requests\Api\V1\Auth\Register\InitWalletConnectRequest;
+use App\Http\Requests\Api\V1\Auth\Register\ResendPasswordRequest;
 use App\Pipelines\V1\Auth\Register\RegisterPipeline;
 use App\Services\Utils\AppleAuthJWTService;
 use GuzzleHttp\Exception\ClientException;
@@ -80,6 +82,22 @@ final class RegisterController extends Controller
                     'bonus' => $dto->getBonus(),
                 ]
             ]);
+        }
+
+        return response()->__call('exception', [$e]);
+    }
+
+    /**
+     * @param ResendPasswordRequest $request
+     * @return JsonResponse
+     */
+    public function resendPassword(ResendPasswordRequest $request): JsonResponse
+    {
+        /** @var ResendPasswordPipelineDto $dto */
+        [$dto, $e] = $this->pipeline->resendPassword($request->dto());
+
+        if (!$e) {
+            return response()->json();
         }
 
         return response()->__call('exception', [$e]);

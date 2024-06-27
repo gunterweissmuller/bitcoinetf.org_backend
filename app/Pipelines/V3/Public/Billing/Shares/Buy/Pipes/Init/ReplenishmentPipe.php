@@ -27,7 +27,7 @@ final readonly class ReplenishmentPipe implements PipeInterface
 
         $trcBonus = number_format($this->globalService->getTrcBonus(), 8, '.', '');
         $trcAmount = 0;
-        if ($trcBonus > 0) {
+        if ($replenishment->getCheckDiscount() && $trcBonus > 0) {
             $trcAmount = $replenishment->getRealAmount() * $trcBonus;
             $realAmount = $replenishment->getRealAmount() - $trcAmount;
             $replenishment->setRealAmount($realAmount);

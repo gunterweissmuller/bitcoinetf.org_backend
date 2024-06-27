@@ -28,13 +28,19 @@ final readonly class DividendsPipe implements PipeInterface
                 'account_uuid' => $account->getUuid(),
                 'type' => TypeEnum::DIVIDENDS->value,
             ])) {
-                if ($wallet->getBtcAmount() <= 0) {
+                if ($wallet->getAmount() <= 0 && $wallet->getBtcAmount() <= 0) {
                     return $next($dto);
                 }
 
-                $btcPrice = $replenishment->getBtcPrice();
-                $dividendAmount = $btcPrice * $wallet->getBtcAmount();
-                $dividendAmountFloor = floor($btcPrice * $wallet->getBtcAmount());
+                if ($wallet->getAmount() > 0) {
+                    $dividendAmount = $wallet->getAmount();
+                    $dividendAmountFloor = floor($wallet->getAmount());
+                } else if ($wallet->getBtcAmount() > 0) {
+                    $btcPrice = $replenishment->getBtcPrice();
+                    $dividendAmount = $btcPrice * $wallet->getBtcAmount();
+                    $dividendAmountFloor = floor($btcPrice * $wallet->getBtcAmount());
+                }
+
                 $dividendAmountResp = $dividendAmount - $dividendAmountFloor;
 
                 $replenishment->setDividendWalletUuid($wallet->getUuid());

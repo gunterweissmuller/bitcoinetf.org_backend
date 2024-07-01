@@ -14,6 +14,7 @@ class CallbackPipelineDto implements DtoInterface
         private ?AccountDto $account,
         private ?ReplenishmentDto $replenishment,
         private ?bool $isReplenishment,
+        private ?bool $checkTrcBonus,
     ) {
     }
 
@@ -23,6 +24,7 @@ class CallbackPipelineDto implements DtoInterface
             $args['account'] ?? null,
             $args['replenishment'] ?? null,
             $args['is_replenishment'] ?? false,
+            $args['check_trc_bonus'] ?? true,
         );
     }
 
@@ -32,6 +34,7 @@ class CallbackPipelineDto implements DtoInterface
             'account' => $this->account,
             'replenishment' => $this->replenishment,
             'is_replenishment' => $this->isReplenishment,
+            'check_trc_bonus' => $this->checkTrcBonus,
         ];
     }
 
@@ -63,5 +66,22 @@ class CallbackPipelineDto implements DtoInterface
     public function setIsReplenishment(bool $isReplenishment): void
     {
         $this->isReplenishment = $isReplenishment;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getCheckTrcBonus(): ?bool
+    {
+        return $this->checkTrcBonus;
+    }
+
+    /**
+     * @param bool $checkTrcBonus
+     * @return void
+     */
+    public function setCheckTrcBonus(bool $checkTrcBonus): void
+    {
+        $this->checkTrcBonus = $checkTrcBonus;
     }
 }

@@ -12,6 +12,7 @@ use App\Enums\Billing\Replenishment\StatusEnum;
 use App\Enums\Billing\Wallet\TypeEnum;
 use App\Enums\Billing\Wallet\TypeEnum as WalletTypeEnum;
 use App\Enums\Kafka\ProducerEnum;
+use App\Enums\Users\Account\OrderTypeEnum;
 use App\Jobs\V1\Billing\Buy\UpdateDailyAumJob;
 use App\Pipelines\PipeInterface;
 use App\Services\Api\V1\Billing\PaymentService;
@@ -52,7 +53,11 @@ final readonly class RestakePipe implements PipeInterface
         $realAmount = number_format($replenishment->getRealAmount(), 8, '.', '');
         $trcBonus = number_format($this->globalService->getTrcBonus(), 8, '.', '');
         $respAmount = null;
-        if ($replenishment->getCheckDiscount() && $trcBonus > 0) {
+        if ($replenishment->getOrderType() != OrderTypeEnum::InitBTC->value
+            && $replenishment->getOrderType() != OrderTypeEnum::BTC->value
+            && $dto->getCheckTrcBonus()
+            && $replenishment->getCheckDiscount()
+            && $trcBonus > 0) {
             $percent100 = number_format(100, 8, '.', '');
             $percent = bcsub(
                 $percent100,

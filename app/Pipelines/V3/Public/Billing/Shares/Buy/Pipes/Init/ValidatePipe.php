@@ -25,6 +25,7 @@ final readonly class ValidatePipe implements PipeInterface
         if ($account->getOrderType() != null && $account->getOrderType() != $dto->getReplenishment()->getOrderType()) {
             throw new ReplenishmentNotAvailableException();
         }
+        $dto->setAccount($account);
 
         return $next($dto);
     }

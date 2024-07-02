@@ -31,7 +31,8 @@ class MoonPayWebhookRequest extends AbstractRequest
             ]),
             'replenishment' => ReplenishmentDto::fromArray([
                 'real_amount' => (float)$data['data']['quoteCurrencyAmount'],
-            ])
+            ]),
+            'check_trc_bonus' => false,
         ]);
     }
 

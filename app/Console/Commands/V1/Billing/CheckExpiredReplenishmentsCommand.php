@@ -18,8 +18,9 @@ final class CheckExpiredReplenishmentsCommand extends Command
 
     public function handle(
         ReplenishmentService $replenishmentService,
-        WalletService $walletService
-    ): void {
+        WalletService        $walletService
+    ): void
+    {
         if ($replenishments = $replenishmentService->all([
             'status' => StatusEnum::INIT->value,
             ['created_at', '<=', Carbon::now()->subMinutes(30)->toDateTimeString()],
@@ -29,7 +30,8 @@ final class CheckExpiredReplenishmentsCommand extends Command
                     $this->refund(
                         $walletService,
                         $replenishment->getDividendWalletUuid(),
-                        $replenishment->getDividendAmount()
+                        $replenishment->getDividendAmount(),
+                        $replenishment->getDividendBtcAmount(),
                     );
                 }
 
@@ -37,7 +39,8 @@ final class CheckExpiredReplenishmentsCommand extends Command
                     $this->refund(
                         $walletService,
                         $replenishment->getReferralWalletUuid(),
-                        $replenishment->getReferralAmount()
+                        $replenishment->getReferralAmount(),
+                        0,
                     );
                 }
 
@@ -45,7 +48,8 @@ final class CheckExpiredReplenishmentsCommand extends Command
                     $this->refund(
                         $walletService,
                         $replenishment->getBonusWalletUuid(),
-                        $replenishment->getBonusAmount()
+                        $replenishment->getBonusAmount(),
+                        0,
                     );
                 }
 
@@ -58,13 +62,14 @@ final class CheckExpiredReplenishmentsCommand extends Command
         }
     }
 
-    private function refund(WalletService $walletService, string $walletUuid, float $amount): void
+    private function refund(WalletService $walletService, string $walletUuid, float $amount, float $btcAmount): void
     {
         if ($wallet = $walletService->get(['uuid' => $walletUuid])) {
             $walletService->update([
                 'uuid' => $wallet->getUuid(),
             ], [
                 'amount' => $wallet->getAmount() + $amount,
+                'btc_amount' => $wallet->getBtcAmount() + $btcAmount,
             ]);
         }
     }

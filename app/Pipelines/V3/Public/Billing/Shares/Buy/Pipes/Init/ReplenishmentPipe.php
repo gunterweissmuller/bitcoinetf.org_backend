@@ -6,6 +6,7 @@ namespace App\Pipelines\V3\Public\Billing\Shares\Buy\Pipes\Init;
 
 use App\Dto\DtoInterface;
 use App\Dto\Pipelines\Api\V1\Public\Billing\Shares\Buy\InitPipelineDto;
+use App\Enums\Users\Account\OrderTypeEnum;
 use App\Pipelines\PipeInterface;
 use App\Services\Api\V1\Billing\ReplenishmentService;
 use App\Services\Api\V1\Settings\GlobalService;
@@ -15,8 +16,9 @@ final readonly class ReplenishmentPipe implements PipeInterface
 {
     public function __construct(
         private ReplenishmentService $replenishmentService,
-        private GlobalService $globalService,
-    ) {
+        private GlobalService        $globalService,
+    )
+    {
     }
 
     public function handle(InitPipelineDto|DtoInterface $dto, Closure $next): DtoInterface
@@ -27,7 +29,10 @@ final readonly class ReplenishmentPipe implements PipeInterface
 
         $trcBonus = number_format($this->globalService->getTrcBonus(), 8, '.', '');
         $trcAmount = 0;
-        if ($trcBonus > 0) {
+        if ($replenishment->getOrderType() != OrderTypeEnum::InitBTC->value
+            && $replenishment->getOrderType() != OrderTypeEnum::BTC->value
+            && $replenishment->getCheckDiscount()
+            && $trcBonus > 0) {
             $trcAmount = $replenishment->getRealAmount() * $trcBonus;
             $realAmount = $replenishment->getRealAmount() - $trcAmount;
             $replenishment->setRealAmount($realAmount);
